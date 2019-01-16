@@ -12,7 +12,7 @@
 | Aitan Grossman        | <img src="./images/Headshot.jpg" width="150"> |
 | Tucker (Kenneth) Haas | |
 | Sarah Tieu            | <img src="./images/sarahtieu.png" width="150"> |
-| Kally Zheng           | <img src="./images/KallyHeadshot.jpg" width="150">
+| Kally Zheng           | <img src="./images/KallyHeadshot.JPG" width="150">
 
 ## Team Skills
 | Member                | Skills                        | Personal Traits  | Desired Growth | Weaknesses |
