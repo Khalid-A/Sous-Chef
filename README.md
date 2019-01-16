@@ -4,7 +4,7 @@ sNOFLAKE
 <img src="./images/logo.png" width="150">
 
 ## Project Synopsis
-[TODO: project synopsis]
+sNOFLAKE is an app that works with you and your calendar to setup meetings with other people. By comparing calendars smartly, sNOFLAKE allows you to easily find times that work for everyone in a meeting, meaning less time going back and forth over times for a meeting and more time getting stuff done.
 
 ## Team Members
 | Member                | Photo                                         |
