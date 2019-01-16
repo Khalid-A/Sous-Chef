@@ -12,7 +12,7 @@
 | Aitan Grossman        | <img src="./images/Headshot.jpg" width="150"> |
 | Tucker (Kenneth) Haas | |
 | Sarah Tieu            | <img src="./images/sarahtieu.png" width="150"> |
-| Kally Zheng           | |
+| Kally Zheng           | <img src="./images/KallyHeadshot.jpg" width="150">
 
 ## Team Skills
 | Member                | Skills                        | Personal Traits  | Desired Growth | Weaknesses |
@@ -20,7 +20,7 @@
 | Aitan Grossman        | Back end, Web, Algorithms | Cooperative, Pragmatic, Likes cuddling | Iterated development, courage | UI design, no friends |
 | Tucker (Kenneth) Haas |               |       |
 | Sarah Tieu            | Python, Go, Back end, ML, NLP | Organized, Cooperative | Need finding, Prototyping, Front end | Front end |
-| Kally Zheng           |               |       |
+| Kally Zheng           | Python, Java, Visual Design, Needfinding |  Organized, Open minded, Motivated | Web Development, Mobile Development | Selfconfidence, ML, NLP
 
 ## Team Communication
 * Facebook Messenger
