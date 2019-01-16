@@ -9,7 +9,7 @@
 ## Team Members
 | Member                | Photo                                         |
 | --------------------- | --------------------------------------------- |
-| Aitan Grossman        | <img src="./images/Headshot.png" width="150"> |
+| Aitan Grossman        | <img src="./images/Headshot.jpg" width="150"> |
 | Tucker (Kenneth) Haas | |
 | Sarah Tieu            | <img src="./images/sarahtieu.png" width="150"> |
 | Kally Zheng           | |
