@@ -2,7 +2,8 @@
 <img src="./images/logo.png" width="150">
 
 ## Project Synopsis
-sNOFLAKE is an app that works with you and your calendar to setup meetings with other people. By comparing calendars smartly, sNOFLAKE allows you to easily find times that work for everyone in a meeting, meaning less time going back and forth over times for a meeting and more time getting stuff done.
+sNOFLAKE is an app that works with you to make the most of your kitchen inventory. By allowing you to scan in receipts, sNOFLAKE allows you to easily find new recipes using ingredients you already have, meaning less time running to the store to buy a missing ingredient and more time discovering new and exciting foods. 
+
 
 ## Team Members
 | Member                | Photo                                         |
@@ -22,7 +23,7 @@ sNOFLAKE is an app that works with you and your calendar to setup meetings with 
 
 ## Team Communication
 * Facebook Messenger
-* Google Team Drive
+* [Google Team Drive](https://drive.google.com/drive/u/0/folders/0APuBDtZh-TEUUk9PVA)
 * [SGM Worksheet](https://docs.google.com/forms/d/e/1FAIpQLSdOqz9D23a8XHXStLg_YtWT21KX18mBW5uO2wVZ32kmDneSRw/viewform)
 * @stanford Email
     * aitan
