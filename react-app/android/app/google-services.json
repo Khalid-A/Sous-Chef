@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1036115353608",
+    "firebase_url": "https://sous-chef-35f52.firebaseio.com",
+    "project_id": "sous-chef-35f52",
+    "storage_bucket": "sous-chef-35f52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036115353608:android:b32ee2a4ebb6bf10",
+        "android_client_info": {
+          "package_name": "com.stanford.souschef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036115353608-5795g57cqf0bhjq6m5uo97fm03a96p6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOaGWnw-ZRfkHsqXhhgG3T6HcFThNVl1E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
