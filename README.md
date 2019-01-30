@@ -24,7 +24,7 @@ sNOFLAKE is an app that works with you to make the most of your kitchen inventor
 ## Team Communication
 * Facebook Messenger
 * [Google Team Drive](https://drive.google.com/drive/u/0/folders/0APuBDtZh-TEUUk9PVA)
-* [SGM Worksheet](https://docs.google.com/forms/d/e/1FAIpQLSdOqz9D23a8XHXStLg_YtWT21KX18mBW5uO2wVZ32kmDneSRw/viewform)
+* [SGM Worksheet](https://docs.google.com/forms/d/1GayYOwG_QavQE4iNx63emikCSeXUXO9Gq0VRaRGm9ok/edit?usp=sharing)
 * @stanford Email
     * aitan
     * thaas19
