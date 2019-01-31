@@ -1,8 +1,8 @@
-# Team-3 
+# Sous Chef
 <img src="./images/logo.png" width="150">
 
 ## Project Synopsis
-sNOFLAKE is an app that works with you to make the most of your kitchen inventory. By allowing you to scan in receipts, sNOFLAKE allows you to easily find new recipes using ingredients you already have, meaning less time running to the store to buy a missing ingredient and more time discovering new and exciting foods. 
+Sous Chef is an app that works with you to make the most of your kitchen inventory. By allowing you to scan in receipts, Sous Chef allows you to easily find new recipes using ingredients you already have, meaning less time running to the store to buy a missing ingredient and more time discovering new and exciting foods. 
 
 
 ## Team Members
