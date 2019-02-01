@@ -1,4 +1,4 @@
-MeasurementUnits = [
+MEASUREMENTUNITS = [
     'bags','bars','bottles','boxes','bulbs','bunches','cans','cloves',
     'containers','cubes','cups','dashes','drops','envelopes','fillets',
     'gallons','granules','halves','heads','jars','jiggers','layers',
@@ -8,7 +8,7 @@ MeasurementUnits = [
     'thighs','trays'
 ]
 
-DescriptiveAdjs = [
+DESCRIPTIVEADJS = [
     'all-purpose','boiled','boneless','chilled','chopped','cored','cubed',
     'drained','dried','extra-virgin','flat-leaf','frozen','grated','ground',
     'halved','juiced','kosher','large','light','mashed','melted','minced',
@@ -16,7 +16,7 @@ DescriptiveAdjs = [
     'smoked','softened'
 ]
 
-StopWords = [
+STOPWORDS = [
     'and','divided','finely','fresh','freshly','or','packed in oil',
     'sharp','taste','to','-'
 ]
