@@ -72,7 +72,6 @@ def scrapeWebsite(url):
         "servings": getServingSize(htmlDocument),
         "time": getCookingTime(htmlDocument)
     }
-    print(recipeInfo)
     return recipeInfo
 
 def main():
