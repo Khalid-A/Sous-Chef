@@ -179,6 +179,13 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - React (0.58.0-rc.2):
+    - React/Core (= 0.58.0-rc.2)
+  - React/Core (0.58.0-rc.2):
+    - yoga (= 0.58.0-rc.2.React)
+  - RNGestureHandler (1.0.15):
+    - React
+  - yoga (0.58.0-rc.2.React)
 
 DEPENDENCIES:
   - Crashlytics (~> 3.10.9)
@@ -194,6 +201,9 @@ DEPENDENCIES:
   - Firebase/Performance (~> 5.15.0)
   - Firebase/RemoteConfig (~> 5.15.0)
   - Firebase/Storage (~> 5.15.0)
+  - React (from `../node_modules/react-native`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -227,6 +237,14 @@ SPEC REPOS:
     - nanopb
     - Protobuf
 
+EXTERNAL SOURCES:
+  React:
+    :path: "../node_modules/react-native"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
+
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
@@ -257,7 +275,10 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  React: 9b873b38b92ed8012d7cdf3b965477095ed364c4
+  RNGestureHandler: afde2addc517e85cc97a25bfe119acbee779a7ce
+  yoga: 0885622311729a02c2bc02dca97167787a51488b
 
-PODFILE CHECKSUM: 9256b7b800731a7ac07a7c0d556c8a52f5da2fd4
+PODFILE CHECKSUM: 99465b776b9774d91eb08c2542b27cc83eeb24a3
 
 COCOAPODS: 1.5.3
