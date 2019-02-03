@@ -27,4 +27,4 @@ export default function sousChefApp(state = {}, action) {
       name: name(state.name, action),
       userId: setUserId(state.userId, action)
     }
-  }
+}
