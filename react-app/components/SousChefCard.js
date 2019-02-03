@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         margin: 10,
+        width: 200,
         borderRadius: 10,
         overflow: 'hidden',
         backgroundColor: BACKGROUND_COLOR

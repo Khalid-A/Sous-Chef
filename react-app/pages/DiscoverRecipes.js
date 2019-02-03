@@ -1,6 +1,6 @@
 import React from 'react';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors'
-import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Image, Text, View, ScrollView, FlatList } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 
 export default class DiscoverRecipes extends React.Component {
@@ -26,6 +26,12 @@ export default class DiscoverRecipes extends React.Component {
                     time: "10m",
                     servings: "1",
                     image: "https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2018/07/main/1807w-avocado-toast-recipe.jpg?itok=_dDi7ZQQ"
+                },
+                {
+                    title: "Bananas Foster",
+                    time: "40m",
+                    servings: "4",
+                    image: "https://static01.nyt.com/images/2017/01/20/dining/20COOKING-BANANAS-FOSTER2/20COOKING-BANANAS-FOSTER2-articleLarge.jpg"
                 },
                 {
                     title: "Bananas Foster",
@@ -58,33 +64,51 @@ export default class DiscoverRecipes extends React.Component {
             <View style={[styles.container]}>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Ready To Go</Text>
-                    <View style={[styles.section]}>
-                        {
-                            this.state.readyToGo.map((recipe, i) => (
-                                <SousChefCard key={i} headerText={recipe.title} bodyText={"Time: " + recipe.time + "\n" + "Serving Size: " + recipe.servings} imagePath={recipe.image}/>
-                            ))
-                        }
-                    </View>
+                    <FlatList 
+                        style={[styles.section]}
+                        keyExtractor={(item, index) => index.toString()}
+                        horizontal= {true}
+                        data={this.state.readyToGo}
+                        renderItem={({item}) => {
+                            return <SousChefCard 
+                                headerText={item.title} 
+                                bodyText={"Time: " + item.time + "\n" + "Serving Size: " + item.servings} 
+                                imagePath={item.image}
+                            />
+                        }}
+                    />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recent</Text>
-                    <View style={[styles.section]}>
-                        {
-                            this.state.recent.map((recipe, i) => (
-                                <SousChefCard key={i} headerText={recipe.title} bodyText={"Time: " + recipe.time + "\n" + "Serving Size: " + recipe.servings} imagePath={recipe.image}/>
-                            ))
-                        }
-                    </View>
+                    <FlatList 
+                        style={[styles.section]}
+                        horizontal= {true}
+                        keyExtractor={(item, index) => index.toString()}
+                        data={this.state.recent}
+                        renderItem={({item}) => {
+                            return <SousChefCard 
+                                headerText={item.title} 
+                                bodyText={"Time: " + item.time + "\n" + "Serving Size: " + item.servings} 
+                                imagePath={item.image}
+                            />
+                        }}
+                    />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recommended</Text>
-                    <View style={[styles.section]}>
-                        {
-                            this.state.recommended.map((recipe, i) => (
-                                <SousChefCard key={i} headerText={recipe.title} bodyText={"Time: " + recipe.time + "\n" + "Serving Size: " + recipe.servings} imagePath={recipe.image}/>
-                            ))
-                        }
-                    </View>
+                    <FlatList 
+                        style={[styles.section]}
+                        horizontal= {true}
+                        keyExtractor={(item, index) => index.toString()}
+                        data={this.state.recommended}
+                        renderItem={({item}) => {
+                            return <SousChefCard 
+                                headerText={item.title} 
+                                bodyText={"Time: " + item.time + "\n" + "Serving Size: " + item.servings} 
+                                imagePath={item.image}
+                            />
+                        }}
+                    />
                 </View>
             </View>
         );
