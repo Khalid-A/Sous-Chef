@@ -3,7 +3,7 @@ import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'rea
 
 import firebase from 'react-native-firebase';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors';
 
 
 export default class SignUp extends React.Component {
@@ -30,24 +30,13 @@ export default class SignUp extends React.Component {
           .createUserWithEmailAndPassword(this.state.email, this.state.password)
           .then(() => this.props.navigation.navigate('Welcome'))
           .catch(error => this.setState({ errorMessage: error.message }));
-        
-        // TODO: deal with errors: already existing user, badly formatted email
     }
 
     render() {
         return (
             <ScrollView style={styles.scrollContainer}>
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                Welcome to SousChef
-                </Text>
-                {/* <View style={styles.modules}>
-                    <Text style={styles.modulesHeader}>Press the button below to authenticate into Firebase</Text>
-                    <Button
-                        onPress={this.authenticate}
-                        title="Authenticate"
-                    />
-                </View> */}
+                <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
             </View>
             
             <View style={styles.emailPasswordContainer}>
@@ -56,15 +45,16 @@ export default class SignUp extends React.Component {
                     placeholder = "example@email.com"
                     label={'Email:'}
                     labelStyle={styles.text}
+                    style={styles.textInput}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
                 />
                 <RkTextInput 
                     rkType="clear"
                     placeholder = "examplePassword"
-                    style={styles.textInputBorder}
                     label={'Password:'}
                     labelStyle={styles.text}
+                    style={styles.textInput}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
                 />
@@ -78,6 +68,7 @@ export default class SignUp extends React.Component {
                 >
                 Sign Up
                 </RkButton>
+                <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
             </View>
             </ScrollView>
         );
@@ -119,13 +110,20 @@ const styles = StyleSheet.create({
         backgroundColor: BACKGROUND_COLOR,
     },
     text: {
-        borderLeftWidth: 20,
+        borderLeftWidth: 50,
         fontSize: 15,
         color: '#333333',
     },
-    textInputBorder: {
-        marginTop: 0,
-        marginBottom: 0
+    textInput: {
+        borderRightWidth: 50,
+        borderColor: BACKGROUND_COLOR,
     },
+    errorMessage: {
+        color: DARK_GREEN_BACKGROUND,
+        borderTopWidth: 20,
+        borderLeftWidth: 20,
+        borderRightWidth: 20,
+        flexWrap: 'wrap',
+    }
 });
   
