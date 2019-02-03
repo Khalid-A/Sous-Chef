@@ -76,11 +76,15 @@ def scrapeWebsite(url):
 
 def main():
     """ Iterates allrecipes.com recipes and save recipe info to a json. """
-    # find recipe web pages
-    # iterate over recipe webpages
-    recipeInfo = scrapeWebsite("https://www.allrecipes.com/recipe/185896")
-    with open('recipes/185896.json', 'w') as outfile:  
-        json.dump(recipeInfo, outfile)
 
+    recipes = {}
+    recipeInfo = scrapeWebsite("https://www.allrecipes.com/recipe/246803")
+    recipes[recipeInfo["id"]] = recipeInfo
+    recipeInfo = scrapeWebsite("https://www.allrecipes.com/recipe/235985")
+    recipes[recipeInfo["id"]] = recipeInfo
+    recipeInfo = scrapeWebsite("https://www.allrecipes.com/recipe/246804")
+    recipes[recipeInfo["id"]] = recipeInfo
+    with open('recipes.json', 'w') as outfile:  
+        json.dump(recipes, outfile)
 if __name__ == "__main__":
     main()

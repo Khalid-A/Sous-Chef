@@ -131,10 +131,12 @@ android {
   buildTypes {
     release {
       minifyEnabled enableProguardInReleaseBuilds
+      matchingFallbacks = ['release', 'debug']
       proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     }
     debug {
       minifyEnabled false
+      matchingFallbacks = ['release', 'debug']
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
@@ -164,7 +166,7 @@ dependencies {
    * ---------------------------- */
 
   // Library as defined in settings.gradle
-  implementation project(path: ':react-native-firebase', configuration: 'default')
+  implementation project(path: ':react-native-firebase')
   // Required dependencies
   //noinspection GradleCompatible
   implementation "com.google.firebase:firebase-core:16.0.6"
