@@ -3,33 +3,30 @@ import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'rea
 
 import firebase from 'react-native-firebase';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
+import { setUserId } from '../redux/actions/action';
+import { connect } from 'react-redux';
 import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors';
 
+export class SignUp extends React.Component {
 
-export default class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
-            errorMessage: ''
+            errorMessage: '',
+            userId: '',
         };
-    }
-    
-    async authenticate() {
-        // TODO: You: Do firebase things
-        const { user } = await firebase.auth().signInAnonymously();
-        console.warn('User -> ', user.toJSON());
-
-        await firebase.analytics().logEvent('foo', { bar: '123'});
     }
 
     handleSignUp = () => {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.state.email, this.state.password)
-          .then(() => this.props.navigation.navigate('Welcome'))
-          .catch(error => this.setState({ errorMessage: error.message }));
+        firebase.auth()
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then((user) => {
+                this.props.setUserId(firebase.auth().currentUser.uid);
+                // TODO: set navigation to Discover
+                this.props.navigation.navigate('Welcome'); 
+            }).catch(error => this.setState({ errorMessage: error.message }));
     }
 
     render() {
@@ -92,18 +89,6 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 135,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    modules: {
-        margin: 20,
-    },
-    modulesHeader: {
-        fontSize: 16,
-        marginBottom: 8,
-    },
     emailPasswordContainer: {
         flex: 1,
         justifyContent: 'flex-start',
@@ -127,3 +112,12 @@ const styles = StyleSheet.create({
     }
 });
   
+const mapDispatchToProps = dispatch => {
+    return {
+        setUserId: (userId) => {
+            dispatch(setUserId(userId));
+        }
+    }
+}
+    
+export default connect(null, mapDispatchToProps)(SignUp)
