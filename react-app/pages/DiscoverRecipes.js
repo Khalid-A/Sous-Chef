@@ -2,8 +2,10 @@ import React from 'react';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors'
 import { StyleSheet, Image, Text, View, ScrollView, FlatList } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
+import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
+import { connect } from 'react-redux';
 
-export default class DiscoverRecipes extends React.Component {
+class DiscoverRecipes extends React.Component {
     static navigationOptions = {
         title:"Find A Recipe",
         headerVisible: true,
@@ -59,6 +61,12 @@ export default class DiscoverRecipes extends React.Component {
         };
     }
 
+    componentWillMount() {
+        this.props.beginReadyToGoFetch();
+        this.props.beginRecentRecipesFetch();
+        this.props.beginRecommendedRecipesFetch();
+    }
+
     render() {
         return (
             <View style={[styles.container]}>
@@ -72,7 +80,13 @@ export default class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return <SousChefCard 
                                 headerText={item.title} 
-                                bodyText={"Time: " + item.time + "\n" + "Serving Size: " + item.servings} 
+                                bodyText={
+                                    "Time: " + 
+                                    item.time + 
+                                    "\n" + 
+                                    "Serving Size: " + 
+                                    item.servings
+                                }
                                 imagePath={item.image}
                             />
                         }}
@@ -88,7 +102,13 @@ export default class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return <SousChefCard 
                                 headerText={item.title} 
-                                bodyText={"Time: " + item.time + "\n" + "Serving Size: " + item.servings} 
+                                bodyText={
+                                    "Time: " + 
+                                    item.time + 
+                                    "\n" + 
+                                    "Serving Size: " + 
+                                    item.servings
+                                }
                                 imagePath={item.image}
                             />
                         }}
@@ -104,7 +124,13 @@ export default class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return <SousChefCard 
                                 headerText={item.title} 
-                                bodyText={"Time: " + item.time + "\n" + "Serving Size: " + item.servings} 
+                                bodyText={
+                                    "Time: " + 
+                                    item.time + 
+                                    "\n" + 
+                                    "Serving Size: " + 
+                                    item.servings
+                                }
                                 imagePath={item.image}
                             />
                         }}
@@ -135,3 +161,20 @@ const styles = StyleSheet.create({
         flex: 1,
     }
 })
+
+const mapStateToProps = state => {
+    return {
+        readyToGo: state.readyToGoRecipes,
+        recommended: state.recommendedRecipes,
+        recent: state.recentRecipes
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    {
+        beginReadyToGoFetch: beginReadyToGoFetch,
+        beginRecentRecipesFetch: beginRecentRecipesFetch,
+        beginRecommendedRecipesFetch: beginRecommendedRecipesFetch
+    }
+)(DiscoverRecipes);
