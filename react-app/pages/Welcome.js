@@ -16,8 +16,8 @@ class Welcome extends React.Component {
     }
 
     onSetNamePressed = () => {
-        // this.props.navigation.navigate("SignUp");
-        this.props.setName("Tucker")
+        this.props.navigation.navigate("SignUp");
+        // this.props.setName("Tucker")
     }
 
     render() {
@@ -91,5 +91,5 @@ return {
         }
     }
 }
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
