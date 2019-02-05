@@ -15,11 +15,6 @@ class Welcome extends React.Component {
         this.state = {};
     }
 
-    onLoginPressed = () => {
-        // this.props.navigation.navigate("SignUp");
-        this.props.setName("onLoginPressed")
-    }
-
     onSignUpPressed = () => {
         this.props.navigation.navigate("SignUp");
     }
@@ -34,7 +29,6 @@ class Welcome extends React.Component {
                 </Text>
                 <RkButton
                     rkType="rounded"
-                    onPress={this.onLoginPressed}
                 >
                 Login
                 </RkButton>
