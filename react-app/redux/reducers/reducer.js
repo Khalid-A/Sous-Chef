@@ -1,5 +1,6 @@
 import {
-    SET_NAME
+    SET_NAME,
+    SET_USER_ID,
 } from '../actions/action'
 
 function name(state = {}, action) {
@@ -12,8 +13,18 @@ function name(state = {}, action) {
     }
 }
 
+function setUserId(state = {}, action) {
+    switch(action.type) {
+        case SET_USER_ID:
+            return {
+                user_id: action.text
+            }
+    }
+}
+
 export default function sousChefApp(state = {}, action) {
     return {
       name: name(state.name, action),
+      userId: setUserId(state.userId, action)
     }
-  }
+}
