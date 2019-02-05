@@ -1,6 +1,7 @@
 import React from 'react';
 import Welcome from './pages/Welcome'
 import SignUp from './pages/SignUp'
+import MakeRecipe from './pages/MakeRecipe'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux'
 import store from './redux/store'
@@ -8,10 +9,11 @@ import store from './redux/store'
 const AppNavigator = createAppContainer(createStackNavigator(
   {
     Welcome: Welcome,
-    SignUp: SignUp
+    SignUp: SignUp,
+    MakeRecipe: MakeRecipe,
   },
   {
-    initialRouteName: "Welcome"
+    initialRouteName: "MakeRecipe"
   }
 ));
 
