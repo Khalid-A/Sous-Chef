@@ -10,7 +10,8 @@ const AppNavigator = createAppContainer(createStackNavigator(
   {
     Welcome: Welcome,
     SignUp: SignUp,
-    DiscoverRecipes: DiscoverRecipes
+    DiscoverRecipes: DiscoverRecipes,
+    PreviewRecipe: PreviewRecipe
   },
   {
     initialRouteName: "Welcome"

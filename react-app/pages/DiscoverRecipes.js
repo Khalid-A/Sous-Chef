@@ -35,43 +35,44 @@ class DiscoverRecipes extends React.Component {
             <View style={[styles.container]}>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Ready To Go</Text>
-                    <FlatList 
+                    <FlatList
                         style={[styles.section]}
                         keyExtractor={(item, index) => index.toString()}
                         horizontal= {true}
                         data={this.props.readyToGo}
                         renderItem={({item}) => {
-                            return <SousChefCard 
-                                headerText={item.title} 
+                            return <SousChefCard
+                                headerText={item.title}
                                 bodyText={
-                                    "Time: " + 
+                                    "Time: " +
                                     (item.timeHour == "0" ? "" : item.timeHour + "h") +
                                     (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" + 
-                                    "Serving Size: " + 
+                                    "\n" +
+                                    "Serving Size: " +
                                     item.servings
                                 }
                                 imagePath={item.images}
+                                onPress={() => navigate('PreviewRecipe', {id: item.id})}
                             />
                         }}
                     />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recent</Text>
-                    <FlatList 
+                    <FlatList
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recent}
                         renderItem={({item}) => {
-                            return <SousChefCard 
-                                headerText={item.title} 
+                            return <SousChefCard
+                                headerText={item.title}
                                 bodyText={
-                                    "Time: " + 
+                                    "Time: " +
                                     (item.timeHour == "0" ? "" : item.timeHour + "h") +
                                     (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" + 
-                                    "Serving Size: " + 
+                                    "\n" +
+                                    "Serving Size: " +
                                     item.servings
                                 }
                                 imagePath={item.images}
@@ -81,20 +82,20 @@ class DiscoverRecipes extends React.Component {
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recommended</Text>
-                    <FlatList 
+                    <FlatList
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recommended}
                         renderItem={({item}) => {
-                            return <SousChefCard 
-                                headerText={item.title} 
+                            return <SousChefCard
+                                headerText={item.title}
                                 bodyText={
-                                    "Time: " + 
+                                    "Time: " +
                                     (item.timeHour == "0" ? "" : item.timeHour + "h") +
                                     (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" + 
-                                    "Serving Size: " + 
+                                    "\n" +
+                                    "Serving Size: " +
                                     item.servings
                                 }
                                 imagePath={item.images}
