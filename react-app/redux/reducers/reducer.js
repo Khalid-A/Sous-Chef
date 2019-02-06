@@ -1,17 +1,5 @@
 import { SET_NAME, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/action'
 
-export function name(state = {}, action) {
-    switch(action.type) {
-        case SET_NAME:
-            console.warn("setting name to: " + action.text)
-            return {
-                name: action.text
-            }
-        default:
-            return state
-    }
-}
-
 /**
  * Reducer for userId to apply actions to the store
  * @param {array} state The current store state for userId
