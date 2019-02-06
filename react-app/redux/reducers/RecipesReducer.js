@@ -1,5 +1,5 @@
 import {
-    READY_TO_GO_UPDATED, RECOMMENDED_UPDATED, RECENT_UPDATED
+    CLEAR_READY_TO_GO, READY_TO_GO_ADD, CLEAR_RECENT, CLEAR_RECOMMENDED, ADD_RECENT, ADD_RECOMMENDED
 } from '../actions/RecipeAction'
 
 /**
@@ -9,8 +9,12 @@ import {
  */
 export function readyToGoRecipes(state = [], action) {
     switch(action.type) {
-        case READY_TO_GO_UPDATED:
-            return action.payload;
+        case CLEAR_READY_TO_GO:
+            return [];
+        case READY_TO_GO_ADD:
+            var newArr = [...state];
+            newArr.push(action.payload);
+            return newArr;
         default:
             return state;
     }
@@ -23,8 +27,12 @@ export function readyToGoRecipes(state = [], action) {
  */
 export function recommendedRecipes(state = [], action) {
     switch(action.type) {
-        case RECOMMENDED_UPDATED:
-            return action.payload;
+        case CLEAR_RECOMMENDED:
+            return [];
+        case ADD_RECOMMENDED:
+            var newArr = [...state];
+            newArr.push(action.payload);
+            return newArr;
         default:
             return state;
     }
@@ -37,8 +45,12 @@ export function recommendedRecipes(state = [], action) {
  */
 export function recentRecipes(state = [], action) {
     switch(action.type) {
-        case RECENT_UPDATED:
-            return action.payload;
+        case CLEAR_RECENT:
+            return [];
+        case ADD_RECENT:
+            var newArr = [...state];
+            newArr.push(action.payload);
+            return newArr;
         default:
             return state;
     }

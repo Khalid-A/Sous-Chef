@@ -5,7 +5,7 @@ import {readyToGoRecipes, recommendedRecipes, recentRecipes} from './reducers/Re
 
 const store = createStore(
     combineReducers({
-        name: name,
+        // name: name,
         readyToGoRecipes: readyToGoRecipes,
         recommendedRecipes: recommendedRecipes,
         recentRecipes: recentRecipes

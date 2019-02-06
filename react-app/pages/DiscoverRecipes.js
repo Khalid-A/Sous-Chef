@@ -21,6 +21,7 @@ class DiscoverRecipes extends React.Component {
     }
     constructor(props) {
         super(props);
+        // TODO: Delete this dumby data
         this.state = {
             readyToGo: [
                 {
@@ -76,18 +77,20 @@ class DiscoverRecipes extends React.Component {
                         style={[styles.section]}
                         keyExtractor={(item, index) => index.toString()}
                         horizontal= {true}
-                        data={this.state.readyToGo}
+                        // TODO: Use this.props instead of this.state once data in DB
+                        data={this.props.readyToGo}
                         renderItem={({item}) => {
                             return <SousChefCard 
                                 headerText={item.title} 
                                 bodyText={
                                     "Time: " + 
-                                    item.time + 
+                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
                                     "\n" + 
                                     "Serving Size: " + 
                                     item.servings
                                 }
-                                imagePath={item.image}
+                                imagePath={item.images}
                             />
                         }}
                     />
@@ -98,18 +101,20 @@ class DiscoverRecipes extends React.Component {
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
-                        data={this.state.recent}
+                        // TODO: Use this.props instead of this.state once data in DB
+                        data={this.props.recent}
                         renderItem={({item}) => {
                             return <SousChefCard 
                                 headerText={item.title} 
                                 bodyText={
                                     "Time: " + 
-                                    item.time + 
+                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
                                     "\n" + 
                                     "Serving Size: " + 
                                     item.servings
                                 }
-                                imagePath={item.image}
+                                imagePath={item.images}
                             />
                         }}
                     />
@@ -120,18 +125,20 @@ class DiscoverRecipes extends React.Component {
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
-                        data={this.state.recommended}
+                        // TODO: Use this.props instead of this.state once data in DB
+                        data={this.props.recommended}
                         renderItem={({item}) => {
                             return <SousChefCard 
                                 headerText={item.title} 
                                 bodyText={
                                     "Time: " + 
-                                    item.time + 
+                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
                                     "\n" + 
                                     "Serving Size: " + 
                                     item.servings
                                 }
-                                imagePath={item.image}
+                                imagePath={item.images}
                             />
                         }}
                     />

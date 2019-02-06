@@ -1,106 +1,125 @@
-export const READY_TO_GO_UPDATED = "READY_TO_GO_UPDATED";
-export const RECOMMENDED_UPDATED = "RECOMMENDED_UPDATED";
-export const RECENT_UPDATED = "RECENT_UPDATED";
+export const CLEAR_READY_TO_GO = "CLEAR_READY_TO_GO";
+export const READY_TO_GO_ADD = "READY_TO_GO_ADD";
+
+export const CLEAR_RECOMMENDED = "CLEAR_RECOMMENDED";
+export const ADD_RECOMMENDED = "ADD_RECOMMENDED";
+
+export const CLEAR_RECENT = "CLEAR_RECENT";
+export const ADD_RECENT = "ADD_RECENT";
+
 import firebase from 'react-native-firebase';
 
 /**
- * readyToGoRef Reference to the ready to go recipes collection in firestore.
- * 
- * ! Note: Currently pointing at all recipes as discover has not been setup
+ * recipesRef Reference to the all recipes collection in firestore.
  */
-const readyToGoRef = firebase.firestore().collection('recipes');
-/**
- * recommendedRecipesRef Reference to the recommended recipes collection in firestore.
- * 
- * ! Note: Currently pointing at all recipes as recommended has not been setup
- */
-const recommendedRecipesRef = firebase.firestore().collection('recipes');
-/**
- * recentRecipesRef Reference to the recent recipes collection in firestore.
- * 
- * ! Note: Currently pointing at all recipes as recent has not been setup
- */
-const recentRecipesRef = firebase.firestore().collection('recipes');
-
+const recipesRef = firebase.firestore().collection('recipes');
 
 /**
- * beginReadyToGo function that listens on ready to go recipe collection
- * to get the recipes that a user has all of the ingredients for and
- * returns them all as an array everytime they are updated.
+ * relevantRecipesRef Collection reference to the relevant recipes collection
+ * in firestore.
  */
-export const beginReadyToGoFetch = () => async dispatch => {
-    readyToGoRef.onSnapshot(snapshot => {
-        var recipes = [];
+const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
+
+/**
+ * relevantRecipesQuery The query that will match against the user to get their
+ * relevant recipe list.
+ * ! NOTE: This needs to be updated to be contained within the listen functions
+ * ! below and to take in the active user id. This requires merging with
+ * ! Sarah's work on authentication.
+ */
+const relevantRecipesQuery = relevantRecipesRef.where("userID", "=", "test-user");
+
+/**
+ * relevantRecipeUpdate is a general purpose thunk that given a snapshot from 
+ * relevantrecipes collection in firestore, will check if that snapshot has
+ * recipes that have recipeFieldToCheck field set to true, and then grabbing
+ * the respective recipes from the recipe collection and updating the store.
+ * 
+ * @param {string} recipeFieldToCheck The field inside the relevant recipes
+ * document to check against to see if the recipe is a match for the desired
+ * category.
+ * @param {function} dispatch dispatch function for redux
+ * @param {string} clear_type The clear action type for the desired category
+ * in redux.
+ * @param {string} add_type The add action type for the desired category in
+ * redux.
+ */
+const relevantRecipeUpdate = (
+    recipeFieldToCheck, 
+    dispatch, 
+    clear_type, 
+    add_type
+) => snapshot => {
+    snapshot.docs[0].ref.collection("recipes").onSnapshot(snapshot => {
         var index;
-        var allDocs = snapshot.docs;
-        for (index = 0; index < allDocs.length; ++index) {
-            recipes.push({
-                images: allDocs[index].get("images"), 
-                servings: allDocs[index].get("servings"), 
-                timeHour: allDocs[index].get("time.hour"),
-                timeMinute: allDocs[index].get("time.minute"),
-                title: allDocs[index].get("title")
-            })
+        var firstRecipeThrough = true;
+        for (index = 0; index < snapshot.docs.length; ++index) {
+            var fieldValue = snapshot.docs[index].get(recipeFieldToCheck);
+            if (fieldValue == undefined || !fieldValue) {
+                continue;
+            }
+            var callback = ((firstRecipeThrough) => (snapshot) => {
+                if (firstRecipeThrough) {
+                    dispatch({
+                        type: clear_type
+                    });
+                }
+                dispatch({
+                    type: add_type,
+                    payload: {
+                        images: snapshot.docs[0].get("images"), 
+                        servings: snapshot.docs[0].get("servings"), 
+                        timeHour: snapshot.docs[0].get("time.hour"),
+                        timeMinute: snapshot.docs[0].get("time.minute"),
+                        title: snapshot.docs[0].get("title")
+                    }
+                });
+            })(firstRecipeThrough);
+            recipesRef.where(
+                "id", 
+                "=", 
+                snapshot.docs[index].get("recipeID")
+            ).get().then(callback);
+            firstRecipeThrough = false;
         }
-        dispatch({
-            type: READY_TO_GO_UPDATED,
-            payload: recipes
-        });
+        if (firstRecipeThrough) {
+            dispatch({
+                type: clear_type
+            });
+        }
     })
 }
 
 /**
+ * beginReadyToGo function that listens on ready to go recipes
+ * to get the recipes that a user has all of the ingredients for.
+ */
+export const beginReadyToGoFetch = () => async dispatch => {
+    relevantRecipesQuery.onSnapshot(
+        relevantRecipeUpdate(
+            "isReadyToGo", dispatch, CLEAR_READY_TO_GO, READY_TO_GO_ADD
+        )
+    );
+}
+
+/**
  * beginRecommendedRecipesFetch function that listens on recommended recipe
- * collection to get the recipes that are recommended for the user.
- * 
- * ! Note: Currently is reading from a 'recommended' reference,
- * ! but needs to be updated to be pointing to the shortlist and querying.
+ * collection to get live updates on the users recommendations.
  */
 export const beginRecommendedRecipesFetch = () => async dispatch => {
-    recommendedRecipesRef.onSnapshot(snapshot => {
-        var recipes = [];
-        var index;
-        var allDocs = snapshot.docs;
-        for (index = 0; index < allDocs.length; ++index) {
-            recipes.push({
-                images: allDocs[index].get("images"), 
-                servings: allDocs[index].get("servings"), 
-                timeHour: allDocs[index].get("time.hour"),
-                timeMinute: allDocs[index].get("time.minute"),
-                title: allDocs[index].get("title")
-            })
-        }
-        dispatch({
-            type: RECOMMENDED_UPDATED,
-            payload: recipes
-        });
-    })
+    relevantRecipesQuery.onSnapshot(
+        relevantRecipeUpdate(
+            "isRecommended", dispatch, CLEAR_RECOMMENDED, ADD_RECOMMENDED
+        )
+    );
 }
 
 /**
  * beginRecentRecipesFetch function that listens on recent recipe
  * collection to get the recipes that a user has interacted with recently.
- * ! Note: Currently is reading from a 'recent' reference,
- * ! but needs to be updated to be pointing to the shortlist and querying.
  */
 export const beginRecentRecipesFetch = () => async dispatch => {
-    recentRecipesRef.onSnapshot(snapshot => {
-        var recipes = [];
-        var index;
-        var allDocs = snapshot.docs;
-        for (index = 0; index < allDocs.length; ++index) {
-            recipes.push({
-                images: allDocs[index].get("images"), 
-                servings: allDocs[index].get("servings"), 
-                timeHour: allDocs[index].get("time.hour"),
-                timeMinute: allDocs[index].get("time.minute"),
-                title: allDocs[index].get("title")
-            })
-        }
-        console.warn(recipes);
-        dispatch({
-            type: RECENT_UPDATED,
-            payload: recipes
-        });
-    })
+    relevantRecipesQuery.onSnapshot(relevantRecipeUpdate(
+        "isRecent", dispatch, CLEAR_RECENT, ADD_RECENT
+    ));
 }
