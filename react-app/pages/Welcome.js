@@ -15,9 +15,8 @@ class Welcome extends React.Component {
         this.state = {};
     }
 
-    onSetNamePressed = () => {
-        // this.props.navigation.navigate("SignUp");
-        this.props.setName("Tucker")
+    onSignUpPressed = () => {
+        this.props.navigation.navigate("SignUp");
     }
 
     render() {
@@ -29,10 +28,16 @@ class Welcome extends React.Component {
                 Welcome to {'\n'} Sous Chef
                 </Text>
                 <RkButton
-                    rkType="rounded large"
-                    onPress={this.onSetNamePressed}
+                    rkType="rounded"
                 >
-                Set Name
+                Login
+                </RkButton>
+
+                <RkButton
+                    rkType="rounded"
+                    onPress={this.onSignUpPressed}
+                >
+                SignUp
                 </RkButton>
             </View>
             </ScrollView>

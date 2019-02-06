@@ -1,10 +1,9 @@
 """ 
 This module scrapes recipe information from allrecipes.com.
-The recipes are saved into a json.
 """
 import json
 import uuid
-
+import time
 import requests
 from bs4 import BeautifulSoup
 
@@ -12,10 +11,17 @@ import utils
 
 def getTitle(htmlDocument):
     """ Parse BeautifulSoup html and return title of the recipe. """
-    titleHdrAttrs = {"class": "recipe-summary__h1"}
-    title = htmlDocument.find("h1", titleHdrAttrs).next
+    title = None
+    try:
+        titleHdrAttrs = {"class": "recipe-summary__h1"}
+        title = htmlDocument.find("h1", titleHdrAttrs).next
+    except:
+        title = str(htmlDocument.find("title"))
+        title = title.replace(' - Allrecipes.com</title>', '')
+        title = title.replace('<title>', '')
     # may need to deal with linguini vs linguine? or genoese vs genoise
-    return title
+    title = title.replace('\u00ae', '')
+    return title.strip()
     
 def getIngredients(htmlDocument):
     """ Parse BS object and return dict of ingredient information. """
@@ -43,7 +49,12 @@ def getImage(htmlDocument):
     """ Parse BS Object and return string linking to recipe image. """
     imageSpanAttrs = {"class": "rec-photo"}
     imageSpan = htmlDocument.find("img", imageSpanAttrs)
-    return imageSpan["src"]
+    if imageSpan == None:
+        return ''
+    imageUrl = imageSpan["src"]
+    if imageUrl == 'https://images.media-allrecipes.com/images/79591.png':
+        return ''
+    return imageUrl
 
 def getServingSize(htmlDocument):
     """ Parse BS Object and return serving size of recipe as integer. """
@@ -60,12 +71,14 @@ def getCookingTime(htmlDocument):
     }
     return timeInfo
 
-def scrapeWebsite(url):
+def scrapeWebsite(htmlDocument):
     """ Parse BS Object of the given url and return dict of recipe info. """
-    htmlDocument = BeautifulSoup(requests.get(url).content, "html.parser")
+    title = getTitle(htmlDocument)
+    if "File Not Found" in title:
+        return None
     recipeInfo = {
         "id": str(uuid.uuid4()),
-        "title" : getTitle(htmlDocument),
+        "title" : title,
         "ingredients": getIngredients(htmlDocument),
         "directions": getDirections(htmlDocument),
         "images": getImage(htmlDocument),
@@ -74,13 +87,4 @@ def scrapeWebsite(url):
     }
     return recipeInfo
 
-def main():
-    """ Iterates allrecipes.com recipes and save recipe info to a json. """
-    # find recipe web pages
-    # iterate over recipe webpages
-    recipeInfo = scrapeWebsite("https://www.allrecipes.com/recipe/185896")
-    with open('recipes/185896.json', 'w') as outfile:  
-        json.dump(recipeInfo, outfile)
-
-if __name__ == "__main__":
-    main()
+# scrapeWebsite('./temp.json')

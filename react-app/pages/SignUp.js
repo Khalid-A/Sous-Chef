@@ -1,37 +1,68 @@
-import React from 'react';
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from './../common/SousChefColors'
+import React, { Component } from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import { RkTextInput, RkButton } from 'react-native-ui-kitten';
+import { signUpUser } from '../redux/actions/action';
+import { connect } from 'react-redux';
 
-import firebase from 'react-native-firebase';
+export class SignUp extends Component {
 
-
-export default class SignUp extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            email: '',
+            password: '',
+        };
     }
-    
-    async authenticate() {
-        // TODO: You: Do firebase things
-        const { user } = await firebase.auth().signInAnonymously();
-        console.warn('User -> ', user.toJSON());
 
-        await firebase.analytics().logEvent('foo', { bar: '123'});
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.userId) {
+            // TODO: set naviagtion to Discover
+            this.props.navigation.navigate('Welcome');
+        }
+    }
+
+    handleSignUp = () => {
+        this.props.signUpUser(this.state.email, this.state.password);
     }
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={styles.scrollContainer}>
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                Welcome to {'\n'} Sign Up
-                </Text>
-                <View style={styles.modules}>
-                <Text style={styles.modulesHeader}>Press the button below to authenticate into Firebase</Text>
-                <Button
-                    onPress={this.authenticate}
-                    title="Authenticate"
+                <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
+            </View>
+            
+            <View style={styles.emailPasswordContainer}>
+                <RkTextInput 
+                    rkType="clear"
+                    placeholder = "example@email.com"
+                    label={'Email:'}
+                    labelStyle={styles.text}
+                    style={styles.textInput}
+                    onChangeText={email => this.setState({ email })}
+                    value={this.state.email}
                 />
-                </View>
+                <RkTextInput 
+                    rkType="clear"
+                    placeholder = "examplePassword"
+                    label={'Password:'}
+                    labelStyle={styles.text}
+                    style={styles.textInput}
+                    onChangeText={password => this.setState({ password })}
+                    value={this.state.password}
+                />
+            </View>
+            <View style={styles.container}>
+                <RkButton
+                    rkType="rounded"
+                    style={{backgroundColor: BUTTON_BACKGROUND_COLOR}}
+                    borderTopWidth={40}
+                    onPress={this.handleSignUp}
+                >
+                Sign Up
+                </RkButton>
+                <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
             </View>
             </ScrollView>
         );
@@ -39,11 +70,14 @@ export default class SignUp extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    scrollContainer: {
+        backgroundColor: BACKGROUND_COLOR
+    },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: BACKGROUND_COLOR,
     },
     logo: {
         height: 120,
@@ -52,27 +86,42 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 135,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
+    emailPasswordContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        backgroundColor: BACKGROUND_COLOR,
     },
-    instructions: {
-        textAlign: 'center',
+    text: {
+        borderLeftWidth: 50,
+        fontSize: 15,
         color: '#333333',
-        marginBottom: 5,
     },
-    modules: {
-        margin: 20,
+    textInput: {
+        borderRightWidth: 50,
+        borderColor: BACKGROUND_COLOR,
     },
-    modulesHeader: {
-        fontSize: 16,
-        marginBottom: 8,
-    },
-    module: {
-        fontSize: 14,
-        marginTop: 4,
-        textAlign: 'center',
+    errorMessage: {
+        color: DARK_GREEN_BACKGROUND,
+        borderTopWidth: 20,
+        borderLeftWidth: 20,
+        borderRightWidth: 20,
+        flexWrap: 'wrap',
     }
 });
   
+const mapStateToProps = (state) => {
+    return {
+        userId: state.loginUser.userId,
+        errorMessage: state.loginUser.errorMessage
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUpUser: (email, password) => {
+            dispatch(signUpUser(email, password))
+        }
+    }
+}
+    
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
