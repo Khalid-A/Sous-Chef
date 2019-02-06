@@ -1,5 +1,6 @@
 import {
-    SET_NAME
+    SET_NAME,
+    ADD_RECIPE,
 } from '../actions/action'
 
 function name(state = {}, action) {
@@ -10,6 +11,17 @@ function name(state = {}, action) {
                 name: action.text
             }
     }
+}
+
+export function recipe(state, action){
+  switch(action.type) {
+    case ADD_RECIPE:
+    console.warn("setting recipe to: " + action.payload)
+    return {
+      ...state,
+      newRecipe: action.payload,
+    }
+  }
 }
 
 export default function sousChefApp(state = {}, action) {
