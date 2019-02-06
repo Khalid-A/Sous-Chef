@@ -6,7 +6,7 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/action';
 
-class CookNow extends React.Component {
+class Finished extends React.Component {
     static navigationOptions = {
         header: null,
         headerVisible: false,
@@ -125,4 +125,4 @@ return {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CookNow)
+export default connect(mapStateToProps, mapDispatchToProps)(Finished)
