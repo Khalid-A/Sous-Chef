@@ -8,7 +8,7 @@ export function setName(name) {
     return { type: SET_NAME, text: name }
 }
 
-export const signUpUser = (email, password) => {
+export const userInfo = (email, password) => {
     return (dispatch) => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
