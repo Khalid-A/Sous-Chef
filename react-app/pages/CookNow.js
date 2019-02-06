@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, Dimensions } from 'react-native';
-import {RkButton} from 'react-native-ui-kitten';
+import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import { AppRegistry, TextInput } from 'react-native';
+import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
-import { setName } from '../redux/actions/action';
 import { connect } from 'react-redux';
 
 class CookNow extends React.Component {
@@ -13,16 +13,26 @@ class CookNow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        // this.listIngredients = this.listIngredients.bind(this);
+        this.listIngredients = this.listIngredients.bind(this);
     }
 
     listIngredients(){
-      if(this.props.ingredients == null){
+      if(this.props.recipe.ingredients == null){
         console.warn("null");
       }
-    //   return this.props.ingredients.map((ingredient) => {
-    //   return <Text>{ingredient.ingredient}</Text>
-    // });
+      return Object.keys(this.props.recipe.ingredients).map((ingredientID) => {
+        if(this.props == null){
+          console.warn("null");
+        }
+        console.warn(this.props.recipe.ingredients[ingredientID].ingredient);
+          if(this.props.recipe.ingredients[ingredientID].ingredient == null){
+            return;
+          }
+          else{
+          return <Text>{this.props.recipe.ingredients[ingredientID].ingredient}</Text>
+        }
+      });
+
   }
 
     // onSetNamePressed = () => {
@@ -70,7 +80,27 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
 return {
-        recipe: state.recipe
+        // recipe: state.recipe
+        recipe:{
+          ingredients:{
+              ingredient1:{
+                ingredient: "Avocado",
+              },
+              ingredient2:{
+                ingredient: "Salt",
+              },
+              ingredient3:{
+                ingredient: "Peper",
+              },
+              ingredient5:{
+                ingredient: "",
+              },
+              ingredient4:{
+                ingredient: "Bread",
+              },
+          },
+        },
+
     }
 }
 
@@ -83,3 +113,25 @@ return {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CookNow)
+
+
+//       return this.props.recipe.ingredients.keys().map((ingredient) => {
+//         if(ingredient == null){
+//           console.warn("null");
+//         }
+//         return <Text>{ingredient.ingredient}</Text>
+//       });
+
+      // return this.props.recipe.ingredients.keys().map((ingredient) => {
+      //   if(ingredient == null){
+      //     console.warn("null");
+      //   }
+      //   return <Text>{ingredient.ingredient}</Text>
+      // });
+//       return this.props.recipe.ingredients.keys().map((iKey) => {
+//         Const ingredient = this.props.recipes.ingredients[iKey];
+//         if(ingredient == null){
+//           console.warn("null");
+//         }
+//         return <Text>{ingredient.ingredient}</Text>
+//       });
