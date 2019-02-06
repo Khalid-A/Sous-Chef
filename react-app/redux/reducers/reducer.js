@@ -1,6 +1,6 @@
 import {
     SET_NAME,
-    ADD_RECIPE,
+    SET_USER_ID,
 } from '../actions/action'
 
 function name(state = {}, action) {
@@ -13,19 +13,18 @@ function name(state = {}, action) {
     }
 }
 
-export function recipe(state, action){
-  switch(action.type) {
-    case ADD_RECIPE:
-    console.warn("setting recipe to: " + action.payload)
-    return {
-      ...state,
-      newRecipe: action.payload,
+function setUserId(state = {}, action) {
+    switch(action.type) {
+        case SET_USER_ID:
+            return {
+                user_id: action.text
+            }
     }
-  }
 }
 
 export default function sousChefApp(state = {}, action) {
     return {
       name: name(state.name, action),
+      userId: setUserId(state.userId, action)
     }
-  }
+}

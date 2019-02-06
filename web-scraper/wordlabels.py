@@ -13,10 +13,14 @@ DESCRIPTIVEADJS = [
     'drained','dried','extra-virgin','flat-leaf','frozen','grated','ground',
     'halved','juiced','kosher','large','light','mashed','melted','minced',
     'peeled','pitted','pre-baked','seeded','skinless','sliced','small',
-    'smoked','softened'
+    'smoked','softened','diced','medium','roasted','confectioners',
+    'crispy','semisweet','crushed','at room temperature','blanched','baby',
+    'seedless','cracked','squeezed','canned','raw','pure','packed','hot',
+    'bulk','mild','diced','shredded','coarse','sweet','lengtwise','crosswise',
+    'rinsed','unsalted','instant','sugar-free'
 ]
 
 STOPWORDS = [
     'and','divided','finely','fresh','freshly','or','packed in oil',
-    'sharp','taste','to','-'
+    'sharp','taste','to','-','firmly','packed', 'uncooked', 'thinly',
 ]

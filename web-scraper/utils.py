@@ -37,6 +37,7 @@ def parseIngredientInfo(textString):
 def parseDescriptions(textString):
     """ Separates a string into the main ingredient and descritptions. """
     textString = re.sub(" with.*", "", textString)
+    textString = re.sub(" cut into.*", "", textString)
     textString = re.sub(r"[^A-Za-z -]", " ", textString)
     textString = cleanString(textString)
 
