@@ -82,19 +82,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 });
-
-const mapStateToProps = state => {
-return {
-        name: state.name
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-return {
-        setName: (name) => {
-            dispatch(setName(name));
-        }
-    }
-}
   
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
+export default connect(null, null)(Welcome)

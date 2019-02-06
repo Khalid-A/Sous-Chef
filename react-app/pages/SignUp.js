@@ -17,7 +17,6 @@ export class SignUp extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.userId) {
-            // TODO: set naviagtion to Discover
             this.props.navigation.navigate('DiscoverRecipes');
         }
     }

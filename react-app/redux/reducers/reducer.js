@@ -10,12 +10,17 @@ import { LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/action'
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
                 errorMessage: '',
-                userId: action.payload
+                userId: action.payload.userId,
+                email: action.payload.email,
+                groceryId: action.payload.groceryId,
+                pantryId: action.payload.pantryId,
+                relevantRecipesId: action.relevantRecipesId,
               });
         case LOGIN_FAILURE:
             return Object.assign({}, state, {
                 errorMessage: action.payload,
-                userId: ''
+                userId: '',
+                email: action.email,
             });
         default:
             return state;
