@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, Dimensions } from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
 import firebase from 'react-native-firebase';
 import { setName } from '../redux/actions/action';
@@ -13,19 +13,28 @@ class CookNow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        // this.listIngredients = this.listIngredients.bind(this);
     }
 
     listIngredients(){
-    return this.props.ingredients.map((ingredient) => {
-      return <Text>{ingredient.ingredient}</Text>
-    });
+      if(this.props.ingredients == null){
+        console.warn("null");
+      }
+    //   return this.props.ingredients.map((ingredient) => {
+    //   return <Text>{ingredient.ingredient}</Text>
+    // });
   }
+
+    // onSetNamePressed = () => {
+    //     // this.props.navigation.navigate("SignUp");
+    //     this.props.setName("Tucker")
+    // }
 
     render() {
         return (
             <ScrollView>
             <View style={styles.container}>
-                {this.listSteps()}
+                {this.listIngredients()}
             </View>
             </ScrollView>
         );
@@ -66,11 +75,11 @@ return {
 }
 
 const mapDispatchToProps = dispatch => {
-// return {
-//         setName: (name) => {
-//             dispatch(setName(name));
-//         }
-//     }
+return {
+        setName: (name) => {
+            dispatch(setName(name));
+        }
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
+export default connect(mapStateToProps, mapDispatchToProps)(CookNow)
