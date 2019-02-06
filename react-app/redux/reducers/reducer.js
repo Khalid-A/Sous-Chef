@@ -1,30 +1,35 @@
-import {
-    SET_NAME,
-    SET_USER_ID,
-} from '../actions/action'
+import { SET_NAME, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/action'
 
-function name(state = {}, action) {
+export function name(state = {}, action) {
     switch(action.type) {
         case SET_NAME:
             console.warn("setting name to: " + action.text)
             return {
                 name: action.text
             }
+        default:
+            return state
     }
 }
 
-function setUserId(state = {}, action) {
+/**
+ * Reducer for userId to apply actions to the store
+ * @param {array} state The current store state for userId
+ * @param {object} action The action to apply to the store
+ */
+ export function loginUser(state = {}, action) {
     switch(action.type) {
-        case SET_USER_ID:
-            return {
-                user_id: action.text
-            }
-    }
-}
-
-export default function sousChefApp(state = {}, action) {
-    return {
-      name: name(state.name, action),
-      userId: setUserId(state.userId, action)
+        case LOGIN_SUCCESS:
+            return Object.assign({}, state, {
+                errorMessage: '',
+                userId: action.payload
+              });
+        case LOGIN_FAILURE:
+            return Object.assign({}, state, {
+                errorMessage: action.payload,
+                userId: ''
+            });
+        default:
+            return state;
     }
 }

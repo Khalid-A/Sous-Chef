@@ -1,32 +1,29 @@
-import React from 'react';
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from './../common/SousChefColors'
+import React, { Component } from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
-
-import firebase from 'react-native-firebase';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
-import { setUserId } from '../redux/actions/action';
+import { signUpUser } from '../redux/actions/action';
 import { connect } from 'react-redux';
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors';
 
-export class SignUp extends React.Component {
+export class SignUp extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
-            errorMessage: '',
-            userId: '',
         };
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.userId) {
+            // TODO: set naviagtion to Discover
+            this.props.navigation.navigate('Welcome');
+        }
+    }
+
     handleSignUp = () => {
-        firebase.auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((user) => {
-                this.props.setUserId(firebase.auth().currentUser.uid);
-                // TODO: set navigation to Discover
-                this.props.navigation.navigate('Welcome'); 
-            }).catch(error => this.setState({ errorMessage: error.message }));
+        this.props.signUpUser(this.state.email, this.state.password);
     }
 
     render() {
@@ -65,7 +62,7 @@ export class SignUp extends React.Component {
                 >
                 Sign Up
                 </RkButton>
-                <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+                <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
             </View>
             </ScrollView>
         );
@@ -112,12 +109,19 @@ const styles = StyleSheet.create({
     }
 });
   
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
     return {
-        setUserId: (userId) => {
-            dispatch(setUserId(userId));
+        userId: state.loginUser.userId,
+        errorMessage: state.loginUser.errorMessage
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUpUser: (email, password) => {
+            dispatch(signUpUser(email, password))
         }
     }
 }
     
-export default connect(null, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
