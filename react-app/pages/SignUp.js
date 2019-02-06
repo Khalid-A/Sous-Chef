@@ -1,13 +1,11 @@
-import React from 'react';
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from './../common/SousChefColors'
+import React, { Component } from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
-
-import firebase from 'react-native-firebase';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
-import { setUserId } from '../redux/actions/action';
+import { signUpUser } from '../redux/actions/action';
 import { connect } from 'react-redux';
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors';
 
-export class SignUp extends React.Component {
+export class SignUp extends Component {
 
     constructor(props) {
         super(props);
@@ -19,14 +17,34 @@ export class SignUp extends React.Component {
         };
     }
 
+    // handleSignUp = () => {
+        // firebase.auth()
+        //     .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        //     .then((user) => {
+        //         this.props.setUserId(firebase.auth().currentUser.uid);
+        //         // TODO: set navigation to Discover
+        //         this.props.navigation.navigate('Welcome'); 
+        //     }).catch(error => this.setState({ errorMessage: error.message }));
+    // }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(prevProps)
+        console.log(prevState)
+        console.log(this.props)
+        if (prevProps.userId !== this.props.userId) {
+            this.props.navigation.navigate('Welcome');
+        } else if (prevProps.errorMessage != this.props.errorMessage) {
+            const error = this.props.errorMessage
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+            console.warn('NEW ERROR MESSAGE')
+            console.log(this.props.errorMessage)
+        }
+    }
+
     handleSignUp = () => {
-        firebase.auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((user) => {
-                this.props.setUserId(firebase.auth().currentUser.uid);
-                // TODO: set navigation to Discover
-                this.props.navigation.navigate('Welcome'); 
-            }).catch(error => this.setState({ errorMessage: error.message }));
+        this.props.signUpUser(this.state.email, this.state.password);
     }
 
     render() {
@@ -45,6 +63,7 @@ export class SignUp extends React.Component {
                     style={styles.textInput}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
+                    ref={input => (this.getEmail = input)}
                 />
                 <RkTextInput 
                     rkType="clear"
@@ -65,7 +84,7 @@ export class SignUp extends React.Component {
                 >
                 Sign Up
                 </RkButton>
-                <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+                <Text style={styles.errorMessage}>error</Text>
             </View>
             </ScrollView>
         );
@@ -112,12 +131,20 @@ const styles = StyleSheet.create({
     }
 });
   
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
+    console.log("STATE ERROR", state.loginUser.errorMessage)
     return {
-        setUserId: (userId) => {
-            dispatch(setUserId(userId));
+        userId: state.loginUser.userId,
+        errorMessage: state.loginUser.errorMessage
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUpUser: (email, password) => {
+            dispatch(signUpUser(email, password))
         }
     }
 }
     
-export default connect(null, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

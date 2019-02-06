@@ -1,8 +1,14 @@
-import { createStore } from "redux";
-import sousChefApp from "./reducers/reducer";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import reduxThunk from "redux-thunk"
+import { name, loginUser } from "./reducers/reducer";
 
 const store = createStore(
-    sousChefApp
+    combineReducers({
+        name: name,
+        loginUser: loginUser,
+    }),
+    {},
+    applyMiddleware(reduxThunk)
 );
 
 export default store
