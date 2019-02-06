@@ -17,6 +17,7 @@ export class SignUp extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.userId) {
+            // TODO: set naviagtion to Discover
             this.props.navigation.navigate('Welcome');
         }
     }
@@ -41,7 +42,6 @@ export class SignUp extends Component {
                     style={styles.textInput}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
-                    ref={input => (this.getEmail = input)}
                 />
                 <RkTextInput 
                     rkType="clear"
