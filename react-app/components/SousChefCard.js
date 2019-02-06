@@ -13,8 +13,6 @@ export default class SousChefCard extends React.Component {
     }
 
     render() {
-        if (this.props.imagePath.trim() == "") {
-        }
         return (
             <RkCard rkType="shadowed" style={[styles.card]}>
                 <Image rkCardImg source={
