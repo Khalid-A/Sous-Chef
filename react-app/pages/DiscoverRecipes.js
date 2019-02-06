@@ -21,45 +21,7 @@ class DiscoverRecipes extends React.Component {
     }
     constructor(props) {
         super(props);
-        // TODO: Delete this dumby data
-        this.state = {
-            readyToGo: [
-                {
-                    title: "Avocado Toast",
-                    time: "10m",
-                    servings: "1",
-                    image: "https://img1.cookinglight.timeinc.net/sites/default/files/styles/medium_2x/public/image/2018/07/main/1807w-avocado-toast-recipe.jpg?itok=_dDi7ZQQ"
-                },
-                {
-                    title: "Bananas Foster",
-                    time: "40m",
-                    servings: "4",
-                    image: "https://static01.nyt.com/images/2017/01/20/dining/20COOKING-BANANAS-FOSTER2/20COOKING-BANANAS-FOSTER2-articleLarge.jpg"
-                },
-                {
-                    title: "Bananas Foster",
-                    time: "40m",
-                    servings: "4",
-                    image: "https://static01.nyt.com/images/2017/01/20/dining/20COOKING-BANANAS-FOSTER2/20COOKING-BANANAS-FOSTER2-articleLarge.jpg"
-                }
-            ],
-            recent: [
-                {
-                    title: "Just Poop",
-                    time: "5m",
-                    servings: "0",
-                    image: "https://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_large.png?v=1480481059"
-                }
-            ],
-            recommended: [
-                {
-                    title: "Just Poop - Eat It Already",
-                    time: "5m",
-                    servings: "0",
-                    image: "https://cdn.shopify.com/s/files/1/1061/1924/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_large.png?v=1480481059"
-                }
-            ]
-        };
+        this.state = {};
     }
 
     componentWillMount() {
@@ -77,7 +39,6 @@ class DiscoverRecipes extends React.Component {
                         style={[styles.section]}
                         keyExtractor={(item, index) => index.toString()}
                         horizontal= {true}
-                        // TODO: Use this.props instead of this.state once data in DB
                         data={this.props.readyToGo}
                         renderItem={({item}) => {
                             return <SousChefCard 
@@ -101,7 +62,6 @@ class DiscoverRecipes extends React.Component {
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
-                        // TODO: Use this.props instead of this.state once data in DB
                         data={this.props.recent}
                         renderItem={({item}) => {
                             return <SousChefCard 
@@ -125,7 +85,6 @@ class DiscoverRecipes extends React.Component {
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
-                        // TODO: Use this.props instead of this.state once data in DB
                         data={this.props.recommended}
                         renderItem={({item}) => {
                             return <SousChefCard 
