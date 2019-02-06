@@ -1,8 +1,13 @@
 import firebase from 'react-native-firebase';
 
-export const SET_NAME = "SET_NAME"
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
-export const LOGIN_FAILURE = "LOGIN_FAILURE"
+export const SET_NAME = "SET_NAME";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
+
+//Cook Now Lifecycle actions
+export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
+
+
 
 export function setName(name) {
     return { type: SET_NAME, text: name }
@@ -29,4 +34,13 @@ export function signInFailure(dispatch, errorMessage) {
         type: LOGIN_FAILURE,
         payload: errorMessage
     });
+}
+
+// Cook Now Lifecycle Actions
+
+export const setIngredientsToRemove = (ingredients) => {
+  return {
+    type: SET_INGREDIENTS_TO_REMOVE,
+    payload: ingredients,
+  };
 }

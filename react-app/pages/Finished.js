@@ -4,6 +4,7 @@ import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
+import { setIngredientsToRemove } from '../redux/actions/action';
 
 class CookNow extends React.Component {
     static navigationOptions = {
@@ -12,39 +13,50 @@ class CookNow extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+          ingredients: this.props.recipe.ingredients,
+
+        };
         this.listIngredients = this.listIngredients.bind(this);
     }
+    removeItem(ingredientID){
+      const newIngredients = this.state.ingredients
+      delete newIngredients[ingredientID];
+      this.setState({
+        ingredients: newIngredients,
+      });
+    }
 
+    updatePantry(){
+      this.props.setIngredientsToRemove(this.state.ingredients);
+      //TODO: navigate to next page here
+
+    }
     listIngredients(){
-      if(this.props.recipe.ingredients == null){
+      console.warn(this.state.ingredients);
+      if(this.state.ingredients == null){
         console.warn("null");
       }
-      return Object.keys(this.props.recipe.ingredients).map((ingredientID) => {
-        if(this.props == null){
-          console.warn("null");
+      return Object.keys(this.state.ingredients).map((ingredientID) => {
+        const ingredient = this.state.ingredients[ingredientID].ingredient;
+        if(!ingredient){
+          return null;
         }
-        console.warn(this.props.recipe.ingredients[ingredientID].ingredient);
-          if(this.props.recipe.ingredients[ingredientID].ingredient == null){
-            return;
-          }
-          else{
-          return <Text>{this.props.recipe.ingredients[ingredientID].ingredient}</Text>
-        }
+          return (
+            <View>
+            <Text>{ingredient}</Text>
+            <Button onPress={() => this.removeItem(ingredientID)} title="Delete Item"></Button>
+            </View>
+          );
       });
-
   }
-
-    // onSetNamePressed = () => {
-    //     // this.props.navigation.navigate("SignUp");
-    //     this.props.setName("Tucker")
-    // }
 
     render() {
         return (
             <ScrollView>
             <View style={styles.container}>
                 {this.listIngredients()}
+                <Button onPress={() => this.updatePantry()} title="Update Pantry"> </Button>
             </View>
             </ScrollView>
         );
@@ -79,6 +91,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
+  console.warn('THE STORE, oooooo', state);
 return {
         // recipe: state.recipe
         recipe:{
@@ -90,7 +103,7 @@ return {
                 ingredient: "Salt",
               },
               ingredient3:{
-                ingredient: "Peper",
+                ingredient: "Pepper",
               },
               ingredient5:{
                 ingredient: "",
@@ -100,38 +113,16 @@ return {
               },
           },
         },
-
+        TESTIngredients: state.cookNow.ingredientsToRemove,
     }
 }
 
 const mapDispatchToProps = dispatch => {
 return {
-        setName: (name) => {
-            dispatch(setName(name));
+        setIngredientsToRemove: (ingredients) => {
+          dispatch(setIngredientsToRemove(ingredients));
         }
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CookNow)
-
-
-//       return this.props.recipe.ingredients.keys().map((ingredient) => {
-//         if(ingredient == null){
-//           console.warn("null");
-//         }
-//         return <Text>{ingredient.ingredient}</Text>
-//       });
-
-      // return this.props.recipe.ingredients.keys().map((ingredient) => {
-      //   if(ingredient == null){
-      //     console.warn("null");
-      //   }
-      //   return <Text>{ingredient.ingredient}</Text>
-      // });
-//       return this.props.recipe.ingredients.keys().map((iKey) => {
-//         Const ingredient = this.props.recipes.ingredients[iKey];
-//         if(ingredient == null){
-//           console.warn("null");
-//         }
-//         return <Text>{ingredient.ingredient}</Text>
-//       });
