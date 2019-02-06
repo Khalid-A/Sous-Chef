@@ -17,10 +17,11 @@ DESCRIPTIVEADJS = [
     'crispy','semisweet','crushed','at room temperature','blanched','baby',
     'seedless','cracked','squeezed','canned','raw','pure','packed','hot',
     'bulk','mild','diced','shredded','coarse','sweet','lengtwise','crosswise',
-    'rinsed','unsalted','instant','sugar-free'
+    'rinsed','unsalted','instant','sugar-free','beaten'
 ]
 
 STOPWORDS = [
     'and','divided','finely','fresh','freshly','or','packed in oil',
     'sharp','taste','to','-','firmly','packed', 'uncooked', 'thinly',
+    'more',
 ]
