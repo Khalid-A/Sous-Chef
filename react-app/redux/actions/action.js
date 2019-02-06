@@ -13,7 +13,7 @@ export const signUpUser = (email, password) => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
             .then(() => signInSuccess(dispatch, firebase.auth().currentUser.uid))
-            .catch(error => signInFailure(dispatch, error));
+            .catch(error => signInFailure(dispatch, error.message));
     }
 }
 

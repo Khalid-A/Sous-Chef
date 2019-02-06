@@ -20,13 +20,11 @@ export function name(state = {}, action) {
  export function loginUser(state = {}, action) {
     switch(action.type) {
         case LOGIN_SUCCESS:
-            console.warn("LOGIN_SUCCESS")
             return Object.assign({}, state, {
                 errorMessage: '',
                 userId: action.payload
               });
         case LOGIN_FAILURE:
-            console.warn("LOGIN_FAILURE")
             return Object.assign({}, state, {
                 errorMessage: action.payload,
                 userId: ''

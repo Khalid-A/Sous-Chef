@@ -12,34 +12,12 @@ export class SignUp extends Component {
         this.state = {
             email: '',
             password: '',
-            errorMessage: '',
-            userId: '',
         };
     }
 
-    // handleSignUp = () => {
-        // firebase.auth()
-        //     .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        //     .then((user) => {
-        //         this.props.setUserId(firebase.auth().currentUser.uid);
-        //         // TODO: set navigation to Discover
-        //         this.props.navigation.navigate('Welcome'); 
-        //     }).catch(error => this.setState({ errorMessage: error.message }));
-    // }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(prevProps)
-        console.log(prevState)
-        console.log(this.props)
-        if (prevProps.userId !== this.props.userId) {
+        if (this.props.userId) {
             this.props.navigation.navigate('Welcome');
-        } else if (prevProps.errorMessage != this.props.errorMessage) {
-            const error = this.props.errorMessage
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-            console.warn('NEW ERROR MESSAGE')
-            console.log(this.props.errorMessage)
         }
     }
 
@@ -84,7 +62,7 @@ export class SignUp extends Component {
                 >
                 Sign Up
                 </RkButton>
-                <Text style={styles.errorMessage}>error</Text>
+                <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
             </View>
             </ScrollView>
         );
@@ -132,7 +110,6 @@ const styles = StyleSheet.create({
 });
   
 const mapStateToProps = (state) => {
-    console.log("STATE ERROR", state.loginUser.errorMessage)
     return {
         userId: state.loginUser.userId,
         errorMessage: state.loginUser.errorMessage
