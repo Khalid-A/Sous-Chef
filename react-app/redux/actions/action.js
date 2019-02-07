@@ -31,6 +31,10 @@ export const signInSuccess = (dispatch, userId, email) =>{
     }
 
     firebase.firestore().collection('users').doc(userId).set(userInfo)
+    firebase.firestore().collection('relevantrecipes')
+        .doc(relevantRecipesId).set({
+            userId: userId
+        })
 
     dispatch({
         type: LOGIN_SUCCESS,

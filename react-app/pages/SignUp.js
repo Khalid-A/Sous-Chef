@@ -16,7 +16,7 @@ export class SignUp extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.userId) {
+        if (this.props.userID) {
             this.props.navigation.navigate('DiscoverRecipes');
         }
     }
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   
 const mapStateToProps = (state) => {
     return {
-        userId: state.userInfo.userId,
+        userID: state.userInfo.userID,
         errorMessage: state.userInfo.errorMessage
     };
 };
