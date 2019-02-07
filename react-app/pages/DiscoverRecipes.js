@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
-        title:"Find A Recipe",
+        title: "Find A Recipe",
         headerVisible: true,
         headerTintColor: "white",
         headerLeft: null,

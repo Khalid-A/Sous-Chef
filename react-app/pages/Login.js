@@ -1,11 +1,11 @@
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from './../common/SousChefColors'
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from '../common/SousChefColors'
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
 import { userInfo } from '../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
 
-export class SignUp extends Component {
+export class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -21,11 +21,11 @@ export class SignUp extends Component {
         }
     }
 
-    handleSignUp = () => {
+    handleLogin = () => {
         this.props.userInfo(
             this.state.email, 
             this.state.password, 
-            createUser=true
+            createUser=false
         );
     }
 
@@ -63,9 +63,9 @@ export class SignUp extends Component {
                     rkType="rounded"
                     style={{backgroundColor: BUTTON_BACKGROUND_COLOR}}
                     borderTopWidth={40}
-                    onPress={this.handleSignUp}
+                    onPress={this.handleLogin}
                 >
-                Sign Up
+                Login
                 </RkButton>
                 <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
             </View>
@@ -129,4 +129,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
     
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
