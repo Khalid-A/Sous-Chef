@@ -30,10 +30,17 @@ export const signInSuccess = (dispatch, userID, email) =>{
         relevantRecipesID: relevantRecipesID
     }
 
+    // create documents necessary for new users in firebase
     firebase.firestore().collection('users').doc(userID).set(userInfo)
     firebase.firestore().collection('relevantrecipes').doc(relevantRecipesID).set({
             userID: userID
     })
+    firebase.firestore().collection('pantrylists').doc(pantryID).set({
+        userID: userID
+    }) 
+    firebase.firestore().collection('grocerylists').doc(groceryID).set({
+        userID: userID
+    }) 
 
     dispatch({
         type: LOGIN_SUCCESS,
