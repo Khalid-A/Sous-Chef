@@ -25,9 +25,9 @@ class DiscoverRecipes extends React.Component {
     }
 
     componentWillMount() {
-        this.props.beginReadyToGoFetch();
-        this.props.beginRecentRecipesFetch();
-        this.props.beginRecommendedRecipesFetch();
+        this.props.beginReadyToGoFetch(this.props.userID);
+        this.props.beginRecentRecipesFetch(this.props.userID);
+        this.props.beginRecommendedRecipesFetch(this.props.userID);
     }
 
     render() {
@@ -132,7 +132,8 @@ const mapStateToProps = state => {
     return {
         readyToGo: state.readyToGoRecipes,
         recommended: state.recommendedRecipes,
-        recent: state.recentRecipes
+        recent: state.recentRecipes,
+        userID: state.userInfo.userID,
     }
 }
 

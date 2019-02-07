@@ -41,6 +41,7 @@ export class SignUp extends Component {
                     style={styles.textInput}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
+                    autoCapitalize="none"
                 />
                 <RkTextInput 
                     rkType="clear"
@@ -50,6 +51,7 @@ export class SignUp extends Component {
                     style={styles.textInput}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
+                    autoCapitalize="none"
                 />
             </View>
             <View style={styles.container}>

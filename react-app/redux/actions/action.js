@@ -17,24 +17,23 @@ export const userInfo = (email, password) => {
     }
 }
 
-export const signInSuccess = (dispatch, userId, email) =>{
-    const groceryId = uuid4();
-    const pantryId = uuid4();
-    const relevantRecipesId = uuid4();
+export const signInSuccess = (dispatch, userID, email) =>{
+    const groceryID = uuid4();
+    const pantryID = uuid4();
+    const relevantRecipesID = uuid4();
     
-    var userInfo = {
-        userId: userId,
+    const userInfo = {
+        userID: userID,
         email: email,
-        groceryId: groceryId,
-        pantryId: pantryId,
-        relevantRecipesId: relevantRecipesId,
+        groceryID: groceryID,
+        pantryID: pantryID,
+        relevantRecipesID: relevantRecipesID
     }
 
-    firebase.firestore().collection('users').doc(userId).set(userInfo)
-    firebase.firestore().collection('relevantrecipes')
-        .doc(relevantRecipesId).set({
-            userId: userId
-        })
+    firebase.firestore().collection('users').doc(userID).set(userInfo)
+    firebase.firestore().collection('relevantrecipes').doc(relevantRecipesID).set({
+            userID: userID
+    })
 
     dispatch({
         type: LOGIN_SUCCESS,
