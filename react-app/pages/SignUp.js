@@ -2,7 +2,7 @@ import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from 
 import React, { Component } from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
-import { signUpUser } from '../redux/actions/action';
+import { userInfo } from '../redux/actions/action';
 import { connect } from 'react-redux';
 
 export class SignUp extends Component {
@@ -16,14 +16,13 @@ export class SignUp extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.userId) {
-            // TODO: set naviagtion to Discover
-            this.props.navigation.navigate('Welcome');
+        if (this.props.userID) {
+            this.props.navigation.navigate('DiscoverRecipes');
         }
     }
 
     handleSignUp = () => {
-        this.props.signUpUser(this.state.email, this.state.password);
+        this.props.userInfo(this.state.email, this.state.password);
     }
 
     render() {
@@ -42,6 +41,7 @@ export class SignUp extends Component {
                     style={styles.textInput}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
+                    autoCapitalize="none"
                 />
                 <RkTextInput 
                     rkType="clear"
@@ -51,6 +51,7 @@ export class SignUp extends Component {
                     style={styles.textInput}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
+                    autoCapitalize="none"
                 />
             </View>
             <View style={styles.container}>
@@ -111,15 +112,15 @@ const styles = StyleSheet.create({
   
 const mapStateToProps = (state) => {
     return {
-        userId: state.loginUser.userId,
-        errorMessage: state.loginUser.errorMessage
+        userID: state.userInfo.userID,
+        errorMessage: state.userInfo.errorMessage
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signUpUser: (email, password) => {
-            dispatch(signUpUser(email, password))
+        userInfo: (email, password) => {
+            dispatch(userInfo(email, password))
         }
     }
 }

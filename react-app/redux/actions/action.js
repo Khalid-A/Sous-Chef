@@ -1,32 +1,57 @@
 import firebase from 'react-native-firebase';
+import uuid4 from 'uuid';
 
-export const SET_NAME = "SET_NAME"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGIN_FAILURE = "LOGIN_FAILURE"
 
-export function setName(name) {
-    return { type: SET_NAME, text: name }
-}
-
-export const signUpUser = (email, password) => {
+export const userInfo = (email, password) => {
     return (dispatch) => {
         firebase.auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(() => signInSuccess(dispatch, firebase.auth().currentUser.uid))
-            .catch(error => signInFailure(dispatch, error.message));
+            .then(() => signInSuccess(
+                dispatch, 
+                firebase.auth().currentUser.uid, 
+                email
+            ))
+            .catch(error => signInFailure(dispatch, error.message, email));
     }
 }
 
-export const signInSuccess = (dispatch, userId) =>{
+export const signInSuccess = (dispatch, userID, email) =>{
+    const groceryID = uuid4();
+    const pantryID = uuid4();
+    const relevantRecipesID = uuid4();
+    
+    const userInfo = {
+        userID: userID,
+        email: email,
+        groceryID: groceryID,
+        pantryID: pantryID,
+        relevantRecipesID: relevantRecipesID
+    }
+
+    // create documents necessary for new users in firebase
+    firebase.firestore().collection('users').doc(userID).set(userInfo)
+    firebase.firestore().collection('relevantrecipes').doc(relevantRecipesID).set({
+            userID: userID
+    })
+    firebase.firestore().collection('pantrylists').doc(pantryID).set({
+        userID: userID
+    }) 
+    firebase.firestore().collection('grocerylists').doc(groceryID).set({
+        userID: userID
+    }) 
+
     dispatch({
         type: LOGIN_SUCCESS,
-        payload: userId
+        payload: userInfo
     });
 }
 
-export function signInFailure(dispatch, errorMessage) {
+export function signInFailure(dispatch, errorMessage, email) {
     dispatch({
         type: LOGIN_FAILURE,
-        payload: errorMessage
+        payload: errorMessage,
+        email: email
     });
 }
