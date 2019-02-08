@@ -21,15 +21,6 @@ const recipesRef = firebase.firestore().collection('recipes');
 const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
 
 /**
- * relevantRecipesQuery The query that will match against the user to get their
- * relevant recipe list.
- * ! NOTE: This needs to be updated to be contained within the listen functions
- * ! below and to take in the active user id. This requires merging with
- * ! Sarah's work on authentication.
- */
-const relevantRecipesQuery = relevantRecipesRef.where("userID", "=", "test-user");
-
-/**
  * relevantRecipeUpdate is a general purpose thunk that given a snapshot from 
  * relevantrecipes collection in firestore, will check if that snapshot has
  * recipes that have recipeFieldToCheck field set to true, and then grabbing
@@ -94,8 +85,8 @@ const relevantRecipeUpdate = (
  * beginReadyToGo function that listens on ready to go recipes
  * to get the recipes that a user has all of the ingredients for.
  */
-export const beginReadyToGoFetch = () => async dispatch => {
-    relevantRecipesQuery.onSnapshot(
+export const beginReadyToGoFetch = (userID) => async dispatch => {
+    relevantRecipesRef.where("userID", "=", userID).onSnapshot(
         relevantRecipeUpdate(
             "isReadyToGo", dispatch, CLEAR_READY_TO_GO, READY_TO_GO_ADD
         )
@@ -106,8 +97,8 @@ export const beginReadyToGoFetch = () => async dispatch => {
  * beginRecommendedRecipesFetch function that listens on recommended recipe
  * collection to get live updates on the users recommendations.
  */
-export const beginRecommendedRecipesFetch = () => async dispatch => {
-    relevantRecipesQuery.onSnapshot(
+export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
+    relevantRecipesRef.where("userID", "=", userID).onSnapshot(
         relevantRecipeUpdate(
             "isRecommended", dispatch, CLEAR_RECOMMENDED, ADD_RECOMMENDED
         )
@@ -118,8 +109,10 @@ export const beginRecommendedRecipesFetch = () => async dispatch => {
  * beginRecentRecipesFetch function that listens on recent recipe
  * collection to get the recipes that a user has interacted with recently.
  */
-export const beginRecentRecipesFetch = () => async dispatch => {
-    relevantRecipesQuery.onSnapshot(relevantRecipeUpdate(
-        "isRecent", dispatch, CLEAR_RECENT, ADD_RECENT
-    ));
+export const beginRecentRecipesFetch = (userID) => async dispatch => {
+    relevantRecipesRef.where("userID", "=", userID).onSnapshot(
+        relevantRecipeUpdate(
+            "isRecent", dispatch, CLEAR_RECENT, ADD_RECENT
+        )
+    );
 }

@@ -20,17 +20,24 @@ class CookNow extends React.Component {
             fontSize: 35
         }
     }
-  constructor(props) {
-    super(props);
-    this.state = {
-      recipe: this.props.recipe,
-      ingredients: this.props.recipe.ingredients,
-      directions: this.props.recipe.directions,
+    constructor(props) {
+        super(props);
+        this.state = { recipeID: this.props.navigation.state.id };
+    }
 
-    };
-    this.listIngredients = this.listIngredients.bind(this);
-    this.listDirections = this.listDirections.bind(this);
-  }
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     recipe: this.props.recipe,
+  //     ingredients: this.props.recipe.ingredients,
+  //     directions: this.props.recipe.directions,
+  //
+  //   };
+  //   this.listIngredients = this.listIngredients.bind(this);
+  //   this.listDirections = this.listDirections.bind(this);
+  // }
+  
   finishCooking(){
     // this.props.navigation.navigate('Finished');
   }

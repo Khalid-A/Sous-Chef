@@ -1,5 +1,5 @@
 import React from 'react';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors'
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
 import { StyleSheet, Image, Text, View, ScrollView, FlatList } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
-        title:"Find A Recipe",
+        title: "Find A Recipe",
         headerVisible: true,
         headerTintColor: "white",
         headerLeft: null,
@@ -25,9 +25,9 @@ class DiscoverRecipes extends React.Component {
     }
 
     componentWillMount() {
-        this.props.beginReadyToGoFetch();
-        this.props.beginRecentRecipesFetch();
-        this.props.beginRecommendedRecipesFetch();
+        this.props.beginReadyToGoFetch(this.props.userID);
+        this.props.beginRecentRecipesFetch(this.props.userID);
+        this.props.beginRecommendedRecipesFetch(this.props.userID);
     }
 
     render() {
@@ -132,7 +132,8 @@ const mapStateToProps = state => {
     return {
         readyToGo: state.readyToGoRecipes,
         recommended: state.recommendedRecipes,
-        recent: state.recentRecipes
+        recent: state.recentRecipes,
+        userID: state.userInfo.userID,
     }
 }
 
