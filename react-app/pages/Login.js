@@ -1,12 +1,12 @@
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from './../common/SousChefColors'
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors'
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
-import { RkButton } from 'react-native-ui-kitten';
-import { createUser } from './../redux/actions/AuthenticationAction';
+import { RkTextInput, RkButton } from 'react-native-ui-kitten';
+import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
 import SousChefTextInput from './../components/SousChefTextInput'
 
-export class SignUp extends Component {
+export class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ export class SignUp extends Component {
         }
     }
 
-    handleSignUp = () => {
+    handleLogin = () => {
         this.props.userInfo(this.state.email, this.state.password);
     }
 
@@ -33,7 +33,7 @@ export class SignUp extends Component {
                 <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
             </View>
             <View style={styles.emailPasswordContainer}>
-                <SousChefTextInput
+            <SousChefTextInput
                     placeholder='example@email.com'
                     label={'Email:'}
                     onChangeText={email => this.setState({ email })}
@@ -51,9 +51,9 @@ export class SignUp extends Component {
                     rkType="rounded"
                     style={{backgroundColor: BUTTON_BACKGROUND_COLOR}}
                     borderTopWidth={40}
-                    onPress={this.handleSignUp}
+                    onPress={this.handleLogin}
                 >
-                Sign Up
+                Login
                 </RkButton>
                 <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
             </View>
@@ -103,9 +103,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userInfo: (email, password) => {
-            dispatch(createUser(email, password))
+            dispatch(loginUser(email, password))
         }
     }
 }
     
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

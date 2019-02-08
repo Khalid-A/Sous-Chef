@@ -1,7 +1,7 @@
 import React from 'react';
-import {BACKGROUND_COLOR} from '../common/SousChefColors'
-import {StyleSheet, Image, Text, View } from 'react-native';
-import {RkCard, RkText} from 'react-native-ui-kitten';
+import { BACKGROUND_COLOR } from '../common/SousChefColors'
+import { StyleSheet, Image, Text, View } from 'react-native';
+import { RkCard, RkText } from 'react-native-ui-kitten';
 
 export default class SousChefCard extends React.Component {
     constructor(props) {

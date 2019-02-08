@@ -1,6 +1,7 @@
 import React from 'react';
 import Welcome from './pages/Welcome'
 import SignUp from './pages/SignUp'
+import Login from './pages/Login'
 import DiscoverRecipes from './pages/DiscoverRecipes'
 import PreviewRecipe from './pages/PreviewRecipe'
 import { createStackNavigator, createAppContainer } from "react-navigation";
@@ -11,6 +12,7 @@ const AppNavigator = createAppContainer(createStackNavigator(
   {
     Welcome: Welcome,
     SignUp: SignUp,
+    Login: Login,
     DiscoverRecipes: DiscoverRecipes,
     PreviewRecipe: PreviewRecipe
   },
