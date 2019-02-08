@@ -34,13 +34,13 @@ export class SignUp extends Component {
             </View>
             <View style={styles.emailPasswordContainer}>
                 <SousChefTextInput
-                    placeholder = 'example@email.com'
+                    placeholder='example@email.com'
                     label={'Email:'}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
                 />
                 <SousChefTextInput
-                    placeholder = 'examplePassword'
+                    placeholder='examplePassword'
                     label={'Password:'}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
