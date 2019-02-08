@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
-import { userInfo } from "./reducers/reducer";
-import {readyToGoRecipes, recommendedRecipes, recentRecipes} from './reducers/RecipesReducer'
+import { userInfo } from "./reducers/AuthenticationReducer";
+import { readyToGoRecipes, recommendedRecipes, recentRecipes } from './reducers/RecipesReducer'
 
 const store = createStore(
     combineReducers({

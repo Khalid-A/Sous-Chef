@@ -1,14 +1,13 @@
-import { LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/action'
+import { LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/AuthenticationAction'
 
 /**
  * Reducer for userID to apply actions to the store
- * @param {array} state The current store state for userID
+ * @param {dictionary} state The current store state for userID
  * @param {object} action The action to apply to the store
  */
  export function userInfo(state = {}, action) {
     switch(action.type) {
         case LOGIN_SUCCESS:
-            console.log("LOGIN_SUCCESS")
             return Object.assign({}, state, {
                 errorMessage: '',
                 userID: action.payload.userID,

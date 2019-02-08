@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
-import {RkButton} from 'react-native-ui-kitten';
-import firebase from 'react-native-firebase';
-import { setName } from '../redux/actions/action';
+import { RkButton } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 
 class Welcome extends React.Component {
@@ -19,6 +17,10 @@ class Welcome extends React.Component {
         this.props.navigation.navigate("SignUp");
     }
 
+    onLoginPressed = () => {
+        this.props.navigation.navigate("Login");
+    }
+
     render() {
         return (
             <ScrollView>
@@ -29,6 +31,7 @@ class Welcome extends React.Component {
                 </Text>
                 <RkButton
                     rkType="rounded"
+                    onPress={this.onLoginPressed}
                 >
                 Login
                 </RkButton>
