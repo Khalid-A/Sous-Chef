@@ -10,30 +10,36 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE"
 const usersRef = firebase.firestore().collection('users')
 
 /**
- * userInfo is a general purpose function that given an email and a password,
- * will either sign up a user or login a user and manage the information
- * regarding users in Firebase. It returns a map containing user information 
- * regarding the IDs associated with their accounts.
+ * createUser is a function that given an email and a password,
+ * will either create a user acouunt in firebase and will also generate
+ * the relevant collections in Firebase and the IDs to be associated 
+ * with the user. 
  * 
  * @param {string} email: user's email address
  * @param {string} password: user's password
- * @param {boolean} createUser: true if the user is trying to create an account
- * and false if the user is trying to login
  */
-export const userInfo = (email, password, createUser=false) => {
-    if (createUser) {
-        return (dispatch) => {
-            firebase.auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then(() => signInSuccess(
-                    dispatch, 
-                    firebase.auth().currentUser.uid, 
-                    email
-                ))
-                .catch(error => authenticationFailure(dispatch, error.message, email));
-        }
+export const createUser = (email, password) => {
+    return (dispatch) => {
+        firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => signInSuccess(
+                dispatch, 
+                firebase.auth().currentUser.uid, 
+                email
+            ))
+            .catch(error => authenticationFailure(dispatch, error.message, email));
     }
-    
+}
+
+/**
+ * signInUser is a function that given an email and a password,
+ * will set the user to be the current user in firebase and will retreive
+ * the IDs associated with this user from Firebase.
+ * 
+ * @param {string} email: user's email address
+ * @param {string} password: user's password
+ */
+export const loginUser = (email, password) => {
     return (dispatch) => {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
@@ -47,8 +53,9 @@ export const userInfo = (email, password, createUser=false) => {
 }
 
 /**
- * loginSuccess retrieves information about the current user from Firebase and
- * returns all IDs associated with the user.
+ * loginSuccess retrieves information about the current user from Firebase 
+ * and dispatches a redux action to update all IDs associated with the 
+ * user in store.
  * 
  * @param {function} dispatch: dispatch function for redux
  * @param {string} userID: the userID of the user in question

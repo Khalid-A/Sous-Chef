@@ -1,9 +1,10 @@
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND} from '../common/SousChefColors'
+import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors'
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
-import { userInfo } from '../redux/actions/AuthenticationAction';
+import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
+import SousChefTextInput from './../components/SousChefTextInput'
 
 export class Login extends Component {
 
@@ -22,11 +23,7 @@ export class Login extends Component {
     }
 
     handleLogin = () => {
-        this.props.userInfo(
-            this.state.email, 
-            this.state.password, 
-            createUser=false
-        );
+        this.props.userInfo(this.state.email, this.state.password);
     }
 
     render() {
@@ -35,27 +32,18 @@ export class Login extends Component {
             <View style={styles.container}>
                 <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
             </View>
-            
             <View style={styles.emailPasswordContainer}>
-                <RkTextInput 
-                    rkType="clear"
-                    placeholder = "example@email.com"
+            <SousChefTextInput
+                    placeholder = 'example@email.com'
                     label={'Email:'}
-                    labelStyle={styles.text}
-                    style={styles.textInput}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
-                    autoCapitalize="none"
                 />
-                <RkTextInput 
-                    rkType="clear"
-                    placeholder = "examplePassword"
+                <SousChefTextInput
+                    placeholder = 'examplePassword'
                     label={'Password:'}
-                    labelStyle={styles.text}
-                    style={styles.textInput}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
-                    autoCapitalize="none"
                 />
             </View>
             <View style={styles.container}>
@@ -96,15 +84,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: BACKGROUND_COLOR,
     },
-    text: {
-        borderLeftWidth: 50,
-        fontSize: 15,
-        color: '#333333',
-    },
-    textInput: {
-        borderRightWidth: 50,
-        borderColor: BACKGROUND_COLOR,
-    },
     errorMessage: {
         color: DARK_GREEN_BACKGROUND,
         borderTopWidth: 20,
@@ -123,8 +102,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userInfo: (email, password, createUser) => {
-            dispatch(userInfo(email, password, createUser))
+        userInfo: (email, password) => {
+            dispatch(loginUser(email, password))
         }
     }
 }
