@@ -1,5 +1,6 @@
 export const CLEAR_PANTRY = "CLEAR_PANTRY";
 export const ADD_PANTRY = "ADD_PANTRY";
+export const ADD_NEW_PANTRY_ITEM = "ADD_NEW_PANTRY_ITEM";
 
 import firebase from 'react-native-firebase';
 
@@ -8,6 +9,7 @@ import firebase from 'react-native-firebase';
  */
 const pantryRef = firebase.firestore().collection("pantrylists");
 const ingredientsRef = firebase.firestore().collection("IDToIngredient");
+const ingredientsIDLookupRef = firebase.firestore().collection("ingredientToID");
 
 /**
  * beginPantryFetch Creates a listener that updates the current user's
@@ -15,7 +17,7 @@ const ingredientsRef = firebase.firestore().collection("IDToIngredient");
  * @param {string} userid The ID of the currently logged in user
  */
 export const beginPantryFetch = (userid) => async dispatch => {
-    pantryRef.where("uid", "=", userid).onSnapshot(pantryListSnapshot => {
+    pantryRef.where("userID", "=", userid).onSnapshot(pantryListSnapshot => {
         if (pantryListSnapshot.docs.length == 0) {
             return;
         }
@@ -47,5 +49,25 @@ export const beginPantryFetch = (userid) => async dispatch => {
                 ).get().then(callback);
             }
         })
+    })
+}
+
+export const addPantryItem = (name, amount, unit, userid) => {
+    ingredientsIDLookupRef.doc(name).get().then(snapshot => {
+        var itemID;
+        if (!snapshot.exists) {
+            var newIngredient = ingredientsRef.doc();
+            newIngredient.set({name: name});
+            ingredientsIDLookupRef.doc(name).set({id: newIngredient.id});
+            itemID = newIngredient.id;
+        } else {
+            itemID = snapshot.get("id");
+            console.warn(itemID);
+        }
+        pantryRef.where("userID", "=", userid).onSnapshot(pantryListSnapshot => {
+            pantryListSnapshot.docs[0].ref.collection(
+                "ingredients"
+            ).doc(itemID).set({amount: amount, unit: unit});
+        });
     })
 }
