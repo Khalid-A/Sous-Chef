@@ -17,7 +17,7 @@ const AppNavigator = createAppContainer(createStackNavigator(
     PreviewRecipe: PreviewRecipe
   },
   {
-    initialRouteName: "Welcome"
+    initialRouteName: "PreviewRecipe"
   }
 ));
 

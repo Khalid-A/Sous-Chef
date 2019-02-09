@@ -107,12 +107,26 @@ export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
 }
 
 /**
- * Begins retrieval of data related to previewing a recipe.
+ * Retrieves data related to previewing a recipe.
  * Note: This is not a redux function.
- * @param {string} id The recipe GUID.
+ * @param {string} id The recipe id.
  */
-export const beginRecipePreviewFetch = (id) => async dispatch => {
-    return recipesRef.where("id", "=", id).limit(1);
+export function beginRecipePreviewFetch(id) {
+    var results;
+
+    recipesRef.where("id", "=", id).limit(1)
+        .get()
+        .then(function(docs) {
+            docs.forEach(function(doc) {
+                console.log(doc.data());
+                results = doc.data();
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+
+    return results;
 }
 
 /**
