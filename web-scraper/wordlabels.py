@@ -5,7 +5,7 @@ MEASUREMENTUNITS = [
     'leaves','legs','links','loaves','ounces','packages','packets',
     'pieces','pinches','pints','pounds','quarts','recipes','slices',
     'sprigs','squares','stalks','strips','tablespoons','teaspoons',
-    'thighs','trays'
+    'thighs','trays', 'fluid ounces'
 ]
 
 DESCRIPTIVEADJS = [
@@ -16,12 +16,13 @@ DESCRIPTIVEADJS = [
     'smoked','softened','diced','medium','roasted','confectioners',
     'crispy','semisweet','crushed','at room temperature','blanched','baby',
     'seedless','cracked','squeezed','canned','raw','pure','packed','hot',
-    'bulk','mild','diced','shredded','coarse','sweet','lengtwise','crosswise',
-    'rinsed','unsalted','instant','sugar-free','beaten'
+    'bulk','mild','diced','shredded','coarse','sweet','lengthwise',
+    'crosswise','rinsed','unsalted','instant','sugar-free','beaten','sifted',
+    'ripe','zested'
 ]
 
 STOPWORDS = [
     'and','divided','finely','fresh','freshly','or','packed in oil',
-    'sharp','taste','to','-','firmly','packed', 'uncooked', 'thinly',
-    'more',
+    'sharp','taste','to','-','firmly packed', 'uncooked', 'thinly',
+    'more','very','as needed','cut in half','prepared',
 ]
