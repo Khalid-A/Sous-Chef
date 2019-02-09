@@ -4,7 +4,9 @@ import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { setIngredientsToRemove } from '../redux/actions/action';
+import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
+import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
+// import { setIngredientsToRemove } from '../redux/actions/action';
 
 class CookNow extends React.Component {
   static navigationOptions = {
@@ -22,8 +24,40 @@ class CookNow extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.state = { recipeID: this.props.navigation.state.id };
+        this.state = { recipeID: "0063ec25-5e33-4a59-9a52-ecd090c3fcad"};
+        // this.state = { recipeID: this.props.navigation.state.id };
     }
+    // componentDidMount() {
+    //     beginRecipePreviewFetch().then((data) => {
+    //       this.setState({
+    //           image: data.images ? data.images.trim() : "",
+    //           ingredients: data.ingredients,
+    //           servings: data.servings,
+    //           time: data.time,
+    //           title: data.title
+    //       });
+    //       console.warn(data);
+    //     });
+    // }
+
+    componentDidMount() {
+      var data;
+
+      if (this.state.recipeID) {
+          data = beginRecipePreviewFetch(this.state.recipeID);
+      }
+      console.warn(data);
+      if (data) {
+          this.setState({
+              image: data.images ? data.images.trim() : "",
+              ingredients: data.ingredients,
+              servings: data.servings,
+              time: data.time,
+              title: data.title
+          });
+      }
+    }
+
 
 
   // constructor(props) {
@@ -37,7 +71,7 @@ class CookNow extends React.Component {
   //   this.listIngredients = this.listIngredients.bind(this);
   //   this.listDirections = this.listDirections.bind(this);
   // }
-  
+
   finishCooking(){
     // this.props.navigation.navigate('Finished');
   }
@@ -73,19 +107,23 @@ class CookNow extends React.Component {
     return (
       <ScrollView>
       <View style={styles.container}>
-      <Text style={styles.title}>{this.state.recipe.title}</Text>
-      <Text style={styles.subtitle}>Serving Size: {this.state.recipe.servings}</Text>
-      <Text style={styles.subtitle}>Ingredients</Text>
-      {this.listIngredients()}
-      <Text style={styles.subtitle}>CookTime: {this.state.recipe.time.hour} hours {this.state.recipe.time.minutes} minutes</Text>
-      <Text style={styles.subtitle}>Directions</Text>
-      {this.listDirections()}
-      <Button title="Finished!" onPress={this.finishCooking()}></Button>
       </View>
       </ScrollView>
     );
   }
 }
+//     <ScrollView>
+//     <View style={styles.container}>
+//     <Text style={styles.title}>{this.state.recipe.title}</Text>
+//     <Text style={styles.subtitle}>Serving Size: {this.state.recipe.servings}</Text>
+//     <Text style={styles.subtitle}>Ingredients</Text>
+//     {this.listIngredients()}
+//     <Text style={styles.subtitle}>CookTime: {this.state.recipe.time.hour} hours {this.state.recipe.time.minutes} minutes</Text>
+//     <Text style={styles.subtitle}>Directions</Text>
+//     {this.listDirections()}
+//     <Button title="Finished!" onPress={this.finishCooking()}></Button>
+//     </View>
+//     </ScrollView>
 
 const styles = StyleSheet.create({
   container: {
