@@ -23,6 +23,11 @@ def parseIngredientInfo(textString):
     unit = getIfIsUnit(words[0])
     if unit != "":
         words = words[1:]
+    elif len(words) > 2:
+        unit = getIfIsUnit(words[0] + ' ' + words[1])
+        if unit != '':
+            words = words[2:]
+
 
     descriptions, ingredient = parseDescriptions(" ".join(words))
 
@@ -30,7 +35,8 @@ def parseIngredientInfo(textString):
         "quantity": quantity,
         "unit": unit,
         "descriptions": descriptions,
-        "ingredient": ingredient
+        "ingredient": ingredient,
+        "originaltext": textString,
     }
     return ingredientInfo
 
@@ -48,6 +54,10 @@ def parseDescriptions(textString):
         elif word not in wordlabels.STOPWORDS:
             currentWords.append(word)
             continue
+
+        if (' '.join(currentWords) in wordlabels.STOPWORDS):
+            currentWords = []
+
         if len(currentWords) > len(mainWords):
             mainWords = currentWords
             currentWords = []
