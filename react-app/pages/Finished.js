@@ -1,15 +1,28 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/action';
+import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
+// import { setIngredientsToRemove } from '../redux/actions/action';
 
 class Finished extends React.Component {
-    static navigationOptions = {
-        header: null,
-        headerVisible: false,
+  static navigationOptions = {
+        title: "Finished",
+        headerVisible: true,
+        headerTintColor: "white",
+        headerLeft: null,
+        headerStyle: {
+            backgroundColor: BUTTON_BACKGROUND_COLOR,
+        },
+        headerTitleStyle: {
+            fontFamily: "Avenir",
+            fontSize: 30,
+            textAlign: 'left',
+            // alignItems: 'left',
+        },
     }
     constructor(props) {
         super(props);
@@ -43,9 +56,14 @@ class Finished extends React.Component {
           return null;
         }
           return (
-            <View>
-            <Text>{ingredient}</Text>
-            <Button onPress={() => this.removeItem(ingredientID)} title="Delete Item"></Button>
+            <View style={{flexDirection: 'row',}}>
+            <Text style={styles.detail}>{ingredient}</Text>
+              <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.removeItem(ingredientID)}
+              >
+              <Text> Delete Item </Text>
+            </TouchableOpacity>
             </View>
           );
       });
@@ -56,7 +74,12 @@ class Finished extends React.Component {
             <ScrollView>
             <View style={styles.container}>
                 {this.listIngredients()}
-                <Button onPress={() => this.updatePantry()} title="Update Pantry"> </Button>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => this.updatePantry()}
+                >
+                <Text>Update Pantry</Text>
+              </TouchableOpacity>
             </View>
             </ScrollView>
         );
@@ -85,13 +108,26 @@ const styles = StyleSheet.create({
       borderColor: 'gray',
       borderWidth: 1,
     },
+    detail:{
+      fontSize: 15,
+      fontFamily: "Avenir",
+
+    },
     title: {
         fontSize: 20,
     },
+    button: {
+    alignItems: 'center',
+    backgroundColor: BUTTON_BACKGROUND_COLOR,
+    padding: 3,
+    width: 200,
+    borderRadius:5,
+    margin: 5,
+  },
 });
 
 const mapStateToProps = state => {
-  console.warn('THE STORE, oooooo', state);
+  // console.warn('THE STORE, oooooo', state);
 return {
         // recipe: state.recipe
         recipe:{
