@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     BUTTON_BACKGROUND_COLOR, 
-    BACKGROUND_COLOR
+    BACKGROUND_COLOR,
+    ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import {beginPantryFetch, addPantryItem} from '../redux/actions/PantryAction';
@@ -117,7 +118,7 @@ class Pantry extends React.Component {
                     }}
                 >
                     <ActionButton.Item 
-                        buttonColor='#9b59b6' 
+                        buttonColor={ACTION_BUTTON_COLOR} 
                         title="New Item" 
                         onPress={
                         () => this.setState(
@@ -130,7 +131,7 @@ class Pantry extends React.Component {
                         />
                     </ActionButton.Item>
                     <ActionButton.Item 
-                        buttonColor='#9b59b6' 
+                        buttonColor={ACTION_BUTTON_COLOR}
                         title="Edit Items" 
                         onPress={() => console.warn("edit tapped!")}
                     >
