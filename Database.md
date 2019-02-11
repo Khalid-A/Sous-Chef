@@ -7,8 +7,8 @@ This documents describes the data layout of our tables in Firebase. This documen
 ## users
 This table stores all IDs associated with a particular user along with the user's email address.<br>
 Document1 is indexed by <span style="color:pink">userID<span>.
-| Document1 | Document1.data |
-| --------- | --------------------------------------------- |
+| Document1 | Document1.data 
+| --------- | --------------------------------------------- 
 | 'userID'  | <span style="color:lightblue"> email: 'exampleEmail@stanford.edu' <br> groceryID: 'gID' <br> pantryID: 'pID' <br> relevantRecipesID: 'rrID' <br> userID: 'userID' </span>
 
 ## relevantrecipes 
@@ -34,7 +34,7 @@ These tables store information about which ingredients are stored in each user's
 Document1 is indexed by <span style="color:pink">userID</span>. <br>
 Document2 is indexed by <span style="color:pink">ingredientID</span>.
 | Document1 | Document1.data | Document2 | Document2.data |
-| --------- | -------------- | --------- | ---------------|
+| --------- | -------------- | --------- | -------------- |
 | 'userID'  | <span style="color:lightblue">userID: 'exampleID'</span>
 | | <br> <span style="color:lightgreen"> ingredients <span> | 'ingrID' | <span style="color:lightblue">ingrID: 'ingrID'</span> <br> <span style="color:lightblue">quantity: '2'</span>  <br> <span style="color:lightblue">unit: 'grams'</span> <br>
 | | | 'ingrID2' | <span style="color:lightblue">ingrID: 'ingrID2'</span> <br> <span style="color:lightblue">quantity: '10'</span>  <br> <span style="color:lightblue">unit: ''</span> <br>
