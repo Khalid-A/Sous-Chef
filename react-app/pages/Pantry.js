@@ -42,7 +42,8 @@ class Pantry extends React.Component {
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
             fontSize: 35
-        }
+        },
+        drawerLabel: 'Pantry'
     }
     
     constructor(props) {
