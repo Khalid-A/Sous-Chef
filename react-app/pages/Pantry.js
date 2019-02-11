@@ -69,7 +69,7 @@ class Pantry extends React.Component {
             this.state.newIngredient, 
             parseInt(this.state.pickedValue[0]),
             this.state.pickedValue[1], 
-            "test-userid"
+            this.props.userID
         );
         this.setState({
             addDialogVisible: false
@@ -77,7 +77,7 @@ class Pantry extends React.Component {
     }
 
     componentWillMount() {
-        this.props.beginPantryFetch("test-userid");
+        this.props.beginPantryFetch(this.props.userID);
     }
 
     render() {
@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        pantry: state.pantry
+        pantry: state.pantry,
+        userID: state.userInfo.userID
     }
 }
 
