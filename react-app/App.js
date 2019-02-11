@@ -17,7 +17,7 @@ const AppNavigator = createAppContainer(createStackNavigator(
     Welcome: Welcome,
     SignUp: SignUp,
     DiscoverRecipes: DiscoverRecipes,
-    Pantry: Pantry
+    Pantry: Pantry,
     Login: Login,
   },
   {

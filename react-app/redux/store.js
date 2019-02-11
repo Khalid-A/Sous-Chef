@@ -9,7 +9,7 @@ const store = createStore(
         readyToGoRecipes: readyToGoRecipes,
         recommendedRecipes: recommendedRecipes,
         recentRecipes: recentRecipes,
-        pantry: pantry
+        pantry: pantry,
         userInfo: userInfo,
     }), 
     {},
