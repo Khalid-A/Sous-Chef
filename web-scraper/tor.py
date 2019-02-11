@@ -26,7 +26,7 @@ proxies = get_proxies()
 proxy_idx = 0
 htmlDocument = ''
 for j in np.arange(0, 99999, 12):
-    for i in range(222000 + j, 222000 + j + 12):
+    for i in range(222909 + j, 222909 + j + 12):
         url = "https://www.allrecipes.com/recipe/"+ str(i)
         proxy = proxies[proxy_idx]
         while(True):
@@ -38,7 +38,7 @@ for j in np.arange(0, 99999, 12):
                     proxy_idx = 0
                     proxies = get_proxies()
                 print("\tfinding new proxy")
-                time.sleep(20)
+                time.sleep(5)
                 continue
             
             htmlDocument = BeautifulSoup(response.content, "html.parser")
@@ -57,6 +57,6 @@ for j in np.arange(0, 99999, 12):
                 json.dump(recipeInfo, outfile)
                 outfile.close()
             print(proxy + " completed: "+ str(i))
-            time.sleep(2)
+            time.sleep(3)
             break
         time.sleep(5)
