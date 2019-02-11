@@ -19,7 +19,7 @@ const AppNavigator = createAppContainer(createStackNavigator(
     Pantry: Pantry
   },
   {
-    initialRouteName: "Pantry"
+    initialRouteName: "Welcome"
   }
 ));
 
