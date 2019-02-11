@@ -100,14 +100,23 @@ export const signInSuccess = (dispatch, userID, email) => {
 
     // create documents necessary for new users in firebase
     firebase.firestore().collection('users').doc(userID).set(userInfo)
-    firebase.firestore().collection('relevantrecipes').doc(relevantRecipesID).set({
-        userID: userID
+    firebase.firestore().collection('relevantrecipes').doc(userID).set({
+        relevantRecipesID: relevantRecipesID
     })
-    firebase.firestore().collection('pantrylists').doc(pantryID).set({
-        userID: userID
+
+    // load dummy data to test with
+    firebase.firestore().collection('relevantrecipes').doc(userID)
+        .collection('recipes').doc('02d25afc-8c04-4b0e-9766-90eac7e6a0df').set({
+            recipeID: '02d25afc-8c04-4b0e-9766-90eac7e6a0df',
+            isReadyToGo: 'true',
+            isRecommended: '"isRecommended"'
+        })
+
+    firebase.firestore().collection('pantrylists').doc(userID).set({
+        pantryID: pantryID
     }) 
-    firebase.firestore().collection('grocerylists').doc(groceryID).set({
-        userID: userID
+    firebase.firestore().collection('grocerylists').doc(userID).set({
+        groceryID: groceryID
     }) 
 
     dispatch({
