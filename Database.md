@@ -9,7 +9,7 @@ This table stores all IDs associated with a particular user along with the user'
 Document1 is indexed by <span style="color:pink">userID<span>.
 | Document1 | Document1.data 
 | --------- | --------------------------------------------- 
-| 'userID'  | <span style="color:lightblue"> email: 'exampleEmail@stanford.edu' <br> groceryID: 'gID' <br> pantryID: 'pID' <br> relevantRecipesID: 'rrID' <br> userID: 'userID' </span>
+| 'userID'  | <span style="color:lightblue"> email: 'exampleEmail@stanford.edu' <br> groceryListID: 'gID' <br> pantryListID: 'pID' <br> relevantRecipesID: 'rrID' <br> userID: 'userID' </span>
 
 ## relevantrecipes 
 This table stores information about which recipes are to be associated with a specific user.<br>
