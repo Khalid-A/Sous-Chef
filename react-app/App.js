@@ -2,6 +2,7 @@ import React from 'react';
 import Welcome from './pages/Welcome'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
+import Logout from './pages/Logout'
 import DiscoverRecipes from './pages/DiscoverRecipes'
 import Pantry from './pages/Pantry';
 import { createStackNavigator, createDrawerNavigator, NavigationActions, createAppContainer } from "react-navigation";
@@ -81,7 +82,36 @@ const AppNavigator = createAppContainer(createStackNavigator({
                 {
                     initialRouteName: "Pantry"
                 }
-            )
+            ),
+            Logout: createStackNavigator(
+                {
+                    Logout:{
+                        screen: Logout,
+                        navigationOptions: ({ navigation }) => ({
+                            headerLeft: (
+                                <View>
+                                    <TouchableOpacity 
+                                        onPress={() => {navigation.openDrawer()}} 
+                                    >
+                                        <Icon 
+                                            name="md-menu" 
+                                            style={{
+                                                color: 'white', 
+                                                padding: 10, 
+                                                marginLeft:10, 
+                                                fontSize: 20
+                                            }}/>
+                                    </TouchableOpacity>
+                                </View>
+                            ),
+                            drawerLabel: "Sign Out"
+                        })
+                    }
+                }, 
+                {
+                    initialRouteName: "Logout"
+                }
+            ),
         },
         {
             initialRouteName: "DiscoverRecipes",
