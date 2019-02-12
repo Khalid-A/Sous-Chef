@@ -4,13 +4,13 @@ import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
 import { logoutUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
 
-export class Login extends Component {
+export class Logout extends Component {
 
     constructor(props) {
         super(props);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.userInfo()
     }
 
@@ -64,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
     
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)

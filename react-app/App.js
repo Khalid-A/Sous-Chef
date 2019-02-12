@@ -7,7 +7,7 @@ import DiscoverRecipes from './pages/DiscoverRecipes'
 import Pantry from './pages/Pantry';
 import { createStackNavigator, createDrawerNavigator, NavigationActions, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
-import {YellowBox, View, TouchableOpacity, Button} from 'react-native';
+import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
 import store from './redux/store';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
