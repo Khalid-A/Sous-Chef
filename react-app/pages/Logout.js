@@ -20,10 +20,6 @@ export class Login extends Component {
         }
     }
 
-    handleLogin = () => {
-        this.props.userInfo(this.state.email, this.state.password);
-    }
-
     render() {
         return (
             <ScrollView style={styles.scrollContainer}>
@@ -63,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userInfo: (email, password) => {
+        userInfo: () => {
             dispatch(logoutUser())
         }
     }
