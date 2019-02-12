@@ -11,9 +11,9 @@ const store = createStore(
         recentRecipes: recentRecipes,
         pantry: pantry,
         userInfo: userInfo,
-    }), 
+    }),
     {},
     applyMiddleware(reduxThunk)
 );
 
-export default store
+export default store;
