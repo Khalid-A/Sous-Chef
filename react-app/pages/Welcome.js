@@ -14,7 +14,7 @@ class Welcome extends React.Component {
         this.state = {};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.userInfo();
     }
 
