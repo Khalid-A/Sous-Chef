@@ -7,6 +7,8 @@ export const ADD_RECOMMENDED = "ADD_RECOMMENDED";
 export const CLEAR_RECENT = "CLEAR_RECENT";
 export const ADD_RECENT = "ADD_RECENT";
 
+export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
+
 import firebase from 'react-native-firebase';
 
 /**
@@ -148,4 +150,14 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
              console.log("Error getting documents: ", error);
          });
 
+ }
+ /**
+  * setIngredientsToRemove function that listens on finished
+  page to get ingredients to remove from the pantry
+  */
+ export const setIngredientsToRemove = (ingredients) => {
+   return {
+     type: SET_INGREDIENTS_TO_REMOVE,
+     payload: ingredients,
+   };
  }

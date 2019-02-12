@@ -4,7 +4,7 @@ import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { setIngredientsToRemove } from '../redux/actions/action';
+import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 
 class Finished extends React.Component {
@@ -40,9 +40,10 @@ class Finished extends React.Component {
 
     updatePantry(){
       //TODO: navigate to next page here
-      this.props.navigation.navigate('Pantry', {
-        ingredientsToRemove: this.state.ingredients
-      });
+      this.props.setIngredientsToRemove(this.state.ingredients);
+      // this.props.navigation.navigate('Pantry', {
+      //   ingredientsToRemove: this.state.ingredients
+      // });
     }
     listIngredients(){
       // TODO: add swiping on ingredients
@@ -141,6 +142,10 @@ return {
 
 const mapDispatchToProps = dispatch => {
 return {
+
+  setIngredientsToRemove: (ingredients) => {
+          dispatch(setIngredientsToRemove(ingredients));
+        }
     }
 }
 
