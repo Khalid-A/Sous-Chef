@@ -17,11 +17,8 @@ const ingredientsIDLookupRef = firebase.firestore().collection("ingredientToID")
  * @param {string} userid The ID of the currently logged in user
  */
 export const beginPantryFetch = (userid) => async dispatch => {
-    pantryRef.where("userID", "=", userid).onSnapshot(pantryListSnapshot => {
-        if (pantryListSnapshot.docs.length == 0) {
-            return;
-        }
-        pantryListSnapshot.docs[0].ref.collection(
+    pantryRef.doc(userid).onSnapshot(pantryListSnapshot => {
+        pantryListSnapshot.ref.collection(
             "ingredients"
         ).onSnapshot(snapshot => {
             var index;
@@ -54,20 +51,20 @@ export const beginPantryFetch = (userid) => async dispatch => {
 
 export const addPantryItem = (name, amount, unit, userid) => {
     ingredientsIDLookupRef.doc(name).get().then(snapshot => {
-        var itemID;
+        var ingredientID;
         if (!snapshot.exists) {
             var newIngredient = ingredientsRef.doc();
             newIngredient.set({name: name});
             ingredientsIDLookupRef.doc(name).set({id: newIngredient.id});
-            itemID = newIngredient.id;
+            ingredientID = newIngredient.id;
         } else {
-            itemID = snapshot.get("id");
-            console.warn(itemID);
+            ingredientID = snapshot.get("id");
+            console.warn(ingredientID);
         }
-        pantryRef.where("userID", "=", userid).onSnapshot(pantryListSnapshot => {
-            pantryListSnapshot.docs[0].ref.collection(
+        pantryRef.doc(userid).onSnapshot(pantryListSnapshot => {
+            pantryListSnapshot.ref.collection(
                 "ingredients"
-            ).doc(itemID).set({amount: amount, unit: unit});
+            ).doc(ingredientID).set({amount: amount, unit: unit});
         });
     })
 }
