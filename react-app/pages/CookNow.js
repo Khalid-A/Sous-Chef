@@ -6,7 +6,7 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
-// import { setIngredientsToRemove } from '../redux/actions/action';
+import { setIngredientsToRemove } from '../redux/actions/action';
 
 const recipesRef = firebase.firestore().collection('recipes');
 
@@ -23,7 +23,6 @@ class CookNow extends React.Component {
             fontFamily: "Avenir",
             fontSize: 30,
             textAlign: 'left',
-            // alignItems: 'left',
         },
     }
 
@@ -35,6 +34,7 @@ class CookNow extends React.Component {
     };
     this.listIngredients = this.listIngredients.bind(this);
     this.listDirections = this.listDirections.bind(this);
+    this.finishCooking = this.finishCooking.bind(this);
   }
 
   componentWillMount(){
@@ -47,8 +47,11 @@ class CookNow extends React.Component {
   }
 
   finishCooking(){
-    this.props.navigation.navigate('Finished');
+    this.props.navigation.navigate('Finished', {
+      ingredientsToRemove: this.state.recipe.ingredients
+    });
   }
+
   listDirections(){
     if(this.state.recipe.ingredients == null){
       console.warn("ingredients are null");
@@ -62,6 +65,7 @@ class CookNow extends React.Component {
       );
     });
   }
+
   listIngredients(){
     if(this.state.recipe.ingredients == null){
       console.warn("null");
@@ -142,9 +146,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // setIngredientsToRemove: (ingredients) => {
-      // dispatch(setIngredientsToRemove(ingredients));
-    // }
   }
 }
 

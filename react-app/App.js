@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import {YellowBox} from 'react-native';
 import store from './redux/store';
 import CookNow from './pages/CookNow';
+import Finished from './pages/Finished';
 
 
 YellowBox.ignoreWarnings(['ListView is deprecated']);
@@ -20,8 +21,8 @@ const AppNavigator = createAppContainer(createStackNavigator(
     DiscoverRecipes: DiscoverRecipes,
     Pantry: Pantry,
     Login: Login,
-    DiscoverRecipes: DiscoverRecipes,
     CookNow: CookNow,
+    Finished: Finished,
   },
   {
     initialRouteName: "CookNow"

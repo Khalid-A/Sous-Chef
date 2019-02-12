@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     }
 });
-  
+
 const mapStateToProps = (state) => {
     return {
         userID: state.userInfo.userID,
@@ -107,5 +107,5 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-    
+
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

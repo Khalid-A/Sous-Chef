@@ -6,7 +6,6 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/action';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
-// import { setIngredientsToRemove } from '../redux/actions/action';
 
 class Finished extends React.Component {
   static navigationOptions = {
@@ -21,17 +20,16 @@ class Finished extends React.Component {
             fontFamily: "Avenir",
             fontSize: 30,
             textAlign: 'left',
-            // alignItems: 'left',
         },
     }
     constructor(props) {
         super(props);
         this.state = {
-          ingredients: this.props.recipe.ingredients,
-
+          ingredients:this.props.navigation.getParam("ingredientsToRemove", null),
         };
         this.listIngredients = this.listIngredients.bind(this);
     }
+
     removeItem(ingredientID){
       const newIngredients = this.state.ingredients
       delete newIngredients[ingredientID];
@@ -41,12 +39,13 @@ class Finished extends React.Component {
     }
 
     updatePantry(){
-      this.props.setIngredientsToRemove(this.state.ingredients);
       //TODO: navigate to next page here
-
+      this.props.navigation.navigate('Pantry', {
+        ingredientsToRemove: this.state.ingredients
+      });
     }
     listIngredients(){
-      console.warn(this.state.ingredients);
+      // TODO: add swiping on ingredients
       if(this.state.ingredients == null){
         console.warn("null");
       }
@@ -55,6 +54,7 @@ class Finished extends React.Component {
         if(!ingredient){
           return null;
         }
+
           return (
             <View style={{flexDirection: 'row',}}>
             <Text style={styles.detail}>{ingredient}</Text>
@@ -75,7 +75,7 @@ class Finished extends React.Component {
             <View style={styles.container}>
                 {this.listIngredients()}
                 <TouchableOpacity
-                    style={styles.button}
+                    style={styles.buttonBig}
                     onPress={() => this.updatePantry()}
                 >
                 <Text>Update Pantry</Text>
@@ -120,44 +120,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: BUTTON_BACKGROUND_COLOR,
     padding: 3,
-    width: 200,
+    width: 120,
     borderRadius:5,
     margin: 5,
   },
+  buttonBig: {
+  alignItems: 'center',
+  backgroundColor: BUTTON_BACKGROUND_COLOR,
+  padding: 10,
+  width: 200,
+  borderRadius:5,
+  margin: 5,
+},
 });
 
 const mapStateToProps = state => {
-  // console.warn('THE STORE, oooooo', state);
 return {
-        // recipe: state.recipe
-        recipe:{
-          ingredients:{
-              ingredient1:{
-                ingredient: "Avocado",
-              },
-              ingredient2:{
-                ingredient: "Salt",
-              },
-              ingredient3:{
-                ingredient: "Pepper",
-              },
-              ingredient5:{
-                ingredient: "",
-              },
-              ingredient4:{
-                ingredient: "Bread",
-              },
-          },
-        },
-        TESTIngredients: state.cookNow.ingredientsToRemove,
     }
 }
 
 const mapDispatchToProps = dispatch => {
 return {
-        setIngredientsToRemove: (ingredients) => {
-          dispatch(setIngredientsToRemove(ingredients));
-        }
     }
 }
 
