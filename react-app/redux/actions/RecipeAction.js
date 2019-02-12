@@ -112,19 +112,16 @@ export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
  * @param {string} id The recipe id.
  */
 export function beginRecipePreviewFetch(id) {
-    var results;
+    var results = {};
 
-    recipesRef.where("id", "=", id).limit(1)
-        .get()
-        .then(function(docs) {
-            docs.forEach(function(doc) {
-                console.log(doc.data());
-                results = doc.data();
-            });
-        })
-        .catch(function(error) {
-            console.log("Error getting documents: ", error);
-        });
+    recipesRef.doc(id).get().then(function(doc) {
+        results = {
+            ...doc.data()
+        };
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
 
     return results;
 }

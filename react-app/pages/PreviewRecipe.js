@@ -1,9 +1,12 @@
 import React from 'react';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors'
 import { StyleSheet, Image, Text, View, ScrollView, FlatList } from 'react-native';
+import firebase from 'react-native-firebase';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
+
+const recipesRef = firebase.firestore().collection('recipes');
 
 export default class PreviewRecipe extends React.Component {
     static navigationOptions = {
@@ -23,106 +26,53 @@ export default class PreviewRecipe extends React.Component {
         super(props);
         this.state = {
             recipeID: this.props.navigation.state.id,
-            image: "",
-            ingredients: [],
-            servings: 1,
-            time: {
-                "hour": 0,
-                "minute": 0
-            },
-            title: ""
+            recipe: null
         };
     }
 
-    componentDidMount() {
-        var data;
+    componentWillMount() {
+        var recipeID = "0063ec25-5e33-4a59-9a52-ecd090c3fcad";
 
-        this.state.recipeID = "0063ec25-5e33-4a59-9a52-ecd090c3fcad";
-
-        if (this.state.recipeID) {
-            data = beginRecipePreviewFetch(this.state.recipeID);
-        }
-
-        if (data) {
-            var newState =  {
-                image: data.images ? data.images.trim() : "",
-                ingredients: data.ingredients,
-                servings: data.servings,
-                time: data.time,
-                title: data.title
-            };
-
-            console.log("---------------DATA---------------");
-            console.log(data);
-            console.log(data.time);
-
-            this.setState(newState);
-        }
-        else {
-            data = {
-                "0": {
-                    "id": 0,
-                    "images": "",
-                    "ingredients": {
-                        "10": {
-                            "descriptions": [],
-                            "ingredient": "eggs",
-                            "quantity": 2,
-                            "unit": ""
-                        },
-                        "11": {
-                            "descriptions": [],
-                            "ingredient": "margerine",
-                            "quantity": 1,
-                            "unit": "cups"
-                        }
-                    },
-                    "servings": 4,
-                    "time": {
-                        "hour": 0,
-                        "minute": 30
-                    },
-                    "title": "Poor Man's Macadamia Nut Cookies"
-                }
-            };
-
-            this.setState({
-                image: require("../assets/sousChefLogo.png"),
-                ingredients: data.ingredients,
-                servings: data.servings,
-                time: data.time,
-                title: data.title
-            });
-        }
+        recipesRef.doc(recipeID).get().then((doc) => {
+            this.setState({recipe: doc.data()});
+            console.log("----------INGREDIENTS-------------");
+            console.log(doc.data());
+        })
+        .catch(function(error) {
+            console.warn("Error getting documents: ", error);
+        });
     }
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
     render() {
-      console.log("---------------------STATE---------------------");
-      console.log(this.state);
-        return (
-            <View style={[styles.container]}>
-                <Text style={[styles.sectionHeader]}>{this.state.title ? this.state.title : "unknown"}</Text>
-                <Image source={this.state.image}
-                    style={[styles.image]}/>
-                <FlatList
-                    style={[styles.section]}
-                    data={this.state.ingredients}
-                    renderItem={({item}) => {
-                        return (
-                            <View style={[styles.listItem]}>
-                                <View style={[styles.ingredientQuantity]}>
-                                    <Text>{item.quantity + " " + item.unit}</Text>
+        if (this.state.recipe) {
+            return (
+                <View style={[styles.container]}>
+                    <Text style={[styles.sectionHeader]}>{this.state.title ? this.state.title : "unknown"}</Text>
+                    <Image source={this.state.image}
+                        style={[styles.image]}/>
+                    <FlatList
+                        style={[styles.section]}
+                        data={this.state.recipe.ingredients}
+                        renderItem={({item}) => {
+                            return (
+                                <View style={[styles.listItem]}>
+                                    <View style={[styles.ingredientQuantity]}>
+                                        <Text>{item.quantity + " " + item.unit}</Text>
+                                    </View>
+                                    <View style={[styles.ingredientName]}>
+                                        <Text>{item.ingredient ? item.ingredient : "unknown"}</Text>
+                                    </View>
                                 </View>
-                                <View style={[styles.ingredientName]}>
-                                    <Text>{item.ingredient ? item.ingredient : "unknown"}</Text>
-                                </View>
-                            </View>
-                        );
-                    }}
-                />
+                            );
+                        }}
+                    />
 
-            </View>
-        );
+                </View>
+            );
+        }
+        else {
+            return null;
+        }
     }
 }
 
