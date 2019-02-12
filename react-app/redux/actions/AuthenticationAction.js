@@ -86,15 +86,15 @@ export const loginSuccess = (dispatch, userID, email) => {
  * @param {email} email: the email of the user in question
  */
 export const signInSuccess = (dispatch, userID, email) => {
-    const groceryID = uuid4();
-    const pantryID = uuid4();
+    const groceryListID = uuid4();
+    const pantryListID = uuid4();
     const relevantRecipesID = uuid4();
     
     const userInfo = {
         userID: userID,
         email: email,
-        groceryID: groceryID,
-        pantryID: pantryID,
+        groceryListID: groceryListID,
+        pantryListID: pantryListID,
         relevantRecipesID: relevantRecipesID,
     }
 
@@ -113,10 +113,10 @@ export const signInSuccess = (dispatch, userID, email) => {
         })
 
     firebase.firestore().collection('pantrylists').doc(userID).set({
-        pantryID: pantryID
+        pantryListID: pantryListID
     }) 
     firebase.firestore().collection('grocerylists').doc(userID).set({
-        groceryID: groceryID
+        groceryListID: groceryListID
     }) 
 
     dispatch({
