@@ -8,6 +8,8 @@ import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 // import { setIngredientsToRemove } from '../redux/actions/action';
 
+const recipesRef = firebase.firestore().collection('recipes');
+
 class CookNow extends React.Component {
   static navigationOptions = {
         title: "Cook Now",
@@ -24,64 +26,34 @@ class CookNow extends React.Component {
             // alignItems: 'left',
         },
     }
-    // constructor(props) {
-    //     super(props);
-    //     this.state = { recipeID: "0063ec25-5e33-4a59-9a52-ecd090c3fcad"};
-    //     // this.state = { recipeID: this.props.navigation.state.id };
-    // }
-    // componentDidMount() {
-    //     beginRecipePreviewFetch().then((data) => {
-    //       this.setState({
-    //           image: data.images ? data.images.trim() : "",
-    //           ingredients: data.ingredients,
-    //           servings: data.servings,
-    //           time: data.time,
-    //           title: data.title
-    //       });
-    //       console.warn(data);
-    //     });
-    // }
-
-    // componentDidMount() {
-    //   var data;
-    //
-    //   if (this.state.recipeID) {
-    //       data = beginRecipePreviewFetch(this.state.recipeID);
-    //   }
-    //   console.warn(data);
-    //   if (data) {
-    //       this.setState({
-    //           image: data.images ? data.images.trim() : "",
-    //           ingredients: data.ingredients,
-    //           servings: data.servings,
-    //           time: data.time,
-    //           title: data.title
-    //       });
-    //   }
-    // }
-
-
 
   constructor(props) {
     super(props);
     this.state = {
-      recipe: this.props.recipe,
-      ingredients: this.props.recipe.ingredients,
-      directions: this.props.recipe.directions,
-
+      recipe: null,
+      recipeID: "0063ec25-5e33-4a59-9a52-ecd090c3fcad",
     };
     this.listIngredients = this.listIngredients.bind(this);
     this.listDirections = this.listDirections.bind(this);
   }
 
+  componentWillMount(){
+    recipesRef.doc(this.state.recipeID).get().then((doc) => {
+     this.setState({recipe: doc.data()});
+    })
+    .catch(function(error) {
+        console.warn("Error getting documents: ", error);
+    });
+  }
+
   finishCooking(){
-    // this.props.navigation.navigate('Finished');
+    this.props.navigation.navigate('Finished');
   }
   listDirections(){
-    if(this.state.ingredients == null){
+    if(this.state.recipe.ingredients == null){
       console.warn("ingredients are null");
     }
-    return this.state.directions.map((direction, index) => {
+    return this.state.recipe.directions.map((direction, index) => {
       if(!direction){
         return null;
       }
@@ -91,13 +63,13 @@ class CookNow extends React.Component {
     });
   }
   listIngredients(){
-    if(this.state.ingredients == null){
+    if(this.state.recipe.ingredients == null){
       console.warn("null");
     }
-    return Object.keys(this.state.ingredients).map((ingredientID) => {
-      const ingredient = this.state.ingredients[ingredientID].ingredient;
-      const quantity = this.state.ingredients[ingredientID].quantity;
-      const unit = this.state.ingredients[ingredientID].unit;
+    return Object.keys(this.state.recipe.ingredients).map((ingredientID) => {
+      const ingredient = this.state.recipe.ingredients[ingredientID].ingredient;
+      const quantity = this.state.recipe.ingredients[ingredientID].quantity;
+      const unit = this.state.recipe.ingredients[ingredientID].unit;
       if(!ingredient){
         return null;
       }
@@ -108,20 +80,23 @@ class CookNow extends React.Component {
   }
 
   render() {
-    return (
-          <ScrollView>
-          <View style={styles.container}>
-          <Text style={styles.title}>{this.state.recipe.title}</Text>
-          <Text style={{textAlign: 'left'}}>Serving Size: {this.state.recipe.servings}</Text>
-          <Text style={styles.subtitle}>Ingredients</Text>
-          {this.listIngredients()}
-          <Text style={styles.subtitle}>CookTime: {this.state.recipe.time.hour} hours {this.state.recipe.time.minutes} minutes</Text>
-          <Text style={styles.subtitle}>Directions</Text>
-          {this.listDirections()}
-          <Button style={{color: 'red', }} title="Finished!" onPress={this.finishCooking()}></Button>
-          </View>
-          </ScrollView>
-    );
+    if(this.state.recipe){
+      return (
+            <ScrollView>
+            <View style={styles.container}>
+            <Text style={styles.title}>{this.state.recipe.title}</Text>
+            <Text style={{textAlign: 'left'}}>Serving Size: {this.state.recipe.servings}</Text>
+            <Text style={styles.subtitle}>Ingredients</Text>
+            {this.listIngredients()}
+            <Text style={styles.subtitle}>CookTime: {this.state.recipe.time.hour} hours {this.state.recipe.time.minute} minutes</Text>
+            <Text style={styles.subtitle}>Directions</Text>
+            {this.listDirections()}
+            <Button style={{color: 'red', }} title="Finished!" onPress={this.finishCooking}></Button>
+            </View>
+            </ScrollView>
+      );
+    }
+    return null;
   }
 }
 
@@ -162,47 +137,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    // recipe: state.props.navigation.state.ingredients,
-    recipe:{
-      directions:
-      ["Preheat oven to 350 degrees F (175 degrees C).",
-      "Mix cake mix, margarine, eggs, and vanilla extract together in a bowl until well combined; fold in white chocolate chips. Form dough into balls using a cookie scoop and arrange on a baking sheet.",
-      "Bake in the preheated oven until edges of cookies are lightly browned, about 12 minutes. Cool cookies on baking sheet 1 minute before transferring to a wire rack to cool."],
-      ingredients:{
-        ingredient1:{
-          ingredient: "eggs",
-          quantity: 2,
-          unit: ""
-        },
-        ingredient2:{
-          ingredient: "margarine",
-          quantity: 1,
-          unit: "cups"
-        },
-        ingredient3:{
-          ingredient: "white chocolate",
-          quantity: 1,
-          unit: "packages"
-        },
-        ingredient4:{
-          ingredient: "vanilla extract",
-          quantity: 1,
-          unit: "teaspoons"
-        },
-        ingredient5:{
-          ingredient: "butter pecan cake mix",
-          quantity: 1,
-          unit: "packages"
-        },
-      },
-      servings: 36,
-      time:{
-        hour: 0,
-        minutes: 37,
-      },
-      title: "Poor Man's Macadamia Nut Cookies",
-    },
-    // TESTIngredients: state.cookNow.ingredientsToRemove,
   }
 }
 
