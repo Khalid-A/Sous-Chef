@@ -37,10 +37,10 @@ export default class PreviewRecipe extends React.Component {
     componentDidMount() {
         var data;
 
-        this.state.recipeID = "0063ec25-5e33-4a59-9a52-ecd090c3fcad";
+        var recipeId = "0063ec25-5e33-4a59-9a52-ecd090c3fcad";
 
-        if (this.state.recipeID) {
-            data = beginRecipePreviewFetch(this.state.recipeID);
+        if (recipeId) {
+            data = beginRecipePreviewFetch(recipeId);
         }
 
         if (data) {
