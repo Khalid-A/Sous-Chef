@@ -52,8 +52,7 @@ const styles = StyleSheet.create({
   
 const mapStateToProps = (state) => {
     return {
-        userID: state.userInfo.userID,
-        errorMessage: state.userInfo.errorMessage
+        userID: state.userInfo.userID
     };
 };
 
