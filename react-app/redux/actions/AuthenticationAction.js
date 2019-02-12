@@ -52,6 +52,20 @@ export const loginUser = (email, password) => {
     }
 }
 
+export const loginExistingUser = () => {
+    return (dispatch) => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                loginSuccess(
+                    dispatch,
+                    user.uid,
+                    user.email
+                )
+            }
+         });
+    }
+}
+
 /**
  * loginSuccess retrieves information about the current user from Firebase 
  * and dispatches a redux action to update all IDs associated with the 
