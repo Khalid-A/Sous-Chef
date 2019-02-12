@@ -51,20 +51,20 @@ export const beginPantryFetch = (userid) => async dispatch => {
 
 export const addPantryItem = (name, amount, unit, userid) => {
     ingredientsIDLookupRef.doc(name).get().then(snapshot => {
-        var itemID;
+        var ingredientID;
         if (!snapshot.exists) {
             var newIngredient = ingredientsRef.doc();
             newIngredient.set({name: name});
             ingredientsIDLookupRef.doc(name).set({id: newIngredient.id});
-            itemID = newIngredient.id;
+            ingredientID = newIngredient.id;
         } else {
-            itemID = snapshot.get("id");
-            console.warn(itemID);
+            ingredientID = snapshot.get("id");
+            console.warn(ingredientID);
         }
         pantryRef.doc(userid).onSnapshot(pantryListSnapshot => {
             pantryListSnapshot.ref.collection(
                 "ingredients"
-            ).doc(itemID).set({amount: amount, unit: unit});
+            ).doc(ingredientID).set({amount: amount, unit: unit});
         });
     })
 }
