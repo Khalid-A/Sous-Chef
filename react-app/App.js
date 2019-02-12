@@ -8,6 +8,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
 import {YellowBox} from 'react-native';
 import store from './redux/store';
+import CookNow from './pages/CookNow';
 
 
 YellowBox.ignoreWarnings(['ListView is deprecated']);
