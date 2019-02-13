@@ -5,7 +5,8 @@ import Login from './pages/Login'
 import Logout from './pages/Logout'
 import DiscoverRecipes from './pages/DiscoverRecipes'
 import Pantry from './pages/Pantry';
-import { createStackNavigator, createDrawerNavigator, NavigationActions, createAppContainer } from "react-navigation";
+import GroceryList from './pages/GroceryList';
+import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
 import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
 import store from './redux/store';
@@ -83,6 +84,35 @@ const AppNavigator = createAppContainer(createStackNavigator({
                     initialRouteName: "Pantry"
                 }
             ),
+            GroceryList: createStackNavigator(
+                {
+                    GroceryList:{
+                        screen: GroceryList,
+                        navigationOptions: ({ navigation }) => ({
+                            headerLeft: (
+                                <View>
+                                    <TouchableOpacity 
+                                        onPress={() => {navigation.openDrawer()}} 
+                                    >
+                                        <Icon 
+                                            name="md-menu" 
+                                            style={{
+                                                color: 'white', 
+                                                padding: 10, 
+                                                marginLeft:10, 
+                                                fontSize: 20
+                                            }}/>
+                                    </TouchableOpacity>
+                                </View>
+                            ),
+                            drawerLabel: "Grocery List"
+                        })
+                    }
+                }, 
+                {
+                    initialRouteName: "GroceryList"
+                }
+            ),
             Logout: createStackNavigator(
                 {
                     Logout:{
@@ -104,14 +134,14 @@ const AppNavigator = createAppContainer(createStackNavigator({
                                     </TouchableOpacity>
                                 </View>
                             ),
-                            drawerLabel: "Sign Out"
+                            drawerLabel: "Logout"
                         })
                     }
                 }, 
                 {
                     initialRouteName: "Logout"
                 }
-            ),
+            )
         },
         {
             initialRouteName: "DiscoverRecipes",

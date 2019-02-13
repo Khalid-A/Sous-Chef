@@ -2,7 +2,8 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
 import {pantry} from './reducers/PantryReducer';
 import { userInfo } from "./reducers/AuthenticationReducer";
-import { readyToGoRecipes, recommendedRecipes, recentRecipes } from './reducers/RecipesReducer'
+import { readyToGoRecipes, recommendedRecipes, recentRecipes } from './reducers/RecipesReducer';
+import { groceryList } from './reducers/GroceryListReducer';
 
 const store = createStore(
     combineReducers({
@@ -11,6 +12,7 @@ const store = createStore(
         recentRecipes: recentRecipes,
         pantry: pantry,
         userInfo: userInfo,
+        groceryList: groceryList
     }), 
     {},
     applyMiddleware(reduxThunk)
