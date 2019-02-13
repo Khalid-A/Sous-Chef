@@ -11,7 +11,7 @@ export class Logout extends Component {
     }
 
     componentDidMount() {
-        this.props.userInfo()
+        this.props.logout()
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userInfo: () => {
+        logout: () => {
             dispatch(logoutUser())
         }
     }
