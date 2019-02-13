@@ -5,7 +5,7 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import {beginPantryFetch, addPantryItem} from '../redux/actions/PantryAction';
+import { beginGroceryListFetch, addGroceryListItem } from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
@@ -30,9 +30,9 @@ const defaultState = {
     pickerVisible: false
 };
 
-class Pantry extends React.Component {
+class GroceryList extends React.Component {
     static navigationOptions = {
-        title:"Your Pantry",
+        title:"Grocery List",
         headerVisible: true,
         headerTintColor: "white",
         headerLeft: null,
@@ -43,7 +43,7 @@ class Pantry extends React.Component {
             fontFamily: DEFAULT_FONT,
             fontSize: 35
         },
-        drawerLabel: 'Pantry'
+        drawerLabel: 'Grocery List'
     }
     
     constructor(props) {
@@ -66,7 +66,7 @@ class Pantry extends React.Component {
     ];
 
     addItem = () => {
-        addPantryItem(
+        addGroceryListItem(
             this.state.newIngredient, 
             parseInt(this.state.pickedValue[0]),
             this.state.pickedValue[1], 
@@ -78,7 +78,7 @@ class Pantry extends React.Component {
     }
 
     componentWillMount() {
-        this.props.beginPantryFetch(this.props.userID);
+        this.props.beginGroceryListFetch(this.props.userID);
     }
 
     render() {
@@ -90,7 +90,7 @@ class Pantry extends React.Component {
                 <FlatList
                     style={[styles.list]}
                     keyExtractor={(item, index) => index.toString()}
-                    data={this.props.pantry}
+                    data={this.props.groceryList}
                     renderItem={({item}) => {
                         return <View style={[styles.listItem]}>
                             <Text style={{padding: 10}}>
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        pantry: state.pantry,
+        groceryList: state.groceryList,
         userID: state.userInfo.userID
     }
 }
@@ -305,6 +305,6 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     {
-        beginPantryFetch: beginPantryFetch
+        beginGroceryListFetch: beginGroceryListFetch
     }
-)(Pantry);
+)(GroceryList);
