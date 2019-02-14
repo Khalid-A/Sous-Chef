@@ -18,7 +18,7 @@ export class SignUp extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.userID) {
-            this.props.navigation.navigate('DiscoverRecipes');
+            this.props.navigation.navigate('Main');
         }
     }
 

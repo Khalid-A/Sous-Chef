@@ -43,7 +43,7 @@ const relevantRecipeUpdate = (
     clear_type,
     add_type
 ) => snapshot => {
-    snapshot.docs[0].ref.collection("recipes").onSnapshot(snapshot => {
+    snapshot.ref.collection("recipes").onSnapshot(snapshot => {
         var index;
         var firstRecipeThrough = true;
         for (index = 0; index < snapshot.docs.length; ++index) {
@@ -64,7 +64,8 @@ const relevantRecipeUpdate = (
                         servings: snapshot.docs[0].get("servings"),
                         timeHour: snapshot.docs[0].get("time.hour"),
                         timeMinute: snapshot.docs[0].get("time.minute"),
-                        title: snapshot.docs[0].get("title")
+                        title: snapshot.docs[0].get("title"),
+                        id: snapshot.docs[0].id
                     }
                 });
             })(firstRecipeThrough);
@@ -88,7 +89,7 @@ const relevantRecipeUpdate = (
  * to get the recipes that a user has all of the ingredients for.
  */
 export const beginReadyToGoFetch = (userID) => async dispatch => {
-    relevantRecipesRef.where("userID", "=", userID).onSnapshot(
+    relevantRecipesRef.doc(userID).onSnapshot(
         relevantRecipeUpdate(
             "isReadyToGo", dispatch, CLEAR_READY_TO_GO, READY_TO_GO_ADD
         )
@@ -100,7 +101,7 @@ export const beginReadyToGoFetch = (userID) => async dispatch => {
  * collection to get live updates on the users recommendations.
  */
 export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
-    relevantRecipesRef.where("userID", "=", userID).onSnapshot(
+    relevantRecipesRef.doc(userID).onSnapshot(
         relevantRecipeUpdate(
             "isRecommended", dispatch, CLEAR_RECOMMENDED, ADD_RECOMMENDED
         )
@@ -113,7 +114,7 @@ export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
  */
 export const beginRecentRecipesFetch = (userID) => async dispatch => {
 
-    relevantRecipesRef.where("userID", "=", userID).onSnapshot(
+    relevantRecipesRef.doc(userID).onSnapshot(
         relevantRecipeUpdate(
             "isRecent", dispatch, CLEAR_RECENT, ADD_RECENT
         )
