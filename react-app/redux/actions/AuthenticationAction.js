@@ -3,6 +3,7 @@ import uuid4 from 'uuid';
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGIN_FAILURE = "LOGIN_FAILURE"
+export const LOGOUT = "LOGOUT"
 
 /**
  * usersRef: Reference to the all users collection in firestore.
@@ -49,6 +50,36 @@ export const loginUser = (email, password) => {
                 email
             ))
             .catch(error => authenticationFailure(dispatch, error.message, email));
+    }
+}
+
+/**
+ * loginExisting is a function that checks if a user is already logged into the
+ * app and sets the redux state to contain the logged in user's information.
+ */
+export const loginExistingUser = () => {
+    return (dispatch) => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                loginSuccess(
+                    dispatch,
+                    user.uid,
+                    user.email
+                )
+            }
+         });
+    }
+}
+
+/**
+ * logoutUser is a function that logs out the current user.
+ */
+export const logoutUser = () => {
+    return (dispatch) => {
+        firebase.auth().signOut()
+        dispatch({
+            type: LOGOUT
+        })
     }
 }
 
