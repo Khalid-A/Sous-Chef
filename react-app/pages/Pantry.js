@@ -22,12 +22,20 @@ import Dialog, {
     DialogTitle, 
     DialogContent 
 } from 'react-native-popup-dialog';
+import convert from 'convert-units';
+
+import firebase from 'react-native-firebase';
+
 
 const defaultState = {
     addDialogVisible : false, 
     newIngredient: "", 
-    pickedValue: ["1", ""],
-    pickerVisible: false
+    newIngredientUnit: "",
+    pickedValue: [{value: "1", key: 1}, ""],
+    pickerVisible: false,
+    unconventionalUnits: false,
+    units: [],
+    standardUnit: ""
 };
 
 class Pantry extends React.Component {
@@ -62,16 +70,31 @@ class Pantry extends React.Component {
         {key: 8, value: "8"},
         {key: 9, value: "9"},
         {key: 10, value: "10"},],
-        ["", "cups", "tablespoons", "oz", "grams", "kg", "teaspoons"]
+        convert().possibilities("mass").concat(convert().possibilities("volume"))
     ];
 
     addItem = () => {
-        addPantryItem(
-            this.state.newIngredient, 
-            parseInt(this.state.pickedValue[0]),
-            this.state.pickedValue[1], 
-            this.props.userID
-        );
+        if (this.state.unconventionalUnits) {
+            addPantryItem(
+                this.state.newIngredient, 
+                parseInt(this.state.pickedValue[0].value),
+                this.state.standardUnit,
+                this.props.userID
+            );
+        } else {
+            var unitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+            })[0].abbr;
+            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+            })[0].abbr;
+            addPantryItem(
+                this.state.newIngredient,
+                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                this.props.userID
+            );
+        }
+        
         this.setState({
             addDialogVisible: false
         })
@@ -195,9 +218,39 @@ class Pantry extends React.Component {
                             labelStyle={styles.text}
                             style={styles.textInput}
                             onChangeText={
-                                ingredient => this.setState(
-                                    { newIngredient: ingredient }
-                                )
+                                ingredient => {
+                                    this.setState({
+                                        newIngredient: ingredient
+                                    });
+                                    firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
+                                        var unit = snapshot.get("unit");
+                                        if (unit == undefined) {
+                                            return;
+                                        }
+                                        var unitList = convert().list().filter((unitEntry) => {
+                                            return unitEntry.singular.toLowerCase() === unit.toLowerCase()
+                                        });
+                                        var units = [];
+                                        if (unitList.length == 0) {
+                                            units = [unit];
+                                        } else {
+                                            var unitsPossibility = convert().from(unitList[0].abbr).possibilities();
+                                            units = convert().list().filter((unit) => {
+                                                return unitsPossibility.includes(unit.abbr);
+                                            }).map((value) => {
+                                                return value.singular.toLowerCase();
+                                            });
+                                        }
+                                        this.setState({
+                                            standardUnit: unit,
+                                            units: units,
+                                            unconventionalUnits: units.length == 1,
+                                            pickedValue: [{key: 1, value: "1"}, unit]
+                                        });
+                                    }).catch((reason) => {
+                                        console.warn(reason);
+                                    });
+                                }
                             }
                             value={this.state.newIngredient}
                         />
@@ -211,22 +264,47 @@ class Pantry extends React.Component {
                                 })
                             }
                         >
-                            {this.state.pickedValue[0]}{" "}
+                            {this.state.pickedValue[0].value}{" "}
                             {this.state.pickedValue[1]}
                         </RkButton>
                     </DialogContent>
                 </Dialog>
                 <RkPicker
                     title='Select Amount'
-                    data={this.measurementData}
+                    data={(() => {
+                        if (this.state.newIngredient == "" || this.state.units.length == 0) {
+                            return this.measurementData
+                        }
+                        var arrayOfNumbers = new Array(100).fill(0).map(Number.call, Number);
+                        var values = arrayOfNumbers.map((number) => {
+                            return {key: number, value: number.toString()};
+                        });
+                        if (this.state.unconventionalUnits) {
+                            return [
+                                values
+                            ];
+                        } else {
+                            return [
+                                values,
+                                this.state.units
+                            ];
+                        }
+                    })()}
                     visible={this.state.pickerVisible}
-                    selectedOptions={this.state.pickedValue}
+                    selectedOptions={(() => {
+                        return this.state.pickedValue
+                    })()}
                     onConfirm={(data) => {
-                        this.setState(
-                            {
-                                pickedValue: [data[0].value, data[1]]
-                            }
-                        )
+                        if (this.state.unconventionalUnits) {
+                            var newValue = [data[0], this.state.pickedValue[1]];
+                            this.setState({
+                                pickedValue: newValue
+                            });
+                        } else {
+                            this.setState({
+                                pickedValue: data
+                            })
+                        }
                         this.setState(
                             {
                                 pickerVisible: false
