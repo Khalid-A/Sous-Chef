@@ -89,9 +89,9 @@ class Finished extends React.Component {
   updatePantry(){
     //TODO: navigate to next page here
     this.props.setIngredientsToRemove(this.state.ingredients);
-    // this.props.navigation.navigate('Pantry', {
-    //   ingredientsToRemove: this.state.ingredients
-    // });
+    this.props.navigation.navigate('Pantry', {
+      ingredientsToRemove: this.state.ingredients
+    });
   }
   listIngredients(){
     // TODO: add swiping on ingredients

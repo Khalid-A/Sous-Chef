@@ -30,7 +30,7 @@ class CookNow extends React.Component {
     super(props);
     this.state = {
       recipe: null,
-      recipeID: "0063ec25-5e33-4a59-9a52-ecd090c3fcad",
+      recipeID: this.props.navigation.getParam("recipeID"),
     };
     this.listIngredients = this.listIngredients.bind(this);
     this.listDirections = this.listDirections.bind(this);

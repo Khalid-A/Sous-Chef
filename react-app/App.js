@@ -5,14 +5,22 @@ import Login from './pages/Login'
 import DiscoverRecipes from './pages/DiscoverRecipes'
 import Pantry from './pages/Pantry';
 import GroceryList from './pages/GroceryList';
+import CookNow from './pages/CookNow';
+import Finished from './pages/Finished';
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
-import {YellowBox, View, TouchableOpacity, Button} from 'react-native';
+import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
 import store from './redux/store';
+<<<<<<< HEAD
 import Icon from 'react-native-vector-icons/Ionicons';
 import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
 import CookNow from './pages/CookNow';
 import Finished from './pages/Finished';
+=======
+import Icon from 'react-native-vector-icons/Ionicons'
+import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
+
+>>>>>>> 630a635052b405cdedc32b7670e86aa4bc888254
 
 YellowBox.ignoreWarnings(['ListView is deprecated']);
 
@@ -129,11 +137,16 @@ const AppNavigator = createAppContainer(createStackNavigator({
         navigationOptions: ({ navigation }) => ({
             header: null
         }),
-    }
+    },
 },
 {
+<<<<<<< HEAD
     initialRouteName: "Welcome",
 }
+=======
+initialRouteName: "Welcome"
+},
+>>>>>>> 630a635052b405cdedc32b7670e86aa4bc888254
 ));
 
 export default class App extends React.Component {
