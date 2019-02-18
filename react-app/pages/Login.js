@@ -23,7 +23,7 @@ export class Login extends Component {
     }
 
     handleLogin = () => {
-        this.props.login(this.state.email, this.state.password);
+        this.props.userInfo(this.state.email, this.state.password);
     }
 
     render() {
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (email, password) => {
+        userInfo: (email, password) => {
             dispatch(loginUser(email, password))
         }
     }

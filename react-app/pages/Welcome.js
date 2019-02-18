@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 import { RkButton } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
-import { loginExistingUser } from './../redux/actions/AuthenticationAction';
 
 class Welcome extends React.Component {
     static navigationOptions = {
@@ -12,16 +11,6 @@ class Welcome extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-    }
-
-    componentDidMount() {
-        this.props.userInfo();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.userID) {
-            this.props.navigation.navigate('Main');
-        }
     }
 
     onSignUpPressed = () => {
@@ -96,20 +85,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     }
 });
-
-const mapStateToProps = (state) => {
-    return {
-        userID: state.userInfo.userID,
-        errorMessage: state.userInfo.errorMessage
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        userInfo: () => {
-            dispatch(loginExistingUser())
-        }
-    }
-}
   
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
+export default connect(null, null)(Welcome)

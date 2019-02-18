@@ -23,7 +23,7 @@ export class SignUp extends Component {
     }
 
     handleSignUp = () => {
-        this.props.signUp(this.state.email, this.state.password);
+        this.props.userInfo(this.state.email, this.state.password);
     }
 
     render() {
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signUp: (email, password) => {
+        userInfo: (email, password) => {
             dispatch(createUser(email, password))
         }
     }

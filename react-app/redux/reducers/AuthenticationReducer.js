@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT } from '../actions/AuthenticationAction'
+import { LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/AuthenticationAction'
 
 /**
  * Reducer for userID to apply actions to the store
@@ -22,15 +22,6 @@ import { LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT } from '../actions/AuthenticationA
                 userID: '',
                 email: action.email,
             });
-        case LOGOUT:
-            return Object.assign({}, state, {
-                errorMessage: '',
-                userID: '',
-                email: '',
-                groceryID: '',
-                pantryID: '',
-                relevantRecipesID: '',
-              });
         default:
             return state;
     }
