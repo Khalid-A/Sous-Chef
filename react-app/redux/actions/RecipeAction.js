@@ -143,7 +143,7 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
  }
  /**
   * setIngredientsToRemove function that listens on finished
-  page to get ingredients to remove from the pantry
+  * page to get ingredients to remove from the pantry
   */
  export const setIngredientsToRemove = (ingredients) => {
    return {
