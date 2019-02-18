@@ -149,4 +149,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CookNow)
+export default connect(null,  null)(CookNow)

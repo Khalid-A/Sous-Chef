@@ -128,29 +128,18 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
  */
  export function beginRecipePreviewFetch(id) {
      var results;
-     // console.warn("id: "+ id);
-    console.warn("GET CONTENT " );
-     console.warn(recipesRef.where("id", "=", id).limit(1)
-         .get());
-
      recipesRef.where("id", "=", id).limit(1)
          .get()
          .then(function(docs) {
-           // console.warn("HERE");
-           // console.warn(docs[0]);
              results = null;
              for(doc in docs){
-               // console.warn("doc" + doc);
                results = results + doc.data();
              }
-             // results = docs[0].data();
-             // console.warn("results: " + results);
              return results;
          })
          .catch(function(error) {
              console.log("Error getting documents: ", error);
          });
-
  }
  /**
   * setIngredientsToRemove function that listens on finished

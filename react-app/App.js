@@ -11,16 +11,10 @@ import { createStackNavigator, createDrawerNavigator, createAppContainer } from 
 import { Provider } from 'react-redux';
 import {YellowBox, View, TouchableOpacity, Button} from 'react-native';
 import store from './redux/store';
-<<<<<<< HEAD
 import Icon from 'react-native-vector-icons/Ionicons';
 import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
 import CookNow from './pages/CookNow';
 import Finished from './pages/Finished';
-=======
-import Icon from 'react-native-vector-icons/Ionicons'
-import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
-
->>>>>>> 630a635052b405cdedc32b7670e86aa4bc888254
 
 YellowBox.ignoreWarnings(['ListView is deprecated']);
 
@@ -140,13 +134,8 @@ const AppNavigator = createAppContainer(createStackNavigator({
     },
 },
 {
-<<<<<<< HEAD
     initialRouteName: "Welcome",
-}
-=======
-initialRouteName: "Welcome"
 },
->>>>>>> 630a635052b405cdedc32b7670e86aa4bc888254
 ));
 
 export default class App extends React.Component {
