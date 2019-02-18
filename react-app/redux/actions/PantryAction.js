@@ -1,6 +1,7 @@
 export const CLEAR_PANTRY = "CLEAR_PANTRY";
 export const ADD_PANTRY = "ADD_PANTRY";
 export const ADD_NEW_PANTRY_ITEM = "ADD_NEW_PANTRY_ITEM";
+export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
 import firebase from 'react-native-firebase';
 
@@ -67,4 +68,15 @@ export const addPantryItem = (name, amount, unit, userid) => {
             ).doc(ingredientID).set({amount: amount, unit: unit});
         });
     })
+}
+
+/**
+ * setIngredientsToRemove function that listens on finished
+ * page to get ingredients to remove from the pantry
+ */
+export const setIngredientsToRemove = (ingredients) => {
+  return {
+    type: SET_INGREDIENTS_TO_REMOVE,
+    payload: ingredients,
+  };
 }
