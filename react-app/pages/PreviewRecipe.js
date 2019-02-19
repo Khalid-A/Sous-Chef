@@ -166,6 +166,12 @@ export default class PreviewRecipe extends React.Component {
         return createIngredientList();
     }
 
+    cookNow() {
+        this.props.navigation.navigate('CookNow', {
+            // TODO: substitutions here
+        });
+    }
+
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
     render() {
         if (this.state.recipe && this.state.recipe.ingredients) {
@@ -179,7 +185,11 @@ export default class PreviewRecipe extends React.Component {
                             style={[styles.image]}/>
                     </View>
                     {this.listIngredients()}
-                    
+                    <Button
+                        style={{color: 'red'}}
+                        title="Make right now"
+                        onPress={cookNow()}
+                    ></Button>
                 </View>
             );
         }
