@@ -11,12 +11,16 @@ const MAX_NUM_READY_TO_GO = 20;
 // Number of recipes to query at a time
 const DOCS_PER_PAGE = 50;
 
+// Number of seconds in an hour
+const SECONDS_IN_HOUR = 3600;
+
 /**
  * Firebase collections
  */
 const recipes = firebase.firestore().collection('recipes');
 const relevantRecipes = firebase.firestore().collection('relevantrecipes');
 const pantry = firebase.firestore().collection('pantrylists');
+const taskData = firebase.firestore().collection('taskdata').doc('ReadyToGo');
 
 /**
  * DEPRECATED: gets userID using pantryListID
@@ -146,20 +150,49 @@ var addNewReadyRecipes = (userID, ingredients, numReadyToGo) => {
 				}
 
 				if (numReadyToGo == MAX_NUM_READY_TO_GO) {
-					return;
+					break;
 				}
 			}
 		});
+
+		if (numReadyToGo == MAX_NUM_READY_TO_GO) {
+			break;
+		}
 	}
+}
+
+var isTooSoon = (taskObject) => {
+	if (taskObject.lastEnded.compareTo(taskObject.lastStarted) < 0) {
+		return true; // Last task has not ended
+	}
+	if (taskObject.lastEnded.getSeconds() <
+		taskObject.lastStarted.getSeconds() + SECONDS_IN_HOUR) {
+		return true; // Not long enough since last task ended
+	}
+	return false;
 }
 
 /**
  * Any change to a pantry triggers recalculation of ready-to-go recipes.
  */
- // TODO: Look into atomicity
 exports.updateReadyToGoRecipes = functions.firestore
 	.document('pantrylists/{userID}').onWrite((change, context) => {
-        // TODO: introduce timer
+		// Read transaction data with the intention of modifying
+		firebase.firestore().runTransaction(function(transaction) {
+			transaction.get(taskData).then(function(doc) {
+				var timestamp = firebase.firestore.Timestamp.fromDate(Date.now());
+
+				// Figure out whether to start job
+				var exit = true;
+				exit = isTooSoon(doc.data());
+				if (exit) return;
+
+				 // Update start time for the job about to start
+				transaction.update(taskData, { "lastStarted": timestamp });
+			});
+		});
+
+		// Begin job
 		const userID = context.params.userID;
 		const updatedIngredients = change.after.data().ingredients;
 
@@ -168,4 +201,12 @@ exports.updateReadyToGoRecipes = functions.firestore
 
 		// Now add other recipes that are ready to go
 		addNewReadyRecipes(userID, updatedIngredients, numReadyToGo);
+
+		// Modify transaction data to update end time
+		firebase.firestore().runTransaction(function(transaction) {
+			transaction.get(taskData).then(function(doc) {
+				var timestamp = firebase.firestore.Timestamp.fromDate(Date.now());
+				transaction.update(taskData, { "lastEnded": timestamp });
+			});
+		});
 	});
