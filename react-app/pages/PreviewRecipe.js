@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 const recipesRef = firebase.firestore().collection('recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
+const glRef = firebase.firestore().collection('grocerylists');
 const mappingsRef = firebase.firestore().collection('standardmappings');
 
 const win = Dimensions.get('window');
@@ -132,7 +133,7 @@ export default class PreviewRecipe extends React.Component {
         }
     }
 
-    indicateHave(arrayIndex, surplus, have=true) {
+    indicateHave(arrayIndex, have=true) {
         var fromArray, toArray;
         if (have) {
             fromArray = this.state.dontHaveIngredients;
@@ -155,6 +156,41 @@ export default class PreviewRecipe extends React.Component {
         // TODO: do we need to re-render manually?
     }
 
+    addIngrToGroceryList(dontHaveIndex) {
+        var item, surplus;
+        [item, surplus] = this.state.dontHaveIngredients[dontHaveIndex];
+        var docExists = false;
+        // Increment amount in GL to how much this recipe needs
+        firebase.firestore().runTransaction(function(transaction) {
+            var glDocRef = glRef.doc(this.props.userID)
+                .collection("ingredients").doc(item.ingredient);
+            transaction.get(pantryDocRef).then(function(doc) {
+                if (doc.exists) {
+                    // We have more of this ingredient, update
+                    docExists = true;
+                    var data = doc.data();
+                    transaction.update(glDocRef, {
+                        amount: data.amount - surplus;
+                    });
+                }
+            });
+        });
+
+        if (!docExists) {
+            // We need to add this item to the pantry
+            glRef.doc(this.props.userID).collection("ingredients")
+                .doc(item.ingredient).set({
+                    amount: -surplus;
+                });
+        }
+    }
+
+    addAllToGroceryList() {
+        this.state.dontHaveIngredients.forEach((item, index) => {
+            addIngrToGroceryList(index);
+        });
+    }
+
     createHaveList() {
         var elements = [];
 
@@ -172,7 +208,7 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Don't Have"
-                        onPress={indicateHave(i, surplus, false)}
+                        onPress={indicateHave(i, false)}
                     ></Button>
                 </View>
             );
@@ -198,7 +234,12 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Have"
-                        onPress={indicateHave(i, surplus)}
+                        onPress={indicateHave(i)}
+                    ></Button>
+                    <Button
+                        style={{color: 'red'}}
+                        title="Add to GL"
+                        onPress={addIngrToGroceryList(i)}
                     ></Button>
                 </View>
             );
@@ -263,6 +304,11 @@ export default class PreviewRecipe extends React.Component {
                     <Text style={[styles.ingredientsLabel]}>
                         You have:
                     </Text>
+                    <Button
+                        style={{color: 'yellow'}}
+                        title="Add All to Grocery List"
+                        onPress={addAllToGroceryList()}
+                    ></Button>
                     {this.createHaveList()}
                     <Text style={[styles.ingredientsLabel]}>
                         You don't have:
