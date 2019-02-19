@@ -16,6 +16,7 @@ const DOCS_PER_PAGE = 50;
  */
 const recipes = firebase.firestore().collection('recipes');
 const relevantRecipes = firebase.firestore().collection('relevantrecipes');
+const pantry = firebase.firestore().collection('pantrylists');
 
 /**
  * DEPRECATED: gets userID using pantryListID
@@ -31,22 +32,6 @@ var getUserID = (pantryListID) => {
 		});
 
 	return userID;
-}
-
-/**
- * Wrapper function for conversion between units.
- * @param {string} toUnits Units of the thing being converted to
- * @param {string} fromUnits Units of the thing being converted from
- * @param {float} fromQuantity Amount of the thing being converted from
- * @return {float} Amount of the thing being converted to
- */
-var convert = (toUnits, fromUnits, fromQuantity) => {
-	var toQuantity = Infinity;
-
-	if (toUnits == fromUnits) toQuantity = fromQuantity;
-
-	// TODO: how to handle conversions
-	return toQuantity;
 }
 
 /**
@@ -66,10 +51,7 @@ var isReadyToGo = (needs, haves) => {
 			if (need.ingredient == have.ingredient) {
 				haveAny = true;
 
-				const needQuantityInHaveUnits = convert(
-					have.units, need.units, need.quantity);
-
-				if (needQuantityInHaveUnits > have.quantity) {
+				if (need.amount > have.amount) {
 					// We don't have enough
 					return false;
 				}
@@ -97,7 +79,7 @@ var isReadyToGo = (needs, haves) => {
  */
 var filterPrevReadyRecipes = (userID, ingredients) => {
 	var numReadyToGo = 0;
-    // TODO: not all relevantrecipes are ready to go
+	var irrelevantRecipes = [];
 	relevantRecipes.doc(userID).collection('recipes').get()
 		.then(function(docs) {
 			docs.forEach(function(doc) {
@@ -105,15 +87,24 @@ var filterPrevReadyRecipes = (userID, ingredients) => {
 				const recipeID = recipe.id;
 				const ingredientsNeeded = recipe.ingredients;
 				if (!isReadyToGo(ingredientsNeeded, ingredients)) {
-					// We can't make this recipe anymore--remove it
-					relevantRecipes.doc(userID).collection('recipes')
-						.doc(recipeID).delete();
+					// We can't make this recipe anymore--remove flag
+					irrelevantRecipes.push(doc.ref);
 				}
 				else {
 					numReadyToGo++;
 				}
 			});
 		});
+
+	// Mark no longer relevant recipes as such
+	// TODO: remove from list if no interesting flags
+	irrelevantRecipes.forEach((ref, index) => {
+		firebase.firestore().runTransaction(function(transaction) {
+			transaction.get(ref).then(function(doc) {
+				transaction.update(ref, { "isReadyToGo": false });
+			});
+		});
+	});
 
 	return numReadyToGo;
 }
@@ -167,10 +158,9 @@ var addNewReadyRecipes = (userID, ingredients, numReadyToGo) => {
  */
  // TODO: Look into atomicity
 exports.updateReadyToGoRecipes = functions.firestore
-	.document('pantrylists/{pantrylistID}').onWrite((change, context) => {
+	.document('pantrylists/{userID}').onWrite((change, context) => {
         // TODO: introduce timer
-		// const userID = getUserID(context.params.pantryListID);
-		const userID = context.params.pantryListID;
+		const userID = context.params.userID;
 		const updatedIngredients = change.after.data().ingredients;
 
 		// First filter out any ready-to-go recipes that are no longer ready
