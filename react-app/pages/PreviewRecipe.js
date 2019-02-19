@@ -33,7 +33,9 @@ export default class PreviewRecipe extends React.Component {
             recipe: null,
             image: "",
             imageWidth: 0,
-            imageHeight: 0
+            imageHeight: 0,
+            haveIngredients: [],
+            dontHaveIngredients: []
         };
     }
 
@@ -48,12 +50,12 @@ export default class PreviewRecipe extends React.Component {
                 recipe: data,
                 image: data.images ? data.images : "https://images.media-allrecipes.com/userphotos/560x315/2345230.jpg"
             });
+
+            calculateHaveIngredients();
         })
         .catch(function(error) {
             console.warn("Error getting documents: ", error);
         });
-
-
     }
 
     isInPantry(ingrData, pantryIngrData) {
@@ -92,49 +94,120 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
-    createIngredientList(haveIngredients, dontHaveIngredients) {
+    updatePantryAmount(have, item, surplus) {
+        if (have) {
+            var docExists = false;
+            // Increment amount in pantry to how much this recipe needs
+            firebase.firestore().runTransaction(function(transaction) {
+                var pantryDocRef = pantryRef.doc(this.props.userID)
+                    .collection("ingredients").doc(item.ingredient);
+                transaction.get(pantryDocRef).then(function(doc) {
+                    if (doc.exists) {
+                        // We have more of this ingredient, update
+                        docExists = true;
+                        var data = doc.data();
+                        transaction.update(pantryDocRef, {
+                            amount: data.amount - surplus;
+                        });
+                    }
+                });
+            });
+
+            if (!docExists) {
+                // We need to add this item to the pantry
+                pantryRef.doc(this.props.userID).collection("ingredients")
+                    .doc(item.ingredient).set({
+                        amount: -surplus;
+                    });
+            }
+        }
+        else {
+            // We want to make sure this item is removed from the pantry
+            pantryRef.doc(this.props.userID).collection("ingredients")
+                .doc(item.ingredient).delete().then(function() {
+                    console.log(item.ingredient + " deleted successfully");
+                }).catch(function(error) {
+                    console.log(item.ingredient + " already deleted");
+                });
+        }
+    }
+
+    indicateHave(arrayIndex, surplus, have=true) {
+        var fromArray, toArray;
+        if (have) {
+            fromArray = this.state.dontHaveIngredients;
+            toArray = this.state.haveIngredients;
+        }
+        else {
+            fromArray = this.state.haveIngredients;
+            toArray = this.state.dontHaveIngredients;
+        }
+        // Move ingredient to appropriate array in state
+        var element = fromArray[arrayIndex];
+        var item, surplus;
+        [item, surplus] = element;
+        fromArray.splice(arrayIndex, 1);
+        toArray.push(item);
+
+        // Update ingredient in pantry
+        updatePantryAmount(have, item, surplus);
+
+        // TODO: do we need to re-render manually?
+    }
+
+    createHaveList() {
         var elements = [];
 
-        elements.push(
-            <Text style={[styles.ingredientsLabel]}>
-                You have:
-            </Text>
-        );
-
-        haveIngredients.forEach((elem) => {
+        this.state.haveIngredients.forEach((elem, i) => {
+            var item, surplus;
             [item, surplus] = elem;
             elements.push(
-                <Text
-                    style={[styles.ingredientName]}
-                    data={{"surplus": surplus}}
-                    key={item.ingredient}>
-                    {item.quantity} {item.unit} {item.ingredient}
-                </Text>
-            );
-        });
-
-        elements.push(
-            <Text style={[styles.ingredientsLabel]}>
-                You don't have:
-            </Text>
-        );
-
-        dontHaveIngredients.forEach((elem) => {
-            [item, surplus] = elem;
-            elements.push(
-                <Text
-                    style={[styles.ingredientName]}
-                    data={{"surplus": surplus}}
-                    key={item.ingredient}>
-                    {item.quantity} {item.unit} {item.ingredient}
-                </Text>
+                <View>
+                    <Text
+                        style={[styles.ingredientName]}
+                        data={{surplus: surplus}}
+                        key={item.ingredient}>
+                        {item.quantity} {item.unit} {item.ingredient}
+                    </Text>
+                    <Button
+                        style={{color: 'red'}}
+                        title="Don't Have"
+                        onPress={indicateHave(i, surplus, false)}
+                    ></Button>
+                </View>
             );
         });
 
         return elements;
     }
 
-    listIngredients() {
+    createDontHaveList() {
+        var elements = [];
+
+        this.state.dontHaveIngredients.forEach((elem, i) => {
+            var item, surplus;
+            [item, surplus] = elem;
+            elements.push(
+                <View>
+                    <Text
+                        style={[styles.ingredientName]}
+                        data={{surplus: surplus}}
+                        key={item.ingredient}>
+                        {item.quantity} {item.unit} {item.ingredient}
+                    </Text>
+                    <Button
+                        style={{color: 'red'}}
+                        title="Have"
+                        onPress={indicateHave(i, surplus)}
+                    ></Button>
+                </View>
+            );
+        });
+
+        return elements;
+    }
+
+    calculateHaveIngredients() {
         if (this.state.recipe.ingredients == null){
             console.warn("null");
         }
@@ -162,8 +235,10 @@ export default class PreviewRecipe extends React.Component {
             }
         });
 
-        // Construct XML to return
-        return createIngredientList();
+        this.setState({
+            haveIngredients: haveIngredients,
+            dontHaveIngredients: dontHaveIngredients
+        });
     }
 
     cookNow() {
@@ -184,7 +259,16 @@ export default class PreviewRecipe extends React.Component {
                         <Image source={{uri: this.state.image}}
                             style={[styles.image]}/>
                     </View>
-                    {this.listIngredients()}
+
+                    <Text style={[styles.ingredientsLabel]}>
+                        You have:
+                    </Text>
+                    {this.createHaveList()}
+                    <Text style={[styles.ingredientsLabel]}>
+                        You don't have:
+                    </Text>
+                    {this.createDontHaveList()}
+
                     <Button
                         style={{color: 'red'}}
                         title="Make right now"
