@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    BUTTON_BACKGROUND_COLOR, 
+    BUTTON_BACKGROUND_COLOR,
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
@@ -11,24 +11,28 @@ import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
-    RkTextInput, 
-    RkPicker, 
+    RkTextInput,
+    RkPicker,
     RkButton
 } from 'react-native-ui-kitten';
-import Dialog, { 
-    DialogFooter, 
-    SlideAnimation, 
-    DialogButton, 
-    DialogTitle, 
-    DialogContent 
+import Dialog, {
+    DialogFooter,
+    SlideAnimation,
+    DialogButton,
+    DialogTitle,
+    DialogContent
 } from 'react-native-popup-dialog';
 
+const math = require('mathjs');
+
 const defaultState = {
-    addDialogVisible : false, 
-    newIngredient: "", 
+    addDialogVisible : false,
+    newIngredient: "",
     pickedValue: ["1", ""],
     pickerVisible: false
 };
+
+const ingrMappings = firebase.firestore().collection('standardmappings');
 
 class Pantry extends React.Component {
     static navigationOptions = {
@@ -45,36 +49,196 @@ class Pantry extends React.Component {
         },
         drawerLabel: 'Pantry'
     }
-    
+
     constructor(props) {
         super(props);
         this.state = defaultState;
     }
 
-    measurementData = [
-        [{key: 1, value: "1"},
-        {key: 2, value: "2"},
-        {key: 3, value: "3"},
-        {key: 4, value: "4"},
-        {key: 5, value: "5"},
-        {key: 6, value: "6"},
-        {key: 7, value: "7"},
-        {key: 8, value: "8"},
-        {key: 9, value: "9"},
-        {key: 10, value: "10"},],
-        ["", "cups", "tablespoons", "oz", "grams", "kg", "teaspoons"]
-    ];
+    volumeUnits = ['cup', 'tablespoon', 'teaspoon', 'liter', 'l', 'milliliter',
+        'cups', 'tablespoons', 'teaspoons', 'liters', 'milliliters', 'ml',
+        'pint', 'pints', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal'];
+    weightUnits = ['oz', 'ounce', 'ounces', 'gram', 'grams', 'g', 'kg', 'kilo',
+        'kilos', 'kilogram', 'kilograms', 'pound', 'pounds', 'lb', 'lbs'];
+    itemUnits = ['carton', 'bag', 'package', 'container', 'whole',
+        'box', 'loaf', 'dozen', 'bottle', 'jar', 'stick', 'cartons', 'bags',
+        'packages', 'containers', 'boxes', 'loaves', 'bottles', 'jars',
+        'sticks'];
+
+    measurementUnits = volumeUnits.concat(weightUnits).concat(itemUnits);
+
+    // Stop accepting words for numbers after and including "twenty-one"
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
+        '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
+    numberNames = ['one', 'two', 'three', 'four', 'five', 'six', 'seven',
+        'eight', 'nine',
+        'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+        'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+
+    disallowedPunctuation = [', ', '- ', '. ', '; ', ': ')]
+
+    sanitize = (text) => {
+        var result = text.trim().toLowerCase();
+        disallowedPunctuation.forEach((item) => {
+            result = result.replace(item, ' ');
+        });
+        return result;
+    }
+
+    parseQuantity = (tokens) => {
+        var numberResult = null;
+        for (var i = 0; i < numbers.length; i++) {
+            var number = numbers[i];
+            if (tokens[0].indexOf(number) != -1) {
+                numberResult = parseFloat(tokens[0]);
+                break;
+            }
+        }
+        if (numberResult == null) {
+            // Couldn't find an arabic numberal, try text up to "twenty"
+            for (var i = 0; i < numberNames.length; i++) {
+                var number = numberNames[i];
+                if (tokens[0].indexOf(number) != -1) {
+                    numberResult = parseInt(numbers[i]);
+                    break;
+                }
+            }
+        }
+        if (numberResult == null) {
+            // We couldn't find a number, assume it's 1
+            numberResult = 1;
+        }
+        else {
+            // We could find a number, remove it from tokens
+            tokens.shift();
+        }
+        return numberResult;
+    }
+
+    parseUnits = (tokens) => {
+        var unitIndex = -1;
+        for (var i = 0; i < measurementUnits.length; i++) {
+            var unit = measurementUnits[i];
+            for (var j = 0; j < tokens.length; j++) {
+                var token = tokens[j];
+                if (token == unit) {
+                    unitIndex = j;
+                    break;
+                }
+            }
+            if (unitIndex != -1) break;
+        }
+
+        if (unitIndex == -1) return "whole";
+
+        var rawUnits = tokens[unitIndex];
+
+        // Ignore text before units
+        tokens.splice(0, unitIndex + 1);
+
+        return rawUnits;
+    }
 
     addItem = () => {
-        addPantryItem(
-            this.state.newIngredient, 
-            parseInt(this.state.pickedValue[0]),
-            this.state.pickedValue[1], 
-            this.props.userID
-        );
+        var text = sanitize(this.state.newIngredient);
+        var tokens = text.split(" ");
+
+        // First parse out the number on the left side, if any
+        var number = parseQuantity(tokens);
+
+        // Now find raw units, if any
+        var rawUnits = parseUnits(tokens);
+
+        // Now assume the rest of the tokens are the ingredient
+        var ingredient;
+        if (tokens.length) ingredient = tokens.join(" ");
+        else ingredient = null;
+
+        // If we missed a unit, we can see if the first word after the number
+        // is the units, not part of the ingredient
+        var backupUnits, backupIngredient;
+        if (tokens.length >= 2) {
+            backupUnits = tokens[0];
+            tokens.shift();
+            backupIngredient = tokens.join(" ");
+        }
+
+        if (ingredient == null) {
+            console.warn("Didn't recognize this as a pantry item.");
+            this.setState({
+                addDialogVisible: false
+            });
+            return;
+        }
+
+        // Find ingredient in DB and figure out which units to store it in
+        // Start with assuming the user tried units we're familiar with
+        var standardUnits = null;
+        ingrMappings.doc(ingredient).get().then(function(doc) {
+            if (!doc.exists) {
+                console.warn("Ingredient " + ingredient + " not found.");
+            }
+            else {
+                standardUnits = doc.data().unit;
+            }
+        });
+
+        var standardQuantity = null;
+        try {
+            if (standardUnits == null) {
+                throw "Ingredient not found";
+            }
+            // Perform the unit conversion assuming we know the units
+            if (rawUnits == standardUnits) {
+                standardQuantity = number;
+            }
+            else {
+                // We might have to do a conversion. See if we can.
+                var conversion = math.unit(number + " " + rawUnits)
+                    .toNumber(standardUnits);
+                standardQuantity = conversion;
+            }
+        }
+        catch (err) {
+            // These units aren't standard for pantries (e.g. clove).
+            // We know we failed to recognize this unit of measurement.
+            // Use backups and hope this random word is appropriate.
+            if (backupUnits) {
+                ingrMappings.doc(backupIngredient).get().then(function(doc) {
+                    if (!doc.exists) {
+                        console.warn("Ingredient " + ingredient +
+                            " not found.");
+                    }
+                    else {
+                        standardUnits = doc.data().unit;
+                    }
+                });
+
+                // The units match (e.g. clove)
+                if (backupUnits == standardUnits) {
+                    standardQuantity = number;
+                    ingredient = backupIngredient;
+                }
+                else {
+                    console.warn("Can't compare " + backupUnits +
+                        " to " + standardUnits);
+                }
+            }
+        }
+
+        if (standardQuantity) {
+            // We successfully identified units for this ingredient
+            addPantryItem(
+                ingredient,
+                standardQuantity,
+                standardUnits,
+                this.props.userID
+            );
+        }
+
         this.setState({
             addDialogVisible: false
-        })
+        });
     }
 
     componentWillMount() {
@@ -99,46 +263,46 @@ class Pantry extends React.Component {
                         </View>
                     }}
                 />
-                <ActionButton 
-                    buttonColor={BUTTON_BACKGROUND_COLOR} 
+                <ActionButton
+                    buttonColor={BUTTON_BACKGROUND_COLOR}
                     renderIcon={active => {
                         if (!active)
                             return (
-                                <Icon 
-                                    name="md-create" 
+                                <Icon
+                                    name="md-create"
                                     style={styles.actionButtonIcon}
                                 />
                             );
                         else
                             return (
-                                <Icon 
-                                    name="md-add" 
+                                <Icon
+                                    name="md-add"
                                     style={styles.actionButtonIcon}
                                 />
                             );
                     }}
                 >
-                    <ActionButton.Item 
-                        buttonColor={ACTION_BUTTON_COLOR} 
-                        title="New Item" 
+                    <ActionButton.Item
+                        buttonColor={ACTION_BUTTON_COLOR}
+                        title="New Item"
                         onPress={
                         () => this.setState(
                             {addDialogVisible: true}
                         )
                     }>
-                        <Icon 
-                            name="md-add" 
+                        <Icon
+                            name="md-add"
                             style={styles.actionButtonIcon}
                         />
                     </ActionButton.Item>
-                    <ActionButton.Item 
+                    <ActionButton.Item
                         buttonColor={ACTION_BUTTON_COLOR}
-                        title="Edit Items" 
+                        title="Edit Items"
                         onPress={() => console.warn("edit tapped!")}
                     >
-                        <Icon 
-                            name="md-create" 
-                            style={styles.actionButtonIcon} 
+                        <Icon
+                            name="md-create"
+                            style={styles.actionButtonIcon}
                         />
                     </ActionButton.Item>
                 </ActionButton>
@@ -149,10 +313,10 @@ class Pantry extends React.Component {
                         this.setState({ addDialogVisible: false });
                     }}
                     dialogTitle={
-                        <DialogTitle 
-                            style={[styles.dialogTitleContainer]} 
-                            textStyle={[styles.dialogTitleText]} 
-                            title="Add Item" 
+                        <DialogTitle
+                            style={[styles.dialogTitleContainer]}
+                            textStyle={[styles.dialogTitleText]}
+                            title="Add Item"
                         />
                     }
                     footer={
@@ -162,8 +326,8 @@ class Pantry extends React.Component {
                             textStyle={[styles.dialogButtonText]}
                             text="Cancel"
                             onPress={() => {
-                                this.setState({ 
-                                    addDialogVisible: false 
+                                this.setState({
+                                    addDialogVisible: false
                                 });
                             }}
                         />
@@ -185,13 +349,8 @@ class Pantry extends React.Component {
                     })}
                 >
                     <DialogContent>
-                        <Text 
-                            style={[styles.popupHeader]}
-                        >
-                            Item Name:
-                        </Text>
-                        <RkTextInput 
-                            placeholder = "eggs"
+                        <RkTextInput
+                            placeholder = "one carton of eggs"
                             labelStyle={styles.text}
                             style={styles.textInput}
                             onChangeText={
@@ -201,42 +360,8 @@ class Pantry extends React.Component {
                             }
                             value={this.state.newIngredient}
                         />
-                        <Text style={[styles.popupHeader]}>
-                            Quantity:
-                        </Text>
-                        <RkButton 
-                            onPress={
-                                () => this.setState({
-                                    pickerVisible: true
-                                })
-                            }
-                        >
-                            {this.state.pickedValue[0]}{" "}
-                            {this.state.pickedValue[1]}
-                        </RkButton>
                     </DialogContent>
                 </Dialog>
-                <RkPicker
-                    title='Select Amount'
-                    data={this.measurementData}
-                    visible={this.state.pickerVisible}
-                    selectedOptions={this.state.pickedValue}
-                    onConfirm={(data) => {
-                        this.setState(
-                            {
-                                pickedValue: [data[0].value, data[1]]
-                            }
-                        )
-                        this.setState(
-                            {
-                                pickerVisible: false
-                            }
-                        )
-                    }}
-                    onCancel={
-                        () => this.setState({pickerVisible: false})
-                    }
-                />
             </View>
         );
     }
