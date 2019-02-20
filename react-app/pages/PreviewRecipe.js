@@ -51,7 +51,16 @@ export default class PreviewRecipe extends React.Component {
         // recipesRef.doc(recipeID).get().then((doc) => {
             var data = doc.data();
             var ingredientsArray = Object.values(data.ingredients);
-            data.ingredients = ingredientsArray;
+            ingredients = []
+            for (const key in data.ingredients) {
+                ingredients.push({
+                    ingredient: key,
+                    originalQuantity: data.ingredients[key]['originalQuantity'],
+                    originalText: data.ingredients[key]['originalText'],
+                    standardQuantity: data.ingredients[key]['standardQuatity']
+                })
+            }
+            data.ingredients = ingredients;
             this.setState({
                 recipe: data,
                 image: data.images ? data.images : "https://images.media-allrecipes.com/userphotos/560x315/2345230.jpg"
@@ -286,6 +295,7 @@ export default class PreviewRecipe extends React.Component {
         // {/* {this.createHaveList()} */} and {/* {this.createDontHaveList()} */}
         // are commented out until you figure out where you want the ingredients
         // if you open up a debugger the warnings should show you what you are doing
+        // I FIXED IT BUT SURPLUS IS ALWAYS NULL :(
         this.setState({
             haveIngredients: [haveIngredients],
             dontHaveIngredients: [dontHaveIngredients]
