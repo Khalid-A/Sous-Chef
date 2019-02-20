@@ -3,10 +3,13 @@ import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefCol
 import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button } from 'react-native';
 import firebase from 'react-native-firebase';
 
-const recipesRef = firebase.firestore().collection('recipes');
+const recipesRef = firebase.firestore().collection('test_recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
 const mappingsRef = firebase.firestore().collection('standardmappings');
+
+// TODO: connect with actual userID
+const userID = "sElabGbDpwfcQcdpBbCejRaUhy12" // souschef@stanford.edu
 
 const win = Dimensions.get('window');
 
@@ -38,7 +41,7 @@ export default class PreviewRecipe extends React.Component {
     }
 
     componentWillMount() {
-        var recipeID = "0063ec25-5e33-4a59-9a52-ecd090c3fcad";
+        var recipeID = "11c32b49-1dbc-4625-916d-f7678cef8cf3";
 
         recipesRef.doc(recipeID).get().then((doc) => {
             var data = doc.data();
@@ -58,6 +61,7 @@ export default class PreviewRecipe extends React.Component {
 
     isInPantry(ingrData, pantryIngrData) {
         // Search for standard mappings of ingredient
+        // @AITAN: i dont understand what this is doing / why you need it
         // mappingsRef.doc(ingrData.ingredient).get().then((doc) => {
         //     var data = doc.data();
         //     var ingrDescription = ingrData.ingredient
@@ -280,9 +284,11 @@ export default class PreviewRecipe extends React.Component {
     }
 
     cookNow() {
-        this.props.navigation.navigate('CookNow', {
-            // TODO: substitutions here
-        });
+        alert("cook now")
+        // TODO: navigate
+        // this.props.navigation.navigate('CookNow', {
+        //     // TODO: substitutions here
+        // });
     }
 
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
