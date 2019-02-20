@@ -41,9 +41,14 @@ export default class PreviewRecipe extends React.Component {
     }
 
     componentWillMount() {
-        var recipeID = "11c32b49-1dbc-4625-916d-f7678cef8cf3";
+        this.getRecipeInfo();
+    }
 
-        recipesRef.doc(recipeID).get().then((doc) => {
+    getRecipeInfo = () => {
+        var recipeID = "11c32b49-1dbc-4625-916d-f7678cef8cf3";
+        recipesRef.doc(recipeID).onSnapshot((doc) => {
+        // )
+        // recipesRef.doc(recipeID).get().then((doc) => {
             var data = doc.data();
             var ingredientsArray = Object.values(data.ingredients);
             data.ingredients = ingredientsArray;
@@ -51,13 +56,14 @@ export default class PreviewRecipe extends React.Component {
                 recipe: data,
                 image: data.images ? data.images : "https://images.media-allrecipes.com/userphotos/560x315/2345230.jpg"
             });
-
-            calculateHaveIngredients();
+            this.calculateHaveIngredients();
         })
-        .catch(function(error) {
-            console.warn("Error getting documents: ", error);
-        });
+        // .catch(function(error) {
+        //     console.log(error)
+        //     console.warn("Error getting documents: ", error);
+        // });
     }
+
 
     isInPantry(ingrData, pantryIngrData) {
         // Search for standard mappings of ingredient
@@ -72,7 +78,7 @@ export default class PreviewRecipe extends React.Component {
     }
 
     // Sort required ingredients into enough and not enough
-    getSurpluses() {
+    getSurpluses = () => {
         return this.state.recipe.ingredients.map((recipeIngrData) => {
             // Search for item in pantry
             var surplus = null;
@@ -96,7 +102,7 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
-    updatePantryAmount(have, item, surplus) {
+    updatePantryAmount = (have, item, surplus) => {
         if (have) {
             var docExists = false;
             // Increment amount in pantry to how much this recipe needs
@@ -134,7 +140,7 @@ export default class PreviewRecipe extends React.Component {
         }
     }
 
-    indicateHave(arrayIndex, have=true) {
+    indicateHave = (arrayIndex, have=true) => {
         var fromArray, toArray;
         if (have) {
             fromArray = this.state.dontHaveIngredients;
@@ -152,12 +158,12 @@ export default class PreviewRecipe extends React.Component {
         toArray.push(item);
 
         // Update ingredient in pantry
-        updatePantryAmount(have, item, surplus);
+        this.updatePantryAmount(have, item, surplus);
 
         // TODO: do we need to re-render manually?
     }
 
-    addIngrToGroceryList(dontHaveIndex) {
+    addIngrToGroceryList = (dontHaveIndex) => {
         var item, surplus;
         [item, surplus] = this.state.dontHaveIngredients[dontHaveIndex];
         var docExists = false;
@@ -209,7 +215,7 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Don't Have"
-                        onPress={indicateHave(i, false)}
+                        onPress={this.indicateHave(i, false)}
                     ></Button>
                 </View>
             );
@@ -235,12 +241,12 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Have"
-                        onPress={indicateHave(i)}
+                        onPress={this.indicateHave(i)}
                     ></Button>
                     <Button
                         style={{color: 'red'}}
                         title="Add to GL"
-                        onPress={addIngrToGroceryList(i)}
+                        onPress={this.addIngrToGroceryList(i)}
                     ></Button>
                 </View>
             );
@@ -249,14 +255,12 @@ export default class PreviewRecipe extends React.Component {
         return elements;
     }
 
-    calculateHaveIngredients() {
+    calculateHaveIngredients = () => {
         if (this.state.recipe.ingredients == null){
             console.warn("null");
         }
-
         // surpluses[i] == (we have enough of this.state.recipe.ingredients[i])
-        var surpluses = getSurpluses();
-
+        var surpluses = this.getSurpluses();
         // Sort ingredients into have and don't have
         var haveIngredients = [];
         var dontHaveIngredients = [];
@@ -270,17 +274,23 @@ export default class PreviewRecipe extends React.Component {
             }
             else {
                 // We don't have enough of ingredient at index i
-                donthHaveIngredients.push([
+                dontHaveIngredients.push([
                     this.state.recipe.ingredients[i],
                     surplus
                 ]);
             }
         });
-
+        console.warn(haveIngredients, dontHaveIngredients)
+        console.warn(this.state)
+        // TODO: @AITAN: the main ingredients are not saved here
+        // {/* {this.createHaveList()} */} and {/* {this.createDontHaveList()} */}
+        // are commented out until you figure out where you want the ingredients
+        // if you open up a debugger the warnings should show you what you are doing
         this.setState({
-            haveIngredients: haveIngredients,
-            dontHaveIngredients: dontHaveIngredients
+            haveIngredients: [haveIngredients],
+            dontHaveIngredients: [dontHaveIngredients]
         });
+        console.warn(this.state)
     }
 
     cookNow() {
@@ -312,11 +322,11 @@ export default class PreviewRecipe extends React.Component {
                         title="Add All to Grocery List"
                         onPress={this.addAllToGroceryList}
                     ></Button>
-                    {this.createHaveList()}
+                    {/* {this.createHaveList()} */}
                     <Text style={[styles.ingredientsLabel]}>
                         You don't have:
                     </Text>
-                    {this.createDontHaveList()}
+                    {/* {this.createDontHaveList()} */}
 
                     <Button
                         style={{color: 'red'}}
