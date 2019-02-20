@@ -3,6 +3,7 @@ import uuid4 from 'uuid';
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGIN_FAILURE = "LOGIN_FAILURE"
+export const LOGOUT = "LOGOUT"
 
 /**
  * usersRef: Reference to the all users collection in firestore.
@@ -53,6 +54,36 @@ export const loginUser = (email, password) => {
 }
 
 /**
+ * loginExisting is a function that checks if a user is already logged into the
+ * app and sets the redux state to contain the logged in user's information.
+ */
+export const loginExistingUser = () => {
+    return (dispatch) => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                loginSuccess(
+                    dispatch,
+                    user.uid,
+                    user.email
+                )
+            }
+         });
+    }
+}
+
+/**
+ * logoutUser is a function that logs out the current user.
+ */
+export const logoutUser = () => {
+    return (dispatch) => {
+        firebase.auth().signOut()
+        dispatch({
+            type: LOGOUT
+        })
+    }
+}
+
+/**
  * loginSuccess retrieves information about the current user from Firebase 
  * and dispatches a redux action to update all IDs associated with the 
  * user in store.
@@ -86,28 +117,37 @@ export const loginSuccess = (dispatch, userID, email) => {
  * @param {email} email: the email of the user in question
  */
 export const signInSuccess = (dispatch, userID, email) => {
-    const groceryID = uuid4();
-    const pantryID = uuid4();
+    const groceryListID = uuid4();
+    const pantryListID = uuid4();
     const relevantRecipesID = uuid4();
     
     const userInfo = {
         userID: userID,
         email: email,
-        groceryID: groceryID,
-        pantryID: pantryID,
+        groceryListID: groceryListID,
+        pantryListID: pantryListID,
         relevantRecipesID: relevantRecipesID,
     }
 
     // create documents necessary for new users in firebase
     firebase.firestore().collection('users').doc(userID).set(userInfo)
-    firebase.firestore().collection('relevantrecipes').doc(relevantRecipesID).set({
-        userID: userID
+    firebase.firestore().collection('relevantrecipes').doc(userID).set({
+        relevantRecipesID: relevantRecipesID
     })
-    firebase.firestore().collection('pantrylists').doc(pantryID).set({
-        userID: userID
+
+    // load dummy data to test with
+    firebase.firestore().collection('relevantrecipes').doc(userID)
+        .collection('recipes').doc('02d25afc-8c04-4b0e-9766-90eac7e6a0df').set({
+            recipeID: '02d25afc-8c04-4b0e-9766-90eac7e6a0df',
+            isReadyToGo: 'true',
+            isRecommended: '"isRecommended"'
+        })
+
+    firebase.firestore().collection('pantrylists').doc(userID).set({
+        pantryListID: pantryListID
     }) 
-    firebase.firestore().collection('grocerylists').doc(groceryID).set({
-        userID: userID
+    firebase.firestore().collection('grocerylists').doc(userID).set({
+        groceryListID: groceryListID
     }) 
 
     dispatch({

@@ -1,28 +1,30 @@
 import React from 'react';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Image, Text, View, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Button, Text, View, ScrollView, FlatList } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
-        title: "Find A Recipe",
+        title: "Discover",
         headerVisible: true,
         headerTintColor: "white",
-        headerLeft: null,
         headerStyle: {
             backgroundColor: BUTTON_BACKGROUND_COLOR,
         },
         headerTitleStyle: {
             fontFamily: "Avenir Next",
             fontSize: 35
-        }
+        },
+        drawerLabel: 'Discover'
     }
     constructor(props) {
         super(props);
         this.state = {};
     }
+
+    drawerOpen = () => {this.props.navigation.openDrawer();}
 
     componentWillMount() {
         this.props.beginReadyToGoFetch(this.props.userID);
