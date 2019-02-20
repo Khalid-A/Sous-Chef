@@ -29,7 +29,6 @@ class Finished extends React.Component {
       ingredients:null,
     };
     this.listIngredients = this.listIngredients.bind(this);
-    // this.intersect = this.intersect.bind(this);
   }
 
   componentWillMount(){
@@ -57,8 +56,6 @@ class Finished extends React.Component {
 
   findIngredients() {
     const ingredientsFromRecipe = this.props.navigation.getParam("ingredientsToRemove", null);
-    console.warn(ingredientsFromRecipe);
-    // this.props.pantry;
     const ingredientsFromPantry =[
       {
         title:"vanilla",
@@ -87,14 +84,12 @@ class Finished extends React.Component {
   }
 
   updatePantry(){
-    //TODO: navigate to next page here
     this.props.setIngredientsToRemove(this.state.ingredients);
     this.props.navigation.navigate('Pantry', {
       ingredientsToRemove: this.state.ingredients
     });
   }
   listIngredients(){
-    // TODO: add swiping on ingredients
     if(this.state.ingredients == null){
       console.warn("null");
     }
@@ -134,19 +129,11 @@ class Finished extends React.Component {
     );
   }
 }
-
-// const mapStateToProps = state => {
-//     return {
-//         pantry: state.pantry,
-//         userID: state.userInfo.userID
-//     }
-// }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: BUTTON_BACKGROUND_COLOR,
     paddingTop: 40,
     paddingLeft: 10,
     paddingBottom: 10,
@@ -192,6 +179,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    // pantry: state.pantry,
     pantry: [
       {
         title:"vanilla",
@@ -209,8 +197,6 @@ const mapStateToProps = state => {
         amount:"",
       },
     ],
-    // pantry: state.pantry,
-    // userID: state.userInfo.userID
   }
 }
 

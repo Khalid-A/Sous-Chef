@@ -138,15 +138,4 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
 });
-
-const mapStateToProps = state => {
-  return {
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-  }
-}
-
 export default connect(null,  null)(CookNow)
