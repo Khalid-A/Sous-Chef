@@ -1,10 +1,7 @@
 import React from 'react';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors'
-import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions } from 'react-native';
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
+import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button } from 'react-native';
 import firebase from 'react-native-firebase';
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
-import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
-import { connect } from 'react-redux';
 
 const recipesRef = firebase.firestore().collection('recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
@@ -61,11 +58,11 @@ export default class PreviewRecipe extends React.Component {
 
     isInPantry(ingrData, pantryIngrData) {
         // Search for standard mappings of ingredient
-        mappingsRef.doc(ingrData.ingredient).get().then((doc) => {
-            var data = doc.data();
-            var ingrDescription = ingrData.ingredient +
-            var convRatio = data.standardTo[]
-        });
+        // mappingsRef.doc(ingrData.ingredient).get().then((doc) => {
+        //     var data = doc.data();
+        //     var ingrDescription = ingrData.ingredient
+        //     var convRatio = data.standardTo[]
+        // });
         var quantity = ingrData.quantity;
         var unit = ingrData.unit;
     }
@@ -108,7 +105,7 @@ export default class PreviewRecipe extends React.Component {
                         docExists = true;
                         var data = doc.data();
                         transaction.update(pantryDocRef, {
-                            amount: data.amount - surplus;
+                            amount: data.amount - surplus
                         });
                     }
                 });
@@ -118,7 +115,7 @@ export default class PreviewRecipe extends React.Component {
                 // We need to add this item to the pantry
                 pantryRef.doc(this.props.userID).collection("ingredients")
                     .doc(item.ingredient).set({
-                        amount: -surplus;
+                        amount: -surplus
                     });
             }
         }
@@ -170,7 +167,7 @@ export default class PreviewRecipe extends React.Component {
                     docExists = true;
                     var data = doc.data();
                     transaction.update(glDocRef, {
-                        amount: data.amount - surplus;
+                        amount: data.amount - surplus
                     });
                 }
             });
@@ -180,12 +177,12 @@ export default class PreviewRecipe extends React.Component {
             // We need to add this item to the pantry
             glRef.doc(this.props.userID).collection("ingredients")
                 .doc(item.ingredient).set({
-                    amount: -surplus;
+                    amount: -surplus
                 });
         }
     }
 
-    addAllToGroceryList() {
+    addAllToGroceryList = () => {
         this.state.dontHaveIngredients.forEach((item, index) => {
             addIngrToGroceryList(index);
         });
@@ -307,7 +304,7 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'yellow'}}
                         title="Add All to Grocery List"
-                        onPress={addAllToGroceryList()}
+                        onPress={this.addAllToGroceryList}
                     ></Button>
                     {this.createHaveList()}
                     <Text style={[styles.ingredientsLabel]}>
@@ -318,7 +315,7 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Make right now"
-                        onPress={cookNow()}
+                        onPress={this.cookNow}
                     ></Button>
                 </View>
             );
