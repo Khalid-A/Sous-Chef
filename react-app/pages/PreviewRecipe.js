@@ -8,8 +8,6 @@ const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
 const mappingsRef = firebase.firestore().collection('standardmappings');
 
-// TODO: connect with actual userID
-const userID = "sElabGbDpwfcQcdpBbCejRaUhy12" // souschef@stanford.edu
 
 const win = Dimensions.get('window');
 
@@ -36,7 +34,9 @@ export default class PreviewRecipe extends React.Component {
             imageWidth: 0,
             imageHeight: 0,
             haveIngredients: [],
-            dontHaveIngredients: []
+            dontHaveIngredients: [],
+            // TODO: connect with actual id
+            userID: "sElabGbDpwfcQcdpBbCejRaUhy12", // souschef@stanford.edu
         };
     }
 
@@ -47,8 +47,6 @@ export default class PreviewRecipe extends React.Component {
     getRecipeInfo = () => {
         var recipeID = "11c32b49-1dbc-4625-916d-f7678cef8cf3";
         recipesRef.doc(recipeID).onSnapshot((doc) => {
-        // )
-        // recipesRef.doc(recipeID).get().then((doc) => {
             var data = doc.data();
             var ingredientsArray = Object.values(data.ingredients);
             ingredients = []
@@ -66,11 +64,7 @@ export default class PreviewRecipe extends React.Component {
                 image: data.images ? data.images : "https://images.media-allrecipes.com/userphotos/560x315/2345230.jpg"
             });
             this.calculateHaveIngredients();
-        })
-        // .catch(function(error) {
-        //     console.log(error)
-        //     console.warn("Error getting documents: ", error);
-        // });
+        });
     }
 
 
@@ -91,20 +85,21 @@ export default class PreviewRecipe extends React.Component {
         return this.state.recipe.ingredients.map((recipeIngrData) => {
             // Search for item in pantry
             var surplus = null;
-            pantryRef.doc(this.props.userID).collection("ingredients")
-                .doc(recipeIngrData.ingredient).get().then((pantryIngrDoc) => {
+            pantryRef.doc(this.state.userID).collection("ingredients")
+                .doc(recipeIngrData.ingredient).onSnapshot((pantryIngrDoc) => {
                     if (pantryIngrDoc.exists) {
                         var pantryIngrData = pantryIngrDoc.data();
                         // Figure out if we have enough
                         surplus = pantryIngrData.amount -
-                            recipeIngrData.amount;
+                            recipeIngrData.standardQuantity;
+                        return surplus
                     }
-                }).catch(function(error) {
-                });
-
+                    return null;
+            })
+            console.log("surplus",recipeIngrData.ingredient, surplus)
             if (surplus == null) {
                 // We don't have this ingredient at all
-                surplus = -recipeIngrData.amount;
+                surplus = -recipeIngrData.standardQuantity;
             }
 
             return surplus;
