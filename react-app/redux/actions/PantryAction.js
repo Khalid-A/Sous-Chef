@@ -50,9 +50,15 @@ export const beginPantryFetch = (userid) => async dispatch => {
 }
 
 export const addPantryItem = (name, amount, userid) => {
-    pantryRef.doc(userid).get().then(pantryListSnapshot => {
-        pantryListSnapshot.ref.collection(
+    pantryRef.doc(userid).get().then(pantrySnapshot => {
+        pantrySnapshot.ref.collection(
             "ingredients"
-        ).doc(name.toLowerCase()).set({amount: amount});
+        ).doc(name.toLowerCase()).get().then(docSnap => {
+            if (docSnap.exists) {
+                pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount + docSnap.get("amount")});
+            } else {
+                pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount});
+            }
+        });
     });
 }

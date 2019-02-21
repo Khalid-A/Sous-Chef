@@ -78,7 +78,6 @@ class GroceryList extends React.Component {
             addGroceryListItem(
                 this.state.newIngredient, 
                 parseInt(this.state.pickedValue[0].value),
-                this.state.standardUnit,
                 this.props.userID
             );
         } else {

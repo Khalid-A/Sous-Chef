@@ -51,6 +51,12 @@ export const addGroceryListItem = (name, amount, userid) => {
     groceryListsRef.doc(userid).get().then(groceryListSnapshot => {
         groceryListSnapshot.ref.collection(
             "ingredients"
-        ).doc(name.toLowerCase()).set({amount: amount});
+        ).doc(name.toLowerCase()).get().then(docSnap => {
+            if (docSnap.exists) {
+                groceryListSnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount + docSnap.get("amount")});
+            } else {
+                groceryListSnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount});
+            }
+        });
     });
 }
