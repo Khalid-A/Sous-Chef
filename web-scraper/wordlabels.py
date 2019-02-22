@@ -5,7 +5,7 @@ MEASUREMENTUNITS = [
     'leaves','legs','links','loaves','ounces','packages','packets',
     'pieces','pinches','pints','pounds','quarts','recipes','slices',
     'sprigs','squares','stalks','strips','tablespoons','teaspoons',
-    'thighs','trays', 'fluid ounces'
+    'thighs','trays', 'fluid ounces', 'carton',
 ]
 
 DESCRIPTIVEADJS = [

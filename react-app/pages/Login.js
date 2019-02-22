@@ -18,12 +18,12 @@ export class Login extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.userID) {
-            this.props.navigation.navigate('DiscoverRecipes');
+            this.props.navigation.navigate('Main');
         }
     }
 
     handleLogin = () => {
-        this.props.userInfo(this.state.email, this.state.password);
+        this.props.login(this.state.email, this.state.password);
     }
 
     render() {
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        userInfo: (email, password) => {
+        login: (email, password) => {
             dispatch(loginUser(email, password))
         }
     }
