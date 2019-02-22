@@ -27,6 +27,7 @@ export default class PreviewRecipe extends React.Component {
             fontSize: 35
         }
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -58,128 +59,115 @@ export default class PreviewRecipe extends React.Component {
             });
             this.calculateHaveIngredients();
         })
-        .catch(function(error) {
+        .catch((error) => {
             console.warn("Error getting documents: ", error);
         });
     }
 
     // Sort required ingredients into enough and not enough
     getSurpluses() {
-        return this.state.recipe.ingredients.map((recipeIngrData) => {
-            // Search for item in pantry
-            var surplus = null;
-            pantryRef.doc(this.props.userID).collection("ingredients")
-                .doc(recipeIngrData.ingredient).get().then((pantryIngrDoc) => {
-                    if (pantryIngrDoc.exists) {
-                        var pantryIngrData = pantryIngrDoc.data();
-                        // Figure out if we have enough
-                        surplus = pantryIngrData.amount -
-                            recipeIngrData.standardQuantity;
-                    }
-                }).catch(function(error) {
-                });
 
-            if (surplus == null) {
-                // We don't have this ingredient at all
-                surplus = -recipeIngrData.standardQuantity;
-            }
-
-            return surplus;
-        });
     }
 
     updatePantryAmount(have, item, surplus) {
         if (have) {
             var docExists = false;
             // Increment amount in pantry to how much this recipe needs
-            firebase.firestore().runTransaction(function(transaction) {
-                var pantryDocRef = pantryRef.doc(this.props.userID)
+            firebase.firestore().runTransaction((transaction) => {
+                var pantryDocRef = pantryRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12")
                     .collection("ingredients").doc(item.ingredient);
-                transaction.get(pantryDocRef).then(function(doc) {
-                    if (doc.exists) {
-                        // We have more of this ingredient, update
-                        docExists = true;
-                        var data = doc.data();
-                        transaction.update(pantryDocRef, {
-                            amount: data.amount - surplus
-                        });
+                return transaction.get(pantryDocRef).then((doc) => {
+                    if (!doc.exists) {
+                        throw "Document does not exist";
                     }
+                    // We have more of this ingredient, update
+                    docExists = true;
+                    var data = doc.data();
+                    transaction.update(pantryDocRef, {
+                        amount: data.amount - surplus
+                    });
                 });
-            }).then(function() {
-                if (!docExists) {
-                    // We need to add this item to the pantry
-                    pantryRef.doc(this.props.userID).collection("ingredients")
-                        .doc(item.ingredient).set({
-                            amount: -surplus
-                        });
-                }
+            }).catch((err) => {
+                // We need to add this item to the pantry
+                pantryRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12").collection("ingredients")
+                    .doc(item.ingredient).set({
+                        amount: -surplus
+                    });
             });
         }
         else {
             // We want to make sure this item is removed from the pantry
-            pantryRef.doc(this.props.userID).collection("ingredients")
-                .doc(item.ingredient).delete().then(function() {
+            pantryRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12").collection("ingredients")
+                .doc(item.ingredient).delete().then(() => {
                     console.log(item.ingredient + " deleted successfully");
-                }).catch(function(error) {
+                }).catch((error) => {
                     console.log(item.ingredient + " already deleted");
                 });
         }
     }
 
     indicateHave(arrayIndex, have=true) {
-        var fromArray, toArray;
+        var haveCopy = [...this.state.haveIngredients];
+        var dontHaveCopy = [...this.state.dontHaveIngredients];
+
+        console.warn("have", arrayIndex, haveCopy);
+        console.warn("dont", arrayIndex, dontHaveCopy);
+
+        return;
+
+        var item, surplus;
+        // Move ingredient to appropriate array in state
         if (have) {
-            fromArray = this.state.dontHaveIngredients;
-            toArray = this.state.haveIngredients;
+            var element = dontHaveCopy[arrayIndex];
+            item = element[0];
+            surplus = element[1];
+            dontHaveCopy.splice(arrayIndex, 1);
+            haveCopy.push(item);
         }
         else {
-            fromArray = this.state.haveIngredients;
-            toArray = this.state.dontHaveIngredients;
+            var element = haveCopy[arrayIndex];
+            item = element[0];
+            surplus = element[1];
+            haveCopy.splice(arrayIndex, 1);
+            dontHaveCopy.push(item);
         }
-        // Move ingredient to appropriate array in state
-        var element = fromArray[arrayIndex];
-        var item, surplus;
-        [item, surplus] = element;
-        fromArray.splice(arrayIndex, 1);
-        toArray.push(item);
+
+        this.setState({
+            haveIngredients: haveCopy,
+            dontHaveIngredients: dontHaveCopy
+        });
+        this.render();
 
         // Update ingredient in pantry
         this.updatePantryAmount(have, item, surplus);
-
-        // TODO: do we need to re-render manually?
     }
 
     addIngrToGroceryList(dontHaveIndex) {
-        console.warn("1");
         var item, surplus;
-        [item, surplus] = this.state.dontHaveIngredients[dontHaveIndex];
+        item = this.state.dontHaveIngredients[dontHaveIndex][0];
+        surplus = this.state.dontHaveIngredients[dontHaveIndex][1];
         var docExists = false;
         // Increment amount in GL to how much this recipe needs
-        firebase.firestore().runTransaction(function(transaction) {
-            var glDocRef = glRef.doc(this.props.userID)
+        firebase.firestore().runTransaction((transaction) => {
+            var glDocRef = glRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12")
                 .collection("ingredients").doc(item.ingredient);
-            transaction.get(glDocRef).then(function(doc) {
-                console.warn("2");
-                if (doc.exists) {
-                    // We have more of this ingredient, update
-                    docExists = true;
-                    var data = doc.data();
-                    transaction.update(glDocRef, {
-                        amount: data.amount - surplus
-                    });
+            transaction.get(glDocRef).then((doc) => {
+                if (!doc.exists) {
+                    throw "Ingredient not in GL";
                 }
-                console.warn("3");
+                // We have more of this ingredient, update
+                docExists = true;
+                var data = doc.data();
+                transaction.update(glDocRef, {
+                    amount: data.amount - surplus
+                });
             });
-        }).then(function() {
-            console.warn("4");
-            if (!docExists) {
-                // We need to add this item to the pantry
-                glRef.doc(this.props.userID).collection("ingredients")
-                    .doc(item.ingredient).set({
-                        amount: -surplus
-                    });
-                    console.warn("5");
-            }
+        }).catch((err) => {
+            // We need to add this item to the pantry
+            glRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12").collection("ingredients")
+                .doc(item.ingredient).set({
+                    amount: -surplus
+                });
         });
     }
 
@@ -192,11 +180,16 @@ export default class PreviewRecipe extends React.Component {
     createHaveList() {
         var elements = [];
 
-        this.state.haveIngredients.forEach((elem, i) => {
-            var item, surplus;
-            [item, surplus] = elem;
+        for (var i = 0; i < this.state.haveIngredients.length; i++) {
+            var elem = this.state.haveIngredients[i];
+            var item = elem[0];
+            // if (!item) {
+            //     console.warn(elem);
+            //     return elements;
+            // }
+            var surplus = elem[1];
             elements.push(
-                <View>
+                <View key={"view " + item.ingredient}>
                     <Text
                         style={[styles.ingredientName]}
                         data={{surplus: surplus}}
@@ -206,11 +199,15 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Don't Have"
-                        onPress={this.indicateHave(i, false)}
+                        onPress={() => this.indicateHave(i, false)}
                     ></Button>
                 </View>
             );
-        });
+        }
+
+        // this.state.haveIngredients.forEach((elem, i) => {
+        //
+        // });
 
         return elements;
     }
@@ -218,9 +215,15 @@ export default class PreviewRecipe extends React.Component {
     createDontHaveList() {
         var elements = [];
 
-        this.state.dontHaveIngredients.forEach((elem, i) => {
-            var item, surplus;
-            [item, surplus] = elem;
+        for (var i = 0; i < this.state.dontHaveIngredients.length; i++) {
+            var elem = this.state.dontHaveIngredients[i];
+
+            var item = elem[0];
+            // if (!item) {
+            //     console.warn(elem);
+            //     return elements;
+            // }
+            var surplus = elem[1];
             elements.push(
                 <View key={item.ingredient}>
                     <Text
@@ -231,16 +234,44 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Have"
-                        onPress={this.indicateHave(i)}
+                        onPress={() => this.indicateHave(i)}
                     ></Button>
                     <Button
                         style={{color: 'red'}}
                         title="Add to GL"
-                        onPress={this.addIngrToGroceryList(i)}
+                        onPress={() => this.addIngrToGroceryList(i)}
                     ></Button>
                 </View>
             );
-        });
+        }
+
+        // this.state.dontHaveIngredients.forEach((elem, i) => {
+        //     var item = elem[0];
+        //     // if (!item) {
+        //     //     console.warn(elem);
+        //     //     return elements;
+        //     // }
+        //     var surplus = elem[1];
+        //     elements.push(
+        //         <View key={item.ingredient}>
+        //             <Text
+        //                 style={[styles.ingredientName]}
+        //                 data={{surplus: surplus}}>
+        //                 {item.originalQuantity} {item.originalText}
+        //             </Text>
+        //             <Button
+        //                 style={{color: 'red'}}
+        //                 title="Have"
+        //                 onPress={() => this.indicateHave(i)}
+        //             ></Button>
+        //             <Button
+        //                 style={{color: 'red'}}
+        //                 title="Add to GL"
+        //                 onPress={() => this.addIngrToGroceryList(i)}
+        //             ></Button>
+        //         </View>
+        //     );
+        // });
 
         return elements;
     }
@@ -250,28 +281,74 @@ export default class PreviewRecipe extends React.Component {
             console.warn("null");
         }
 
-        // surpluses[i] == (we have enough of this.state.recipe.ingredients[i])
-        var surpluses = this.getSurpluses();
-
         // Sort ingredients into have and don't have
-        var haveIngredients = [];
-        var dontHaveIngredients = [];
-        surpluses.forEach((surplus, i) => {
-            if (surplus >= 0) {
-                // We have enough of ingredient at index i
-                var arr = [this.state.recipe.ingredients[i], surplus];
-                haveIngredients.push(arr);
-            }
-            else {
-                // We don't have enough of ingredient at index i
-                var arr = [this.state.recipe.ingredients[i], surplus];
-                dontHaveIngredients.push(arr);
-            }
-        });
+        var promises = [];
+        for (var i = 0; i < this.state.recipe.ingredients.length; i++) {
+            // Search for item in pantry
+            promises.push(pantryRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12").collection("ingredients")
+                .doc(this.state.recipe.ingredients[i].ingredient).get());
+                // .then((surplus) => {
+                //     // console.warn(recipeIngrData.ingredient);
+                //     if (surplus >= 0) {
+                //         // We have enough of ingredient at index i
+                //         var arr = [recipeIngrData, surplus];
+                //         // TODO: is push atomic?
+                //         this.setState(prevState => ({
+                //             haveIngredients:
+                //                 [...prevState.haveIngredients, arr]
+                //         }));
+                //     }
+                //     else {
+                //         // We don't have enough of ingredient at index i
+                //         var arr = [recipeIngrData, surplus];
+                //         this.setState(prevState => ({
+                //             dontHaveIngredients:
+                //                 [...prevState.dontHaveIngredients, arr]
+                //         }));
+                //     }
+                // }));
+        }
 
-        this.setState({
-            haveIngredients: haveIngredients,
-            dontHaveIngredients: dontHaveIngredients
+        // Deal with concurrency issues by "joining" at steps
+        Promise.all(promises).then((docs) => {
+            var surpluses = new Array(docs.length);
+            for (var i = 0; i < docs.length; i++) {
+                var pantryIngrDoc = docs[i];
+                if (!pantryIngrDoc.exists) {
+                    break;
+                }
+                var pantryIngrData = pantryIngrDoc.data();
+                surpluses[i] = pantryIngrData.amount -
+                    this.state.recipe.ingredients[i].standardQuantity;
+            }
+            return surpluses;
+        // TODO
+        }).then((surpluses) => {
+            for (var i = 0; i < surpluses.length; i++) {
+                // Handle case when we don't have this ingredient at all
+                surpluses[i] = surpluses[i] |
+                    -this.state.recipe.ingredients[i].standardQuantity;
+            }
+            return surpluses;
+        }).then((surpluses) => {
+            var haveIngredients = [];
+            var dontHaveIngredients = [];
+            for (var i = 0; i < surpluses.length; i++) {
+                var surplus = surpluses[i];
+                var arr = [this.state.recipe.ingredients[i], surplus];
+                if (surplus >= 0) {
+                    // We have enough of ingredient at index i
+                    haveIngredients.push(arr);
+                }
+                else {
+                    // We don't have enough of ingredient at index i
+                    dontHaveIngredients.push(arr);
+                }
+            }
+            this.setState({
+                haveIngredients: haveIngredients,
+                dontHaveIngredients: dontHaveIngredients
+            });
         });
     }
 
@@ -300,7 +377,7 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'yellow'}}
                         title="Add All to Grocery List"
-                        onPress={this.addAllToGroceryList()}
+                        onPress={() => this.addAllToGroceryList()}
                     ></Button>
                     {this.createHaveList()}
                     <Text style={[styles.ingredientsLabel]}>
@@ -311,7 +388,7 @@ export default class PreviewRecipe extends React.Component {
                     <Button
                         style={{color: 'red'}}
                         title="Make right now"
-                        onPress={this.cookNow()}
+                        onPress={() => this.cookNow()}
                     ></Button>
                 </View>
             );
