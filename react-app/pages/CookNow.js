@@ -8,7 +8,7 @@ import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 import { setIngredientsToRemove } from '../redux/actions/action';
 
-const recipesRef = firebase.firestore().collection('recipes');
+const recipesRef = firebase.firestore().collection('test_recipes');
 
 class CookNow extends React.Component {
   static navigationOptions = {
@@ -71,14 +71,14 @@ class CookNow extends React.Component {
       console.warn("null");
     }
     return Object.keys(this.state.recipe.ingredients).map((ingredientID) => {
-      const ingredient = this.state.recipe.ingredients[ingredientID].ingredient;
-      const quantity = this.state.recipe.ingredients[ingredientID].quantity;
-      const unit = this.state.recipe.ingredients[ingredientID].unit;
+      const text = this.state.recipe.ingredients[ingredientID].originalText;
+      const quantity = this.state.recipe.ingredients[ingredientID].originalQuantity;
+      // const unit = this.state.recipe.ingredients[ingredientID].unit;
       if(!ingredient){
         return null;
       }
       return (
-        <Text style={styles.detail}>{quantity} {unit} {ingredient}</Text>
+        <Text style={styles.detail}>{quantity} {text}</Text>
       );
     });
   }
