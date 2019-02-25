@@ -7,8 +7,7 @@ import firebase from 'react-native-firebase';
  * groceryListsRef Firestore collection reference to all grocery lists.
  */
 const groceryListsRef = firebase.firestore().collection("grocerylists");
-const ingredientsRef = firebase.firestore().collection("IDToIngredient");
-const ingredientsIDLookupRef = firebase.firestore().collection("ingredientToID");
+const ingredientsRef = firebase.firestore().collection("standardmappings");
 
 /**
  * beginGroceryListsFetch Creates a listener that updates the current user's
@@ -28,17 +27,17 @@ export const beginGroceryListFetch = (userid) => async dispatch => {
                     });
                 }
                 var amount = snapshot.docs[index].get("amount");
-                var unit = snapshot.docs[index].get("unit");
-                var callback = ((amount, unit) => (ingredientSnapshot) => {
+                var title = snapshot.docs[index].id;
+                var callback = ((amount, title) => (ingredientSnapshot) => {
                     dispatch({
                         type: ADD_GROCERY_LIST,
                         payload: {
-                            title: ingredientSnapshot.get("name"),
+                            title: title,
                             amount: amount,
-                            unit: unit
+                            unit: ingredientSnapshot.get("unit")
                         }
                     });
-                })(amount, unit);
+                })(amount, title);
 
                 ingredientsRef.doc(
                     snapshot.docs[index].id
@@ -48,21 +47,16 @@ export const beginGroceryListFetch = (userid) => async dispatch => {
     })
 }
 
-export const addGroceryListItem = (name, amount, unit, userid) => {
-    ingredientsIDLookupRef.doc(name).get().then(snapshot => {
-        var ingredientID;
-        if (!snapshot.exists) {
-            var newIngredient = ingredientsRef.doc();
-            newIngredient.set({name: name});
-            ingredientsIDLookupRef.doc(name).set({id: newIngredient.id});
-            ingredientID = newIngredient.id;
-        } else {
-            ingredientID = snapshot.get("id");
-        }
-        groceryListsRef.doc(userid).onSnapshot(groceryListSnapshot => {
-            groceryListSnapshot.ref.collection(
-                "ingredients"
-            ).doc(ingredientID).set({amount: amount, unit: unit});
+export const addGroceryListItem = (name, amount, userid) => {
+    groceryListsRef.doc(userid).get().then(groceryListSnapshot => {
+        groceryListSnapshot.ref.collection(
+            "ingredients"
+        ).doc(name.toLowerCase()).get().then(docSnap => {
+            if (docSnap.exists) {
+                groceryListSnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount + docSnap.get("amount")});
+            } else {
+                groceryListSnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount});
+            }
         });
-    })
+    });
 }
