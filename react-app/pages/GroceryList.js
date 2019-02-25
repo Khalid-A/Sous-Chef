@@ -4,8 +4,8 @@ import {
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { beginGroceryListFetch, addGroceryListItem, editGroceryItem } from '../redux/actions/GroceryListAction';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
@@ -26,6 +26,7 @@ import convert from 'convert-units';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
 import firebase from 'react-native-firebase';
+import { addPantryItem } from '../redux/actions/PantryAction';
 
 
 const defaultState = {
@@ -78,7 +79,7 @@ class GroceryList extends React.Component {
     ];
 
     addItem = () => {
-        if (this.state.unconventionalUnits) {
+        if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
             addGroceryListItem(
                 this.state.newIngredient, 
                 parseInt(this.state.pickedValue[0].value),
@@ -134,6 +135,13 @@ class GroceryList extends React.Component {
         firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
             if (unit == undefined) {
+                this.setState({
+                    standardUnit: "",
+                    units: [""],
+                    unconventionalUnits: true,
+                    pickedValue:[{key: 1, value: "1"}, ""]
+                });
+                callback();
                 return;
             }
             var unitList = convert().list().filter((unitEntry) => {
@@ -212,10 +220,44 @@ class GroceryList extends React.Component {
                             >
                                 <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backRightBtnRight]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    removeGroceryListItem(data.item.title, this.props.userID);
+                                }}
+                            >
+                                <Text style={styles.text}>delete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backLeftBtnRight]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    firebase.firestore().collection("standardmappings").doc(data.item.title).get().then(ingredientSnapshot => {
+                                        if (ingredientSnapshot.exists) {
+                                            removeGroceryListItem(data.item.title, this.props.userID);
+                                            addPantryItem(data.item.title, data.item.amount, this.props.userID);
+                                        } else {
+                                            Alert.alert(
+                                                "Cannot Move to Pantry", 
+                                                "Custom ingredients that are not used in any recipes in Sous Chef cannot be added to your pantry.",
+                                                [
+                                                    {
+                                                        text: "OK" 
+                                                    }
+                                                ]
+                                            );
+                                        }
+                                    })
+                                }}
+                            >
+                                <Text style={styles.text}>move to pantry</Text>
+                            </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
+                    leftOpenValue={150}
                 />
                 <ActionButton 
                     buttonColor={BUTTON_BACKGROUND_COLOR} 
@@ -503,7 +545,11 @@ const styles = StyleSheet.create({
 	},
 	backRightBtnRight: {
 		backgroundColor: 'red',
-		right: 0
+        left: 0
+    },
+    backLeftBtnRight: {
+        backgroundColor: 'purple',
+		left: 75
     },
     text: {
         fontFamily: DEFAULT_FONT,

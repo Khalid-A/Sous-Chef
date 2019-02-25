@@ -5,7 +5,7 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import {beginPantryFetch, addPantryItem, editPantryItem} from '../redux/actions/PantryAction';
+import {beginPantryFetch, addPantryItem, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
@@ -26,6 +26,7 @@ import convert from 'convert-units';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
 import firebase from 'react-native-firebase';
+import { addGroceryListItem } from '../redux/actions/GroceryListAction';
 
 
 const defaultState = {
@@ -103,7 +104,7 @@ class Pantry extends React.Component {
     }
 
     editItem = () => {
-        if (this.state.unconventionalUnits) {
+        if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
             editPantryItem(
                 this.state.editIngredient, 
                 parseInt(this.state.pickedValue[0].value),
@@ -138,6 +139,13 @@ class Pantry extends React.Component {
         firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
             if (unit == undefined) {
+                this.setState({
+                    standardUnit: "",
+                    units: [""],
+                    unconventionalUnits: true,
+                    pickedValue:[{key: 1, value: "1"}, ""]
+                });
+                callback();
                 return;
             }
             var unitList = convert().list().filter((unitEntry) => {
@@ -212,10 +220,30 @@ class Pantry extends React.Component {
                             >
                                 <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backRightBtnRight]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    removePantryItem(data.item.title, this.props.userID);
+                                }}
+                            >
+                                <Text style={styles.text}>delete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backLeftBtnRight]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    removePantryItem(data.item.title, this.props.userID);
+                                    addGroceryListItem(data.item.title, data.item.amount, this.props.userID);
+                                }}
+                            >
+                                <Text style={styles.text}>move to grocery</Text>
+                            </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
+                    leftOpenValue={150}
                 />
                 <ActionButton 
                     buttonColor={BUTTON_BACKGROUND_COLOR} 
@@ -223,7 +251,7 @@ class Pantry extends React.Component {
                         if (!active)
                             return (
                                 <Icon 
-                                    name="md-create" 
+                                    name="md-create"
                                     style={styles.actionButtonIcon}
                                 />
                             );
@@ -508,8 +536,12 @@ const styles = StyleSheet.create({
 	},
 	backRightBtnRight: {
 		backgroundColor: 'red',
-		right: 0
-	},
+		left: 0
+    },
+    backLeftBtnRight: {
+        backgroundColor: 'purple',
+		left: 75
+    }
 })
 
 const mapStateToProps = state => {

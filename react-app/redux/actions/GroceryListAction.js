@@ -61,6 +61,12 @@ export const addGroceryListItem = (name, amount, userid) => {
     });
 }
 
+export const removeGroceryListItem = (name, userid) => {
+    groceryListsRef.doc(userid).get().then(groceryListSnapshot => {
+        groceryListSnapshot.ref.collection("ingredients").doc(name.toLowerCase()).delete();
+    });
+}
+
 export const editGroceryItem = (name, amount, userid) => {
     groceryListsRef.doc(userid).get().then(groceryListSnapshot => {
         groceryListSnapshot.ref.collection(
