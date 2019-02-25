@@ -62,3 +62,11 @@ export const addPantryItem = (name, amount, userid) => {
         });
     });
 }
+
+export const editPantryItem = (name, amount, userid) => {
+    pantryRef.doc(userid).get().then(pantrySnapshot => {
+        pantrySnapshot.ref.collection(
+            "ingredients"
+        ).doc(name.toLowerCase()).set({amount: amount});
+    });
+}

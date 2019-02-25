@@ -60,3 +60,11 @@ export const addGroceryListItem = (name, amount, userid) => {
         });
     });
 }
+
+export const editGroceryItem = (name, amount, userid) => {
+    groceryListsRef.doc(userid).get().then(groceryListSnapshot => {
+        groceryListSnapshot.ref.collection(
+            "ingredients"
+        ).doc(name.toLowerCase()).set({amount: amount});
+    });
+}
