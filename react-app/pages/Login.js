@@ -1,6 +1,6 @@
 import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors'
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Image, Text, View, ScrollView, LinearGradient } from 'react-native';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
 import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
@@ -57,7 +57,7 @@ export class Login extends Component {
                 </RkButton>
                 <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
             </View>
-            </ScrollView>
+          </ScrollView>
         );
     }
 }
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     }
 });
-  
+
 const mapStateToProps = (state) => {
     return {
         userID: state.userInfo.userID,
@@ -107,5 +107,5 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-    
+
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
