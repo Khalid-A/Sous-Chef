@@ -14,7 +14,7 @@ import firebase from 'react-native-firebase';
 /**
  * recipesRef Reference to the all recipes collection in firestore.
  */
-const recipesRef = firebase.firestore().collection('recipes');
+const recipesRef = firebase.firestore().collection('test_recipes');
 
 /**
  * relevantRecipesRef Collection reference to the relevant recipes collection
