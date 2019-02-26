@@ -277,16 +277,6 @@ class Pantry extends React.Component {
                             style={styles.actionButtonIcon}
                         />
                     </ActionButton.Item>
-                    <ActionButton.Item 
-                        buttonColor={ACTION_BUTTON_COLOR}
-                        title="Move To Pantry" 
-                        onPress={() => console.warn("move all to pantry tapped!")}
-                    >
-                        <Icon 
-                            name="md-create" 
-                            style={styles.actionButtonIcon} 
-                        />
-                    </ActionButton.Item>
                 </ActionButton>
                 <Dialog
                     width={0.8}

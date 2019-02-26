@@ -293,8 +293,8 @@ class GroceryList extends React.Component {
                     </ActionButton.Item>
                     <ActionButton.Item 
                         buttonColor={ACTION_BUTTON_COLOR}
-                        title="Edit Items" 
-                        onPress={() => console.warn("edit tapped!")}
+                        title="Move To Pantry"
+                        onPress={() => console.warn("move all to pantry tapped!")}
                     >
                         <Icon 
                             name="md-create" 
