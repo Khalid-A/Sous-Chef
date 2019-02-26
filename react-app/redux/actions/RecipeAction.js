@@ -119,3 +119,12 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
         )
     );
 }
+
+export const addRatingForRecipe = (recipeID, rating) => {
+    recipesRef.doc(recipeID).get().then(recipeSnapshot => {
+        var oldRating = parseFloat(recipeSnapshot.get("rating.rating"));
+        var ratingCount = parseInt(recipeSnapshot.get("rating.reviewCount"));
+        var newRating = ((oldRating * ratingCount) + rating) / (ratingCount + 1);
+        recipesRef.doc(recipeID).set({rating: newRating, ratingCount: ratingCount + 1});
+    });
+}
