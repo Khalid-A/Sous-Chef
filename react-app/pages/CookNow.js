@@ -74,7 +74,7 @@ class CookNow extends React.Component {
       const text = this.state.recipe.ingredients[ingredientID].originalText;
       const quantity = this.state.recipe.ingredients[ingredientID].originalQuantity;
       // const unit = this.state.recipe.ingredients[ingredientID].unit;
-      if(!ingredient){
+      if(!text){
         return null;
       }
       return (
