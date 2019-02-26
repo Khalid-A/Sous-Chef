@@ -5,10 +5,10 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGIN_FAILURE = "LOGIN_FAILURE"
 export const LOGOUT = "LOGOUT"
 
-/**
- * usersRef: Reference to the all users collection in firestore.
- */
-const usersRef = firebase.firestore().collection('users')
+const usersRef = firebase.firestore().collection('users');
+const pantryRef = firebase.firestore().collection('pantrylists');
+const groceryRef = firebase.firestore().collection('grocerylists');
+const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
 
 /**
  * createUser is a function that given an email and a password,
@@ -130,29 +130,62 @@ export const signInSuccess = (dispatch, userID, email) => {
     }
 
     // create documents necessary for new users in firebase
-    firebase.firestore().collection('users').doc(userID).set(userInfo)
-    firebase.firestore().collection('relevantrecipes').doc(userID).set({
+    usersRef.doc(userID).set(userInfo)
+    relevantRecipesRef.doc(userID).set({
         relevantRecipesID: relevantRecipesID
     })
 
     // load dummy data to test with
-    firebase.firestore().collection('relevantrecipes').doc(userID)
+    relevantRecipesRef.doc(userID)
         .collection('recipes').doc('0393217f-f9e4-411a-864e-ebefb03003ea').set({
             recipeID: '0393217f-f9e4-411a-864e-ebefb03003ea',
             isReadyToGo: true,
             isRecommended: true
         })
 
-    firebase.firestore().collection('pantrylists').doc(userID).set({
+    pantryRef.doc(userID).set({
         pantryListID: pantryListID
     }) 
-    firebase.firestore().collection('grocerylists').doc(userID).set({
+
+    // prepopulate pantry with staple pantry items
+    prepopulatePantry(userID)
+
+    groceryRef.doc(userID).set({
         groceryListID: groceryListID
     }) 
 
     dispatch({
         type: LOGIN_SUCCESS,
         payload: userInfo
+    });
+}
+
+/**
+ * commonPantryItems is a dictionary of common ingredients found
+ * in most people's pantry along with the expected amount, in 
+ * standard units.
+ */
+const commonPantryItems = {
+    "butter": 1,         // 2 sticks = 1 cup of butter
+    "salt": 20,          // 3/4 pound = 20 tablespoons
+    "pepper": 34,        // 1 canister = 34 teaspoons
+    "white sugar": 73,   // 2 pound bag = 73 tablespoons
+    "flour": 6,          // 2 pound bag = 6 cups
+    "olive oil": 96,     // 16 ounce bottle = 96 teaspoons
+    "vegetable oil": 64, // 1 quart = 64 tablespoons
+    "egg": 12,
+};
+
+/**
+ * prepopulatePantry adds common pantry items into a user's pantry.
+ * 
+ * @param {string} userID: user whose pantry we want to prepopulate.
+ */
+function prepopulatePantry(userID) {
+    Object.keys(commonPantryItems).forEach(function(key) {
+        pantryRef.doc(userID).collection('ingredients').doc(key).set({
+            amount: commonPantryItems[key]
+        })
     });
 }
 
