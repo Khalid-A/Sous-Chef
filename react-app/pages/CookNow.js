@@ -6,7 +6,7 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
-import { setIngredientsToRemove } from '../redux/actions/action';
+import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 
 const recipesRef = firebase.firestore().collection('test_recipes');
 
