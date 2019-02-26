@@ -7,6 +7,8 @@ import DiscoverRecipes from './pages/DiscoverRecipes';
 import Pantry from './pages/Pantry';
 import GroceryList from './pages/GroceryList';
 import PrepopulatePantry from './pages/PrepopulatePantry';
+import CookNow from './pages/CookNow';
+import Finished from './pages/Finished';
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
 import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
@@ -21,6 +23,8 @@ const AppNavigator = createAppContainer(createStackNavigator({
     SignUp: SignUp,
     Login: Login,
     PrepopulatePantry: PrepopulatePantry,
+    CookNow: CookNow,
+    Finished: Finished,
     Main: {
         screen: createDrawerNavigator(
         {
