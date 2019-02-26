@@ -137,10 +137,10 @@ export const signInSuccess = (dispatch, userID, email) => {
 
     // load dummy data to test with
     firebase.firestore().collection('relevantrecipes').doc(userID)
-        .collection('recipes').doc('02d25afc-8c04-4b0e-9766-90eac7e6a0df').set({
-            recipeID: '02d25afc-8c04-4b0e-9766-90eac7e6a0df',
-            isReadyToGo: 'true',
-            isRecommended: '"isRecommended"'
+        .collection('recipes').doc('0393217f-f9e4-411a-864e-ebefb03003ea').set({
+            recipeID: '0393217f-f9e4-411a-864e-ebefb03003ea',
+            isReadyToGo: true,
+            isRecommended: true
         })
 
     firebase.firestore().collection('pantrylists').doc(userID).set({
