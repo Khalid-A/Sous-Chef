@@ -137,8 +137,8 @@ export const signInSuccess = (dispatch, userID, email) => {
 
     // load dummy data to test with
     relevantRecipesRef.doc(userID)
-        .collection('recipes').doc('0393217f-f9e4-411a-864e-ebefb03003ea').set({
-            recipeID: '0393217f-f9e4-411a-864e-ebefb03003ea',
+        .collection('recipes').doc('04031156-b064-44e3-ae06-28e82c234e9e').set({
+            recipeID: '04031156-b064-44e3-ae06-28e82c234e9e',
             isReadyToGo: true,
             isRecommended: true
         })
@@ -160,12 +160,7 @@ export const signInSuccess = (dispatch, userID, email) => {
     });
 }
 
-/**
- * commonPantryItems is a dictionary of common ingredients found
- * in most people's pantry along with the expected amount, in 
- * standard units.
- */
-const commonPantryItems = {
+this.commonPantryItems = {
     "butter": 1,             // 2 sticks = 1 cup of butter
     "salt": 20,              // 3/4 pound = 20 tablespoons
     "black pepper": 34,      // 1 canister = 34 teaspoons
