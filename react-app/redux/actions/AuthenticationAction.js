@@ -166,14 +166,16 @@ export const signInSuccess = (dispatch, userID, email) => {
  * standard units.
  */
 const commonPantryItems = {
-    "butter": 1,         // 2 sticks = 1 cup of butter
-    "salt": 20,          // 3/4 pound = 20 tablespoons
-    "pepper": 34,        // 1 canister = 34 teaspoons
-    "white sugar": 73,   // 2 pound bag = 73 tablespoons
-    "flour": 6,          // 2 pound bag = 6 cups
-    "olive oil": 96,     // 16 ounce bottle = 96 teaspoons
-    "vegetable oil": 64, // 1 quart = 64 tablespoons
-    "egg": 12,
+    "butter": 1,             // 2 sticks = 1 cup of butter
+    "salt": 20,              // 3/4 pound = 20 tablespoons
+    "black pepper": 34,      // 1 canister = 34 teaspoons
+    "white sugar": 73,       // 2 pound bag = 73 tablespoons
+    "all-purpose flour": 6,  // 2 pound bag = 6 cups
+    "olive oil": 96,         // 16 ounce bottle = 96 teaspoons
+    "vegetable oil": 64,     // 1 quart = 64 tablespoons
+    "egg": 12,               // 1 dozen = 12 whole
+    "garlic": 5,             // 5 cloves
+    "milk": 12,              // under 1 gallon = 12 cups
 };
 
 /**
