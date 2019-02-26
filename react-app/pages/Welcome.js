@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView} from 'react-native';
+import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { RkButton } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { loginExistingUser } from './../redux/actions/AuthenticationAction';
+import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 
 class Welcome extends React.Component {
     static navigationOptions = {
@@ -36,31 +37,22 @@ class Welcome extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
 
-                <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
-                <Text style={styles.welcome}>
-                Welcome to {'\n'} Sous Chef
-                </Text>
-                <RkButton
-                    rkType="rounded"
-                    onPress={this.onLoginPressed}
-                >
-                Login
-                </RkButton>
+                <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+                <Text style={styles.welcome}>Welcome to Sous Chef</Text>
+
+                  <TouchableOpacity style = {styles.button} onPress={this.onLoginPressed}>
+                    <Text style ={styles.buttonText}>LOGIN</Text>
+                  </TouchableOpacity>
 
 
-                  <Text style={styles.buttonText}>
-                    Sign in with Facebook
-                  </Text>
 
-
-                <RkButton
-                    rkType="rounded"
+                <TouchableOpacity style = {styles.button}
                     onPress={this.onSignUpPressed}
-                >
-                SignUp
-                </RkButton>
+                ><Text style ={styles.buttonText}>SIGN UP</Text></TouchableOpacity>
+
+
                   </LinearGradient>
             </View>
         );
@@ -71,49 +63,40 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        // alignItems: 'center',
         backgroundColor: '#F5FCFF',
-        // width:
     },
     logo: {
-        height: 120,
-        marginBottom: 16,
-        marginTop: 64,
-        padding: 10,
-        width: 135,
+        marginTop: Dimensions.get('window').height/4,
+        height: 60,
+        width: 160,
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    modules: {
-        margin: 20,
-    },
-    modulesHeader: {
-        fontSize: 16,
-        marginBottom: 8,
-    },
-    module: {
-        fontSize: 14,
-        marginTop: 4,
-        textAlign: 'center',
+        marginTop: 10,
+        marginBottom: 70,
+        color: "white",
     },
     linearGradient: {
     flex: 1,
+    alignItems: 'center',
   },
   buttonText: {
-    fontSize: 18,
-    fontFamily: 'Gill Sans',
+    fontSize: 16,
+    fontFamily: 'Avenir',
     textAlign: 'center',
+    // margin: 10,
+    color: BUTTON_BACKGROUND_COLOR,
+    backgroundColor:'transparent',
+    fontWeight: 'bold',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 10,
+    width: 250,
+    borderRadius:30,
     margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent',
   },
 
 });
