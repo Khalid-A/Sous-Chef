@@ -5,28 +5,16 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import {beginPantryFetch, addPantryItem, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
+import { beginPantryFetch, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {
-    RkTextInput, 
-    RkPicker, 
-    RkButton
-} from 'react-native-ui-kitten';
-import Dialog, { 
-    DialogFooter, 
-    SlideAnimation, 
-    DialogButton, 
-    DialogTitle, 
-    DialogContent 
-} from 'react-native-popup-dialog';
+import { RkPicker } from 'react-native-ui-kitten';
 import convert from 'convert-units';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import firebase from 'react-native-firebase';
-import { addGroceryListItem } from '../redux/actions/GroceryListAction';
 
 
 const defaultState = {

@@ -137,8 +137,8 @@ export const signInSuccess = (dispatch, userID, email) => {
 
     // load dummy data to test with
     relevantRecipesRef.doc(userID)
-        .collection('recipes').doc('04031156-b064-44e3-ae06-28e82c234e9e').set({
-            recipeID: '04031156-b064-44e3-ae06-28e82c234e9e',
+        .collection('recipes').doc('2198f390-582a-4462-b62f-f6dbba7165c0').set({
+            recipeID: '2198f390-582a-4462-b62f-f6dbba7165c0',
             isReadyToGo: true,
             isRecommended: true
         })
