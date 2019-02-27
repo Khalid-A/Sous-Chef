@@ -38,6 +38,7 @@ export default class PreviewRecipe extends React.Component {
             imageHeight: 0,
             haveIngredients: [],
             dontHaveIngredients: [],
+            addToGlIsClicked: {},
             userID: "sElabGbDpwfcQcdpBbCejRaUhy12"
         };
     }
@@ -52,6 +53,12 @@ export default class PreviewRecipe extends React.Component {
                 var val = data.ingredients[key];
                 val.ingredient = key;
                 val.key = key;
+                // Initialize value of clicked map
+                var copyAddToGL = {...this.state.addToGlIsClicked};
+                copyAddToGL[key] = false;
+                this.setState({
+                    addToGlIsClicked: copyAddToGL
+                });
                 ingredientsArray.push(val);
             }
             data.ingredients = ingredientsArray;
@@ -160,12 +167,23 @@ export default class PreviewRecipe extends React.Component {
                 .doc(item.ingredient).set({
                     amount: -surplus
                 });
+        }).then(() => {
+            var copyAddToGL = {...this.state.addToGlIsClicked};
+            copyAddToGL[item.ingredient] = true;
+            this.setState({
+                addToGlIsClicked: copyAddToGL
+            });
+
+            this.render();
         });
     }
 
     addAllToGroceryList = () => {
         this.state.dontHaveIngredients.forEach((item, index) => {
-            this.addIngrToGroceryList(index);
+            if (!this.state.addToGlIsClicked[item[0].ingredient]) {
+                // Only add if it hasn't been added already
+                this.addIngrToGroceryList(index);
+            }
         });
     }
 
@@ -253,6 +271,71 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
+    glButton = (item, index) => {
+        console.warn("called");
+        if (!this.state.addToGlIsClicked[item[0].ingredient]) {
+            return (
+                <Button
+                    style={{color: 'red'}}
+                    key={"Add to GL " + index}
+                    title="Add to GL"
+                    onPress={() => this.addIngrToGroceryList(index)}
+                ></Button>
+            );
+        }
+        else {
+            return (
+                <View></View>
+            );
+        }
+    }
+
+    _renderDontHave = ({item, index}) => {
+        console.warn("render");
+        if (this.state.addToGlIsClicked[item[0].ingredient]) {
+            return (
+                <View key={item.key}>
+                    <Text
+                        style={[styles.ingredientName]}
+                        key={"Ingredient Name " + index}
+                        data={{surplus: item[1]}}>
+                        {item[0].originalQuantity} {item[0].originalText}
+                    </Text>
+                    <Button
+                        key={"Have " + index}
+                        style={{color: 'red'}}
+                        title="Have"
+                        onPress={() => this.indicateHave(index)}
+                    ></Button>
+                </View>
+            );
+        }
+        else {
+            return (
+                <View key={item.key}>
+                    <Text
+                        style={[styles.ingredientName]}
+                        key={"Ingredient Name " + index}
+                        data={{surplus: item[1]}}>
+                        {item[0].originalQuantity} {item[0].originalText}
+                    </Text>
+                    <Button
+                        key={"Have " + index}
+                        style={{color: 'red'}}
+                        title="Have"
+                        onPress={() => this.indicateHave(index)}
+                    ></Button>
+                    <Button
+                        style={{color: 'red'}}
+                        key={"Add to GL " + index}
+                        title="Add to GL"
+                        onPress={() => this.addIngrToGroceryList(index)}
+                    ></Button>
+                </View>
+            );
+        }
+    }
+
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
     render() {
         if (this.state.recipe && this.state.recipe.ingredients) {
@@ -297,28 +380,7 @@ export default class PreviewRecipe extends React.Component {
                     <FlatList
                         data={this.state.dontHaveIngredients}
                         keyExtractor={(item, index) => item[0].key}
-                        renderItem={({item, index}) =>
-                            <View key={item.key}>
-                                <Text
-                                    style={[styles.ingredientName]}
-                                    key={"Ingredient Name " + index}
-                                    data={{surplus: item[1]}}>
-                                    {item[0].originalQuantity} {item[0].originalText}
-                                </Text>
-                                <Button
-                                    key={"Have " + index}
-                                    style={{color: 'red'}}
-                                    title="Have"
-                                    onPress={() => this.indicateHave(index)}
-                                ></Button>
-                                <Button
-                                    style={{color: 'red'}}
-                                    key={"Add to GL " + index}
-                                    title="Add to GL"
-                                    onPress={() => this.addIngrToGroceryList(index)}
-                                ></Button>
-                            </View>
-                        }
+                        renderItem={this._renderDontHave}
                     />
 
                     <Button
