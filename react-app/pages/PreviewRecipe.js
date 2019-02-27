@@ -11,6 +11,7 @@ const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
 const mappingsRef = firebase.firestore().collection('standardmappings');
 
+
 const win = Dimensions.get('window');
 
 export default class PreviewRecipe extends React.Component {
@@ -37,14 +38,18 @@ export default class PreviewRecipe extends React.Component {
             imageWidth: 0,
             imageHeight: 0,
             haveIngredients: [],
-            dontHaveIngredients: []
+            dontHaveIngredients: [],
+            // TODO: connect with actual id
+            userID: "sElabGbDpwfcQcdpBbCejRaUhy12", // souschef@stanford.edu
         };
     }
 
     componentWillMount() {
         var recipeID = "04031156-b064-44e3-ae06-28e82c234e9e";
 
-        recipesRef.doc(recipeID).get().then((doc) => {
+    getRecipeInfo = () => {
+        var recipeID = "11c32b49-1dbc-4625-916d-f7678cef8cf3";
+        recipesRef.doc(recipeID).onSnapshot((doc) => {
             var data = doc.data();
             var ingredientsArray = [];
             for (var key in data.ingredients) {
@@ -70,7 +75,7 @@ export default class PreviewRecipe extends React.Component {
 
     }
 
-    updatePantryAmount(have, item, surplus) {
+    updatePantryAmount = (have, item, surplus) => {
         if (have) {
             var docExists = false;
             // Increment amount in pantry to how much this recipe needs
@@ -138,7 +143,7 @@ export default class PreviewRecipe extends React.Component {
         this.updatePantryAmount(have, item, surplus);
     }
 
-    addIngrToGroceryList(dontHaveIndex) {
+    addIngrToGroceryList = (dontHaveIndex) => {
         var item, surplus;
         item = this.state.dontHaveIngredients[dontHaveIndex][0];
         surplus = this.state.dontHaveIngredients[dontHaveIndex][1];
@@ -167,13 +172,13 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
-    addAllToGroceryList() {
+    addAllToGroceryList = () => {
         this.state.dontHaveIngredients.forEach((item, index) => {
             this.addIngrToGroceryList(index);
         });
     }
 
-    calculateHaveIngredients() {
+    calculateHaveIngredients = () => {
         if (this.state.recipe.ingredients == null){
             console.warn("null");
         }
@@ -249,12 +254,15 @@ export default class PreviewRecipe extends React.Component {
                 dontHaveIngredients: dontHaveIngredients
             });
         });
+        console.warn(this.state)
     }
 
     cookNow() {
-        this.props.navigation.navigate('CookNow', {
-            // TODO: substitutions here
-        });
+        alert("cook now")
+        // TODO: navigate
+        // this.props.navigation.navigate('CookNow', {
+        //     // TODO: substitutions here
+        // });
     }
 
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
