@@ -42,7 +42,7 @@ export default class PreviewRecipe extends React.Component {
     }
 
     componentWillMount() {
-        var recipeID = "0787f18c-1b0d-424d-83d2-17dccadfbb1a";
+        var recipeID = "04031156-b064-44e3-ae06-28e82c234e9e";
 
         recipesRef.doc(recipeID).get().then((doc) => {
             var data = doc.data();
@@ -50,6 +50,7 @@ export default class PreviewRecipe extends React.Component {
             for (var key in data.ingredients) {
                 var val = data.ingredients[key];
                 val.ingredient = key;
+                val.key = key;
                 ingredientsArray.push(val);
             }
             data.ingredients = ingredientsArray;
@@ -110,26 +111,21 @@ export default class PreviewRecipe extends React.Component {
         var haveCopy = [...this.state.haveIngredients];
         var dontHaveCopy = [...this.state.dontHaveIngredients];
 
-        console.warn("have", arrayIndex, haveCopy);
-        console.warn("dont", arrayIndex, dontHaveCopy);
-
-        return;
-
-        var item, surplus;
+        var element, item, surplus;
         // Move ingredient to appropriate array in state
         if (have) {
-            var element = dontHaveCopy[arrayIndex];
+            element = dontHaveCopy[arrayIndex];
             item = element[0];
             surplus = element[1];
             dontHaveCopy.splice(arrayIndex, 1);
-            haveCopy.push(item);
+            haveCopy.push(element);
         }
         else {
-            var element = haveCopy[arrayIndex];
+            element = haveCopy[arrayIndex];
             item = element[0];
             surplus = element[1];
             haveCopy.splice(arrayIndex, 1);
-            dontHaveCopy.push(item);
+            dontHaveCopy.push(element);
         }
 
         this.setState({
@@ -177,105 +173,6 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
-    createHaveList() {
-        var elements = [];
-
-        for (var i = 0; i < this.state.haveIngredients.length; i++) {
-            var elem = this.state.haveIngredients[i];
-            var item = elem[0];
-            // if (!item) {
-            //     console.warn(elem);
-            //     return elements;
-            // }
-            var surplus = elem[1];
-            elements.push(
-                <View key={"view " + item.ingredient}>
-                    <Text
-                        style={[styles.ingredientName]}
-                        data={{surplus: surplus}}
-                        key={item.ingredient}>
-                        {item.originalQuantity} {item.originalText}
-                    </Text>
-                    <Button
-                        style={{color: 'red'}}
-                        title="Don't Have"
-                        onPress={() => this.indicateHave(i, false)}
-                    ></Button>
-                </View>
-            );
-        }
-
-        // this.state.haveIngredients.forEach((elem, i) => {
-        //
-        // });
-
-        return elements;
-    }
-
-    createDontHaveList() {
-        var elements = [];
-
-        for (var i = 0; i < this.state.dontHaveIngredients.length; i++) {
-            var elem = this.state.dontHaveIngredients[i];
-
-            var item = elem[0];
-            // if (!item) {
-            //     console.warn(elem);
-            //     return elements;
-            // }
-            var surplus = elem[1];
-            elements.push(
-                <View key={item.ingredient}>
-                    <Text
-                        style={[styles.ingredientName]}
-                        data={{surplus: surplus}}>
-                        {item.originalQuantity} {item.originalText}
-                    </Text>
-                    <Button
-                        style={{color: 'red'}}
-                        title="Have"
-                        onPress={() => this.indicateHave(i)}
-                    ></Button>
-                    <Button
-                        style={{color: 'red'}}
-                        title="Add to GL"
-                        onPress={() => this.addIngrToGroceryList(i)}
-                    ></Button>
-                </View>
-            );
-        }
-
-        // this.state.dontHaveIngredients.forEach((elem, i) => {
-        //     var item = elem[0];
-        //     // if (!item) {
-        //     //     console.warn(elem);
-        //     //     return elements;
-        //     // }
-        //     var surplus = elem[1];
-        //     elements.push(
-        //         <View key={item.ingredient}>
-        //             <Text
-        //                 style={[styles.ingredientName]}
-        //                 data={{surplus: surplus}}>
-        //                 {item.originalQuantity} {item.originalText}
-        //             </Text>
-        //             <Button
-        //                 style={{color: 'red'}}
-        //                 title="Have"
-        //                 onPress={() => this.indicateHave(i)}
-        //             ></Button>
-        //             <Button
-        //                 style={{color: 'red'}}
-        //                 title="Add to GL"
-        //                 onPress={() => this.addIngrToGroceryList(i)}
-        //             ></Button>
-        //         </View>
-        //     );
-        // });
-
-        return elements;
-    }
-
     calculateHaveIngredients() {
         if (this.state.recipe.ingredients == null){
             console.warn("null");
@@ -312,6 +209,7 @@ export default class PreviewRecipe extends React.Component {
         // Deal with concurrency issues by "joining" at steps
         Promise.all(promises).then((docs) => {
             var surpluses = new Array(docs.length);
+            surpluses = surpluses.map((x) => { return null; });
             for (var i = 0; i < docs.length; i++) {
                 var pantryIngrDoc = docs[i];
                 if (!pantryIngrDoc.exists) {
@@ -326,8 +224,9 @@ export default class PreviewRecipe extends React.Component {
         }).then((surpluses) => {
             for (var i = 0; i < surpluses.length; i++) {
                 // Handle case when we don't have this ingredient at all
-                surpluses[i] = surpluses[i] |
-                    -this.state.recipe.ingredients[i].standardQuantity;
+                if (surpluses[i] == null) {
+                    surpluses[i] = -this.state.recipe.ingredients[i].standardQuantity;
+                }
             }
             return surpluses;
         }).then((surpluses) => {
@@ -379,11 +278,50 @@ export default class PreviewRecipe extends React.Component {
                         title="Add All to Grocery List"
                         onPress={() => this.addAllToGroceryList()}
                     ></Button>
-                    {this.createHaveList()}
+                    <FlatList
+                        data={this.state.haveIngredients}
+                        renderItem={({item, index}) =>
+                            <View>
+                                <Text
+                                    style={[styles.ingredientName]}
+                                    data={{surplus: item[1]}}>
+                                    {item[0].originalQuantity} {item[0].originalText}
+                                </Text>
+                                <Button
+                                    style={{color: 'red'}}
+                                    title="Don't Have"
+                                    onPress={() => this.indicateHave(index, false)}
+                                ></Button>
+                            </View>
+                        }
+                    />
+
                     <Text style={[styles.ingredientsLabel]}>
                         You don't have:
                     </Text>
-                    {this.createDontHaveList()}
+
+                    <FlatList
+                        data={this.state.dontHaveIngredients}
+                        renderItem={({item, index}) =>
+                            <View>
+                                <Text
+                                    style={[styles.ingredientName]}
+                                    data={{surplus: item[1]}}>
+                                    {item[0].originalQuantity} {item[0].originalText}
+                                </Text>
+                                <Button
+                                    style={{color: 'red'}}
+                                    title="Have"
+                                    onPress={() => this.indicateHave(index)}
+                                ></Button>
+                                <Button
+                                    style={{color: 'red'}}
+                                    title="Add to GL"
+                                    onPress={() => this.addIngrToGroceryList(index)}
+                                ></Button>
+                            </View>
+                        }
+                    />
 
                     <Button
                         style={{color: 'red'}}
