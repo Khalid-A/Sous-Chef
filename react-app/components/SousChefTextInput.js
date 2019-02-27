@@ -12,7 +12,7 @@ export default class SousChefTextInput extends Component {
 
     render() {
         return (
-            <RkTextInput 
+            <RkTextInput
                     rkType="clear"
                     label={this.props.label}
                     placeholder={this.props.placeholder}
@@ -21,19 +21,22 @@ export default class SousChefTextInput extends Component {
                     autoCapitalize="none"
                     onChangeText={this.props.onChangeText}
                     value={this.props.value}
-            /> 
+            />
         )
     }
 }
 
 const styles = StyleSheet.create({
     text: {
-        borderLeftWidth: 50,
         fontSize: 15,
-        color: '#333333',
+        color: 'white',
     },
     textInput: {
+      borderLeftWidth: 50,
+      borderLeftColor: 'transparent',
         borderRightWidth: 50,
-        borderColor: BACKGROUND_COLOR,
+        borderRightColor: 'transparent',
+        borderBottomColor: "white",
+        borderBottomWidth: 1,
     },
 });

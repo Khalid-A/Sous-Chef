@@ -1,6 +1,7 @@
 import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors'
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, ScrollView, LinearGradient } from 'react-native';
+import { StyleSheet, Image, Text, View, ScrollView, TouchableOpacity, Dimensions} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { RkTextInput, RkButton } from 'react-native-ui-kitten';
 import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
@@ -28,57 +29,80 @@ export class Login extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.scrollContainer}>
-            <View style={styles.container}>
-                <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
-            </View>
-            <View style={styles.emailPasswordContainer}>
-            <SousChefTextInput
+          <View style={styles.container}>
+              <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+              <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+
+              <SousChefTextInput
                     placeholder='example@email.com'
                     label={'Email:'}
                     onChangeText={email => this.setState({ email })}
                     value={this.state.email}
                 />
+                <View
+                  style={{
+                    borderBottomColor: 'white',
+                    borderBottomWidth: 1,
+                  }}
+                  />
+
                 <SousChefTextInput
                     placeholder='examplePassword'
                     label={'Password:'}
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
                 />
-            </View>
-            <View style={styles.container}>
-                <RkButton
-                    rkType="rounded"
-                    style={{backgroundColor: BUTTON_BACKGROUND_COLOR}}
-                    borderTopWidth={40}
+                <View
+                  style={{
+                    borderBottomColor: 'white',
+                    borderBottomWidth: 1,
+                  }}
+                  />
+
+                <TouchableOpacity style = {styles.button}
                     onPress={this.handleLogin}
-                >
-                Login
-                </RkButton>
+                ><Text style ={styles.buttonText}>LOGIN</Text></TouchableOpacity>
+
+
                 <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
-            </View>
-          </ScrollView>
+
+          </LinearGradient>
+    </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    scrollContainer: {
-        backgroundColor: BACKGROUND_COLOR
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: BACKGROUND_COLOR,
-    },
-    logo: {
-        height: 120,
-        marginBottom: 16,
-        marginTop: 64,
-        padding: 10,
-        width: 135,
-    },
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+  },
+  logo: {
+      marginTop: Dimensions.get('window').height/5,
+      height: 60,
+      width: 160,
+  },
+  linearGradient: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontFamily: 'Avenir',
+    textAlign: 'center',
+    // margin: 10,
+    color: BUTTON_BACKGROUND_COLOR,
+    backgroundColor:'transparent',
+    fontWeight: 'bold',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 10,
+    width: 250,
+    borderRadius:30,
+    margin: 10,
+  },
     emailPasswordContainer: {
         flex: 1,
         justifyContent: 'flex-start',
