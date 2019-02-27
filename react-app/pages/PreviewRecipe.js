@@ -147,7 +147,7 @@ export default class PreviewRecipe extends React.Component {
         firebase.firestore().runTransaction((transaction) => {
             var glDocRef = glRef.doc("sElabGbDpwfcQcdpBbCejRaUhy12")
                 .collection("ingredients").doc(item.ingredient);
-            transaction.get(glDocRef).then((doc) => {
+            return transaction.get(glDocRef).then((doc) => {
                 if (!doc.exists) {
                     throw "Ingredient not in GL";
                 }
@@ -273,22 +273,20 @@ export default class PreviewRecipe extends React.Component {
                     <Text style={[styles.ingredientsLabel]}>
                         You have:
                     </Text>
-                    <Button
-                        style={{color: 'yellow'}}
-                        title="Add All to Grocery List"
-                        onPress={() => this.addAllToGroceryList()}
-                    ></Button>
                     <FlatList
                         data={this.state.haveIngredients}
+                        keyExtractor={(item, index) => item[0].key}
                         renderItem={({item, index}) =>
-                            <View>
+                            <View key={item.key}>
                                 <Text
                                     style={[styles.ingredientName]}
+                                    key={"Ingredient Name " + index}
                                     data={{surplus: item[1]}}>
                                     {item[0].originalQuantity} {item[0].originalText}
                                 </Text>
                                 <Button
                                     style={{color: 'red'}}
+                                    key={"Don't Have " + index}
                                     title="Don't Have"
                                     onPress={() => this.indicateHave(index, false)}
                                 ></Button>
@@ -302,26 +300,36 @@ export default class PreviewRecipe extends React.Component {
 
                     <FlatList
                         data={this.state.dontHaveIngredients}
+                        keyExtractor={(item, index) => item[0].key}
                         renderItem={({item, index}) =>
-                            <View>
+                            <View key={item.key}>
                                 <Text
                                     style={[styles.ingredientName]}
+                                    key={"Ingredient Name " + index}
                                     data={{surplus: item[1]}}>
                                     {item[0].originalQuantity} {item[0].originalText}
                                 </Text>
                                 <Button
+                                    key={"Have " + index}
                                     style={{color: 'red'}}
                                     title="Have"
                                     onPress={() => this.indicateHave(index)}
                                 ></Button>
                                 <Button
                                     style={{color: 'red'}}
+                                    key={"Add to GL " + index}
                                     title="Add to GL"
                                     onPress={() => this.addIngrToGroceryList(index)}
                                 ></Button>
                             </View>
                         }
                     />
+
+                    <Button
+                        style={{color: 'yellow'}}
+                        title="Add All to Grocery List"
+                        onPress={() => this.addAllToGroceryList()}
+                    ></Button>
 
                     <Button
                         style={{color: 'red'}}
