@@ -7,12 +7,14 @@ export const ADD_RECOMMENDED = "ADD_RECOMMENDED";
 export const CLEAR_RECENT = "CLEAR_RECENT";
 export const ADD_RECENT = "ADD_RECENT";
 
+export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
+
 import firebase from 'react-native-firebase';
 
 /**
  * recipesRef Reference to the all recipes collection in firestore.
  */
-const recipesRef = firebase.firestore().collection('recipes');
+const recipesRef = firebase.firestore().collection('test_recipes');
 
 /**
  * relevantRecipesRef Collection reference to the relevant recipes collection
@@ -62,7 +64,8 @@ const relevantRecipeUpdate = (
                         servings: snapshot.docs[0].get("servings"), 
                         timeHour: snapshot.docs[0].get("time.hour"),
                         timeMinute: snapshot.docs[0].get("time.minute"),
-                        title: snapshot.docs[0].get("title")
+                        title: snapshot.docs[0].get("title"),
+                        id: snapshot.docs[0].id
                     }
                 });
             })(firstRecipeThrough);

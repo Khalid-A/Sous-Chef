@@ -67,12 +67,8 @@ def getStandardizableRecipes():
     mapping = readCSVToDict('./ingredientline_updated.csv')
     filePath = './recipes/'
     for recipe_file in os.listdir(filePath):
-
-        # if not (recipe_file == '223182.json'):
-        #     continue
         if not recipe_file.endswith('.json'):
             continue
-
         missingLines = []
         with open(filePath + recipe_file) as f:
             data = json.load(f)
@@ -95,6 +91,7 @@ def getStandardizableRecipes():
                 data['ingredients'] = ingredients
                 doc_ref = db.collection(u'test_recipes').document(data['id'])
                 doc_ref.set(data)
+                print(recipe_file)
 
 # getStandardizableRecipes()
 

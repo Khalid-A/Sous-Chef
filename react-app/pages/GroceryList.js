@@ -4,8 +4,8 @@ import {
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
-import { StyleSheet, Text, View, FlatList } from 'react-native';
-import { beginGroceryListFetch, addGroceryListItem } from '../redux/actions/GroceryListAction';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
@@ -22,12 +22,25 @@ import Dialog, {
     DialogTitle, 
     DialogContent 
 } from 'react-native-popup-dialog';
+import convert from 'convert-units';
+import {SwipeListView} from 'react-native-swipe-list-view';
+
+import firebase from 'react-native-firebase';
+import { addPantryItem } from '../redux/actions/PantryAction';
+
 
 const defaultState = {
     addDialogVisible : false, 
     newIngredient: "", 
-    pickedValue: ["1", ""],
-    pickerVisible: false
+    newIngredientUnit: "",
+    pickedValue: [{value: "1", key: 1}, ""],
+    pickerVisible: false,
+    unconventionalUnits: false,
+    units: [],
+    standardUnit: "",
+    standardUnit: "",
+    editIngredient: "",
+    editPickerVisible: false
 };
 
 class GroceryList extends React.Component {
@@ -62,19 +75,99 @@ class GroceryList extends React.Component {
         {key: 8, value: "8"},
         {key: 9, value: "9"},
         {key: 10, value: "10"},],
-        ["", "cups", "tablespoons", "oz", "grams", "kg", "teaspoons"]
+        convert().possibilities("mass").concat(convert().possibilities("volume"))
     ];
 
     addItem = () => {
-        addGroceryListItem(
-            this.state.newIngredient, 
-            parseInt(this.state.pickedValue[0]),
-            this.state.pickedValue[1], 
-            this.props.userID
-        );
+        if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
+            addGroceryListItem(
+                this.state.newIngredient, 
+                parseInt(this.state.pickedValue[0].value),
+                this.props.userID
+            );
+        } else {
+            var unitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+            })[0].abbr;
+            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+            })[0].abbr;
+            addGroceryListItem(
+                this.state.newIngredient,
+                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                this.props.userID
+            );
+        }
         this.setState({
             addDialogVisible: false
         })
+    }
+
+    editItem = () => {
+        if (this.state.unconventionalUnits) {
+            editGroceryItem(
+                this.state.editIngredient, 
+                parseInt(this.state.pickedValue[0].value),
+                this.props.userID
+            );
+        } else {
+            var unitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+            })[0].abbr;
+            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+            })[0].abbr;
+            editGroceryItem(
+                this.state.editIngredient,
+                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                this.props.userID
+            );
+        }
+    }
+
+    closeRow(rowMap, rowKey) {
+		if (rowMap[rowKey]) {
+			rowMap[rowKey].closeRow();
+		}
+    }
+    
+    fetchIngredientData(ingredient, callback) {
+        firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
+            var unit = snapshot.get("unit");
+            if (unit == undefined) {
+                this.setState({
+                    standardUnit: "",
+                    units: [""],
+                    unconventionalUnits: true,
+                    pickedValue:[{key: 1, value: "1"}, ""]
+                });
+                callback();
+                return;
+            }
+            var unitList = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === unit.toLowerCase()
+            });
+            var units = [];
+            if (unitList.length == 0) {
+                units = [unit];
+            } else {
+                var unitsPossibility = convert().from(unitList[0].abbr).possibilities();
+                units = convert().list().filter((unit) => {
+                    return unitsPossibility.includes(unit.abbr);
+                }).map((value) => {
+                    return value.singular.toLowerCase();
+                });
+            }
+            this.setState({
+                standardUnit: unit,
+                units: units,
+                unconventionalUnits: units.length == 1,
+                pickedValue: [{key: 1, value: "1"}, unit.toLowerCase()]
+            });
+            callback();
+        }).catch((reason) => {
+            console.warn(reason);
+        });
     }
 
     componentWillMount() {
@@ -87,17 +180,84 @@ class GroceryList extends React.Component {
                 <View style={[styles.headerContainer]}>
                     <Text style={[styles.header]}>Items:</Text>
                 </View>
-                <FlatList
-                    style={[styles.list]}
-                    keyExtractor={(item, index) => index.toString()}
+                <SwipeListView
+                    useFlatList
                     data={this.props.groceryList}
-                    renderItem={({item}) => {
+                    style={[styles.list]}
+                    renderItem={({item}, rowMap) => {
                         return <View style={[styles.listItem]}>
                             <Text style={{padding: 10}}>
                                 {item.amount} {item.unit} {item.title}
                             </Text>
                         </View>
                     }}
+                    renderHiddenItem={ (data, rowMap) => (
+                        <View style={styles.rowBack}>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backRightBtnLeft]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    this.fetchIngredientData(data.item.title, () => {
+                                        this.setState(previousState => {
+                                            var roundedAmount = parseInt(parseFloat(data.item.amount));
+                                            return {
+                                                editIngredient: data.item.title, 
+                                                pickedValue: [
+                                                    {
+                                                        key: roundedAmount, 
+                                                        value: roundedAmount.toString()
+                                                    },
+                                                    previousState.pickedValue[1]
+                                                ]
+                                            }
+                                        }, () => {
+                                            this.setState({
+                                                editPickerVisible: true
+                                            })
+                                        });
+                                    });
+                                }}
+                            >
+                                <Text style={styles.text}>edit</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backRightBtnRight]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    removeGroceryListItem(data.item.title, this.props.userID);
+                                }}
+                            >
+                                <Text style={styles.text}>delete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                                style={[styles.backRightBtn, styles.backLeftBtnRight]} 
+                                onPress={ _ => {
+                                    this.closeRow(rowMap, data.index);
+                                    firebase.firestore().collection("standardmappings").doc(data.item.title).get().then(ingredientSnapshot => {
+                                        if (ingredientSnapshot.exists) {
+                                            removeGroceryListItem(data.item.title, this.props.userID);
+                                            addPantryItem(data.item.title, data.item.amount, this.props.userID);
+                                        } else {
+                                            Alert.alert(
+                                                "Cannot Move to Pantry", 
+                                                "Custom ingredients that are not used in any recipes in Sous Chef cannot be added to your pantry.",
+                                                [
+                                                    {
+                                                        text: "OK" 
+                                                    }
+                                                ]
+                                            );
+                                        }
+                                    })
+                                }}
+                            >
+                                <Text style={styles.text}>move to pantry</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    rightOpenValue={-75}
+                    leftOpenValue={150}
                 />
                 <ActionButton 
                     buttonColor={BUTTON_BACKGROUND_COLOR} 
@@ -133,8 +293,8 @@ class GroceryList extends React.Component {
                     </ActionButton.Item>
                     <ActionButton.Item 
                         buttonColor={ACTION_BUTTON_COLOR}
-                        title="Edit Items" 
-                        onPress={() => console.warn("edit tapped!")}
+                        title="Move To Pantry"
+                        onPress={() => console.warn("move all to pantry tapped!")}
                     >
                         <Icon 
                             name="md-create" 
@@ -195,9 +355,12 @@ class GroceryList extends React.Component {
                             labelStyle={styles.text}
                             style={styles.textInput}
                             onChangeText={
-                                ingredient => this.setState(
-                                    { newIngredient: ingredient }
-                                )
+                                ingredient => {
+                                    this.setState({
+                                        newIngredient: ingredient
+                                    });
+                                    this.fetchIngredientData(ingredient, () => {});
+                                }
                             }
                             value={this.state.newIngredient}
                         />
@@ -211,22 +374,47 @@ class GroceryList extends React.Component {
                                 })
                             }
                         >
-                            {this.state.pickedValue[0]}{" "}
+                            {this.state.pickedValue[0].value}{" "}
                             {this.state.pickedValue[1]}
                         </RkButton>
                     </DialogContent>
                 </Dialog>
                 <RkPicker
                     title='Select Amount'
-                    data={this.measurementData}
+                    data={(() => {
+                        if (this.state.newIngredient == "" || this.state.units.length == 0) {
+                            return this.measurementData
+                        }
+                        var arrayOfNumbers = new Array(100).fill(0).map(Number.call, Number);
+                        var values = arrayOfNumbers.map((number) => {
+                            return {key: number, value: number.toString()};
+                        });
+                        if (this.state.unconventionalUnits) {
+                            return [
+                                values
+                            ];
+                        } else {
+                            return [
+                                values,
+                                this.state.units
+                            ];
+                        }
+                    })()}
                     visible={this.state.pickerVisible}
-                    selectedOptions={this.state.pickedValue}
+                    selectedOptions={(() => {
+                        return this.state.pickedValue
+                    })()}
                     onConfirm={(data) => {
-                        this.setState(
-                            {
-                                pickedValue: [data[0].value, data[1]]
-                            }
-                        )
+                        if (this.state.unconventionalUnits) {
+                            var newValue = [data[0], this.state.pickedValue[1]];
+                            this.setState({
+                                pickedValue: newValue
+                            });
+                        } else {
+                            this.setState({
+                                pickedValue: data
+                            })
+                        }
                         this.setState(
                             {
                                 pickerVisible: false
@@ -235,6 +423,47 @@ class GroceryList extends React.Component {
                     }}
                     onCancel={
                         () => this.setState({pickerVisible: false})
+                    }
+                />
+                <RkPicker
+                    title='Edit Amount'
+                    data={(() => {
+                        if (this.state.editIngredient == "" || this.state.units.length == 0) {
+                            return this.measurementData
+                        }
+                        var arrayOfNumbers = new Array(100).fill(0).map(Number.call, Number);
+                        var values = arrayOfNumbers.map((number) => {
+                            return {key: number, value: number.toString()};
+                        });
+                        if (this.state.unconventionalUnits) {
+                            return [
+                                values
+                            ];
+                        } else {
+                            return [
+                                values,
+                                this.state.units
+                            ];
+                        }
+                    })()}
+                    visible={this.state.editPickerVisible}
+                    selectedOptions={(() => {
+                        return this.state.pickedValue
+                    })()}
+                    onConfirm={(data) => {
+                        var newValue = data;
+                        if (this.state.unconventionalUnits) {
+                            var newValue = [data[0], this.state.pickedValue[1]];
+                        }
+                        this.setState({
+                            pickedValue: newValue,
+                            editPickerVisible: false
+                        }, () => {
+                            this.editItem();
+                        });
+                    }}
+                    onCancel={
+                        () => this.setState({editPickerVisible: false})
                     }
                 />
             </View>
@@ -276,6 +505,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         borderColor: "lightgrey",
+        backgroundColor: BACKGROUND_COLOR,
         borderBottomWidth: 2
     },
     dialogButtonContainer: {
@@ -292,7 +522,40 @@ const styles = StyleSheet.create({
         color: "white",
         fontFamily: DEFAULT_FONT,
         fontSize: 25
-    }
+    },
+    rowBack: {
+		alignItems: 'center',
+		backgroundColor: '#DDD',
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingLeft: 15,
+    },
+    backRightBtn: {
+		alignItems: 'center',
+		bottom: 0,
+		justifyContent: 'center',
+		position: 'absolute',
+		top: 0,
+		width: 75
+	},
+	backRightBtnLeft: {
+		backgroundColor: 'green',
+		right: 0
+	},
+	backRightBtnRight: {
+		backgroundColor: 'red',
+        left: 0
+    },
+    backLeftBtnRight: {
+        backgroundColor: 'purple',
+		left: 75
+    },
+    text: {
+        fontFamily: DEFAULT_FONT,
+        fontSize: 15,
+        color: BACKGROUND_COLOR
+    },
 })
 
 const mapStateToProps = state => {

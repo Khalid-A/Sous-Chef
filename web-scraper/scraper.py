@@ -71,6 +71,26 @@ def getCookingTime(htmlDocument):
     }
     return timeInfo
 
+def getRatingInfo(htmlDocument):
+    valueAttr = {"itemprop": "ratingValue"}
+    valueLine = htmlDocument.find("meta", valueAttr)
+    countAttr = {"itemprop": "reviewCount"}
+    countLine = htmlDocument.find("meta", countAttr)
+    ratingInfo = {
+        "rating": valueLine["content"],
+        "reviewCount": countLine["content"],
+    }
+    return ratingInfo
+
+def getRecipeCategories(htmlDocument):
+    categoriesAttr = {"itemprop": "recipeCategory"}
+    recipeCategories = htmlDocument.findAll("meta", categoriesAttr)
+    categories = []
+    for recipeCategoryLine in recipeCategories:
+        categories.append(recipeCategoryLine["content"])
+    return categories
+
+
 def scrapeWebsite(htmlDocument):
     """ Parse BS Object of the given url and return dict of recipe info. """
     title = getTitle(htmlDocument)
@@ -83,7 +103,9 @@ def scrapeWebsite(htmlDocument):
         "directions": getDirections(htmlDocument),
         "images": getImage(htmlDocument),
         "servings": getServingSize(htmlDocument),
-        "time": getCookingTime(htmlDocument)
+        "time": getCookingTime(htmlDocument),
+        "rating": getRatingInfo(htmlDocument),
+        "categories": getRecipeCategories(htmlDocument),
     }
     return recipeInfo
 
