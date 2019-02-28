@@ -1,6 +1,6 @@
 import React from 'react';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Button, Text, View, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
@@ -43,19 +43,23 @@ class DiscoverRecipes extends React.Component {
                         horizontal= {true}
                         data={this.props.readyToGo}
                         renderItem={({item}) => {
-                            return <SousChefCard
-                                headerText={item.title}
-                                bodyText={
-                                    "Time: " +
-                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" +
-                                    "Serving Size: " +
-                                    item.servings
-                                }
-                                imagePath={item.images}
-                                onPress={() => navigate('PreviewRecipe', {id: item.id})}
-                            />
+                            return (<TouchableOpacity onPress={() => {
+                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                            }}>
+                                <SousChefCard
+                                    headerText={item.title}
+                                    bodyText={
+                                        "Time: " +
+                                        (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                        (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                        "\n" +
+                                        "Serving Size: " +
+                                        item.servings
+                                    }
+                                    imagePath={item.images}
+                                    onPress={() => navigate('PreviewRecipe', {id: item.id})}
+                                />
+                            </TouchableOpacity>);
                         }}
                     />
                 </View>
@@ -67,18 +71,23 @@ class DiscoverRecipes extends React.Component {
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recent}
                         renderItem={({item}) => {
-                            return <SousChefCard
-                                headerText={item.title}
-                                bodyText={
-                                    "Time: " +
-                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" +
-                                    "Serving Size: " +
-                                    item.servings
-                                }
-                                imagePath={item.images}
-                            />
+                            return (<TouchableOpacity onPress={() => {
+                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                            }}>
+                                <SousChefCard
+                                    headerText={item.title}
+                                    bodyText={
+                                        "Time: " +
+                                        (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                        (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                        "\n" +
+                                        "Serving Size: " +
+                                        item.servings
+                                    }
+                                    imagePath={item.images}
+                                    onPress={() => navigate('PreviewRecipe', {id: item.id})}
+                                />
+                            </TouchableOpacity>);
                         }}
                     />
                 </View>
@@ -90,18 +99,23 @@ class DiscoverRecipes extends React.Component {
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recommended}
                         renderItem={({item}) => {
-                            return <SousChefCard
-                                headerText={item.title}
-                                bodyText={
-                                    "Time: " +
-                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" +
-                                    "Serving Size: " +
-                                    item.servings
-                                }
-                                imagePath={item.images}
-                            />
+                            return (<TouchableOpacity onPress={() => {
+                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                            }}>
+                                <SousChefCard
+                                    headerText={item.title}
+                                    bodyText={
+                                        "Time: " +
+                                        (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                        (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                        "\n" +
+                                        "Serving Size: " +
+                                        item.servings
+                                    }
+                                    imagePath={item.images}
+                                    onPress={() => navigate('PreviewRecipe', {id: item.id})}
+                                />
+                            </TouchableOpacity>);
                         }}
                     />
                 </View>

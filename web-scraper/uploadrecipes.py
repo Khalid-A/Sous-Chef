@@ -27,7 +27,7 @@ for recipe_file in os.listdir(path_to_json):
             doc_ref = db.collection(u'recipes').document(data['id'])
             doc_ref.set(data)
     print(recipe_file)
-    time.sleep(5)
+    time.sleep(1)
 
 for ingredient in ingredientToID:
     ingredient_uuid = ingredientToID[ingredient]

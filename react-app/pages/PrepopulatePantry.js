@@ -5,28 +5,16 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import {beginPantryFetch, addPantryItem, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
+import { beginPantryFetch, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {
-    RkTextInput, 
-    RkPicker, 
-    RkButton
-} from 'react-native-ui-kitten';
-import Dialog, { 
-    DialogFooter, 
-    SlideAnimation, 
-    DialogButton, 
-    DialogTitle, 
-    DialogContent 
-} from 'react-native-popup-dialog';
+import { RkPicker } from 'react-native-ui-kitten';
 import convert from 'convert-units';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import firebase from 'react-native-firebase';
-import { addGroceryListItem } from '../redux/actions/GroceryListAction';
 
 
 const defaultState = {
@@ -42,9 +30,9 @@ const defaultState = {
     editPickerVisible: false
 };
 
-class Pantry extends React.Component {
+class PrepopulatePantry extends React.Component {
     static navigationOptions = {
-        title:"Your Pantry",
+        title:"Pantry Staples",
         headerVisible: true,
         headerTintColor: "white",
         headerLeft: null,
@@ -55,12 +43,15 @@ class Pantry extends React.Component {
             fontFamily: DEFAULT_FONT,
             fontSize: 35
         },
-        drawerLabel: 'Pantry'
     }
     
     constructor(props) {
         super(props);
         this.state = defaultState;
+    }
+
+    componentWillMount() {
+        this.props.beginPantryFetch(this.props.userID);
     }
 
     measurementData = [
@@ -76,32 +67,6 @@ class Pantry extends React.Component {
         {key: 10, value: "10"},],
         convert().possibilities("mass").concat(convert().possibilities("volume"))
     ];
-
-    addItem = () => {
-        if (this.state.unconventionalUnits) {
-            addPantryItem(
-                this.state.newIngredient, 
-                parseInt(this.state.pickedValue[0].value),
-                this.props.userID
-            );
-        } else {
-            var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
-            })[0].abbr;
-            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
-            })[0].abbr;
-            addPantryItem(
-                this.state.newIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
-                this.props.userID
-            );
-        }
-        
-        this.setState({
-            addDialogVisible: false
-        })
-    }
 
     editItem = () => {
         if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
@@ -123,10 +88,6 @@ class Pantry extends React.Component {
                 this.props.userID
             );
         }
-    }
-
-    componentWillMount() {
-        this.props.beginPantryFetch(this.props.userID);
     }
 
     closeRow(rowMap, rowKey) {
@@ -229,132 +190,26 @@ class Pantry extends React.Component {
                             >
                                 <Text style={styles.text}>delete</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={[styles.backRightBtn, styles.backLeftBtnRight]} 
-                                onPress={ _ => {
-                                    this.closeRow(rowMap, data.index);
-                                    removePantryItem(data.item.title, this.props.userID);
-                                    addGroceryListItem(data.item.title, data.item.amount, this.props.userID);
-                                }}
-                            >
-                                <Text style={styles.text}>move to grocery</Text>
-                            </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
-                    leftOpenValue={150}
+                    leftOpenValue={75}
                 />
+
                 <ActionButton 
                     buttonColor={BUTTON_BACKGROUND_COLOR} 
+                    onPress={() => {this.props.navigation.navigate('DiscoverRecipes');}}
                     renderIcon={active => {
-                        if (!active)
-                            return (
-                                <Icon 
-                                    name="md-create"
-                                    style={styles.actionButtonIcon}
-                                />
-                            );
-                        else
-                            return (
-                                <Icon 
-                                    name="md-add" 
-                                    style={styles.actionButtonIcon}
-                                />
-                            );
+                        return (
+                            <Icon 
+                                name="md-arrow-round-forward" 
+                                style={styles.actionButtonIcon}
+                            />
+                        );
                     }}
-                >
-                    <ActionButton.Item 
-                        buttonColor={ACTION_BUTTON_COLOR} 
-                        title="New Item" 
-                        onPress={
-                        () => this.setState(
-                            {addDialogVisible: true}
-                        )
-                    }>
-                        <Icon 
-                            name="md-add" 
-                            style={styles.actionButtonIcon}
-                        />
-                    </ActionButton.Item>
-                </ActionButton>
-                <Dialog
-                    width={0.8}
-                    visible={this.state.addDialogVisible}
-                    onTouchOutside={() => {
-                        this.setState({ addDialogVisible: false });
-                    }}
-                    dialogTitle={
-                        <DialogTitle 
-                            style={[styles.dialogTitleContainer]} 
-                            textStyle={[styles.dialogTitleText]} 
-                            title="Add Item" 
-                        />
-                    }
-                    footer={
-                    <DialogFooter>
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Cancel"
-                            onPress={() => {
-                                this.setState({ 
-                                    addDialogVisible: false 
-                                });
-                            }}
-                        />
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Add Item"
-                            onPress={
-                                () => {
-                                    this.addItem();
-                                }
-                            }
-                        />
-                    </DialogFooter>
-                    }
-                    dialogAnimation={new SlideAnimation({
-                        slideFrom: 'bottom',
-                        useNativeDriver: true
-                    })}
-                >
-                    <DialogContent>
-                        <Text 
-                            style={[styles.popupHeader]}
-                        >
-                            Item Name:
-                        </Text>
-                        <RkTextInput 
-                            placeholder = "eggs"
-                            labelStyle={styles.text}
-                            style={styles.textInput}
-                            onChangeText={
-                                ingredient => {
-                                    this.setState({
-                                        newIngredient: ingredient
-                                    });
-                                    this.fetchIngredientData(ingredient, () => {});
-                                }
-                            }
-                            value={this.state.newIngredient}
-                        />
-                        <Text style={[styles.popupHeader]}>
-                            Quantity:
-                        </Text>
-                        <RkButton 
-                            onPress={
-                                () => this.setState({
-                                    pickerVisible: true
-                                })
-                            }
-                        >
-                            {this.state.pickedValue[0].value}{" "}
-                            {this.state.pickedValue[1]}
-                        </RkButton>
-                    </DialogContent>
-                </Dialog>
+                />
+                
                 <RkPicker
                     title='Select Amount'
                     data={(() => {
@@ -546,4 +401,4 @@ export default connect(
     {
         beginPantryFetch: beginPantryFetch
     }
-)(Pantry);
+)(PrepopulatePantry);
