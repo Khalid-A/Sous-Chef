@@ -268,26 +268,9 @@ export default class PreviewRecipe extends React.Component {
     cookNow = () => {
         this.props.navigation.navigate('CookNow', {
             // TODO: substitutions here
+            recipeID: this.state.recipeID,
+            recipe: this.state.recipe
         });
-    }
-
-    glButton = (item, index) => {
-        console.warn("called");
-        if (!this.state.addToGlIsClicked[item[0].ingredient]) {
-            return (
-                <Button
-                    style={{color: 'red'}}
-                    key={"Add to GL " + index}
-                    title="Add to GL"
-                    onPress={() => this.addIngrToGroceryList(index)}
-                ></Button>
-            );
-        }
-        else {
-            return (
-                <View></View>
-            );
-        }
     }
 
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
@@ -308,6 +291,7 @@ export default class PreviewRecipe extends React.Component {
                     </Text>
                     <FlatList
                         data={this.state.haveIngredients}
+                        extraData={this.state}
                         keyExtractor={(item, index) => item[0].key}
                         renderItem={({item, index}) =>
                             <View key={item.key}>
@@ -333,6 +317,7 @@ export default class PreviewRecipe extends React.Component {
 
                     <FlatList
                         data={this.state.dontHaveIngredients}
+                        extraData={this.state}
                         keyExtractor={(item, index) => item[0].key}
                         renderItem={({item, index}) =>
                             <View key={item.key}>
@@ -348,14 +333,13 @@ export default class PreviewRecipe extends React.Component {
                                     title="Have"
                                     onPress={() => this.indicateHave(index)}
                                 ></Button>
-                                {!this.state.addToGlIsClicked[item[0].ingredient] &&
-                                    <Button
-                                        style={{color: 'red'}}
-                                        key={"Add to GL " + index}
-                                        title="Add to GL"
-                                        onPress={() => this.addIngrToGroceryList(index)}
-                                    ></Button>
-                                }
+                                <Button
+                                    style={{color: 'red'}}
+                                    key={"Add to GL " + index}
+                                    disabled={this.state.addToGlIsClicked[item[0].ingredient]}
+                                    title={this.state.addToGlIsClicked[item[0].ingredient] ? "Added to GL" : "Add to GL"}
+                                    onPress={() => this.addIngrToGroceryList(index)}
+                                ></Button>
                             </View>
                         }
                     />
