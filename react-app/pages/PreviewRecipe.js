@@ -38,8 +38,7 @@ export default class PreviewRecipe extends React.Component {
             imageHeight: 0,
             haveIngredients: [],
             dontHaveIngredients: [],
-            addToGlIsClicked: {},
-            userID: "sElabGbDpwfcQcdpBbCejRaUhy12"
+            addToGlIsClicked: {}
         };
     }
 
@@ -78,7 +77,7 @@ export default class PreviewRecipe extends React.Component {
             var docExists = false;
             // Increment amount in pantry to how much this recipe needs
             firebase.firestore().runTransaction((transaction) => {
-                var pantryDocRef = pantryRef.doc(this.state.userID)
+                var pantryDocRef = pantryRef.doc(this.props.userID)
                     .collection("ingredients").doc(item.ingredient);
                 return transaction.get(pantryDocRef).then((doc) => {
                     if (!doc.exists) {
@@ -93,7 +92,7 @@ export default class PreviewRecipe extends React.Component {
                 });
             }).catch((err) => {
                 // We need to add this item to the pantry
-                pantryRef.doc(this.state.userID).collection("ingredients")
+                pantryRef.doc(this.props.userID).collection("ingredients")
                     .doc(item.ingredient).set({
                         amount: -surplus
                     });
@@ -101,7 +100,7 @@ export default class PreviewRecipe extends React.Component {
         }
         else {
             // We want to make sure this item is removed from the pantry
-            pantryRef.doc(this.state.userID).collection("ingredients")
+            pantryRef.doc(this.props.userID).collection("ingredients")
                 .doc(item.ingredient).delete().then(() => {
                     console.log(item.ingredient + " deleted successfully");
                 }).catch((error) => {
@@ -148,7 +147,7 @@ export default class PreviewRecipe extends React.Component {
         var docExists = false;
         // Increment amount in GL to how much this recipe needs
         firebase.firestore().runTransaction((transaction) => {
-            var glDocRef = glRef.doc(this.state.userID)
+            var glDocRef = glRef.doc(this.props.userID)
                 .collection("ingredients").doc(item.ingredient);
             return transaction.get(glDocRef).then((doc) => {
                 if (!doc.exists) {
@@ -163,7 +162,7 @@ export default class PreviewRecipe extends React.Component {
             });
         }).catch((err) => {
             // We need to add this item to the pantry
-            glRef.doc(this.state.userID).collection("ingredients")
+            glRef.doc(this.props.userID).collection("ingredients")
                 .doc(item.ingredient).set({
                     amount: -surplus
                 });
@@ -196,28 +195,8 @@ export default class PreviewRecipe extends React.Component {
         var promises = [];
         for (var i = 0; i < this.state.recipe.ingredients.length; i++) {
             // Search for item in pantry
-            promises.push(pantryRef.doc(this.state.userID).collection("ingredients")
+            promises.push(pantryRef.doc(this.props.userID).collection("ingredients")
                 .doc(this.state.recipe.ingredients[i].ingredient).get());
-                // .then((surplus) => {
-                //     // console.warn(recipeIngrData.ingredient);
-                //     if (surplus >= 0) {
-                //         // We have enough of ingredient at index i
-                //         var arr = [recipeIngrData, surplus];
-                //         // TODO: is push atomic?
-                //         this.setState(prevState => ({
-                //             haveIngredients:
-                //                 [...prevState.haveIngredients, arr]
-                //         }));
-                //     }
-                //     else {
-                //         // We don't have enough of ingredient at index i
-                //         var arr = [recipeIngrData, surplus];
-                //         this.setState(prevState => ({
-                //             dontHaveIngredients:
-                //                 [...prevState.dontHaveIngredients, arr]
-                //         }));
-                //     }
-                // }));
         }
 
         // Deal with concurrency issues by "joining" at steps
@@ -234,7 +213,6 @@ export default class PreviewRecipe extends React.Component {
                     this.state.recipe.ingredients[i].standardQuantity;
             }
             return surpluses;
-        // TODO
         }).then((surpluses) => {
             for (var i = 0; i < surpluses.length; i++) {
                 // Handle case when we don't have this ingredient at all

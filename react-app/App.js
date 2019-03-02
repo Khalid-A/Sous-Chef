@@ -21,7 +21,7 @@ YellowBox.ignoreWarnings(['ListView is deprecated']);
 
 const AppNavigator = createAppContainer(createStackNavigator({
     Welcome: Welcome,
-PreviewRecipe: PreviewRecipe,
+    PreviewRecipe: PreviewRecipe,
     SignUp: SignUp,
     Login: Login,
     PrepopulatePantry: PrepopulatePantry,
@@ -63,39 +63,6 @@ PreviewRecipe: PreviewRecipe,
                     drawerLabel: "Discover"
                 },
             },
-PreviewRecipe: {
-screen: createStackNavigator(
-{
-PreviewRecipe:{
-screen: PreviewRecipe,
-navigationOptions: ({ navigation }) => ({
-headerLeft: (
-<View>
-<TouchableOpacity
-onPress={() => {navigation.openDrawer()}}
->
-<Icon
-name="md-menu"
-style={{
-color: 'white',
-padding: 10,
-marginLeft:10,
-fontSize: 20
-}}/>
-</TouchableOpacity>
-</View>
-)
-})
-}
-},
-{
-initialRouteName: "PreviewRecipe"
-}
-),
-navigationOptions: {
-drawerLabel: "Preview"
-},
-},
             Pantry: createStackNavigator(
                 {
                     Pantry:{
@@ -199,7 +166,7 @@ drawerLabel: "Preview"
     }
 },
 {
-    initialRouteName: "PreviewRecipe"
+    initialRouteName: "Welcome"
 }
 ));
 
