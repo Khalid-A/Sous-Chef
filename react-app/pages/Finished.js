@@ -24,66 +24,41 @@ class Finished extends React.Component {
   }
   constructor(props) {
     super(props);
-    const results = this.findIngredients();
     this.state = {
-      ingredients:null,
+      ingredients: this.getIngredientsToRemove()
     };
     this.listIngredients = this.listIngredients.bind(this);
   }
 
-  componentWillMount(){
+  getIngredientsToRemove = () => {
     const pantryTitle = this.props.pantry.map((item) => {
       return item.title;
     });
 
-    const ingredients = this.props.navigation.getParam("ingredientsToRemove", null)
-    const ingredientList = Object.keys(ingredients).map((item) => {
-      return ingredients[item];
-    });
-
-    const filtered = ingredientList.filter((item) => {
+    const ingredients = this.props.navigation.getParam("ingredientsToRemove", null);
+    const filtered = ingredients.filter((item) => {
       if(pantryTitle.includes(item.ingredient)){
         return true;
       }
       return false;
     });
 
-    this.setState({
-      ingredients: filtered,
-    });
-
+    return filtered;
   }
 
-  findIngredients() {
-    const ingredientsFromRecipe = this.props.navigation.getParam("ingredientsToRemove", null);
-    const ingredientsFromPantry =[
-      {
-        title:"vanilla",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"eggs",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"margarine",
-        unit: "",
-        amount:"",
-      },
-    ];
-  }
-
-  removeItem(ingredientID){
-    const newIngredients = this.state.ingredients
-    delete newIngredients[ingredientID];
+  removeItem(ingredientIndex){
+    var newIngredients = [...this.state.ingredients];
+    newIngredients.splice(ingredientIndex, 1);
     this.setState({
-      ingredients: newIngredients,
+      ingredients: newIngredients
     });
   }
 
   updatePantry(){
+    const ingredients = this.state.ingredients.reduce(function(map, item) {
+        map[item.ingredient] = item;
+        return map;
+    }, {});
     this.props.setIngredientsToRemove(this.state.ingredients);
     this.props.navigation.navigate('Pantry', {
       ingredientsToRemove: this.state.ingredients
@@ -93,18 +68,17 @@ class Finished extends React.Component {
     if(this.state.ingredients == null){
       console.warn("null");
     }
-    return Object.keys(this.state.ingredients).map((ingredientID) => {
-      const ingredient = this.state.ingredients[ingredientID].ingredient;
-      if(!ingredient){
+    return this.state.ingredients.map((ingredient, index) => {
+      if(!ingredient.ingredient){
         return null;
       }
 
       return (
         <View style={{flexDirection: 'row',}}>
-          <Text style={styles.detail}>{ingredient}</Text>
+          <Text style={styles.detail}>{ingredient.ingredient}</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.removeItem(ingredientID)}
+            onPress={() => this.removeItem(index)}
             >
             <Text> Delete Item </Text>
           </TouchableOpacity>

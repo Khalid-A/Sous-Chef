@@ -61,7 +61,7 @@ class CookNow extends React.Component {
     if(this.state.recipe.ingredients == null){
       console.warn("null");
     }
-    return Object.keys(this.state.recipe.ingredients).map((ingredient) => {
+    return this.state.recipe.ingredients.map((ingredient) => {
       if(!ingredient.originalText){
         return null;
       }
