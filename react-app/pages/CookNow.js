@@ -29,21 +29,12 @@ class CookNow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipe: null,
+      recipe: this.props.navigation.getParam("recipe"),
       recipeID: this.props.navigation.getParam("recipeID"),
     };
     this.listIngredients = this.listIngredients.bind(this);
     this.listDirections = this.listDirections.bind(this);
     this.finishCooking = this.finishCooking.bind(this);
-  }
-
-  componentWillMount(){
-    recipesRef.doc(this.state.recipeID).get().then((doc) => {
-     this.setState({recipe: doc.data()});
-    })
-    .catch(function(error) {
-        console.warn("Error getting documents: ", error);
-    });
   }
 
   finishCooking(){
@@ -70,15 +61,12 @@ class CookNow extends React.Component {
     if(this.state.recipe.ingredients == null){
       console.warn("null");
     }
-    return Object.keys(this.state.recipe.ingredients).map((ingredientID) => {
-      const text = this.state.recipe.ingredients[ingredientID].originalText;
-      const quantity = this.state.recipe.ingredients[ingredientID].originalQuantity;
-      // const unit = this.state.recipe.ingredients[ingredientID].unit;
-      if(!text){
+    return Object.keys(this.state.recipe.ingredients).map((ingredient) => {
+      if(!ingredient.originalText){
         return null;
       }
       return (
-        <Text style={styles.detail}>{quantity} {text}</Text>
+        <Text style={styles.detail}>{ingredient.originalQuantity} {ingredient.originalText}</Text>
       );
     });
   }
