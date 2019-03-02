@@ -290,52 +290,6 @@ export default class PreviewRecipe extends React.Component {
         }
     }
 
-    _renderDontHave = ({item, index}) => {
-        console.warn("render");
-        if (this.state.addToGlIsClicked[item[0].ingredient]) {
-            return (
-                <View key={item.key}>
-                    <Text
-                        style={[styles.ingredientName]}
-                        key={"Ingredient Name " + index}
-                        data={{surplus: item[1]}}>
-                        {item[0].originalQuantity} {item[0].originalText}
-                    </Text>
-                    <Button
-                        key={"Have " + index}
-                        style={{color: 'red'}}
-                        title="Have"
-                        onPress={() => this.indicateHave(index)}
-                    ></Button>
-                </View>
-            );
-        }
-        else {
-            return (
-                <View key={item.key}>
-                    <Text
-                        style={[styles.ingredientName]}
-                        key={"Ingredient Name " + index}
-                        data={{surplus: item[1]}}>
-                        {item[0].originalQuantity} {item[0].originalText}
-                    </Text>
-                    <Button
-                        key={"Have " + index}
-                        style={{color: 'red'}}
-                        title="Have"
-                        onPress={() => this.indicateHave(index)}
-                    ></Button>
-                    <Button
-                        style={{color: 'red'}}
-                        key={"Add to GL " + index}
-                        title="Add to GL"
-                        onPress={() => this.addIngrToGroceryList(index)}
-                    ></Button>
-                </View>
-            );
-        }
-    }
-
     // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
     render() {
         if (this.state.recipe && this.state.recipe.ingredients) {
@@ -380,7 +334,30 @@ export default class PreviewRecipe extends React.Component {
                     <FlatList
                         data={this.state.dontHaveIngredients}
                         keyExtractor={(item, index) => item[0].key}
-                        renderItem={this._renderDontHave}
+                        renderItem={({item, index}) =>
+                            <View key={item.key}>
+                                <Text
+                                    style={[styles.ingredientName]}
+                                    key={"Ingredient Name " + index}
+                                    data={{surplus: item[1]}}>
+                                    {item[0].originalQuantity} {item[0].originalText}
+                                </Text>
+                                <Button
+                                    key={"Have " + index}
+                                    style={{color: 'red'}}
+                                    title="Have"
+                                    onPress={() => this.indicateHave(index)}
+                                ></Button>
+                                {!this.state.addToGlIsClicked[item[0].ingredient] &&
+                                    <Button
+                                        style={{color: 'red'}}
+                                        key={"Add to GL " + index}
+                                        title="Add to GL"
+                                        onPress={() => this.addIngrToGroceryList(index)}
+                                    ></Button>
+                                }
+                            </View>
+                        }
                     />
 
                     <Button
