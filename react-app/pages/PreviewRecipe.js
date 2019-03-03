@@ -1,8 +1,13 @@
 import React from 'react';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
-import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button } from 'react-native';
+import {
+    BUTTON_BACKGROUND_COLOR,
+    BACKGROUND_COLOR,
+    ACTION_BUTTON_COLOR
+} from '../common/SousChefColors';
+import {DEFAULT_FONT} from '../common/SousChefTheme';
+import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button, TouchableOpacity } from 'react-native';
 import firebase from 'react-native-firebase';
-// import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 
@@ -260,7 +265,12 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
-    // TODO: https://www.npmjs.com/package/react-native-swipe-list-view
+    closeRow(rowMap, rowKey) {
+        if (rowMap[rowKey]) {
+            rowMap[rowKey].closeRow();
+        }
+    }
+
     render() {
         if (this.state.recipe && this.state.recipe.ingredients) {
             return (
@@ -268,47 +278,19 @@ export default class PreviewRecipe extends React.Component {
                     <Text style={[styles.sectionHeader]}>
                         {this.state.recipe.title ? this.state.recipe.title : "unknown"}
                     </Text>
-                    <View style={[styles.imageContainer]}>
-                        <Image source={{uri: this.state.image}}
-                            style={[styles.image]}/>
-                    </View>
-
-                    <Text style={[styles.ingredientsLabel]}>
-                        You have:
-                    </Text>
-                    <FlatList
-                        data={this.state.haveIngredients}
-                        extraData={this.state}
-                        keyExtractor={(item, index) => item[0].key}
-                        style={[styles.ingredientFlatList]}
-                        renderItem={({item, index}) =>
-                            <View key={item.key}>
-                                <Text
-                                    style={[styles.ingredientName]}
-                                    key={"Ingredient Name " + index}
-                                    data={{surplus: item[1]}}>
-                                    {item[0].originalQuantity} {item[0].originalText}
-                                </Text>
-                                <Button
-                                    style={{color: 'red'}}
-                                    key={"Don't Have " + index}
-                                    title="Don't Have"
-                                    onPress={() => this.indicateHave(index, false)}
-                                ></Button>
-                            </View>
-                        }
-                    />
 
                     <Text style={[styles.ingredientsLabel]}>
                         You don&apos;t have:
                     </Text>
 
-                    <FlatList
+                    <SwipeListView
+                        useFlatList
                         data={this.state.dontHaveIngredients}
-                        extraData={this.state}
                         keyExtractor={(item, index) => item[0].key}
+                        extraData={this.state}
+                        style={[styles.list, {height: 50 * this.state.dontHaveIngredients.length}]}
                         renderItem={({item, index}) =>
-                            <View key={item.key}>
+                            <View key={item.key} style={[styles.listItem]}>
                                 <Text
                                     style={[styles.ingredientName]}
                                     key={"Ingredient Name " + index}
@@ -318,36 +300,99 @@ export default class PreviewRecipe extends React.Component {
                                 <Text
                                     style={[styles.ingredientSubtext]}
                                     key={"Ingredient subtext " + index}>
-                                    {item[0].standardQuantity + " " + item[0].unit + " " + item[0].ingredient}
+                                    {
+                                        (Math.round(item[0].standardQuantity*100) / 100) +
+                                        " " + item[0].unit + " " + item[0].ingredient
+                                    }
                                 </Text>
-                                <Button
-                                    key={"Have " + index}
-                                    style={{color: 'red'}}
-                                    title="Have"
-                                    onPress={() => this.indicateHave(index)}
-                                ></Button>
-                                <Button
-                                    style={{color: 'red'}}
-                                    key={"Add to GL " + index}
-                                    disabled={this.state.addToGlIsClicked[item[0].ingredient]}
-                                    title={this.state.addToGlIsClicked[item[0].ingredient] ? "Added to GL" : "Add to GL"}
-                                    onPress={() => this.addIngrToGroceryList(index)}
-                                ></Button>
                             </View>
                         }
+                        renderHiddenItem={ (data, rowMap) => (
+                            <View style={styles.rowBack}>
+                                <TouchableOpacity
+                                    style={[styles.backRightBtn, styles.backRightBtnRight]}
+                                    onPress={ _ => {
+                                        this.closeRow(rowMap, data.item.index);
+                                        this.addIngrToGroceryList(data.item.index);
+                                    }}>
+                                    <Text style={styles.text}>{
+                                        this.state.addToGlIsClicked[data.item[0].ingredient] ?
+                                            "Added to\nGL" : "Add to\nGL"
+                                    }</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={[styles.backRightBtn, styles.backLeftBtnRight]}
+                                    onPress={ _ => {
+                                        this.closeRow(rowMap, data.item.index);
+                                        this.indicateHave(data.item.index);
+                                    }}>
+                                    <Text style={styles.text}>
+                                        Have
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        leftOpenValue={150}
                     />
 
-                    <Button
-                        style={{color: 'yellow'}}
-                        title="Add All to Grocery List"
-                        onPress={() => this.addAllToGroceryList()}
-                    ></Button>
+                    <Text style={[styles.ingredientsLabel, {marginTop: 10}]}>
+                        You have:
+                    </Text>
 
-                    <Button
-                        style={{color: 'red'}}
-                        title="Make right now"
-                        onPress={() => this.cookNow()}
-                    ></Button>
+                    <SwipeListView
+                        useFlatList
+                        data={this.state.haveIngredients}
+                        keyExtractor={(item, index) => item[0].key}
+                        extraData={this.state}
+                        style={[styles.list]}
+                        renderItem={({item, index}) =>
+                            <View key={item.key} style={[styles.listItem]}>
+                                <Text
+                                    style={[styles.ingredientName]}
+                                    key={"Ingredient Name " + index}
+                                    data={{surplus: item[1]}}>
+                                    {item[0].originalQuantity} {item[0].originalText}
+                                </Text>
+                                <Text
+                                    style={[styles.ingredientSubtext]}
+                                    key={"Ingredient subtext " + index}>
+                                    {
+                                        (Math.round(item[0].standardQuantity*100) / 100) +
+                                        " " + item[0].unit + " " + item[0].ingredient
+                                    }
+                                </Text>
+                            </View>
+                        }
+                        renderHiddenItem={ (data, rowMap) => (
+                            <View style={styles.rowBack}>
+                                <TouchableOpacity
+                                    style={[styles.backRightBtn, styles.backRightBtnRight]}
+                                    onPress={ _ => {
+                                        this.closeRow(rowMap, data.item.index);
+                                        this.indicateHave(data.item.index, false);
+                                    }}>
+                                    <Text style={styles.text}>
+                                        {"Don't\nHave"}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        leftOpenValue={75}
+                    />
+
+                    <View style={[styles.buttons]}>
+                        <Button
+                            style={[styles.button]}
+                            title="Add All to Grocery List"
+                            onPress={() => this.addAllToGroceryList()}
+                        ></Button>
+                        <View style={{width: 30}}></View>
+                        <Button
+                            style={[styles.button]}
+                            title="Make right now"
+                            onPress={() => this.cookNow()}
+                        ></Button>
+                    </View>
                 </View>
             );
         }
@@ -362,7 +407,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         backgroundColor: BACKGROUND_COLOR,
-        paddingBottom: 25
+        paddingBottom: 25,
+        alignItems: "center",
+        justifyContent: "center"
     },
     section: {
         flex: 1,
@@ -376,13 +423,6 @@ const styles = StyleSheet.create({
     sectionContainer: {
         flex: 1,
     },
-    listItem: {
-        borderColor: "red",
-        borderWidth: 1,
-        fontFamily: "Avenir Next",
-        fontSize: 15,
-        margin: 3
-    },
     ingredientQuantity: {
         fontWeight: "bold",
         fontSize: 10
@@ -390,9 +430,10 @@ const styles = StyleSheet.create({
     ingredientName: {
     },
     ingredientSubtext: {
+        fontSize: 11
     },
     ingredientsLabel: {
-
+        fontWeight: "bold",
     },
     imageContainer: {
         justifyContent: 'center',
@@ -400,5 +441,66 @@ const styles = StyleSheet.create({
     },
     ingredientFlatList: {
         height: 500
+    },
+
+    list: {
+        flex: 1,
+        flexDirection: "column",
+        width: "100%"
+    },
+    listItem: {
+        flex: 1,
+        height: 50,
+        backgroundColor: BACKGROUND_COLOR,
+        paddingLeft: 4
+    },
+    text: {
+        fontFamily: DEFAULT_FONT,
+        fontSize: 15,
+        color: BACKGROUND_COLOR,
+        padding: 4
+    },
+    backRightBtn: {
+		alignItems: 'center',
+		bottom: 0,
+		justifyContent: 'center',
+		position: 'absolute',
+		top: 0,
+		width: 75
+	},
+    backRightBtnRight: {
+        backgroundColor: 'purple',
+        left: 0
+    },
+	backRightBtnLeft: {
+		backgroundColor: 'purple',
+		right: 0
+	},
+    backLeftBtnRight: {
+        backgroundColor: 'green',
+		left: 75
+    },
+    backLeftBtnLeft: {
+        backgroundColor: 'green',
+        right: 75
+    },
+    rowBack: {
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
+    },
+    buttons: {
+        width: "100%",
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    button: {
+        color: ACTION_BUTTON_COLOR,
+        fontFamily: DEFAULT_FONT,
+        margin: 15,
     }
 });
