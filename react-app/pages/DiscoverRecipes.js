@@ -44,7 +44,7 @@ class DiscoverRecipes extends React.Component {
                         data={this.props.readyToGo}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
                             }}>
                                 <SousChefCard
                                     headerText={item.title}
@@ -57,7 +57,7 @@ class DiscoverRecipes extends React.Component {
                                         item.servings
                                     }
                                     imagePath={item.images}
-                                    onPress={() => navigate('PreviewRecipe', {id: item.id})}
+                                    onPress={() => navigate('PreviewRecipe', {recipeID: item.id, userID: this.props.userID})}
                                 />
                             </TouchableOpacity>);
                         }}
@@ -72,7 +72,7 @@ class DiscoverRecipes extends React.Component {
                         data={this.props.recent}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
                             }}>
                                 <SousChefCard
                                     headerText={item.title}
@@ -85,7 +85,7 @@ class DiscoverRecipes extends React.Component {
                                         item.servings
                                     }
                                     imagePath={item.images}
-                                    onPress={() => navigate('PreviewRecipe', {id: item.id})}
+                                    onPress={() => navigate('PreviewRecipe', {recipeID: item.id, userID: this.props.userID})}
                                 />
                             </TouchableOpacity>);
                         }}
@@ -100,7 +100,7 @@ class DiscoverRecipes extends React.Component {
                         data={this.props.recommended}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
                             }}>
                                 <SousChefCard
                                     headerText={item.title}
@@ -113,7 +113,7 @@ class DiscoverRecipes extends React.Component {
                                         item.servings
                                     }
                                     imagePath={item.images}
-                                    onPress={() => navigate('PreviewRecipe', {id: item.id})}
+                                    onPress={() => navigate('PreviewRecipe', {recipeID: item.id, userID: this.props.userID})}
                                 />
                             </TouchableOpacity>);
                         }}
