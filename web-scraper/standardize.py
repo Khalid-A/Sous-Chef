@@ -86,6 +86,7 @@ def getStandardizableRecipes():
                         'standardQuantity': standardQuantity,
                         'originalQuantity': quantity,
                         'originalText': originaltext,
+                        'standardUnit': mappingInfo['standardUnit'],
                     }
             if len(missingLines) == 0:
                 data['ingredients'] = ingredients
@@ -93,7 +94,7 @@ def getStandardizableRecipes():
                 doc_ref.set(data)
                 print(recipe_file)
 
-# getStandardizableRecipes()
+getStandardizableRecipes()
 
 def getMappingConversions():
     mapping = readCSVToDict('./ingredientline_updated.csv')
