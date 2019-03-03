@@ -39,6 +39,7 @@ export default class PreviewRecipe extends React.Component {
             imageHeight: 0,
             haveIngredients: [],
             dontHaveIngredients: [],
+            unitsByIngrName: {},
             addToGlIsClicked: {}
         };
     }
@@ -213,6 +214,12 @@ export default class PreviewRecipe extends React.Component {
                 var pantryIngrData = pantryIngrDoc.data();
                 surpluses[i] = pantryIngrData.amount -
                     this.state.recipe.ingredients[i].standardQuantity;
+
+                var unitMapCopy = {...this.state.unitsByIngrName};
+                unitMapCopy[pantryIngrData.id] = pantryIngrData.unit;
+                this.setState({
+                    unitsByIngrName: unitMapCopy
+                });
             }
             return surpluses;
         }).then((surpluses) => {
@@ -308,6 +315,11 @@ export default class PreviewRecipe extends React.Component {
                                     data={{surplus: item[1]}}>
                                     {item[0].originalQuantity} {item[0].originalText}
                                 </Text>
+                                <Text
+                                    style={[styles.ingredientSubtext]}
+                                    key={"Ingredient subtext " + index}>
+                                    {item[0].standardQuantity + " " + item[0].unit + " " + item[0].ingredient}
+                                </Text>
                                 <Button
                                     key={"Have " + index}
                                     style={{color: 'red'}}
@@ -376,6 +388,8 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
     ingredientName: {
+    },
+    ingredientSubtext: {
     },
     ingredientsLabel: {
 
