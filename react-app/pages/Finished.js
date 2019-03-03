@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AppRegistry, TextInput } from 'react-native';
-import { Dimensions } from 'react-native'
+import { Dimensions } from 'react-native';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';

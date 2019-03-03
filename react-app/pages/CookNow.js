@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
 import { AppRegistry, TextInput } from 'react-native';
-import { Dimensions } from 'react-native'
+import { Dimensions } from 'react-native';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
@@ -29,8 +29,7 @@ class CookNow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipe: this.props.navigation.getParam("recipe"),
-      recipeID: this.props.navigation.getParam("recipeID"),
+      recipe: this.props.navigation.getParam("recipe")
     };
     this.listIngredients = this.listIngredients.bind(this);
     this.listDirections = this.listDirections.bind(this);

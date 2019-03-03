@@ -1,5 +1,5 @@
 import React from 'react';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors'
+import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button } from 'react-native';
 import firebase from 'react-native-firebase';
 // import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
@@ -293,7 +293,7 @@ export default class PreviewRecipe extends React.Component {
                     />
 
                     <Text style={[styles.ingredientsLabel]}>
-                        You don't have:
+                        You don&apos;t have:
                     </Text>
 
                     <FlatList

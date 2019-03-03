@@ -1,5 +1,5 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
@@ -57,7 +57,6 @@ class DiscoverRecipes extends React.Component {
                                         item.servings
                                     }
                                     imagePath={item.images}
-                                    onPress={() => navigate('PreviewRecipe', {recipeID: item.id, userID: this.props.userID})}
                                 />
                             </TouchableOpacity>);
                         }}
@@ -85,7 +84,6 @@ class DiscoverRecipes extends React.Component {
                                         item.servings
                                     }
                                     imagePath={item.images}
-                                    onPress={() => navigate('PreviewRecipe', {recipeID: item.id, userID: this.props.userID})}
                                 />
                             </TouchableOpacity>);
                         }}
@@ -113,7 +111,6 @@ class DiscoverRecipes extends React.Component {
                                         item.servings
                                     }
                                     imagePath={item.images}
-                                    onPress={() => navigate('PreviewRecipe', {recipeID: item.id, userID: this.props.userID})}
                                 />
                             </TouchableOpacity>);
                         }}
