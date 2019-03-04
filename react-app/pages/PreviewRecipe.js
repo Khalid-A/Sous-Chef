@@ -45,7 +45,8 @@ export default class PreviewRecipe extends React.Component {
             haveIngredients: [],
             dontHaveIngredients: [],
             unitsByIngrName: {},
-            addToGlIsClicked: {}
+            addToGlIsClicked: {},
+            addAllToGlDisabled: false
         };
     }
 
@@ -186,6 +187,9 @@ export default class PreviewRecipe extends React.Component {
     }
 
     addAllToGroceryList = () => {
+        this.setState({
+            addAllToGlDisabled: true
+        });
         this.state.dontHaveIngredients.forEach((item, index) => {
             if (!this.state.addToGlIsClicked[item[0].ingredient]) {
                 // Only add if it hasn't been added already
@@ -260,7 +264,6 @@ export default class PreviewRecipe extends React.Component {
     cookNow = () => {
         this.props.navigation.navigate('CookNow', {
             // TODO: substitutions here
-            recipeID: this.state.recipeID,
             recipe: this.state.recipe
         });
     }
@@ -310,10 +313,12 @@ export default class PreviewRecipe extends React.Component {
                         renderHiddenItem={ (data, rowMap) => (
                             <View style={styles.rowBack}>
                                 <TouchableOpacity
-                                    style={[styles.backRightBtn, styles.backRightBtnRight]}
+                                    style={[styles.backRightBtn, styles.backRightBtnRight,
+                                        {
+                                            backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : "purple"
+                                        }]}
                                     onPress={ _ => {
-                                        this.closeRow(rowMap, data.item.index);
-                                        this.addIngrToGroceryList(data.item.index);
+                                        this.addIngrToGroceryList(data.index);
                                     }}>
                                     <Text style={styles.text}>{
                                         this.state.addToGlIsClicked[data.item[0].ingredient] ?
@@ -323,8 +328,7 @@ export default class PreviewRecipe extends React.Component {
                                 <TouchableOpacity
                                     style={[styles.backRightBtn, styles.backLeftBtnRight]}
                                     onPress={ _ => {
-                                        this.closeRow(rowMap, data.item.index);
-                                        this.indicateHave(data.item.index);
+                                        this.indicateHave(data.index);
                                     }}>
                                     <Text style={styles.text}>
                                         Have
@@ -368,8 +372,7 @@ export default class PreviewRecipe extends React.Component {
                                 <TouchableOpacity
                                     style={[styles.backRightBtn, styles.backRightBtnRight]}
                                     onPress={ _ => {
-                                        this.closeRow(rowMap, data.item.index);
-                                        this.indicateHave(data.item.index, false);
+                                        this.indicateHave(data.index, false);
                                     }}>
                                     <Text style={styles.text}>
                                         {"Don't\nHave"}
@@ -384,6 +387,7 @@ export default class PreviewRecipe extends React.Component {
                         <Button
                             style={[styles.button]}
                             title="Add All to Grocery List"
+                            disabled={this.state.addAllToGlDisabled}
                             onPress={() => this.addAllToGroceryList()}
                         ></Button>
                         <View style={{width: 30}}></View>
