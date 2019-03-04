@@ -21,6 +21,12 @@ export default class SousChefTextInput extends Component {
                     autoCapitalize="none"
                     onChangeText={this.props.onChangeText}
                     value={this.props.value}
+                    inputStyle={{
+                      color: 'white',
+                      // fontSize: 20,
+
+                    }}
+
             />
         )
     }
@@ -32,11 +38,14 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     textInput: {
-      borderLeftWidth: 50,
-      borderLeftColor: 'transparent',
+        borderLeftWidth: 50,
         borderRightWidth: 50,
+        borderLeftColor: 'transparent',
         borderRightColor: 'transparent',
         borderBottomColor: "white",
         borderBottomWidth: 1,
+
+        color: 'red',
     },
+
 });

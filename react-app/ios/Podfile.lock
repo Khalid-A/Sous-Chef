@@ -181,15 +181,17 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
-  - React (0.58.5):
-    - React/Core (= 0.58.5)
-  - React/Core (0.58.5):
-    - yoga (= 0.58.5.React)
-  - RNGestureHandler (1.0.15):
+  - React (0.58.6):
+    - React/Core (= 0.58.6)
+  - React/Core (0.58.6):
+    - yoga (= 0.58.6.React)
+  - RNGestureHandler (1.1.0):
+    - React
+  - RNReanimated (1.0.0-alpha.12):
     - React
   - RNVectorIcons (6.2.0):
     - React
-  - yoga (0.58.5.React)
+  - yoga (0.58.6.React)
 
 DEPENDENCIES:
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
@@ -208,6 +210,7 @@ DEPENDENCIES:
   - Firebase/Storage (~> 5.15.0)
   - React (from `../node_modules/react-native`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -250,6 +253,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   yoga:
@@ -288,9 +293,10 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: 16c4fb7ce3fc30c041bce809ceae33bf57e7c142
   RNGestureHandler: afde2addc517e85cc97a25bfe119acbee779a7ce
+  RNReanimated: 45d9313b7a62318ed00d60a811937321e43e076e
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: 0885622311729a02c2bc02dca97167787a51488b
 
-PODFILE CHECKSUM: a143708e01fa47f9fea15b7cab6a48eae1f5aa61
+PODFILE CHECKSUM: fcad653c0734c08145df29d5785a301b9d297f8a
 
 COCOAPODS: 1.5.3

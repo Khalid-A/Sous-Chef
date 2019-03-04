@@ -179,24 +179,24 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    // pantry: state.pantry,
-    pantry: [
-      {
-        title:"vanilla",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"eggs",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"margarine",
-        unit: "",
-        amount:"",
-      },
-    ],
+    pantry: state.pantry,
+    // pantry: [
+    //   {
+    //     title:"vanilla",
+    //     unit: "",
+    //     amount:"",
+    //   },
+    //   {
+    //     title:"eggs",
+    //     unit: "",
+    //     amount:"",
+    //   },
+    //   {
+    //     title:"margarine",
+    //     unit: "",
+    //     amount:"",
+    //   },
+    // ],
   }
 }
 

@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Avenir',
     textAlign: 'center',
-    // margin: 10,
     color: BUTTON_BACKGROUND_COLOR,
     backgroundColor:'transparent',
     fontWeight: 'bold',

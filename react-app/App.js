@@ -10,6 +10,7 @@ import CookNow from './pages/CookNow';
 import Finished from './pages/Finished';
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
 import store from './redux/store';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -34,23 +35,25 @@ const AppNavigator = createAppContainer(createStackNavigator({
                             navigationOptions: ({ navigation }) => ({
                                 headerLeft: (
                                     <View>
-                                        <TouchableOpacity 
-                                            onPress={() => {navigation.openDrawer()}} 
+                                      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
+                                        <TouchableOpacity
+                                            onPress={() => {navigation.openDrawer()}}
                                         >
-                                            <Icon 
-                                                name="md-menu" 
+                                            <Icon
+                                                name="md-menu"
                                                 style={{
-                                                    color: 'white', 
-                                                    padding: 10, 
-                                                    marginLeft:10, 
+                                                    color: 'white',
+                                                    padding: 10,
+                                                    marginLeft:10,
                                                     fontSize: 20
                                                 }}/>
                                         </TouchableOpacity>
+                                      </LinearGradient>
                                     </View>
                                 )
                             })
                         }
-                    }, 
+                    },
                     {
                         initialRouteName: "DiscoverRecipes"
                     }
@@ -66,24 +69,26 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={() => {navigation.openDrawer()}} 
+                                  <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
+                                    <TouchableOpacity
+                                        onPress={() => {navigation.openDrawer()}}
                                     >
-                                        <Icon 
-                                            name="md-menu" 
+                                        <Icon
+                                            name="md-menu"
                                             style={{
-                                                color: 'white', 
-                                                padding: 10, 
-                                                marginLeft:10, 
+                                                color: 'white',
+                                                padding: 10,
+                                                marginLeft:10,
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
+                                      </LinearGradient>
                                 </View>
                             ),
                             drawerLabel: "Pantry"
                         })
                     }
-                }, 
+                },
                 {
                     initialRouteName: "Pantry"
                 }
@@ -95,24 +100,26 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={() => {navigation.openDrawer()}} 
+                                  <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
+                                    <TouchableOpacity
+                                        onPress={() => {navigation.openDrawer()}}
                                     >
-                                        <Icon 
-                                            name="md-menu" 
+                                        <Icon
+                                            name="md-menu"
                                             style={{
-                                                color: 'white', 
-                                                padding: 10, 
-                                                marginLeft:10, 
+                                                color: 'white',
+                                                padding: 10,
+                                                marginLeft:10,
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
+                                      </LinearGradient>
                                 </View>
                             ),
                             drawerLabel: "Grocery List"
                         })
                     }
-                }, 
+                },
                 {
                     initialRouteName: "GroceryList"
                 }
@@ -124,24 +131,26 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={() => {navigation.openDrawer()}} 
+                                  <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
+                                    <TouchableOpacity
+                                        onPress={() => {navigation.openDrawer()}}
                                     >
-                                        <Icon 
-                                            name="md-menu" 
+                                        <Icon
+                                            name="md-menu"
                                             style={{
-                                                color: 'white', 
-                                                padding: 10, 
-                                                marginLeft:10, 
+                                                color: 'white',
+                                                padding: 10,
+                                                marginLeft:10,
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
+                                      </LinearGradient>
                                 </View>
                             ),
                             drawerLabel: "Logout"
                         })
                     }
-                }, 
+                },
                 {
                     initialRouteName: "Logout"
                 }
@@ -149,7 +158,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
         },
         {
             initialRouteName: "DiscoverRecipes",
-            drawerBackgroundColor: DARK_GREEN_BACKGROUND,
+            // drawerBackgroundColor: DARK_GREEN_BACKGROUND,
             contentOptions: {
                 activeTintColor: "lightgrey",
                 inactiveTintColor: "white"
