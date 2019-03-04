@@ -5,7 +5,9 @@ import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
+import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Finished extends React.Component {
   static navigationOptions = {
@@ -26,7 +28,8 @@ class Finished extends React.Component {
     super(props);
     const results = this.findIngredients();
     this.state = {
-      ingredients:null,
+      ingredients: null,
+      favorited: false,
     };
     this.listIngredients = this.listIngredients.bind(this);
   }
@@ -49,6 +52,7 @@ class Finished extends React.Component {
     });
 
     this.setState({
+      recipeID: this.props.navigation.getParam("recipeID", null),
       ingredients: filtered,
     });
 
@@ -83,12 +87,17 @@ class Finished extends React.Component {
     });
   }
 
-  updatePantry(){
+  updatePantry() {
+    if (this.state.favorited) {
+      // TODO: add this.state.recipeID, this.state.userID to relevant recipes.
+      // this.props.addToFavorites(this.state.recipeID)
+    }
     this.props.setIngredientsToRemove(this.state.ingredients);
     this.props.navigation.navigate('Pantry', {
       ingredientsToRemove: this.state.ingredients
     });
   }
+
   listIngredients(){
     if(this.state.ingredients == null){
       console.warn("null");
@@ -115,17 +124,39 @@ class Finished extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          {this.listIngredients()}
-          <TouchableOpacity
-            style={styles.buttonBig}
-            onPress={() => this.updatePantry()}
-            >
-            <Text>Update Pantry</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      <View>
+        <ScrollView>
+          <View style={styles.container}>
+            {this.listIngredients()}
+            <TouchableOpacity
+              style={styles.buttonBig}
+              onPress={() => this.updatePantry()}
+              >
+              <Text>Update Pantry</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <ActionButton 
+          buttonColor={BUTTON_BACKGROUND_COLOR} 
+          onPress={() => { this.setState({favorited: !this.state.favorited})}}
+          renderIcon={() => {
+            if (this.state.favorited)
+                return (
+                    <Icon 
+                        name="md-heart" 
+                        style={styles.actionButtonIcon}
+                    />
+                );
+            else 
+                return (
+                    <Icon 
+                        name="md-heart-empty" 
+                        style={styles.actionButtonIcon}
+                    />
+                ); 
+            }}
+          />
+      </View>
     );
   }
 }
@@ -179,6 +210,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    userID: state.userInfo.userID,
     // pantry: state.pantry,
     pantry: [
       {
@@ -202,7 +234,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-
     setIngredientsToRemove: (ingredients) => {
       dispatch(setIngredientsToRemove(ingredients));
     }
