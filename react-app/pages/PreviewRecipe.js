@@ -305,7 +305,7 @@ export default class PreviewRecipe extends React.Component {
                                     key={"Ingredient subtext " + index}>
                                     {
                                         (Math.round(item[0].standardQuantity*100) / 100) +
-                                        " " + item[0].unit + " " + item[0].ingredient
+                                        " " + item[0].standardUnit + " " + item[0].ingredient
                                     }
                                 </Text>
                             </View>
@@ -362,7 +362,7 @@ export default class PreviewRecipe extends React.Component {
                                     key={"Ingredient subtext " + index}>
                                     {
                                         (Math.round(item[0].standardQuantity*100) / 100) +
-                                        " " + item[0].unit + " " + item[0].ingredient
+                                        " " + item[0].standardUnit + " " + item[0].ingredient
                                     }
                                 </Text>
                             </View>
