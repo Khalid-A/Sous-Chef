@@ -1,5 +1,6 @@
 import { BACKGROUND_COLOR } from '../common/SousChefColors'
 import React, { Component } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
 import { logoutUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';

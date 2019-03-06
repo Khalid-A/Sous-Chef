@@ -72,6 +72,7 @@ class CookNow extends React.Component {
         return null;
       }
       return (
+
         <Text style={styles.detail}>{index+1}. {direction}</Text>
       );
     });
@@ -89,7 +90,15 @@ class CookNow extends React.Component {
         return null;
       }
       return (
-        <Text style={styles.detail}>{quantity} {text}</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems:'center', marginLeft: 10,}}>
+          <Icon
+            name='album'
+            color='#17ba6b'
+            size={10} />
+          <Text style={styles.detail}>{quantity} {text}</Text>
+
+        </View>
+
       );
     });
   }
@@ -117,22 +126,31 @@ render() {
           require("../assets/sousChefLogo.png") :
           {uri: this.state.recipe.images}} style={[styles.logo]} resizeMode="contain" />
       <Text style={styles.title}>{this.state.recipe.title}</Text>
-      <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{width: Dimensions.get('window').width/4, height: 80, padding:10, }} >
-                <Text style={{textAlign: 'left'}}>Servings: {"\n"}{this.state.recipe.servings}</Text>
+      <View style={{flexDirection: 'row', paddingBottom:0, marginBottom:0, borderBottomColor:BACKGROUND_COLOR, borderBottomWidth: 0.25, height: 60, }}>
+                <View style={{width: Dimensions.get('window').width/4, height: 60, padding:10, alignItems: 'flex-start',flexDirection: 'row'}} >
+                  <Icon
+                    name='restaurant'
+                    color='#17ba6b' />
+                  <Text style={styles.subtitle}>Servings: {"\n"}{this.state.recipe.servings}</Text>
                 </View>
-                <View style={{width: Dimensions.get('window').width/2, height: 80,padding:10, }} >
+                <View style={{width: Dimensions.get('window').width/2, height: 60,padding:10, alignItems: 'flex-start',flexDirection: 'row', marginLeft: 10,}} >
+                  <Icon
+                    name='timer'
+                    color='#17ba6b' />
                 <Text style={styles.subtitle}>Cook Time: {"\n"}{this.state.recipe.time.hour} hours {this.state.recipe.time.minute} minutes</Text>
               </View>
-                <View style={{width: Dimensions.get('window').width/4, height: 80,padding:10, }}>
-                  <Text>FAVORITE</Text>
+
+                <View style={{width: Dimensions.get('window').width/4, height: 60, alignItems: 'flex-start',flexDirection: 'row',paddingTop:10}}>
                     <Icon
-                      name='favorite_border' />
+                      name='favorite'
+                      color='#17ba6b'
+
+                     />
                 </View>
               </View>
 
       <TabView
-        style={{flex: 4,}}
+        style={{flex: 1,}}
         navigationState={this.state}
         renderScene={SceneMap({
           Ingredients: this.FirstRoute,
@@ -189,6 +207,9 @@ const styles = StyleSheet.create({
   detail:{
     fontSize: 15,
     fontFamily: "Avenir",
+    marginLeft:10,
+    marginTop: 5,
+    marginBottom:5,
 
   },
   title: {
@@ -196,10 +217,13 @@ const styles = StyleSheet.create({
     fontFamily: "Avenir",
     margin: 5,
     fontWeight: 'bold',
+    color: BUTTON_BACKGROUND_COLOR,
 
   },
   subtitle: {
     fontSize: 14,
+    marginLeft: 5,
+    color: 'grey',
   },
   buttonText: {
     fontSize: 16,

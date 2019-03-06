@@ -158,7 +158,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
         },
         {
             initialRouteName: "DiscoverRecipes",
-            // drawerBackgroundColor: DARK_GREEN_BACKGROUND,
+            drawerBackgroundColor: DARK_GREEN_BACKGROUND,
             contentOptions: {
                 activeTintColor: "lightgrey",
                 inactiveTintColor: "white"
