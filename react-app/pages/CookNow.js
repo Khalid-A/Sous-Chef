@@ -8,7 +8,8 @@ import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 import { TabView, SceneMap } from 'react-native-tab-view';
-
+import { TabBar } from 'react-native-tab-view';
+import { Icon } from 'react-native-elements'
 const recipesRef = firebase.firestore().collection('test_recipes');
 
 
@@ -38,8 +39,8 @@ class CookNow extends React.Component {
       recipeID: this.props.navigation.getParam("recipeID"),
       index: 0,
       routes: [
-        { key: 'first', title: 'First' },
-        { key: 'second', title: 'Second' },
+        { key: 'Ingredients', title: 'INGREDIENTS' },
+        { key: 'Directions', title: 'DIRECTIONS' },
       ],
     };
     this.listIngredients = this.listIngredients.bind(this);
@@ -95,40 +96,58 @@ class CookNow extends React.Component {
 
   FirstRoute = () => (
     <ScrollView style={{flex:1, marginBottom: 0,}}>
-      <Text style={styles.subtitle}>Ingredients</Text>
                       {this.listIngredients()}
   </ScrollView>
   );
 
   SecondRoute = () => (
     <ScrollView style={{flex:1, marginBottom: 0,}}>
-    <Text style={styles.subtitle}>Directions</Text>
              {this.listDirections()}
   </ScrollView>
   );
 
 render() {
+
   if(this.state.recipe){
+    console.warn(this.state.recipe.images);
     return (
       <View style={styles.container}>
+      <Image source={
+          this.state.recipe.images.trim() == "" ?
+          require("../assets/sousChefLogo.png") :
+          {uri: this.state.recipe.images}} style={[styles.logo]} resizeMode="contain" />
       <Text style={styles.title}>{this.state.recipe.title}</Text>
       <View style={{flex: 1, flexDirection: 'row'}}>
-                <View style={{width: Dimensions.get('window').width/3, height: 90, backgroundColor: 'powderblue'}} >
-                <Text style={{textAlign: 'left'}}>Serving{"\n"}Size: {"\n"}{this.state.recipe.servings}</Text>
+                <View style={{width: Dimensions.get('window').width/4, height: 80, padding:10, }} >
+                <Text style={{textAlign: 'left'}}>Servings: {"\n"}{this.state.recipe.servings}</Text>
                 </View>
-                <View style={{width: Dimensions.get('window').width/3, height: 90, backgroundColor: 'skyblue'}} >
-                <Text style={styles.subtitle}>Cook{"\n"}Time: {"\n"}{this.state.recipe.time.hour} hours {this.state.recipe.time.minute} minutes</Text>
+                <View style={{width: Dimensions.get('window').width/2, height: 80,padding:10, }} >
+                <Text style={styles.subtitle}>Cook Time: {"\n"}{this.state.recipe.time.hour} hours {this.state.recipe.time.minute} minutes</Text>
               </View>
-                <View style={{width: Dimensions.get('window').width/3, height: 90, backgroundColor: 'steelblue'}}>
-                  <Text>Favorite</Text>
+                <View style={{width: Dimensions.get('window').width/4, height: 80,padding:10, }}>
+                  <Text>FAVORITE</Text>
+                    <Icon
+                      name='favorite_border' />
                 </View>
               </View>
+
       <TabView
+        style={{flex: 4,}}
         navigationState={this.state}
         renderScene={SceneMap({
-          first: this.FirstRoute,
-          second: this.SecondRoute,
+          Ingredients: this.FirstRoute,
+          Directions: this.SecondRoute,
         })}
+        renderTabBar={props =>
+  <TabBar
+    {...props}
+    indicatorStyle={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
+    style={{ backgroundColor: 'white', color: BUTTON_BACKGROUND_COLOR, }}
+    activeColor = {{color: BUTTON_BACKGROUND_COLOR, textColor:BUTTON_BACKGROUND_COLOR, }}
+    inactiveColor = {{}}
+    labelStyle = {{color: BUTTON_BACKGROUND_COLOR, fontWeight: 'bold', fontFamily: 'Avenir'}}
+  />
+}
         onIndexChange={index => this.setState({ index })}
         initialLayout={{ width: Dimensions.get('window').width }}
       />
@@ -152,7 +171,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    // backgroundColor: '#F5FCFF',
     // padding:10,
   },
   input: {
@@ -175,10 +194,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: "Avenir",
+    margin: 5,
+    fontWeight: 'bold',
 
   },
   subtitle: {
-    fontSize: 17,
+    fontSize: 14,
   },
   buttonText: {
     fontSize: 16,
@@ -188,12 +209,19 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent',
     fontWeight: 'bold',
   },
+  logo: {
+      // marginTop: Dimensions.get('window').height/5,
+      height: Dimensions.get('window').height/3.85,
+      width: Dimensions.get('window').width,
+  },
   button: {
+    // flex: 1,
     alignSelf:'center',
     alignItems: 'center',
     backgroundColor: 'white',
     padding: 10,
     width: 250,
+    // height: 10,
     borderRadius:30,
     margin: 10,
   },

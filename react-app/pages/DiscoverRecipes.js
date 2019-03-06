@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        backgroundColor: BACKGROUND_COLOR,
+        // backgroundColor: BACKGROUND_COLOR,
         paddingBottom: 10
     },
     section: {
@@ -134,11 +134,20 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         fontFamily: "Avenir",
-        fontSize: 20,
-        margin: 5
+        fontSize: 18,
+        margin: 5,
+        fontWeight: 'bold',
     },
     sectionContainer: {
         flex: 1,
+        borderBottomColor: BACKGROUND_COLOR,
+        borderBottomWidth: 0.5,
+        paddingBottom: 5,
+        // shadowOpacity: 0.75,
+        //   shadowRadius: 5,
+        //   shadowColor: 'grey',
+        //   shadowOffset: { height: 0, width: 0 },
+        // borderColor: "#1d945b",
     }
 })
 

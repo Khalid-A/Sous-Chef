@@ -35,10 +35,12 @@ const styles = StyleSheet.create({
         margin: 3,
         width: Dimensions.get('window').width/2,
         height: Dimensions.get('window').height/4  ,
-        borderRadius: 10,
+        borderRadius: 3,
         // overflow: 'hidden',
         backgroundColor: "white",
         padding:0,
+        overflow: 'hidden',
+        borderColor: 'transparent',
         // shadowOpacity: 0.75,
         //   shadowRadius: 5,
         //   shadowColor: 'red',
@@ -50,18 +52,20 @@ const styles = StyleSheet.create({
         padding: 0,
         alignSelf: "flex-start",
         fontFamily: "Avenir",
-        fontSize: 14
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     cardBody: {
         margin: 0,
         padding: 0,
         alignSelf: "flex-start",
         fontFamily: "Avenir",
-        fontSize: 11
+        fontSize: 12,
+        color: 'grey',
     },
     cardImage: {
         flex: 2,
-        borderRadius: 10,
-        // overflow: 'hidden',
+        borderRadius: 3,
+        overflow: 'hidden',
     }
 })
