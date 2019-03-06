@@ -5,7 +5,7 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
-import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button, TouchableOpacity, TextInput} from 'react-native';
 import firebase from 'react-native-firebase';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
@@ -268,6 +268,49 @@ export default class PreviewRecipe extends React.Component {
         });
     }
 
+    changeServings = (text) => {
+        if (text.match(/\./i) || text == "") return;
+        var numServings = parseInt(text);
+        if (numServings == 0 || numServings == NaN) return;
+        var scaleBy = numServings / this.state.recipe.servings;
+
+        // Change quantities in have / don't have
+        var haveIngredientsCopy = [...this.state.haveIngredients];
+        var dontHaveIngredientsCopy = [...this.state.dontHaveIngredients];
+        for (var i = 0; i < haveIngredientsCopy.length; i++) {
+            haveIngredientsCopy[i][0].standardQuantity = Math.round(
+                haveIngredientsCopy[i][0].standardQuantity * scaleBy * 100) / 100;
+            haveIngredientsCopy[i][0].originalQuantity = Math.round(
+                haveIngredientsCopy[i][0].originalQuantity * scaleBy * 100) / 100;
+        }
+        for (var i = 0; i < dontHaveIngredientsCopy.length; i++) {
+            dontHaveIngredientsCopy[i][0].standardQuantity = Math.round(
+                dontHaveIngredientsCopy[i][0].standardQuantity * scaleBy * 100) / 100;
+            dontHaveIngredientsCopy[i][0].originalQuantity = Math.round(
+                dontHaveIngredientsCopy[i][0].originalQuantity * scaleBy * 100) / 100;
+        }
+        this.setState({
+            haveIngredients: haveIngredientsCopy,
+            dontHaveIngredients: dontHaveIngredientsCopy
+        });
+
+        // Change quantities in recipe
+        var recipeCopy = {...this.state.recipe};
+        var ingredientsCopy = recipeCopy.ingredients;
+        for (var i = 0; i < ingredientsCopy; i++) {
+            ingredientsCopy[i].standardQuantity = Math.round(
+                ingredientsCopy[i].standardQuantity * scaleBy * 100) / 100;
+            ingredientsCopy[i].originalQuantity = Math.round(
+                ingredientsCopy[i].originalQuantity * scaleBy * 100) / 100;
+        }
+
+        recipeCopy.servings = numServings;
+        recipeCopy.ingredients = ingredientsCopy;
+        this.setState({
+            recipe: recipeCopy
+        });
+    }
+
     closeRow(rowMap, rowKey) {
         if (rowMap[rowKey]) {
             rowMap[rowKey].closeRow();
@@ -279,8 +322,22 @@ export default class PreviewRecipe extends React.Component {
             return (
                 <View style={[styles.container]}>
                     <Text style={[styles.sectionHeader]}>
-                        {this.state.recipe.title ? this.state.recipe.title : "unknown"}
+                        {this.state.recipe.title ? this.state.recipe.title : "<Recipe Name>"}
                     </Text>
+
+                    <View style={[styles.servings]}>
+                        <Text style={[styles.serves]}>
+                            Serves:
+                        </Text>
+                        <TextInput
+                            style={{height: 40, fontSize: 14, borderColor: 'gray', borderWidth: 1}}
+                            keyboardType={"number-pad"}
+                            maxLength={3}
+                            enablesReturnKeyAutomatically={true}
+                            onChangeText={(text) => this.changeServings(text)}
+                            defaultValue={this.state.recipe.servings.toString()}
+                        />
+                    </View>
 
                     <Text style={[styles.ingredientsLabel]}>
                         You don&apos;t have:
@@ -506,5 +563,7 @@ const styles = StyleSheet.create({
         color: ACTION_BUTTON_COLOR,
         fontFamily: DEFAULT_FONT,
         margin: 15,
+    },
+    servings: {
     }
 });
