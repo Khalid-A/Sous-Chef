@@ -6,6 +6,8 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
+import StarRating from 'react-native-star-rating';
+import { addRatingForRecipe } from '../redux/actions/RecipeAction';
 
 class Finished extends React.Component {
   static navigationOptions = {
@@ -27,6 +29,7 @@ class Finished extends React.Component {
     const results = this.findIngredients();
     this.state = {
       ingredients:null,
+      rating: null
     };
     this.listIngredients = this.listIngredients.bind(this);
   }
@@ -85,10 +88,14 @@ class Finished extends React.Component {
 
   updatePantry(){
     this.props.setIngredientsToRemove(this.state.ingredients);
+    if (this.state.rating !== null) {
+      addRatingForRecipe(this.props.navigation.getParam("recipeID"), parseFloat(this.state.rating), this.props.userID);
+    }
     this.props.navigation.navigate('Pantry', {
       ingredientsToRemove: this.state.ingredients
     });
   }
+
   listIngredients(){
     if(this.state.ingredients == null){
       console.warn("null");
@@ -113,10 +120,24 @@ class Finished extends React.Component {
     });
   }
 
+  addRating(rating) {
+    this.setState({
+      rating: rating
+    });
+  }
+
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            rating={this.state.rating}
+            selectedStar={(rating) => {
+              this.addRating(rating);
+            }}
+          />
           {this.listIngredients()}
           <TouchableOpacity
             style={styles.buttonBig}
@@ -197,6 +218,7 @@ const mapStateToProps = state => {
         amount:"",
       },
     ],
+    userID: state.userInfo.userID
   }
 }
 
