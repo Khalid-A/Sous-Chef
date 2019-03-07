@@ -33,3 +33,5 @@ Sous Chef is an app that works with you to make the most of your kitchen invento
 
 ## Project Development Links
 * [MVP MedFi Prototype](https://www.figma.com/file/0JRclKkp0c06P6moQMxWfQWN/Sous-Chef-MVP-MedFI-Proto?node-id=2%3A3384)
+* [MVP MedFi Deck](https://www.figma.com/file/b4sVb5f3KkHnT6it5BeGCF/Sous-Chef-Midpoint-Deck?node-id=136%3A0)
+* [Architect Diagram](https://www.figma.com/file/HSr99DSo8c236SLtKktWuPxK/Sous-Chef-Architect-Diagram?node-id=0%3A1)

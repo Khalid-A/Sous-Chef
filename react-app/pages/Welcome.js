@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
-import {RkButton} from 'react-native-ui-kitten';
-import firebase from 'react-native-firebase';
-import { setName } from '../redux/actions/action';
+import { RkButton } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
+import { loginExistingUser } from './../redux/actions/AuthenticationAction';
 
 class Welcome extends React.Component {
     static navigationOptions = {
@@ -15,8 +14,22 @@ class Welcome extends React.Component {
         this.state = {};
     }
 
+    componentDidMount() {
+        this.props.userInfo();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.userID) {
+            this.props.navigation.navigate('Main');
+        }
+    }
+
     onSignUpPressed = () => {
         this.props.navigation.navigate("SignUp");
+    }
+
+    onLoginPressed = () => {
+        this.props.navigation.navigate("Login");
     }
 
     render() {
@@ -29,6 +42,7 @@ class Welcome extends React.Component {
                 </Text>
                 <RkButton
                     rkType="rounded"
+                    onPress={this.onLoginPressed}
                 >
                 Login
                 </RkButton>
@@ -83,16 +97,17 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = state => {
-return {
-        name: state.name
-    }
-}
+const mapStateToProps = (state) => {
+    return {
+        userID: state.userInfo.userID,
+        errorMessage: state.userInfo.errorMessage
+    };
+};
 
-const mapDispatchToProps = dispatch => {
-return {
-        setName: (name) => {
-            dispatch(setName(name));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userInfo: () => {
+            dispatch(loginExistingUser())
         }
     }
 }

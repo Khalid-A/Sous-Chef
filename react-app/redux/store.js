@@ -1,8 +1,22 @@
-import { createStore } from "redux";
-import sousChefApp from "./reducers/reducer";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import reduxThunk from "redux-thunk";
+import { pantry, itemsToRemove } from './reducers/PantryReducer';
+import { userInfo } from "./reducers/AuthenticationReducer";
+import { readyToGoRecipes, recommendedRecipes, recentRecipes } from './reducers/RecipesReducer';
+import { groceryList } from './reducers/GroceryListReducer';
 
 const store = createStore(
-    sousChefApp
+    combineReducers({
+        readyToGoRecipes: readyToGoRecipes,
+        recommendedRecipes: recommendedRecipes,
+        recentRecipes: recentRecipes,
+        pantry: pantry,
+        userInfo: userInfo,
+        groceryList: groceryList,
+        itemsToRemove: itemsToRemove,
+    }), 
+    {},
+    applyMiddleware(reduxThunk)
 );
 
 export default store

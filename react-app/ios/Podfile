@@ -30,4 +30,6 @@ target 'SousChef' do
   pod 'React', :path => '../node_modules/react-native'
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 end
