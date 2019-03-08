@@ -218,7 +218,7 @@ export default class PreviewRecipe extends React.Component {
             for (var i = 0; i < docs.length; i++) {
                 var pantryIngrDoc = docs[i];
                 if (!pantryIngrDoc.exists) {
-                    break;
+                    continue;
                 }
                 var pantryIngrData = pantryIngrDoc.data();
                 surpluses[i] = pantryIngrData.amount -
