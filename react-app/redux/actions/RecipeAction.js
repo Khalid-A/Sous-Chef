@@ -23,11 +23,11 @@ const recipesRef = firebase.firestore().collection('test_recipes');
 const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
 
 /**
- * relevantRecipeUpdate is a general purpose thunk that given a snapshot from 
+ * relevantRecipeUpdate is a general purpose thunk that given a snapshot from
  * relevantrecipes collection in firestore, will check if that snapshot has
  * recipes that have recipeFieldToCheck field set to true, and then grabbing
  * the respective recipes from the recipe collection and updating the store.
- * 
+ *
  * @param {string} recipeFieldToCheck The field inside the relevant recipes
  * document to check against to see if the recipe is a match for the desired
  * category.
@@ -38,9 +38,9 @@ const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
  * redux.
  */
 const relevantRecipeUpdate = (
-    recipeFieldToCheck, 
-    dispatch, 
-    clear_type, 
+    recipeFieldToCheck,
+    dispatch,
+    clear_type,
     add_type
 ) => snapshot => {
     snapshot.ref.collection("recipes").onSnapshot(snapshot => {
@@ -60,18 +60,19 @@ const relevantRecipeUpdate = (
                 dispatch({
                     type: add_type,
                     payload: {
-                        images: snapshot.docs[0].get("images"), 
-                        servings: snapshot.docs[0].get("servings"), 
+                        images: snapshot.docs[0].get("images"),
+                        servings: snapshot.docs[0].get("servings"),
                         timeHour: snapshot.docs[0].get("time.hour"),
                         timeMinute: snapshot.docs[0].get("time.minute"),
                         title: snapshot.docs[0].get("title"),
+                        recipeID: snapshot.docs[0].get("id"),
                         id: snapshot.docs[0].id
                     }
                 });
             })(firstRecipeThrough);
             recipesRef.where(
-                "id", 
-                "=", 
+                "id",
+                "=",
                 snapshot.docs[index].get("recipeID")
             ).get().then(callback);
             firstRecipeThrough = false;
@@ -106,6 +107,26 @@ export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
             "isRecommended", dispatch, CLEAR_RECOMMENDED, ADD_RECOMMENDED
         )
     );
+}
+
+/**
+ * Retrieves data related to previewing a recipe.
+ * Note: This is not a redux function.
+ * @param {string} id The recipe id.
+ */
+export function beginRecipePreviewFetch(id) {
+    var results = {};
+
+    recipesRef.doc(id).get().then(function(doc) {
+        results = {
+            ...doc.data()
+        };
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+
+    return results;
 }
 
 /**
