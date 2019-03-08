@@ -220,72 +220,71 @@ exports.updateReadyToGoRecipes = functions.firestore
 
 exports.recommendations = functions.
 	firestore.document('relevantrecipes/{userid}/recipes/{recipeID}').onWrite((change, context) => {
-		// Inefficient: right now we are getting all of the recipes and using those to get the mapping.
-		// Ideally, we could restructure this code so that it composed better (and more javascript like)
-		// so that we could do this one by one, but that seems unlikely.
-		return recipes.get().then(allRecipesSnap => {
-			var recipeMap = new Map();
-			for (var recipeIndex = 0; recipeIndex < allRecipesSnap.docs.length; recipeIndex++) {
-				recipeMap[allRecipesSnap.docs[recipeIndex].id] = allRecipesSnap.docs[recipeIndex];
+		// Get all relevant recipes
+		return change.ref.parent().get().then(allRelevantSnap => {
+			var allRelevantRefs = new Array();
+			for (var i = 0; i < allRelevantSnap.docs.length; i++) {
+				allRelevantRefs.push(admin.firestore().collection("test_recipes").document(allRelevantSnap.docs[i].id));
 			}
-			return change.after.ref.parent().get().then(relevantSnap => {
-				// get all categories and avg rating per category
-				var ratedCategories = new Array();
-				var ratedCategoriesMap = new Map();
-				for (var i = 0; i < relevantSnap.docs.length; i++) {
-					var currentRecipe = relevantSnap.docs[i];
-					var categories = recipeMap[currentRecipe.id].getParam("categories");
-					var currentRecipeRating = currentRecipe.getParam("rating");
-					// Only look at recipes we have rated
-					if (currentRecipeRating === undefined) {
-						continue;
+			// Get recipes for all of the relevant recipes
+			return admin.firestore().getAll(...allRelevantRefs);
+		}).then(allRecipeDocs => {
+			var allRecipeMap = new Map();
+			var i = 0;
+			// Map from recipe id to recipe data
+			for (i = 0; i < allRecipeDocs.length; i++) {
+				allRecipeMap[allRecipeDocs[i].id] = allRecipeDocs[i];
+			}
+			var ratedCategories = new Array();
+			var ratedCategoriesMap = new Map();
+			for (var i = 0; i < allRelevantSnap.docs.length; i++) {
+				var currentRecipe = allRelevantSnap.docs[i];
+				// Get categories from recipes
+				var categories = allRecipeMap[currentRecipe.id].getParam("categories");
+				var currentRecipeRating = currentRecipe.getParam("rating");
+				// Only look at recipes we have rated
+				if (currentRecipeRating === undefined) {
+					continue;
+				}
+				// Go through all of the categories on the recipe and compute new rating
+				for (var j = 0; j < categories.length; j++) {
+					if (ratedCategoriesMap.has(categories[j])) {
+						const prevCategory = ratedCategoriesMap[categories[j]];
+						ratedCategoriesMap[categories[j]].rating = 
+							(
+								(prevCategory.count * prevCategory.averageRating) + currentRecipeRating
+							) / (prevCategory.count + 1)
+						ratedCategoriesMap[categories[j]].count++;
+					} else {
+						ratedCategoriesMap[categoris[j]] = {rating: currentRecipeRating, count: 1}
 					}
-					// Go through all of the categories on the recipe
-					for (var j = 0; j < categories.length; j++) {
-						if (ratedCategoriesMap.has(categories[j])) {
-							const prevCategory = ratedCategoriesMap[categories[j]];
-							ratedCategoriesMap[categories[j]].rating = 
-								(
-									(prevCategory.count * prevCategory.averageRating) + currentRecipeRating
-								) / (prevCategory.count + 1)
-							ratedCategoriesMap[categories[j]].count++;
-						} else {
-							ratedCategoriesMap[categoris[j]] = {rating: currentRecipeRating, count: 1}
-						}
-					}
 				}
-
-				for (var [category, value] of ratedCategoriesMap) {
-					ratedCategories.push({category: category, rating: value.rating});
-				}
-				ratedCategories.sort(function(categoryA, categoryB) {
-					return categoryB.rating - categoryA.rating;
-				});
-
-				var getRecipesForCategory = (ratedCategories, getMoreRecipes, index, recipesAdded) => {
-					return recipes.where("categories", "array-contains", ratedCategories[index]).get().then(recipesSnap => {
-						for (var k = 0; k < recipesSnap.docs.length; k++) {
-							recipesAdded.push(recipesSnap.docs[k]);
-						}
-						if (recipesAdded.length >= 15 || index === ratedCategories.length - 1) {
-							for (var j = 0; j < recipesAdded.length; j++) {
-								change.after.ref.parent().document(recipesAdded[j].id).set({isRecommended: true}, {merge: true});
-							}
-							return true;
-						} else {
-							return getMoreRecipes(ratedCategories, getMoreRecipes, index + 1, recipesAdded);
-						}
-					});
-				}
-
-				return getRecipesForCategory(ratedCategories, getRecipesForCategory, 0, new Array());
+			}
+			// Turn map into an array and sort it
+			for (var [category, value] of ratedCategoriesMap) {
+				ratedCategories.push({category: category, rating: value.rating});
+			}
+			ratedCategories.sort(function(categoryA, categoryB) {
+				return categoryB.rating - categoryA.rating;
 			});
+
+			// Recursively callback and get recipes with highest rated categories until
+			// out of rated categories or have found 15 recipes to recommend
+			var getRecipesForCategory = (ratedCategories, getMoreRecipes, index, recipesAdded) => {
+				return recipes.where("categories", "array-contains", ratedCategories[index]).get().then(recipesSnap => {
+					for (var k = 0; k < recipesSnap.docs.length; k++) {
+						recipesAdded.push(recipesSnap.docs[k]);
+					}
+					if (recipesAdded.length >= 15 || index === ratedCategories.length - 1) {
+						for (var j = 0; j < recipesAdded.length; j++) {
+							change.after.ref.parent().document(recipesAdded[j].id).set({isRecommended: true}, {merge: true});
+						}
+						return true;
+					} else {
+						return getMoreRecipes(ratedCategories, getMoreRecipes, index + 1, recipesAdded);
+					}
+				});
+			}
+			return getRecipesForCategory(ratedCategories, getRecipesForCategory, 0, new Array());
 		});
-		// Just all 4 star recipes
-		// return recipes.where("rating", ">", 4).get().then(querySnap => {
-		// 	var relevantForUser = relevantRecipes.doc(context.params.userid).collection("recipes");
-		// 	for (var i = 0; i < querySnap.docs.length && i < 15; i++) {
-		// 		relevantForUser.doc(querySnap.docs[i].id).set({isRecommended: true}, {merge: true});
-		// 	}
-		// });
 });
