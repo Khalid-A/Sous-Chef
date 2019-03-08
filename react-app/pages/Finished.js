@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity,SafeAreaView,StatusBar, Header } from 'react-native';
 import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
@@ -12,10 +13,15 @@ class Finished extends React.Component {
     title: "Finished",
     headerVisible: true,
     headerTintColor: "white",
-    headerLeft: null,
-    headerStyle: {
-      backgroundColor: BUTTON_BACKGROUND_COLOR,
-    },
+    // headerLeft: null,
+    headerTransparent:false,
+    headerBackground:(
+      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+        <SafeAreaView style={{flex:1 }}>
+          <StatusBar barStyle="light-content"/>
+        </SafeAreaView>
+      </LinearGradient>
+    ),
     headerTitleStyle: {
       fontFamily: "Avenir",
       fontSize: 30,

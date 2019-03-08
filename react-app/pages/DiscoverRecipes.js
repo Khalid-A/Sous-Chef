@@ -1,18 +1,24 @@
 import React from 'react';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity,SafeAreaView,StatusBar, Header } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
         title: "Discover",
         headerVisible: true,
         headerTintColor: "white",
-        headerStyle: {
-            backgroundColor: BUTTON_BACKGROUND_COLOR,
-        },
+        headerTransparent:false,
+        headerBackground:(
+          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+            <SafeAreaView style={{flex:1 }}>
+              <StatusBar barStyle="light-content"/>
+            </SafeAreaView>
+          </LinearGradient>
+        ),
         headerTitleStyle: {
             fontFamily: "Avenir",
             fontSize: 35

@@ -11,12 +11,14 @@ import Finished from './pages/Finished';
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
+import { YellowBox, View, TouchableOpacity, Button, Text } from 'react-native';
 import store from './redux/store';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
 
 YellowBox.ignoreWarnings(['ListView is deprecated']);
+
+
 
 const AppNavigator = createAppContainer(createStackNavigator({
     Welcome: Welcome,
@@ -35,7 +37,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                             navigationOptions: ({ navigation }) => ({
                                 headerLeft: (
                                     <View>
-                                      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
                                         <TouchableOpacity
                                             onPress={() => {navigation.openDrawer()}}
                                         >
@@ -48,7 +49,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                                                     fontSize: 20
                                                 }}/>
                                         </TouchableOpacity>
-                                      </LinearGradient>
                                     </View>
                                 )
                             })
@@ -69,7 +69,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                  <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
                                     <TouchableOpacity
                                         onPress={() => {navigation.openDrawer()}}
                                     >
@@ -82,7 +81,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
-                                      </LinearGradient>
                                 </View>
                             ),
                             drawerLabel: "Pantry"
@@ -100,10 +98,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                  <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
-                                    <TouchableOpacity
-                                        onPress={() => {navigation.openDrawer()}}
-                                    >
+                                    <TouchableOpacity onPress={() => {navigation.openDrawer()}}>
                                         <Icon
                                             name="md-menu"
                                             style={{
@@ -113,7 +108,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
-                                      </LinearGradient>
                                 </View>
                             ),
                             drawerLabel: "Grocery List"
@@ -131,7 +125,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                  <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]}>
                                     <TouchableOpacity
                                         onPress={() => {navigation.openDrawer()}}
                                     >
@@ -144,7 +137,6 @@ const AppNavigator = createAppContainer(createStackNavigator({
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
-                                      </LinearGradient>
                                 </View>
                             ),
                             drawerLabel: "Logout"
@@ -158,6 +150,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
         },
         {
             initialRouteName: "DiscoverRecipes",
+
             drawerBackgroundColor: DARK_GREEN_BACKGROUND,
             contentOptions: {
                 activeTintColor: "lightgrey",
@@ -166,12 +159,32 @@ const AppNavigator = createAppContainer(createStackNavigator({
         }
         ),
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            headerStyle:{
+              backgroundColor: DARK_GREEN_BACKGROUND,
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+            // fontWeight: 'bold',
+            },
+
+
         }),
+
     }
+
 },
+
 {
     initialRouteName: "Welcome",
+    defaultNavigationOptions: {
+    headerStyle: {
+      backgroundColor: DARK_GREEN_BACKGROUND,
+      borderBottomColor: 'transparent',
+    },
+    headerTintColor: 'white',
+
+},
 }
 ));
 

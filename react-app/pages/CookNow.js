@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity, Dimensions} from 'react-native';
+import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity, Dimensions,SafeAreaView,StatusBar, Header} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { AppRegistry, TextInput } from 'react-native';
 import firebase from 'react-native-firebase';
@@ -21,10 +21,15 @@ class CookNow extends React.Component {
         title: "Cook Now",
         headerVisible: true,
         headerTintColor: "white",
-        headerLeft: null,
-        headerStyle: {
-            backgroundColor: BUTTON_BACKGROUND_COLOR,
-        },
+        // headerLeft: null,
+        headerTransparent:false,
+        headerBackground:(
+          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+            <SafeAreaView style={{flex:1 }}>
+              <StatusBar barStyle="light-content"/>
+            </SafeAreaView>
+          </LinearGradient>
+        ),
         headerTitleStyle: {
             fontFamily: "Avenir",
             fontSize: 30,
@@ -124,7 +129,7 @@ render() {
       <Image source={
           this.state.recipe.images.trim() == "" ?
           require("../assets/sousChefLogo.png") :
-          {uri: this.state.recipe.images}} style={[styles.logo]} resizeMode="contain" />
+          {uri: this.state.recipe.images}} style={[styles.image]}/>
       <Text style={styles.title}>{this.state.recipe.title}</Text>
       <View style={{flexDirection: 'row', paddingBottom:0, marginBottom:0, borderBottomColor:BACKGROUND_COLOR, borderBottomWidth: 0.25, height: 60, }}>
                 <View style={{width: Dimensions.get('window').width/4, height: 60, padding:10, alignItems: 'flex-start',flexDirection: 'row'}} >
@@ -233,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent',
     fontWeight: 'bold',
   },
-  logo: {
+  image: {
       // marginTop: Dimensions.get('window').height/5,
       height: Dimensions.get('window').height/3.85,
       width: Dimensions.get('window').width,

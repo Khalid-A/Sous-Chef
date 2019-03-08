@@ -1,26 +1,27 @@
 import React from 'react';
 import {
-    BUTTON_BACKGROUND_COLOR, 
+    BUTTON_BACKGROUND_COLOR,
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Dimensions,SafeAreaView,StatusBar, Header } from 'react-native';
 import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
 import {
-    RkTextInput, 
-    RkPicker, 
+    RkTextInput,
+    RkPicker,
     RkButton
 } from 'react-native-ui-kitten';
-import Dialog, { 
-    DialogFooter, 
-    SlideAnimation, 
-    DialogButton, 
-    DialogTitle, 
-    DialogContent 
+import Dialog, {
+    DialogFooter,
+    SlideAnimation,
+    DialogButton,
+    DialogTitle,
+    DialogContent
 } from 'react-native-popup-dialog';
 import convert from 'convert-units';
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -30,8 +31,8 @@ import { addPantryItem } from '../redux/actions/PantryAction';
 
 
 const defaultState = {
-    addDialogVisible : false, 
-    newIngredient: "", 
+    addDialogVisible : false,
+    newIngredient: "",
     newIngredientUnit: "",
     pickedValue: [{value: "1", key: 1}, ""],
     pickerVisible: false,
@@ -49,16 +50,21 @@ class GroceryList extends React.Component {
         headerVisible: true,
         headerTintColor: "white",
         headerLeft: null,
-        headerStyle: {
-            backgroundColor: BUTTON_BACKGROUND_COLOR,
-        },
+        headerTransparent:false,
+        headerBackground:(
+          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+            <SafeAreaView style={{flex:1 }}>
+              <StatusBar barStyle="light-content"/>
+            </SafeAreaView>
+          </LinearGradient>
+        ),
         headerTitleStyle: {
-            fontFamily: DEFAULT_FONT,
+            fontFamily: "Avenir",
             fontSize: 35
         },
         drawerLabel: 'Grocery List'
     }
-    
+
     constructor(props) {
         super(props);
         this.state = defaultState;
@@ -81,7 +87,7 @@ class GroceryList extends React.Component {
     addItem = () => {
         if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
             addGroceryListItem(
-                this.state.newIngredient, 
+                this.state.newIngredient,
                 parseInt(this.state.pickedValue[0].value),
                 this.props.userID
             );
@@ -106,7 +112,7 @@ class GroceryList extends React.Component {
     editItem = () => {
         if (this.state.unconventionalUnits) {
             editGroceryItem(
-                this.state.editIngredient, 
+                this.state.editIngredient,
                 parseInt(this.state.pickedValue[0].value),
                 this.props.userID
             );
@@ -130,7 +136,7 @@ class GroceryList extends React.Component {
 			rowMap[rowKey].closeRow();
 		}
     }
-    
+
     fetchIngredientData(ingredient, callback) {
         firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
@@ -193,18 +199,18 @@ class GroceryList extends React.Component {
                     }}
                     renderHiddenItem={ (data, rowMap) => (
                         <View style={styles.rowBack}>
-                            <TouchableOpacity 
-                                style={[styles.backRightBtn, styles.backRightBtnLeft]} 
+                            <TouchableOpacity
+                                style={[styles.backRightBtn, styles.backRightBtnLeft]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
                                     this.fetchIngredientData(data.item.title, () => {
                                         this.setState(previousState => {
                                             var roundedAmount = parseInt(parseFloat(data.item.amount));
                                             return {
-                                                editIngredient: data.item.title, 
+                                                editIngredient: data.item.title,
                                                 pickedValue: [
                                                     {
-                                                        key: roundedAmount, 
+                                                        key: roundedAmount,
                                                         value: roundedAmount.toString()
                                                     },
                                                     previousState.pickedValue[1]
@@ -220,8 +226,8 @@ class GroceryList extends React.Component {
                             >
                                 <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={[styles.backRightBtn, styles.backRightBtnRight]} 
+                            <TouchableOpacity
+                                style={[styles.backRightBtn, styles.backRightBtnRight]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
                                     removeGroceryListItem(data.item.title, this.props.userID);
@@ -229,8 +235,8 @@ class GroceryList extends React.Component {
                             >
                                 <Text style={styles.text}>delete</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={[styles.backRightBtn, styles.backLeftBtnRight]} 
+                            <TouchableOpacity
+                                style={[styles.backRightBtn, styles.backLeftBtnRight]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
                                     firebase.firestore().collection("standardmappings").doc(data.item.title).get().then(ingredientSnapshot => {
@@ -239,11 +245,11 @@ class GroceryList extends React.Component {
                                             addPantryItem(data.item.title, data.item.amount, this.props.userID);
                                         } else {
                                             Alert.alert(
-                                                "Cannot Move to Pantry", 
+                                                "Cannot Move to Pantry",
                                                 "Custom ingredients that are not used in any recipes in Sous Chef cannot be added to your pantry.",
                                                 [
                                                     {
-                                                        text: "OK" 
+                                                        text: "OK"
                                                     }
                                                 ]
                                             );
@@ -259,46 +265,46 @@ class GroceryList extends React.Component {
                     rightOpenValue={-75}
                     leftOpenValue={150}
                 />
-                <ActionButton 
-                    buttonColor={BUTTON_BACKGROUND_COLOR} 
+                <ActionButton
+                    buttonColor={BUTTON_BACKGROUND_COLOR}
                     renderIcon={active => {
                         if (!active)
                             return (
-                                <Icon 
-                                    name="md-create" 
+                                <Icon
+                                    name="md-create"
                                     style={styles.actionButtonIcon}
                                 />
                             );
                         else
                             return (
-                                <Icon 
-                                    name="md-add" 
+                                <Icon
+                                    name="md-add"
                                     style={styles.actionButtonIcon}
                                 />
                             );
                     }}
                 >
-                    <ActionButton.Item 
-                        buttonColor={ACTION_BUTTON_COLOR} 
-                        title="New Item" 
+                    <ActionButton.Item
+                        buttonColor={ACTION_BUTTON_COLOR}
+                        title="New Item"
                         onPress={
                         () => this.setState(
                             {addDialogVisible: true}
                         )
                     }>
-                        <Icon 
-                            name="md-add" 
+                        <Icon
+                            name="md-add"
                             style={styles.actionButtonIcon}
                         />
                     </ActionButton.Item>
-                    <ActionButton.Item 
+                    <ActionButton.Item
                         buttonColor={ACTION_BUTTON_COLOR}
                         title="Move To Pantry"
                         onPress={() => console.warn("move all to pantry tapped!")}
                     >
-                        <Icon 
-                            name="md-create" 
-                            style={styles.actionButtonIcon} 
+                        <Icon
+                            name="md-create"
+                            style={styles.actionButtonIcon}
                         />
                     </ActionButton.Item>
                 </ActionButton>
@@ -309,10 +315,10 @@ class GroceryList extends React.Component {
                         this.setState({ addDialogVisible: false });
                     }}
                     dialogTitle={
-                        <DialogTitle 
-                            style={[styles.dialogTitleContainer]} 
-                            textStyle={[styles.dialogTitleText]} 
-                            title="Add Item" 
+                        <DialogTitle
+                            style={[styles.dialogTitleContainer]}
+                            textStyle={[styles.dialogTitleText]}
+                            title="Add Item"
                         />
                     }
                     footer={
@@ -322,8 +328,8 @@ class GroceryList extends React.Component {
                             textStyle={[styles.dialogButtonText]}
                             text="Cancel"
                             onPress={() => {
-                                this.setState({ 
-                                    addDialogVisible: false 
+                                this.setState({
+                                    addDialogVisible: false
                                 });
                             }}
                         />
@@ -345,12 +351,12 @@ class GroceryList extends React.Component {
                     })}
                 >
                     <DialogContent>
-                        <Text 
+                        <Text
                             style={[styles.popupHeader]}
                         >
                             Item Name:
                         </Text>
-                        <RkTextInput 
+                        <RkTextInput
                             placeholder = "eggs"
                             labelStyle={styles.text}
                             style={styles.textInput}
@@ -367,7 +373,7 @@ class GroceryList extends React.Component {
                         <Text style={[styles.popupHeader]}>
                             Quantity:
                         </Text>
-                        <RkButton 
+                        <RkButton
                             onPress={
                                 () => this.setState({
                                     pickerVisible: true
@@ -476,7 +482,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
-        backgroundColor: BACKGROUND_COLOR,
+        backgroundColor: 'white',
         paddingBottom: 25
     },
     actionButtonIcon: {
@@ -499,14 +505,14 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         borderColor: "lightgrey",
-        borderBottomWidth: 2
+        borderBottomWidth: 0.5
     },
     listItem: {
         flex: 1,
         height: 50,
         borderColor: "lightgrey",
-        backgroundColor: BACKGROUND_COLOR,
-        borderBottomWidth: 2
+        backgroundColor: 'white',
+        borderBottomWidth: 0.5
     },
     dialogButtonContainer: {
         backgroundColor: BUTTON_BACKGROUND_COLOR,
