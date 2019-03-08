@@ -274,30 +274,10 @@ export default class PreviewRecipe extends React.Component {
         if (numServings == 0 || numServings == NaN) return;
         var scaleBy = numServings / this.state.recipe.servings;
 
-        // Change quantities in have / don't have
-        var haveIngredientsCopy = [...this.state.haveIngredients];
-        var dontHaveIngredientsCopy = [...this.state.dontHaveIngredients];
-        for (var i = 0; i < haveIngredientsCopy.length; i++) {
-            haveIngredientsCopy[i][0].standardQuantity = Math.round(
-                haveIngredientsCopy[i][0].standardQuantity * scaleBy * 100) / 100;
-            haveIngredientsCopy[i][0].originalQuantity = Math.round(
-                haveIngredientsCopy[i][0].originalQuantity * scaleBy * 100) / 100;
-        }
-        for (var i = 0; i < dontHaveIngredientsCopy.length; i++) {
-            dontHaveIngredientsCopy[i][0].standardQuantity = Math.round(
-                dontHaveIngredientsCopy[i][0].standardQuantity * scaleBy * 100) / 100;
-            dontHaveIngredientsCopy[i][0].originalQuantity = Math.round(
-                dontHaveIngredientsCopy[i][0].originalQuantity * scaleBy * 100) / 100;
-        }
-        this.setState({
-            haveIngredients: haveIngredientsCopy,
-            dontHaveIngredients: dontHaveIngredientsCopy
-        });
-
         // Change quantities in recipe
         var recipeCopy = {...this.state.recipe};
-        var ingredientsCopy = recipeCopy.ingredients;
-        for (var i = 0; i < ingredientsCopy; i++) {
+        var ingredientsCopy = [...recipeCopy.ingredients];
+        for (var i = 0; i < ingredientsCopy.length; i++) {
             ingredientsCopy[i].standardQuantity = Math.round(
                 ingredientsCopy[i].standardQuantity * scaleBy * 100) / 100;
             ingredientsCopy[i].originalQuantity = Math.round(
@@ -307,8 +287,12 @@ export default class PreviewRecipe extends React.Component {
         recipeCopy.servings = numServings;
         recipeCopy.ingredients = ingredientsCopy;
         this.setState({
-            recipe: recipeCopy
+            recipe: recipeCopy,
+            haveIngredients: [],
+            dontHaveIngredients: []
         });
+
+        this.calculateHaveIngredients();
     }
 
     closeRow(rowMap, rowKey) {
