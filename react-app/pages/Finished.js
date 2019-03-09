@@ -40,8 +40,15 @@ class Finished extends React.Component {
   }
 
   getIngredientsToRemove = (ingredients) => {
-    console.log(ingredients)
-    return ingredients
+    // console.log(ingredients)
+    // return ingredients
+
+    ingredientsToRemove = {}
+    for(var i =0; i<ingredients.length; i++){
+      console.log(ingredients[i]);
+      ingredientsToRemove[i] = ingredients[i];
+    }
+    return ingredientsToRemove;
   }
 
   componentWillMount(){
@@ -73,8 +80,8 @@ class Finished extends React.Component {
 
   updatePantry() {
     this.props.saveIsFavorited(
-      this.props.userID, 
-      this.state.recipeID, 
+      this.props.userID,
+      this.state.recipeID,
       this.state.isFavorited
     )
     this.props.saveIsRecent(this.props.userID, this.state.recipeID)
@@ -93,21 +100,27 @@ class Finished extends React.Component {
     if(this.state.ingredients == null){
       console.warn("null");
     }
-    return this.state.ingredients.map((ingredient, index) => {
-      if(!ingredient.ingredient){
+    return Object.keys(this.state.ingredients).map((ingredientID) => {
+      const text = this.state.ingredients[ingredientID].originalText;
+      const quantity = this.state.ingredients[ingredientID].originalQuantity;
+      const index = ingredientID;
+
+      if(!text){
         return null;
       }
-
       return (
-        <View style={{flexDirection: 'row',}}>
-          <Text style={styles.detail}>{ingredient.ingredient}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.removeItem(index)}
-            >
-            <Text> Delete Item </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems:'center', marginLeft: 10,}}>
+
+          <Text style={styles.detail}>{quantity} {text}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.removeItem(ingredientID)}
+              >
+              <Text> Delete Item </Text>
           </TouchableOpacity>
+
         </View>
+
       );
     });
   }
@@ -118,7 +131,7 @@ class Finished extends React.Component {
         <ScrollView>
           <View style={styles.container}>
             {/* TODO NEED TO FIX */}
-            {/* {this.listIngredients()} */}
+            {this.listIngredients()}
             <TouchableOpacity
               style={styles.buttonBig}
               onPress={() => this.updatePantry()}
@@ -127,8 +140,8 @@ class Finished extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <ActionButton 
-          buttonColor={BUTTON_BACKGROUND_COLOR} 
+        <ActionButton
+          buttonColor={BUTTON_BACKGROUND_COLOR}
           onPress={() => {
             this.setState({
               isFavorited: !this.state.isFavorited
@@ -137,18 +150,18 @@ class Finished extends React.Component {
           renderIcon={() => {
             if (this.state.isFavorited)
                 return (
-                    <Icon 
-                        name="md-heart" 
+                    <Icon
+                        name="md-heart"
                         style={styles.actionButtonIcon}
                     />
                 );
-            else 
+            else
                 return (
-                    <Icon 
-                        name="md-heart-empty" 
+                    <Icon
+                        name="md-heart-empty"
                         style={styles.actionButtonIcon}
                     />
-                ); 
+                );
             }}
           />
       </View>
