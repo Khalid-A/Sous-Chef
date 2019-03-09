@@ -4,7 +4,7 @@ import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { setIngredientsToRemove } from '../redux/actions/PantryAction';
+import { getPantryItemsToRemove } from '../redux/actions/PantryAction';
 import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import {
   getIsFavorited,
@@ -39,34 +39,26 @@ class Finished extends React.Component {
     this.listIngredients = this.listIngredients.bind(this);
   }
 
-  getIngredientsToRemove = () => {
-    const pantryTitle = this.props.pantry.map((item) => {
-      return item.title;
-    });
-
-    const ingredients = this.props.navigation.getParam("ingredientsToRemove", null);
-    const filtered = ingredients.filter((item) => {
-      if(pantryTitle.includes(item.ingredient)){
-        return true;
-      }
-      return false;
-    });
-    return filtered;
-  }
-
   componentWillMount(){
     this.setState({
-      recipeID: this.props.navigation.getParam("recipeID", null),
-      ingredients: this.getIngredientsToRemove(),
+      recipeID: this.props.navigation.getParam("recipeID"),
+      // TODO: fix getIngredientsToRemove
+      ingredients: this.props.navigation.getParam("ingredients"),
+      // ingredients: this.props.getPantryItemsToRemove(),
     });
-    
-    this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID", null))
+    console.log(this.state.ingredients)
+    console.log("items to remove", this.props.getPantryItemsToRemove(this.props.userID, this.props.navigation.getParam("ingredients")))
+    this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID"))
   }
 
   componentWillReceiveProps(nextProps){
     if (nextProps.isFavorited !== this.props.isFavorited) {
       this.setState({isFavorited: nextProps.isFavorited})
     }
+    console.log(this.state.ingredients)
+    console.log("items to remove", this.props.getPantryItemsToRemove(this.props.userID, this.props.navigation.getParam("ingredients")))
+    
+    console.log("finished state", this.state)
   }
 
 
@@ -212,32 +204,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userID: state.userInfo.userID,
-    // pantry: state.pantry,
-    pantry: [
-      {
-        title:"vanilla",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"eggs",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"margarine",
-        unit: "",
-        amount:"",
-      },
-    ],
     isFavorited: state.favoritedTracker.isFavorited
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    setIngredientsToRemove: (ingredients) => {
-      dispatch(setIngredientsToRemove(ingredients));
+    getPantryItemsToRemove: (userID, ingredients) => {
+      getPantryItemsToRemove(userID, ingredients);
     },
     getIsFavorited: (userID, recipeID) => {
       dispatch(getIsFavorited(userID, recipeID))

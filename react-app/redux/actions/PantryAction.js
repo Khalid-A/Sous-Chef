@@ -64,17 +64,6 @@ export const addPantryItem = (name, amount, userid) => {
     })
 }
 
-/**
- * setIngredientsToRemove function that listens on finished
- * page to get ingredients to remove from the pantry
- */
-export const setIngredientsToRemove = (ingredients) => {
-  return {
-    type: SET_INGREDIENTS_TO_REMOVE,
-    payload: ingredients,
-  };
-}
-
 export const removePantryItem = (name, userid) => {
     pantryRef.doc(userid).get().then(pantrySnapshot => {
         pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).delete();
@@ -87,4 +76,9 @@ export const editPantryItem = (name, amount, userid) => {
             "ingredients"
         ).doc(name.toLowerCase()).set({amount: amount});
     });
+}
+
+export const getPantryItemsToRemove = (userid, ingredients) => {
+    console.log("getpantryitems to remove", userid, ingredients)
+    return ingredients
 }
