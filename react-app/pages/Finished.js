@@ -8,7 +8,6 @@ import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import {
   getIsFavorited,
-  flipIsFavorited,
   saveIsFavorited,
   saveIsRecent,
 } from '../redux/actions/FavoritedAction';
@@ -36,6 +35,7 @@ class Finished extends React.Component {
     this.state = {
       recipeID: null,
       ingredients: null,
+      isFavorited: false,
     };
     this.listIngredients = this.listIngredients.bind(this);
   }
@@ -58,11 +58,17 @@ class Finished extends React.Component {
     });
 
     this.setState({
-        recipeID: this.props.navigation.getParam("recipeID", null),
-        ingredients: filtered,
+      recipeID: this.props.navigation.getParam("recipeID", null),
+      ingredients: filtered,
     });
 
     this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID", null))
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.isFavorited !== this.props.isFavorited) {
+      this.setState({isFavorited: nextProps.isFavorited})
+    }
   }
 
   findIngredients() {
@@ -98,7 +104,7 @@ class Finished extends React.Component {
     this.props.saveIsFavorited(
       this.props.userID, 
       this.state.recipeID, 
-      this.props.isFavorited
+      this.state.isFavorited
     )
     this.props.saveIsRecent(this.props.userID, this.state.recipeID)
 
@@ -148,9 +154,13 @@ class Finished extends React.Component {
         </ScrollView>
         <ActionButton 
           buttonColor={BUTTON_BACKGROUND_COLOR} 
-          onPress={() => {this.props.isFavoritedPressed(this.props.isFavorited)}}
+          onPress={() => {
+            this.setState({
+              isFavorited: !this.state.isFavorited
+            })
+          }}
           renderIcon={() => {
-            if (this.props.isFavorited)
+            if (this.state.isFavorited)
                 return (
                     <Icon 
                         name="md-heart" 
@@ -250,9 +260,6 @@ const mapDispatchToProps = dispatch => {
     },
     getIsFavorited: (userID, recipeID) => {
       dispatch(getIsFavorited(userID, recipeID))
-    },
-    isFavoritedPressed: (isFavorited) => {
-      dispatch(flipIsFavorited(isFavorited))
     },
     saveIsFavorited: (userID, recipeID, isFavorited) => {
       saveIsFavorited(userID, recipeID, isFavorited)

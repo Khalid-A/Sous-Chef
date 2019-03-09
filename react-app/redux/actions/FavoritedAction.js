@@ -1,7 +1,6 @@
 
 export const IS_NOT_FAVORITED = "IS_NOT_FAVORITED";
 export const IS_FAVORITED = "IS_FAVORITED";
-export const FLIP_FAVORITED = "FLIP_FAVORITED";
 
 import firebase from 'react-native-firebase';
 
@@ -41,17 +40,6 @@ export const getIsFavorited = (userID, recipeID) => {
         }).catch(err => {
             console.log('Error getting document', err);
         });
-    }
-}
-
-export const flipIsFavorited = (isFavorited) => {
-    return (dispatch) => {
-        return dispatch({
-            type: FLIP_FAVORITED,
-            payload: {
-                isFavorited: !isFavorited
-            }
-        })
     }
 }
 
