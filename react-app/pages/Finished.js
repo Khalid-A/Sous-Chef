@@ -2,9 +2,8 @@ import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
-import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { getPantryItemsToRemove } from '../redux/actions/PantryAction';
+import { removePantryItem, editPantryItem } from '../redux/actions/PantryAction';
 import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import {
   getIsFavorited,
@@ -13,6 +12,8 @@ import {
 } from '../redux/actions/FavoritedAction';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import firebase from 'react-native-firebase';
 
 class Finished extends React.Component {
   static navigationOptions = {
@@ -42,18 +43,17 @@ class Finished extends React.Component {
 
   getIngredientsToRemove = (ingredients) => {
     ingredientsToRemove = {}
-    for(var i =0; i<ingredients.length; i++){
-      console.log(ingredients[i]);
-      ingredientsToRemove[i] = ingredients[i];
+    for (var i = 0; i < ingredients.length; i++) {
+      ingredientsToRemove[i] =  ingredients[i];
     }
-    return ingredientsToRemove;
+    return ingredientsToRemove
   }
 
   componentWillMount(){
     this.setState({
       recipeID: this.props.navigation.getParam("recipeID"),
       ingredients: this.getIngredientsToRemove(
-        this.props.navigation.getParam("ingredients")
+        this.props.navigation.getParam("ingredientsToRemove")
       ),
     });
     this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID"))
@@ -73,12 +73,6 @@ class Finished extends React.Component {
     this.setState({
       ingredients: this.state.ingredients
     });
-    // this.state.ingredients.splice(ingredientIndex, 1);
-    // var newIngredients = {...this.state.ingredients};
-    // newIngredients.splice(ingredientIndex, 1);
-    // this.setState({
-    //   ingredients: newIngredients
-    // });
   }
 
   updatePantry() {
@@ -89,25 +83,27 @@ class Finished extends React.Component {
     )
     this.props.saveIsRecent(this.props.userID, this.state.recipeID)
 
-    const ingredients = this.state.ingredients.reduce(function(map, item) {
-        map[item.ingredient] = item;
-        return map;
-    }, {});
-    this.props.setIngredientsToRemove(this.state.ingredients);
-    this.props.navigation.navigate('Pantry', {
-      ingredientsToRemove: this.state.ingredients
-    });
+    // const ingredients = this.state.ingredients.reduce(function(map, item) {
+    //     map[item.ingredient] = item;
+    //     return map;
+    // }, {});
+    // this.props.setIngredientsToRemove(this.state.ingredients);
+    // this.props.navigation.navigate('Pantry', {
+    //   ingredientsToRemove: this.state.ingredients
+    // });
   }
 
   listIngredients(){
     if(this.state.ingredients == null){
       console.warn("null");
     }
+    console.log("list ingredients", this.state.ingredients)
     return Object.keys(this.state.ingredients).map((ingredientID) => {
-      const text = this.state.ingredients[ingredientID].originalText;
-      const quantity = this.state.ingredients[ingredientID].originalQuantity;
+      console.log(this.state.ingredients[ingredientID][0])
+      const text = this.state.ingredients[ingredientID][0].originalText;
+      const quantity = this.state.ingredients[ingredientID][0].originalQuantity;
       const index = ingredientID;
-
+      console.log(text, quantity, index)
       if(!text){
         return null;
       }
@@ -133,7 +129,6 @@ class Finished extends React.Component {
       <View>
         <ScrollView>
           <View style={styles.container}>
-            {/* TODO NEED TO FIX */}
             {this.listIngredients()}
             <TouchableOpacity
               style={styles.buttonBig}
@@ -165,7 +160,7 @@ class Finished extends React.Component {
                         style={styles.actionButtonIcon}
                     />
                 );
-            }}
+          }}
           />
       </View>
     );

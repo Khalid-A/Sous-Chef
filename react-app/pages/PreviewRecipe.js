@@ -258,8 +258,8 @@ class PreviewRecipe extends React.Component {
 
     cookNow = () => {
         this.props.navigation.navigate('CookNow', {
-            // TODO: substitutions here
             recipe: this.state.recipe,
+            ingredientsToRemove: this.state.haveIngredients,
         });
     }
 

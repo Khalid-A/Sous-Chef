@@ -38,7 +38,7 @@ class CookNow extends React.Component {
   finishCooking(){
     this.props.navigation.navigate('Finished', {
       recipeID: this.state.recipe.id,
-      ingredients: this.state.recipe.ingredients
+      ingredientsToRemove: this.props.navigation.getParam("ingredientsToRemove")
     });
   }
 
