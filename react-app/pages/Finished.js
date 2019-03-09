@@ -37,12 +37,10 @@ class Finished extends React.Component {
       isFavorited: null,
     };
     this.listIngredients = this.listIngredients.bind(this);
+
   }
 
   getIngredientsToRemove = (ingredients) => {
-    // console.log(ingredients)
-    // return ingredients
-
     ingredientsToRemove = {}
     for(var i =0; i<ingredients.length; i++){
       console.log(ingredients[i]);
@@ -70,12 +68,17 @@ class Finished extends React.Component {
   }
 
 
-  removeItem(ingredientIndex){
-    var newIngredients = [...this.state.ingredients];
-    newIngredients.splice(ingredientIndex, 1);
+  removeItem = (ingredientIndex) => {
+    delete this.state.ingredients[ingredientIndex];
     this.setState({
-      ingredients: newIngredients
+      ingredients: this.state.ingredients
     });
+    // this.state.ingredients.splice(ingredientIndex, 1);
+    // var newIngredients = {...this.state.ingredients};
+    // newIngredients.splice(ingredientIndex, 1);
+    // this.setState({
+    //   ingredients: newIngredients
+    // });
   }
 
   updatePantry() {
