@@ -3,7 +3,7 @@ import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableO
 import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import { removePantryItem, editPantryItem } from '../redux/actions/PantryAction';
+import { removeFromPantry } from '../redux/actions/PantryAction';
 import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import {
   getIsFavorited,
@@ -63,8 +63,6 @@ class Finished extends React.Component {
     if (nextProps.isFavorited !== this.props.isFavorited) {
       this.setState({isFavorited: nextProps.isFavorited})
     }
-    console.log(this.state.ingredients)
-    console.log("finished state", this.state)
   }
 
 
@@ -83,27 +81,18 @@ class Finished extends React.Component {
     )
     this.props.saveIsRecent(this.props.userID, this.state.recipeID)
 
-    // const ingredients = this.state.ingredients.reduce(function(map, item) {
-    //     map[item.ingredient] = item;
-    //     return map;
-    // }, {});
-    // this.props.setIngredientsToRemove(this.state.ingredients);
-    // this.props.navigation.navigate('Pantry', {
-    //   ingredientsToRemove: this.state.ingredients
-    // });
+    this.props.removeFromPantry(this.props.userID, this.state.ingredients)
+    this.props.navigation.navigate('Pantry');
   }
 
   listIngredients(){
     if(this.state.ingredients == null){
       console.warn("null");
     }
-    console.log("list ingredients", this.state.ingredients)
     return Object.keys(this.state.ingredients).map((ingredientID) => {
-      console.log(this.state.ingredients[ingredientID][0])
       const text = this.state.ingredients[ingredientID][0].originalText;
       const quantity = this.state.ingredients[ingredientID][0].originalQuantity;
       const index = ingredientID;
-      console.log(text, quantity, index)
       if(!text){
         return null;
       }
@@ -231,6 +220,9 @@ const mapDispatchToProps = dispatch => {
     },
     saveIsRecent: (userID, recipeID) => {
       saveIsRecent(userID, recipeID)
+    },
+    removeFromPantry: (userID, ingredients) => {
+      removeFromPantry(userID, ingredients)
     }
   }
 }

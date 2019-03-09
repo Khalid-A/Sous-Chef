@@ -77,3 +77,24 @@ export const editPantryItem = (name, amount, userid) => {
         ).doc(name.toLowerCase()).set({amount: amount});
     });
 }
+
+export const removeFromPantry = (userID, ingredients) => {
+    Object.keys(ingredients).map((ingredientIdx) => {
+        console.log(ingredients[ingredientIdx])
+        const ingredientInfo = ingredients[ingredientIdx][0]
+        const surplus = ingredients[ingredientIdx][1]
+        const ingredient = ingredientInfo['ingredient']
+        if (surplus <= 0) {
+            pantryRef.doc(userID).collection('ingredients').doc(ingredient)
+                .delete().catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+        } else {
+            pantryRef.doc(userID).collection('ingredients').doc(ingredient)
+                .update({
+                    amount: surplus
+                })
+        }
+    });
+}
+

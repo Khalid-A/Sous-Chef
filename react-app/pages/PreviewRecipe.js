@@ -4,7 +4,7 @@ import {
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
-import {DEFAULT_FONT} from '../common/SousChefTheme';
+import { DEFAULT_FONT } from '../common/SousChefTheme';
 import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button, TouchableOpacity, TextInput} from 'react-native';
 import firebase from 'react-native-firebase';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
