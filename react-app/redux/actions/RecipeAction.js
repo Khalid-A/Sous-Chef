@@ -9,6 +9,10 @@ export const ADD_RECENT = "ADD_RECENT";
 
 export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
+export const IS_NOT_FAVORITED = "IS_NOT_FAVORITED";
+export const IS_FAVORITED = "IS_FAVORITED";
+export const FLIP_FAVORITED = "FLIP_FAVORITED";
+
 import firebase from 'react-native-firebase';
 
 /**
@@ -118,4 +122,53 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
             "isRecent", dispatch, CLEAR_RECENT, ADD_RECENT
         )
     );
+}
+
+
+export const getIsFavorited = (userID, recipeID) => {
+    return (dispatch) => {
+        var recipeDocRef = relevantRecipesRef.doc(userID)
+            .collection('recipes').doc(recipeID)
+
+        recipeDocRef.get().then(doc => {
+            if (!doc.exists) {
+                dispatch({
+                    type: IS_NOT_FAVORITED,
+                    payload: {
+                        isFavorited: false,
+                    }
+                })
+            } else {
+                var data = doc.data()
+                if ('isFavorited' in data && data['isFavorited']) {
+                    return dispatch({
+                        type: IS_FAVORITED,
+                        payload: {
+                            isFavorited: true,
+                        }
+                    })
+                } else {
+                    return dispatch({
+                        type: IS_NOT_FAVORITED,
+                        payload: {
+                            isFavorited: false,
+                        }
+                    })
+                }
+            }
+        }).catch(err => {
+            console.log('Error getting document', err);
+        });
+    }
+}
+
+export const flipIsFavorited = (isFavorited) => {
+    return (dispatch) => {
+        return dispatch({
+            type: FLIP_FAVORITED,
+            payload: {
+                isFavorited: !isFavorited
+            }
+        })
+    }
 }

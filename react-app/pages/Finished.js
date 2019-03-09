@@ -6,6 +6,12 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
+import {
+  getIsFavorited,
+  flipIsFavorited,
+  saveIsFavorited,
+  saveIsRecent,
+} from '../redux/actions/FavoritedAction';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -28,8 +34,8 @@ class Finished extends React.Component {
     super(props);
     const results = this.findIngredients();
     this.state = {
+      recipeID: null,
       ingredients: null,
-      favorited: false,
     };
     this.listIngredients = this.listIngredients.bind(this);
   }
@@ -52,10 +58,11 @@ class Finished extends React.Component {
     });
 
     this.setState({
-      recipeID: this.props.navigation.getParam("recipeID", null),
-      ingredients: filtered,
+        recipeID: this.props.navigation.getParam("recipeID", null),
+        ingredients: filtered,
     });
 
+    this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID", null))
   }
 
   findIngredients() {
@@ -88,10 +95,13 @@ class Finished extends React.Component {
   }
 
   updatePantry() {
-    if (this.state.favorited) {
-      // TODO: add this.state.recipeID, this.state.userID to relevant recipes.
-      // this.props.addToFavorites(this.state.recipeID)
-    }
+    this.props.saveIsFavorited(
+      this.props.userID, 
+      this.state.recipeID, 
+      this.props.isFavorited
+    )
+    this.props.saveIsRecent(this.props.userID, this.state.recipeID)
+
     this.props.setIngredientsToRemove(this.state.ingredients);
     this.props.navigation.navigate('Pantry', {
       ingredientsToRemove: this.state.ingredients
@@ -138,9 +148,9 @@ class Finished extends React.Component {
         </ScrollView>
         <ActionButton 
           buttonColor={BUTTON_BACKGROUND_COLOR} 
-          onPress={() => { this.setState({favorited: !this.state.favorited})}}
+          onPress={() => {this.props.isFavoritedPressed(this.props.isFavorited)}}
           renderIcon={() => {
-            if (this.state.favorited)
+            if (this.props.isFavorited)
                 return (
                     <Icon 
                         name="md-heart" 
@@ -229,6 +239,7 @@ const mapStateToProps = state => {
         amount:"",
       },
     ],
+    isFavorited: state.favoritedTracker.isFavorited
   }
 }
 
@@ -236,6 +247,18 @@ const mapDispatchToProps = dispatch => {
   return {
     setIngredientsToRemove: (ingredients) => {
       dispatch(setIngredientsToRemove(ingredients));
+    },
+    getIsFavorited: (userID, recipeID) => {
+      dispatch(getIsFavorited(userID, recipeID))
+    },
+    isFavoritedPressed: (isFavorited) => {
+      dispatch(flipIsFavorited(isFavorited))
+    },
+    saveIsFavorited: (userID, recipeID, isFavorited) => {
+      saveIsFavorited(userID, recipeID, isFavorited)
+    },
+    saveIsRecent: (userID, recipeID) => {
+      saveIsRecent(userID, recipeID)
     }
   }
 }
