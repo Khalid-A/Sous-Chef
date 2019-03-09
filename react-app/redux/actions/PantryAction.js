@@ -77,8 +77,3 @@ export const editPantryItem = (name, amount, userid) => {
         ).doc(name.toLowerCase()).set({amount: amount});
     });
 }
-
-export const getPantryItemsToRemove = (userid, ingredients) => {
-    console.log("getpantryitems to remove", userid, ingredients)
-    return ingredients
-}

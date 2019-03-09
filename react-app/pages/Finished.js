@@ -39,15 +39,18 @@ class Finished extends React.Component {
     this.listIngredients = this.listIngredients.bind(this);
   }
 
+  getIngredientsToRemove = (ingredients) => {
+    console.log(ingredients)
+    return ingredients
+  }
+
   componentWillMount(){
     this.setState({
       recipeID: this.props.navigation.getParam("recipeID"),
-      // TODO: fix getIngredientsToRemove
-      ingredients: this.props.navigation.getParam("ingredients"),
-      // ingredients: this.props.getPantryItemsToRemove(),
+      ingredients: this.getIngredientsToRemove(
+        this.props.navigation.getParam("ingredients")
+      ),
     });
-    console.log(this.state.ingredients)
-    console.log("items to remove", this.props.getPantryItemsToRemove(this.props.userID, this.props.navigation.getParam("ingredients")))
     this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID"))
   }
 
@@ -56,8 +59,6 @@ class Finished extends React.Component {
       this.setState({isFavorited: nextProps.isFavorited})
     }
     console.log(this.state.ingredients)
-    console.log("items to remove", this.props.getPantryItemsToRemove(this.props.userID, this.props.navigation.getParam("ingredients")))
-    
     console.log("finished state", this.state)
   }
 
@@ -116,7 +117,8 @@ class Finished extends React.Component {
       <View>
         <ScrollView>
           <View style={styles.container}>
-            {this.listIngredients()}
+            {/* TODO NEED TO FIX */}
+            {/* {this.listIngredients()} */}
             <TouchableOpacity
               style={styles.buttonBig}
               onPress={() => this.updatePantry()}
@@ -210,9 +212,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPantryItemsToRemove: (userID, ingredients) => {
-      getPantryItemsToRemove(userID, ingredients);
-    },
     getIsFavorited: (userID, recipeID) => {
       dispatch(getIsFavorited(userID, recipeID))
     },
