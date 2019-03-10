@@ -149,7 +149,11 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
     dispatch({
         type: CLEAR_SEARCH
     });
-    var searchResults = recipesRef.where('categories', 'array-contains', searchQuery)
+    var searchResults = recipesRef.where(
+        'categories',
+        'array-contains',
+        searchQuery.toLowerCase()
+    )
     searchResults.get().then(function(querySnapshot){
         if (querySnapshot.size == 0) {
             // TODO: query some random af recipes
