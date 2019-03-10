@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import firebase from 'react-native-firebase';
@@ -24,9 +25,19 @@ class MakeRecipe extends React.Component {
       this.addNewRecipe = this.addNewRecipe.bind(this);
   }
   static navigationOptions = {
-      header: null,
-      headerVisible: false,
-  }
+        title: "Make New Recipe",
+        headerVisible: true,
+        headerTintColor: "white",
+        headerLeft: null,
+        headerStyle: {
+            backgroundColor: BUTTON_BACKGROUND_COLOR,
+        },
+        headerTitleStyle: {
+            fontFamily: "Avenir",
+            fontSize: 30,
+            textAlign: 'left',
+        },
+    }
   addIngredient(){
     if(this.state.currentIngredient === ''){
       return;
@@ -74,17 +85,20 @@ class MakeRecipe extends React.Component {
     }
     const newRecipe = this.state;
 
+
   }
   render() {
       return (
-          <ScrollView>
+
           <View style={styles.container}>
+              <View style={{flexDirection: "row",}}>
               <Text style={styles.title}>Recipe Name:</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={(text) => this.setState({title: text})}
                 value={this.state.title}
               />
+            </View>
               <Text style={styles.title}>Serving Size:</Text>
               <TextInput
                   style={styles.input}
@@ -110,7 +124,9 @@ class MakeRecipe extends React.Component {
                     value={this.state.currentIngredient}
                 />
                 <Button onPress={this.addIngredient} title="Add Ingredient"></Button>
+                  <ScrollView style={{flex:1}}>
                 {this.listIngredients()}
+                </ScrollView>
               <Text style={styles.title}>Instructions:</Text>
               <TextInput
                 multiline={true}
@@ -120,10 +136,12 @@ class MakeRecipe extends React.Component {
                 value={this.state.currentStep}
                 ></TextInput>
               <Button onPress={this.addStep} title="Add Step"></Button>
+                <ScrollView style={{flex:1}}>
               {this.listSteps()}
+                  </ScrollView>
               <Button onPress={this.addNewRecipe} title="Add New Recipe"></Button>
           </View>
-          </ScrollView>
+
       );
   }
 }
@@ -133,7 +151,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'white',
         paddingTop: 40,
         paddingLeft: 10,
         paddingBottom: 10,
@@ -141,7 +159,7 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 30,
-      width: Dimensions.get('window').width - 20,
+      // width: Dimensions.get('window').width - 20,
       borderColor: 'gray',
       borderWidth: 1,
     },
