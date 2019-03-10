@@ -64,17 +64,6 @@ export const addPantryItem = (name, amount, userid) => {
     })
 }
 
-/**
- * setIngredientsToRemove function that listens on finished
- * page to get ingredients to remove from the pantry
- */
-export const setIngredientsToRemove = (ingredients) => {
-  return {
-    type: SET_INGREDIENTS_TO_REMOVE,
-    payload: ingredients,
-  };
-}
-
 export const removePantryItem = (name, userid) => {
     pantryRef.doc(userid).get().then(pantrySnapshot => {
         pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).delete();
@@ -88,3 +77,24 @@ export const editPantryItem = (name, amount, userid) => {
         ).doc(name.toLowerCase()).set({amount: amount});
     });
 }
+
+export const removeFromPantry = (userID, ingredients) => {
+    Object.keys(ingredients).map((ingredientIdx) => {
+        console.log(ingredients[ingredientIdx])
+        const ingredientInfo = ingredients[ingredientIdx][0]
+        const surplus = ingredients[ingredientIdx][1]
+        const ingredient = ingredientInfo['ingredient']
+        if (surplus <= 0) {
+            pantryRef.doc(userID).collection('ingredients').doc(ingredient)
+                .delete().catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+        } else {
+            pantryRef.doc(userID).collection('ingredients').doc(ingredient)
+                .update({
+                    amount: surplus
+                })
+        }
+    });
+}
+

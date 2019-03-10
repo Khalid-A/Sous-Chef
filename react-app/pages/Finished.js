@@ -2,12 +2,20 @@ import React from 'react';
 import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
-import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { setIngredientsToRemove } from '../redux/actions/PantryAction';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
-import StarRating from 'react-native-star-rating';
+import { removeFromPantry } from '../redux/actions/PantryAction';
 import { addRatingForRecipe } from '../redux/actions/RecipeAction';
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
+import {
+  getIsFavorited,
+  saveIsFavorited,
+  saveIsRecent,
+} from '../redux/actions/FavoritedAction';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+import StarRating from 'react-native-star-rating';
+
+import firebase from 'react-native-firebase';
 
 class Finished extends React.Component {
   static navigationOptions = {
@@ -27,69 +35,87 @@ class Finished extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredients: this.getIngredientsToRemove(),
+      recipeID: null,
+      ingredients: null,
+      isFavorited: null,
       rating: null,
     };
     this.listIngredients = this.listIngredients.bind(this);
+
   }
 
-  getIngredientsToRemove = () => {
-    const pantryTitle = this.props.pantry.map((item) => {
-      return item.title;
-    });
-
-    const ingredients = this.props.navigation.getParam("ingredientsToRemove", null);
-    const filtered = ingredients.filter((item) => {
-      if(pantryTitle.includes(item.ingredient)){
-        return true;
-      }
-      return false;
-    });
-
-    return filtered;
+  getIngredientsToRemove = (ingredients) => {
+    ingredientsToRemove = {}
+    for (var i = 0; i < ingredients.length; i++) {
+      ingredientsToRemove[i] =  ingredients[i];
+    }
+    return ingredientsToRemove
   }
 
-  removeItem(ingredientIndex){
-    var newIngredients = [...this.state.ingredients];
-    newIngredients.splice(ingredientIndex, 1);
+  componentWillMount(){
     this.setState({
-      ingredients: newIngredients
+      recipeID: this.props.navigation.getParam("recipeID"),
+      ingredients: this.getIngredientsToRemove(
+        this.props.navigation.getParam("ingredientsToRemove")
+      ),
+    });
+    this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID"))
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.isFavorited !== this.props.isFavorited) {
+      this.setState({isFavorited: nextProps.isFavorited})
+    }
+  }
+
+
+  removeItem = (ingredientIndex) => {
+    delete this.state.ingredients[ingredientIndex];
+    this.setState({
+      ingredients: this.state.ingredients
     });
   }
 
-  updatePantry(){
-    const ingredients = this.state.ingredients.reduce(function(map, item) {
-        map[item.ingredient] = item;
-        return map;
-    }, {});
-    this.props.setIngredientsToRemove(this.state.ingredients);
+  updatePantry() {
+    this.props.saveIsFavorited(
+      this.props.userID,
+      this.state.recipeID,
+      this.state.isFavorited
+    )
+    this.props.saveIsRecent(this.props.userID, this.state.recipeID)
+
+    this.props.removeFromPantry(this.props.userID, this.state.ingredients)
     if (this.state.rating !== null) {
       addRatingForRecipe(this.props.navigation.getParam("recipeID"), parseFloat(this.state.rating), this.props.userID);
     }
-    this.props.navigation.navigate('Pantry', {
-      ingredientsToRemove: this.state.ingredients
-    });
+    
+    this.props.navigation.navigate('Pantry');
   }
 
   listIngredients(){
     if(this.state.ingredients == null){
       console.warn("null");
     }
-    return this.state.ingredients.map((ingredient, index) => {
-      if(!ingredient.ingredient){
+    return Object.keys(this.state.ingredients).map((ingredientID) => {
+      const text = this.state.ingredients[ingredientID][0].originalText;
+      const quantity = this.state.ingredients[ingredientID][0].originalQuantity;
+      const index = ingredientID;
+      if(!text){
         return null;
       }
-
       return (
-        <View style={{flexDirection: 'row',}}>
-          <Text style={styles.detail}>{ingredient.ingredient}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.removeItem(index)}
-            >
-            <Text> Delete Item </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems:'center', marginLeft: 10,}}>
+
+          <Text style={styles.detail}>{quantity} {text}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.removeItem(ingredientID)}
+              >
+              <Text> Delete Item </Text>
           </TouchableOpacity>
+
         </View>
+
       );
     });
   }
@@ -102,25 +128,51 @@ class Finished extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <StarRating
-            disabled={false}
-            maxStars={5}
-            rating={this.state.rating}
-            selectedStar={(rating) => {
-              this.addRating(rating);
-            }}
+      <View>
+        <StarRating
+          disabled={false}
+          maxStars={5}
+          rating={this.state.rating}
+          selectedStar={(rating) => {
+            this.addRating(rating);
+          }}
+        />
+        <ScrollView>
+          <View style={styles.container}>
+            {this.listIngredients()}
+            <TouchableOpacity
+              style={styles.buttonBig}
+              onPress={() => this.updatePantry()}
+              >
+              <Text>Update Pantry</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <ActionButton
+          buttonColor={BUTTON_BACKGROUND_COLOR}
+          onPress={() => {
+            this.setState({
+              isFavorited: !this.state.isFavorited
+            })
+          }}
+          renderIcon={() => {
+            if (this.state.isFavorited)
+                return (
+                    <Icon
+                        name="md-heart"
+                        style={styles.actionButtonIcon}
+                    />
+                );
+            else
+                return (
+                    <Icon
+                        name="md-heart-empty"
+                        style={styles.actionButtonIcon}
+                    />
+                );
+          }}
           />
-          {this.listIngredients()}
-          <TouchableOpacity
-            style={styles.buttonBig}
-            onPress={() => this.updatePantry()}
-            >
-            <Text>Update Pantry</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -174,33 +226,24 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    // pantry: state.pantry,
-    pantry: [
-      {
-        title:"vanilla",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"eggs",
-        unit: "",
-        amount:"",
-      },
-      {
-        title:"margarine",
-        unit: "",
-        amount:"",
-      },
-    ],
-    userID: state.userInfo.userID
+    userID: state.userInfo.userID,
+    isFavorited: state.favoritedTracker.isFavorited
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-
-    setIngredientsToRemove: (ingredients) => {
-      dispatch(setIngredientsToRemove(ingredients));
+    getIsFavorited: (userID, recipeID) => {
+      dispatch(getIsFavorited(userID, recipeID))
+    },
+    saveIsFavorited: (userID, recipeID, isFavorited) => {
+      saveIsFavorited(userID, recipeID, isFavorited)
+    },
+    saveIsRecent: (userID, recipeID) => {
+      saveIsRecent(userID, recipeID)
+    },
+    removeFromPantry: (userID, ingredients) => {
+      removeFromPantry(userID, ingredients)
     }
   }
 }
