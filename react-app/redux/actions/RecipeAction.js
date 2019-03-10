@@ -38,7 +38,6 @@ const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
  * redux.
  */
 const relevantRecipeUpdate = (
-    dispatch, 
     recipeFieldToCheck,
     dispatch,
     clear_type,
