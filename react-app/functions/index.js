@@ -183,13 +183,13 @@ exports.updateReadyToGoRecipes = functions.firestore
 		return admin.firestore().runTransaction((transaction) => {
 			return transaction.get(taskData).then((doc) => {
 				var timestamp = Date.now();
-				console.log("Pantry write event triggered at time", timestamp);
-				// Figure out whether to start job
-				var exit = true;
-				exit = isTooSoon(doc.data(), timestamp);
-				if (exit) {
-					throw "Too soon to start job.";
-				}
+				// console.log("Pantry write event triggered at time", timestamp);
+				// // Figure out whether to start job
+				// var exit = true;
+				// exit = isTooSoon(doc.data(), timestamp);
+				// if (exit) {
+				// 	throw "Too soon to start job.";
+				// }
 
 				transaction.update(taskData, { "lastStarted": timestamp });
 				console.log("Updated start time for the job about to start.");
@@ -244,7 +244,7 @@ exports.recommendations = functions.
 					for (var j = 0; j < categories.length; j++) {
 						if (ratedCategoriesMap.has(categories[j])) {
 							const prevCategory = ratedCategoriesMap[categories[j]];
-							ratedCategoriesMap[categories[j]].rating = 
+							ratedCategoriesMap[categories[j]].rating =
 								(
 									(prevCategory.count * prevCategory.averageRating) + currentRecipeRating
 								) / (prevCategory.count + 1)
