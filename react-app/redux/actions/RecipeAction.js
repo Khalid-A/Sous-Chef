@@ -9,6 +9,8 @@ export const ADD_RECENT = "ADD_RECENT";
 
 export const CLEAR_SEARCH = "CLEAR_SEARCH";
 export const ADD_SEARCH = "ADD_SEARCH";
+export const FOUND_RECIPES = "FOUND_RECIPES";
+export const NO_RECIPES_FOUND = "NO_RECIPES_FOUND";
 
 export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
@@ -152,6 +154,9 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
     dispatch({
         type: CLEAR_SEARCH
     });
+    dispatch({
+        type: NO_RECIPES_FOUND
+    });
     var searchResults = recipesRef.where(
         'categories',
         'array-contains',
@@ -159,8 +164,28 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
     )
     searchResults.get().then(function(querySnapshot){
         if (querySnapshot.size == 0) {
-            // TODO: query some random af recipes
-            // Indicate to front end that there were no recipe results
+            var newSearchResults = recipesRef.orderBy("rating.reviewCount", "desc").limit(10);
+            newSearchResults.get().then(function(querySnapshot) {
+                querySnapshot.forEach(doc => {
+                    var data = doc.data();
+                    dispatch({
+                        type: ADD_SEARCH,
+                        payload: {
+                            images: data["images"],
+                            servings: data["servings"],
+                            timeHour: data["time"]["hour"],
+                            timeMinute: data["time"]["minute"],
+                            title: data["title"],
+                            recipeID: data["id"],
+                            id: doc.id
+                        }
+                    })
+                });
+            });
+            dispatch({
+                type: NO_RECIPES_FOUND
+            });
+            return;
         }
         querySnapshot.forEach(doc => {
             var data = doc.data();
@@ -177,8 +202,11 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
                 }
             })
         });
+        dispatch({
+            type: FOUND_RECIPES
+        });
     }).catch(err => {
-        console.warn('Error getting documents', err);
+        console.log('Error getting documents', err);
     });
 }
 

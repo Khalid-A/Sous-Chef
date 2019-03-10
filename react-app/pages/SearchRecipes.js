@@ -23,27 +23,36 @@ class SearchRecipes extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.state = {};
-        searchQuery = '';
+        this.state = {
+            searchQuery: '',
+            displaySearchText: '',
+        };
     }
 
     componentWillMount() {
         var searchText = this.props.navigation.getParam("searchQuery")
         this.props.beginSearchRecipesFetch(searchText)
         this.setState({
-            searchText: searchText
+            searchQuery: searchText,
+            displaySearchText: 'Results: \"' + searchText + '\"'
         })
-        // this.props.beginSearchFetch(this.props.userID, recipe: this.props.navigation.getParam("searchQuery"));
     }
 
     searchPressed = () => {
-        console.warn(this.state.searchQuery)
         var searchQuery = this.state.searchQuery
         if (searchQuery != '') {
             this.props.beginSearchRecipesFetch(searchQuery)
+        }
+    }
+
+    componentWillReceiveProps = (prevProps, prevState) => {
+        if (prevProps.searchRecipesFound) {
             this.setState({
-                searchText: searchQuery,
-                searchQuery: ''
+                displaySearchText: 'Results: \"' + this.state.searchQuery + '\"'
+            })
+        } else {
+            this.setState({
+                displaySearchText: 'No Results: \"' + this.state.searchQuery + '\"'
             })
         }
     }
@@ -53,7 +62,7 @@ class SearchRecipes extends React.Component {
             <View style={[styles.container]}>
                 <View>
                     <SousChefTextInput
-                        placeholder={'chicken'}
+                        placeholder={'bread'}
                         label={'Search:'}
                         onChangeText={searchQuery => this.setState({ 
                             searchQuery: searchQuery
@@ -74,7 +83,9 @@ class SearchRecipes extends React.Component {
                     />
                 </View>
                 <View style={[styles.sectionContainer]}>
-                    <Text style={[styles.sectionHeader]}>{'Results: \"' + this.state.searchText + '\"'} </Text>
+                    <Text style={[styles.sectionHeader]}>
+                        {this.state.displaySearchText} 
+                    </Text>
                     <FlatList
                         style={[styles.section]}
                         keyExtractor={(item, index) => index.toString()}
@@ -127,6 +138,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        searchRecipesFound: state.searchRecipesFound[0],
         searchRecipes: state.searchRecipes,
         userID: state.userInfo.userID,
     }

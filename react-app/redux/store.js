@@ -8,6 +8,7 @@ import {
     recommendedRecipes,
     recentRecipes,
     searchRecipes,
+    searchRecipesFound,
 } from './reducers/RecipesReducer';
 import { groceryList } from './reducers/GroceryListReducer';
 
@@ -17,6 +18,7 @@ const store = createStore(
         recommendedRecipes: recommendedRecipes,
         recentRecipes: recentRecipes,
         searchRecipes: searchRecipes,
+        searchRecipesFound: searchRecipesFound,
         pantry: pantry,
         userInfo: userInfo,
         groceryList: groceryList,

@@ -7,6 +7,8 @@ import {
     ADD_RECOMMENDED, 
     CLEAR_SEARCH,
     ADD_SEARCH,
+    FOUND_RECIPES,
+    NO_RECIPES_FOUND,
 } from '../actions/RecipeAction';
 
 /**
@@ -66,14 +68,22 @@ export function recentRecipes(state = [], action) {
 export function searchRecipes(state = [], action) {
     switch(action.type) {
         case CLEAR_SEARCH:
-            console.log("clear search")
             return [];
         case ADD_SEARCH:
-            console.log("add search",action.payload)
             var newArr = [...state];
             newArr.push(action.payload);
-            console.log(newArr)
             return newArr;
+        default:
+            return state;
+    }
+}
+
+export function searchRecipesFound(state = [], action) {
+    switch(action.type) {
+        case FOUND_RECIPES:
+            return [true];
+        case NO_RECIPES_FOUND:
+            return [false];
         default:
             return state;
     }
