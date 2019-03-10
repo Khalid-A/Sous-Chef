@@ -128,7 +128,7 @@ export const addRatingForRecipe = (recipeID, rating, userID) => {
         recipesRef.doc(recipeID).set({rating: newRating, ratingCount: ratingCount + 1}, {merge: true});
     });
     relevantRecipesRef.doc(userID).collection("recipes").doc(recipeID).set(
-        {rating: rating, isRecent: true},
+        {rating: rating},
         {merge: true}
     );
 }
