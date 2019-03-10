@@ -12,6 +12,10 @@ export const ADD_SEARCH = "ADD_SEARCH";
 
 export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
+export const IS_NOT_FAVORITED = "IS_NOT_FAVORITED";
+export const IS_FAVORITED = "IS_FAVORITED";
+export const FLIP_FAVORITED = "FLIP_FAVORITED";
+
 import firebase from 'react-native-firebase';
 
 /**
@@ -144,7 +148,6 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
     );
 }
 
-
 export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
     dispatch({
         type: CLEAR_SEARCH
@@ -177,4 +180,65 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
     }).catch(err => {
         console.warn('Error getting documents', err);
     });
+}
+
+export const getIsFavorited = (userID, recipeID) => {
+    return (dispatch) => {
+        var recipeDocRef = relevantRecipesRef.doc(userID)
+            .collection('recipes').doc(recipeID)
+
+        recipeDocRef.get().then(doc => {
+            if (!doc.exists) {
+                dispatch({
+                    type: IS_NOT_FAVORITED,
+                    payload: {
+                        isFavorited: false,
+                    }
+                })
+            } else {
+                var data = doc.data()
+                if ('isFavorited' in data && data['isFavorited']) {
+                    return dispatch({
+                        type: IS_FAVORITED,
+                        payload: {
+                            isFavorited: true,
+                        }
+                    })
+                } else {
+                    return dispatch({
+                        type: IS_NOT_FAVORITED,
+                        payload: {
+                            isFavorited: false,
+                        }
+                    })
+                }
+            }
+        }).catch(err => {
+            console.log('Error getting document', err);
+        });
+    }
+}
+
+export const flipIsFavorited = (isFavorited) => {
+    return (dispatch) => {
+        return dispatch({
+            type: FLIP_FAVORITED,
+            payload: {
+                isFavorited: !isFavorited
+            }
+        })
+    }
+}
+
+export const addRatingForRecipe = (recipeID, rating, userID) => {
+    recipesRef.doc(recipeID).get().then(recipeSnapshot => {
+        var oldRating = parseFloat(recipeSnapshot.get("rating.rating"));
+        var ratingCount = parseInt(recipeSnapshot.get("rating.reviewCount"));
+        var newRating = ((oldRating * ratingCount) + rating) / (ratingCount + 1);
+        recipesRef.doc(recipeID).set({rating: newRating, ratingCount: ratingCount + 1}, {merge: true});
+    });
+    relevantRecipesRef.doc(userID).collection("recipes").doc(recipeID).set(
+        {rating: rating},
+        {merge: true}
+    );
 }

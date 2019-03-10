@@ -4,7 +4,6 @@ import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 
@@ -38,7 +37,8 @@ class CookNow extends React.Component {
 
   finishCooking(){
     this.props.navigation.navigate('Finished', {
-      ingredientsToRemove: this.state.recipe.ingredients
+      recipeID: this.state.recipe.id,
+      ingredientsToRemove: this.props.navigation.getParam("ingredientsToRemove")
     });
   }
 
@@ -57,7 +57,7 @@ class CookNow extends React.Component {
   }
 
   listIngredients(){
-    if(this.state.recipe.ingredients == null){
+    if(!this.state.recipe || !this.state.recipe.ingredients){
       console.warn("null");
     }
     return this.state.recipe.ingredients.map((ingredient) => {
@@ -125,4 +125,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
 });
+
 export default connect(null,  null)(CookNow)
