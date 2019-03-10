@@ -24,8 +24,9 @@ class DiscoverRecipes extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.state = {};
-        searchQuery = '';
+        this.state = {
+            searchQuery: '',
+        };
     }
 
     drawerOpen = () => {this.props.navigation.openDrawer();}
