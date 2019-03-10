@@ -192,3 +192,16 @@ export const flipIsFavorited = (isFavorited) => {
         })
     }
 }
+
+export const addRatingForRecipe = (recipeID, rating, userID) => {
+    recipesRef.doc(recipeID).get().then(recipeSnapshot => {
+        var oldRating = parseFloat(recipeSnapshot.get("rating.rating"));
+        var ratingCount = parseInt(recipeSnapshot.get("rating.reviewCount"));
+        var newRating = ((oldRating * ratingCount) + rating) / (ratingCount + 1);
+        recipesRef.doc(recipeID).set({rating: newRating, ratingCount: ratingCount + 1}, {merge: true});
+    });
+    relevantRecipesRef.doc(userID).collection("recipes").doc(recipeID).set(
+        {rating: rating},
+        {merge: true}
+    );
+}

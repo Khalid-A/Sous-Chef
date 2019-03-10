@@ -4,7 +4,8 @@ import { AppRegistry, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromPantry } from '../redux/actions/PantryAction';
-import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
+import { addRatingForRecipe } from '../redux/actions/RecipeAction';
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import {
   getIsFavorited,
   saveIsFavorited,
@@ -12,6 +13,7 @@ import {
 } from '../redux/actions/FavoritedAction';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import StarRating from 'react-native-star-rating';
 
 import firebase from 'react-native-firebase';
 
@@ -36,6 +38,7 @@ class Finished extends React.Component {
       recipeID: null,
       ingredients: null,
       isFavorited: null,
+      rating: null,
     };
     this.listIngredients = this.listIngredients.bind(this);
 
@@ -82,6 +85,10 @@ class Finished extends React.Component {
     this.props.saveIsRecent(this.props.userID, this.state.recipeID)
 
     this.props.removeFromPantry(this.props.userID, this.state.ingredients)
+    if (this.state.rating !== null) {
+      addRatingForRecipe(this.props.navigation.getParam("recipeID"), parseFloat(this.state.rating), this.props.userID);
+    }
+    
     this.props.navigation.navigate('Pantry');
   }
 
@@ -113,9 +120,23 @@ class Finished extends React.Component {
     });
   }
 
+  addRating(rating) {
+    this.setState({
+      rating: rating
+    });
+  }
+
   render() {
     return (
       <View>
+        <StarRating
+          disabled={false}
+          maxStars={5}
+          rating={this.state.rating}
+          selectedStar={(rating) => {
+            this.addRating(rating);
+          }}
+        />
         <ScrollView>
           <View style={styles.container}>
             {this.listIngredients()}
