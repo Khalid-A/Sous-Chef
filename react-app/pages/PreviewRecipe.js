@@ -4,21 +4,17 @@ import {
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
-import {DEFAULT_FONT} from '../common/SousChefTheme';
+import { DEFAULT_FONT } from '../common/SousChefTheme';
 import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button, TouchableOpacity, TextInput} from 'react-native';
 import firebase from 'react-native-firebase';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
-import { beginRecipePreviewFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 
 const recipesRef = firebase.firestore().collection('test_recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
-const mappingsRef = firebase.firestore().collection('standardmappings');
 
-const win = Dimensions.get('window');
-
-export default class PreviewRecipe extends React.Component {
+class PreviewRecipe extends React.Component {
     static navigationOptions = {
         title: "Preview Recipe",
         headerVisible: true,
@@ -37,7 +33,6 @@ export default class PreviewRecipe extends React.Component {
         super(props);
         this.state = {
             recipeID: this.props.navigation.getParam("recipeID"),
-            userID: this.props.navigation.getParam("userID"),
             recipe: null,
             image: "",
             imageWidth: 0,
@@ -86,7 +81,7 @@ export default class PreviewRecipe extends React.Component {
             var docExists = false;
             // Increment amount in pantry to how much this recipe needs
             firebase.firestore().runTransaction((transaction) => {
-                var pantryDocRef = pantryRef.doc(this.state.userID)
+                var pantryDocRef = pantryRef.doc(this.props.userID)
                     .collection("ingredients").doc(item.ingredient);
                 return transaction.get(pantryDocRef).then((doc) => {
                     if (!doc.exists) {
@@ -101,7 +96,7 @@ export default class PreviewRecipe extends React.Component {
                 });
             }).catch((err) => {
                 // We need to add this item to the pantry
-                pantryRef.doc(this.state.userID).collection("ingredients")
+                pantryRef.doc(this.props.userID).collection("ingredients")
                     .doc(item.ingredient).set({
                         amount: -surplus
                     });
@@ -109,7 +104,7 @@ export default class PreviewRecipe extends React.Component {
         }
         else {
             // We want to make sure this item is removed from the pantry
-            pantryRef.doc(this.state.userID).collection("ingredients")
+            pantryRef.doc(this.props.userID).collection("ingredients")
                 .doc(item.ingredient).delete().then(() => {
                     console.log(item.ingredient + " deleted successfully");
                 }).catch((error) => {
@@ -156,7 +151,7 @@ export default class PreviewRecipe extends React.Component {
         var docExists = false;
         // Increment amount in GL to how much this recipe needs
         firebase.firestore().runTransaction((transaction) => {
-            var glDocRef = glRef.doc(this.state.userID)
+            var glDocRef = glRef.doc(this.props.userID)
                 .collection("ingredients").doc(item.ingredient);
             return transaction.get(glDocRef).then((doc) => {
                 if (!doc.exists) {
@@ -171,7 +166,7 @@ export default class PreviewRecipe extends React.Component {
             });
         }).catch((err) => {
             // We need to add this item to the pantry
-            glRef.doc(this.state.userID).collection("ingredients")
+            glRef.doc(this.props.userID).collection("ingredients")
                 .doc(item.ingredient).set({
                     amount: -surplus
                 });
@@ -207,7 +202,7 @@ export default class PreviewRecipe extends React.Component {
         var promises = [];
         for (var i = 0; i < this.state.recipe.ingredients.length; i++) {
             // Search for item in pantry
-            promises.push(pantryRef.doc(this.state.userID).collection("ingredients")
+            promises.push(pantryRef.doc(this.props.userID).collection("ingredients")
                 .doc(this.state.recipe.ingredients[i].ingredient).get());
         }
 
@@ -263,8 +258,8 @@ export default class PreviewRecipe extends React.Component {
 
     cookNow = () => {
         this.props.navigation.navigate('CookNow', {
-            // TODO: substitutions here
-            recipe: this.state.recipe
+            recipe: this.state.recipe,
+            ingredientsToRemove: this.state.haveIngredients,
         });
     }
 
@@ -548,6 +543,13 @@ const styles = StyleSheet.create({
         fontFamily: DEFAULT_FONT,
         margin: 15,
     },
-    servings: {
-    }
 });
+
+
+const mapStateToProps = state => {
+    return {
+        userID: state.userInfo.userID,
+    }
+}
+
+export default connect(mapStateToProps, null)(PreviewRecipe);
