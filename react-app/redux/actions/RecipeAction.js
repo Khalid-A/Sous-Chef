@@ -7,6 +7,9 @@ export const ADD_RECOMMENDED = "ADD_RECOMMENDED";
 export const CLEAR_RECENT = "CLEAR_RECENT";
 export const ADD_RECENT = "ADD_RECENT";
 
+export const CLEAR_SEARCH = "CLEAR_SEARCH";
+export const ADD_SEARCH = "ADD_SEARCH";
+
 export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
 import firebase from 'react-native-firebase';
@@ -139,4 +142,35 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
             "isRecent", dispatch, CLEAR_RECENT, ADD_RECENT
         )
     );
+}
+
+
+export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH
+    });
+    var searchResults = recipesRef.where('categories', 'array-contains', searchQuery)
+    searchResults.get().then(function(querySnapshot){
+        if (querySnapshot.size == 0) {
+            // TODO: query some random af recipes
+            // Indicate to front end that there were no recipe results
+        }
+        querySnapshot.forEach(doc => {
+            var data = doc.data();
+            dispatch({
+                type: ADD_SEARCH,
+                payload: {
+                    images: data["images"],
+                    servings: data["servings"],
+                    timeHour: data["time"]["hour"],
+                    timeMinute: data["time"]["minute"],
+                    title: data["title"],
+                    recipeID: data["id"],
+                    id: doc.id
+                }
+            })
+        });
+    }).catch(err => {
+        console.warn('Error getting documents', err);
+    });
 }

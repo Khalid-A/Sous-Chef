@@ -1,7 +1,10 @@
 import React from 'react';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
 import SousChefCard from '../components/SousChefCard';
+import SousChefTextInput from './../components/SousChefTextInput';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 
@@ -22,6 +25,7 @@ class DiscoverRecipes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        searchQuery = '';
     }
 
     drawerOpen = () => {this.props.navigation.openDrawer();}
@@ -32,9 +36,38 @@ class DiscoverRecipes extends React.Component {
         this.props.beginRecommendedRecipesFetch(this.props.userID);
     }
 
+    searchPressed = () => {
+        if (this.state.searchQuery != '') {
+            this.props.navigation.navigate('SearchRecipes', {
+                searchQuery: this.state.searchQuery
+            });
+        }
+    }
+
     render() {
         return (
             <View style={[styles.container]}>
+                <View>
+                    <SousChefTextInput
+                        placeholder={'chicken'}
+                        label={'Search:'}
+                        onChangeText={searchQuery => this.setState({ 
+                            searchQuery: searchQuery
+                        })}
+                    />
+                    <ActionButton 
+                        buttonColor={BUTTON_BACKGROUND_COLOR} 
+                        onPress={() => {this.searchPressed()}}
+                        renderIcon={active => {
+                            return (
+                                <Icon 
+                                    name="md-search" 
+                                    style={styles.actionButtonIcon}
+                                />
+                            );
+                        }}
+                    />
+                </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Ready To Go</Text>
                     <FlatList
@@ -139,7 +172,12 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         flex: 1,
-    }
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+    },
 })
 
 const mapStateToProps = state => {

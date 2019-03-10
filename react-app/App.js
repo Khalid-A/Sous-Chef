@@ -4,6 +4,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import DiscoverRecipes from './pages/DiscoverRecipes';
+import SearchRecipes from './pages/SearchRecipes';
 import PreviewRecipe from './pages/PreviewRecipe';
 import Pantry from './pages/Pantry';
 import GroceryList from './pages/GroceryList';
@@ -27,6 +28,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
     PrepopulatePantry: PrepopulatePantry,
     CookNow: CookNow,
     Finished: Finished,
+    SearchRecipes: SearchRecipes,
     Main: {
         screen: createDrawerNavigator(
         {
