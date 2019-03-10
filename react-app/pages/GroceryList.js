@@ -224,7 +224,13 @@ class GroceryList extends React.Component {
                                     });
                                 }}
                             >
+                            <View style={{alignItems:'center',}}>
+                            <Icon
+                                name="md-create"
+                                style={styles.actionButtonIcon}
+                            />
                                 <Text style={styles.text}>edit</Text>
+                                </View>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -233,7 +239,14 @@ class GroceryList extends React.Component {
                                     removeGroceryListItem(data.item.title, this.props.userID);
                                 }}
                             >
-                                <Text style={styles.text}>delete</Text>
+                            <View style={{alignItems:'center',}}>
+                            <Icon
+                                name="md-close"
+                                style={styles.actionButtonIcon}
+                            />
+                          <Text style={styles.text}>delete</Text>
+                          </View>
+
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backLeftBtnRight]}
@@ -285,7 +298,7 @@ class GroceryList extends React.Component {
                     }}
                 >
                     <ActionButton.Item
-                        buttonColor={ACTION_BUTTON_COLOR}
+                        buttonColor={'#1d945b'}
                         title="New Item"
                         onPress={
                         () => this.setState(
@@ -298,12 +311,12 @@ class GroceryList extends React.Component {
                         />
                     </ActionButton.Item>
                     <ActionButton.Item
-                        buttonColor={ACTION_BUTTON_COLOR}
-                        title="Move To Pantry"
+                        buttonColor={'#ffc100'}
+                        title="Move All To Pantry"
                         onPress={() => console.warn("move all to pantry tapped!")}
                     >
                         <Icon
-                            name="md-create"
+                            name="md-nutrition"
                             style={styles.actionButtonIcon}
                         />
                     </ActionButton.Item>
@@ -373,16 +386,23 @@ class GroceryList extends React.Component {
                         <Text style={[styles.popupHeader]}>
                             Quantity:
                         </Text>
-                        <RkButton
-                            onPress={
-                                () => this.setState({
-                                    pickerVisible: true
-                                })
-                            }
-                        >
-                            {this.state.pickedValue[0].value}{" "}
-                            {this.state.pickedValue[1]}
-                        </RkButton>
+                          <Text style={{fontFamily:'Avenir',marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>{this.state.pickedValue[0].value}{" "}
+                          {this.state.pickedValue[1]}</Text>
+                          <RkButton
+                              style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
+                              contentStyle={{color: 'white'}}
+                              onPress={
+                                  () => this.setState({
+                                      pickerVisible: true
+                                  })
+                              }
+                          >Change Quantity</RkButton>
+
+
+
+
+
+
                     </DialogContent>
                 </Dialog>
                 <RkPicker
@@ -497,10 +517,15 @@ const styles = StyleSheet.create({
     popupHeader: {
         fontFamily: DEFAULT_FONT,
         fontSize: 20,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        padding: 5,
     },
     header: {
         fontFamily: DEFAULT_FONT,
-        fontSize: 25,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        fontSize: 20,
         margin: 10,
     },
     headerContainer: {
@@ -512,22 +537,25 @@ const styles = StyleSheet.create({
         height: 50,
         borderColor: "lightgrey",
         backgroundColor: 'white',
-        borderBottomWidth: 0.5
+        borderBottomWidth: 0.25,
+        justifyContent:'center',
     },
     dialogButtonContainer: {
-        backgroundColor: BUTTON_BACKGROUND_COLOR,
+        backgroundColor: '#1d945b'
     },
     dialogButtonText: {
         color: "white",
-        fontFamily: DEFAULT_FONT
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
     },
     dialogTitleContainer: {
-        backgroundColor: BUTTON_BACKGROUND_COLOR
+        backgroundColor: '#1d945b'
     },
     dialogTitleText: {
         color: "white",
         fontFamily: DEFAULT_FONT,
-        fontSize: 25
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     rowBack: {
 		alignItems: 'center',
@@ -546,7 +574,7 @@ const styles = StyleSheet.create({
 		width: 75
 	},
 	backRightBtnLeft: {
-		backgroundColor: 'green',
+		backgroundColor: BUTTON_BACKGROUND_COLOR,
 		right: 0
 	},
 	backRightBtnRight: {
@@ -554,13 +582,21 @@ const styles = StyleSheet.create({
         left: 0
     },
     backLeftBtnRight: {
-        backgroundColor: 'purple',
+        backgroundColor: '#ffc100',
 		left: 75
     },
     text: {
         fontFamily: DEFAULT_FONT,
-        fontSize: 15,
-        color: BACKGROUND_COLOR
+        fontWeight: 'bold',
+        fontSize: 13,
+        color: 'white',
+    },
+    textInput:{
+      fontFamily: DEFAULT_FONT,
+      // fontWeight: 'bold',
+      fontSize: 13,
+
+
     },
 })
 
