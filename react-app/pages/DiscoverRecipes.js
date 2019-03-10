@@ -1,5 +1,5 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import SousChefCard from '../components/SousChefCard';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
@@ -37,23 +37,23 @@ class DiscoverRecipes extends React.Component {
             <View style={[styles.container]}>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Ready To Go</Text>
-                    <FlatList 
+                    <FlatList
                         style={[styles.section]}
                         keyExtractor={(item, index) => index.toString()}
                         horizontal= {true}
                         data={this.props.readyToGo}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
                             }}>
-                                <SousChefCard 
-                                    headerText={item.title} 
+                                <SousChefCard
+                                    headerText={item.title}
                                     bodyText={
-                                        "Time: " + 
+                                        "Time: " +
                                         (item.timeHour == "0" ? "" : item.timeHour + "h") +
                                         (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                        "\n" + 
-                                        "Serving Size: " + 
+                                        "\n" +
+                                        "Serving Size: " +
                                         item.servings
                                     }
                                     imagePath={item.images}
@@ -64,23 +64,23 @@ class DiscoverRecipes extends React.Component {
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recent</Text>
-                    <FlatList 
+                    <FlatList
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recent}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
                             }}>
-                                <SousChefCard 
-                                    headerText={item.title} 
+                                <SousChefCard
+                                    headerText={item.title}
                                     bodyText={
-                                        "Time: " + 
+                                        "Time: " +
                                         (item.timeHour == "0" ? "" : item.timeHour + "h") +
                                         (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                        "\n" + 
-                                        "Serving Size: " + 
+                                        "\n" +
+                                        "Serving Size: " +
                                         item.servings
                                     }
                                     imagePath={item.images}
@@ -91,23 +91,23 @@ class DiscoverRecipes extends React.Component {
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recommended</Text>
-                    <FlatList 
+                    <FlatList
                         style={[styles.section]}
                         horizontal= {true}
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recommended}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
                             }}>
-                                <SousChefCard 
-                                    headerText={item.title} 
+                                <SousChefCard
+                                    headerText={item.title}
                                     bodyText={
-                                        "Time: " + 
+                                        "Time: " +
                                         (item.timeHour == "0" ? "" : item.timeHour + "h") +
                                         (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                        "\n" + 
-                                        "Serving Size: " + 
+                                        "\n" +
+                                        "Serving Size: " +
                                         item.servings
                                     }
                                     imagePath={item.images}

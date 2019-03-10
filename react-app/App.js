@@ -4,6 +4,7 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import DiscoverRecipes from './pages/DiscoverRecipes';
+import PreviewRecipe from './pages/PreviewRecipe';
 import Pantry from './pages/Pantry';
 import GroceryList from './pages/GroceryList';
 import PrepopulatePantry from './pages/PrepopulatePantry';
@@ -20,6 +21,7 @@ YellowBox.ignoreWarnings(['ListView is deprecated']);
 
 const AppNavigator = createAppContainer(createStackNavigator({
     Welcome: Welcome,
+    PreviewRecipe: PreviewRecipe,
     SignUp: SignUp,
     Login: Login,
     PrepopulatePantry: PrepopulatePantry,
@@ -36,15 +38,15 @@ const AppNavigator = createAppContainer(createStackNavigator({
                             navigationOptions: ({ navigation }) => ({
                                 headerLeft: (
                                     <View>
-                                        <TouchableOpacity 
-                                            onPress={() => {navigation.openDrawer()}} 
+                                        <TouchableOpacity
+                                            onPress={() => {navigation.openDrawer()}}
                                         >
-                                            <Icon 
-                                                name="md-menu" 
+                                            <Icon
+                                                name="md-menu"
                                                 style={{
-                                                    color: 'white', 
-                                                    padding: 10, 
-                                                    marginLeft:10, 
+                                                    color: 'white',
+                                                    padding: 10,
+                                                    marginLeft:10,
                                                     fontSize: 20
                                                 }}/>
                                         </TouchableOpacity>
@@ -52,7 +54,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
                                 )
                             })
                         }
-                    }, 
+                    },
                     {
                         initialRouteName: "DiscoverRecipes"
                     }
@@ -68,15 +70,15 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={() => {navigation.openDrawer()}} 
+                                    <TouchableOpacity
+                                        onPress={() => {navigation.openDrawer()}}
                                     >
-                                        <Icon 
-                                            name="md-menu" 
+                                        <Icon
+                                            name="md-menu"
                                             style={{
-                                                color: 'white', 
-                                                padding: 10, 
-                                                marginLeft:10, 
+                                                color: 'white',
+                                                padding: 10,
+                                                marginLeft:10,
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
@@ -85,7 +87,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
                             drawerLabel: "Pantry"
                         })
                     }
-                }, 
+                },
                 {
                     initialRouteName: "Pantry"
                 }
@@ -97,15 +99,15 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={() => {navigation.openDrawer()}} 
+                                    <TouchableOpacity
+                                        onPress={() => {navigation.openDrawer()}}
                                     >
-                                        <Icon 
-                                            name="md-menu" 
+                                        <Icon
+                                            name="md-menu"
                                             style={{
-                                                color: 'white', 
-                                                padding: 10, 
-                                                marginLeft:10, 
+                                                color: 'white',
+                                                padding: 10,
+                                                marginLeft:10,
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
@@ -114,7 +116,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
                             drawerLabel: "Grocery List"
                         })
                     }
-                }, 
+                },
                 {
                     initialRouteName: "GroceryList"
                 }
@@ -126,15 +128,15 @@ const AppNavigator = createAppContainer(createStackNavigator({
                         navigationOptions: ({ navigation }) => ({
                             headerLeft: (
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={() => {navigation.openDrawer()}} 
+                                    <TouchableOpacity
+                                        onPress={() => {navigation.openDrawer()}}
                                     >
-                                        <Icon 
-                                            name="md-menu" 
+                                        <Icon
+                                            name="md-menu"
                                             style={{
-                                                color: 'white', 
-                                                padding: 10, 
-                                                marginLeft:10, 
+                                                color: 'white',
+                                                padding: 10,
+                                                marginLeft:10,
                                                 fontSize: 20
                                             }}/>
                                     </TouchableOpacity>
@@ -143,7 +145,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
                             drawerLabel: "Logout"
                         })
                     }
-                }, 
+                },
                 {
                     initialRouteName: "Logout"
                 }
@@ -164,7 +166,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
     }
 },
 {
-    initialRouteName: "Welcome",
+    initialRouteName: "Welcome"
 }
 ));
 
