@@ -221,14 +221,18 @@ exports.updateReadyToGoRecipes = functions.firestore
 exports.recommendations = functions.
 	firestore.document('relevantrecipes/{userid}/recipes/{recipeID}').onWrite((change, context) => {
 		// Get all relevant recipes
-		return change.ref.parent().get().then(allRelevantSnap => {
+		return change.after.ref.parent.get().then(allRelevantSnap => {
 			var allRelevantRefs = new Array();
 			for (var i = 0; i < allRelevantSnap.docs.length; i++) {
-				allRelevantRefs.push(admin.firestore().collection("test_recipes").document(allRelevantSnap.docs[i].id));
+				allRelevantRefs.push(admin.firestore().collection("test_recipes").doc(allRelevantSnap.docs[i].id));
 			}
 			// Get recipes for all of the relevant recipes
-			return admin.firestore().getAll(...allRelevantRefs);
-		}).then(allRecipeDocs => {
+			return Promise.all([admin.firestore().getAll(...allRelevantRefs), new Promise(resolve => {
+				resolve(allRelevantSnap);
+			})]);
+		}).then(recipeData => {
+			const allRecipeDocs = recipeData[0];
+			const allRelevantSnap = recipeData[1];
 			var allRecipeMap = new Map();
 			var i = 0;
 			// Map from recipe id to recipe data
@@ -237,11 +241,11 @@ exports.recommendations = functions.
 			}
 			var ratedCategories = new Array();
 			var ratedCategoriesMap = new Map();
-			for (var i = 0; i < allRelevantSnap.docs.length; i++) {
+			for (i = 0; i < allRelevantSnap.docs.length; i++) {
 				var currentRecipe = allRelevantSnap.docs[i];
 				// Get categories from recipes
-				var categories = allRecipeMap[currentRecipe.id].getParam("categories");
-				var currentRecipeRating = currentRecipe.getParam("rating");
+				var categories = allRecipeMap[currentRecipe.id].get("categories");
+				var currentRecipeRating = currentRecipe.get("rating");
 				// Only look at recipes we have rated
 				if (currentRecipeRating === undefined) {
 					continue;
@@ -249,20 +253,20 @@ exports.recommendations = functions.
 				// Go through all of the categories on the recipe and compute new rating
 				for (var j = 0; j < categories.length; j++) {
 					if (ratedCategoriesMap.has(categories[j])) {
-						const prevCategory = ratedCategoriesMap[categories[j]];
-						ratedCategoriesMap[categories[j]].rating = 
+						const prevCategory = ratedCategoriesMap.get(categories[j]);
+						const newRating = 
 							(
 								(prevCategory.count * prevCategory.averageRating) + currentRecipeRating
 							) / (prevCategory.count + 1)
-						ratedCategoriesMap[categories[j]].count++;
+						ratedCategoriesMap.set(categories[j], {count: prevCategory.count, rating: newRating});
 					} else {
-						ratedCategoriesMap[categoris[j]] = {rating: currentRecipeRating, count: 1}
+						ratedCategoriesMap.set(categories[j], {rating: currentRecipeRating, count: 1});
 					}
 				}
 			}
 			// Turn map into an array and sort it
-			for (var [category, value] of ratedCategoriesMap) {
-				ratedCategories.push({category: category, rating: value.rating});
+			for (var category of ratedCategoriesMap.keys()) {
+				ratedCategories.push({category: category, rating: ratedCategoriesMap.get(category).rating});
 			}
 			ratedCategories.sort(function(categoryA, categoryB) {
 				return categoryB.rating - categoryA.rating;
@@ -271,13 +275,13 @@ exports.recommendations = functions.
 			// Recursively callback and get recipes with highest rated categories until
 			// out of rated categories or have found 15 recipes to recommend
 			var getRecipesForCategory = (ratedCategories, getMoreRecipes, index, recipesAdded) => {
-				return recipes.where("categories", "array-contains", ratedCategories[index]).get().then(recipesSnap => {
+				return recipes.where("categories", "array-contains", ratedCategories[index].category).get().then(recipesSnap => {
 					for (var k = 0; k < recipesSnap.docs.length; k++) {
 						recipesAdded.push(recipesSnap.docs[k]);
 					}
 					if (recipesAdded.length >= 15 || index === ratedCategories.length - 1) {
 						for (var j = 0; j < recipesAdded.length; j++) {
-							change.after.ref.parent().document(recipesAdded[j].id).set({isRecommended: true}, {merge: true});
+							change.after.ref.parent.doc(recipesAdded[j].id).set({isRecommended: true, recipeID: recipesAdded[j].id}, {merge: true});
 						}
 						return true;
 					} else {
