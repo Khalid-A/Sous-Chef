@@ -92,7 +92,7 @@ class SearchRecipes extends React.Component {
                         data={this.props.searchRecipes}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id, userID: this.props.userID});
+                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
                             }}>
                                 <SousChefCard
                                     headerText={item.title}
