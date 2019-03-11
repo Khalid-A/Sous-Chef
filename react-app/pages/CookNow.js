@@ -11,7 +11,6 @@ import {
   StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
@@ -162,7 +161,6 @@ class CookNow extends React.Component {
               </Text>
             </View>
             <View style={styles.favorite}>
-              {/* var iconFav = (this.state.fav) ? 'favorite' : 'favorite-border' */}
               <Icon
                 name={(this.state.isFavorited) ? 'favorite' : 'favorite-border'}
                 color='#17ba6b'
