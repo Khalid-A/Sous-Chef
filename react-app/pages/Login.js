@@ -1,10 +1,10 @@
 import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors'
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, ScrollView, TouchableOpacity, Dimensions} from 'react-native';
+import { StyleSheet, Image, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { RkTextInput, RkButton } from 'react-native-ui-kitten';
 import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
+import { DEFAULT_FONT } from './../common/SousChefTheme';
 import SousChefTextInput from './../components/SousChefTextInput'
 
 export class Login extends Component {
@@ -29,45 +29,48 @@ export class Login extends Component {
 
     render() {
         return (
-          <View style={styles.container}>
-              <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
-              <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+            <View style={styles.container}>
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
 
-              <SousChefTextInput
-                    placeholder='example@email.com'
-                    label={'Email:'}
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.email}
-                />
-                <View
-                  style={{
-                    borderBottomColor: 'white',
-                    borderBottomWidth: 1,
-                  }}
-                  />
+                    <SousChefTextInput
+                        placeholder='example@email.com'
+                        label={'Email:'}
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
+                    />
+                    <View
+                        style={{
+                            borderBottomColor: 'white',
+                            borderBottomWidth: 1,
+                        }}
+                    />
 
-                <SousChefTextInput
-                    placeholder='examplePassword'
-                    label={'Password:'}
-                    onChangeText={password => this.setState({ password })}
-                    value={this.state.password}
-                />
-                <View
-                  style={{
-                    borderBottomColor: 'white',
-                    borderBottomWidth: 1,
-                  }}
-                  />
+                    <SousChefTextInput
+                        placeholder='examplePassword'
+                        label={'Password:'}
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                    />
+                    <View
+                        style={{
+                            borderBottomColor: 'white',
+                            borderBottomWidth: 1,
+                        }}
+                    />
 
-                <TouchableOpacity style = {styles.button}
-                    onPress={this.handleLogin}
-                ><Text style ={styles.buttonText}>LOGIN</Text></TouchableOpacity>
-
-
-                <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
-
-          </LinearGradient>
-    </View>
+                    <TouchableOpacity
+                        style = {styles.button}
+                        onPress={this.handleLogin}
+                    >
+                        <Text style ={styles.buttonText}>
+                            LOGIN
+                        </Text>
+                    </TouchableOpacity>
+                    
+                    <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
+                </LinearGradient>
+            </View>
         );
     }
 }
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontFamily: 'Avenir',
+    fontFamily: DEFAULT_FONT,
     textAlign: 'center',
     color: BUTTON_BACKGROUND_COLOR,
     backgroundColor:'transparent',

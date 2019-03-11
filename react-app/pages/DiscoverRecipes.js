@@ -1,8 +1,21 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity,SafeAreaView,StatusBar, Header } from 'react-native';
+import { BACKGROUND_COLOR } from '../common/SousChefColors'
+import {
+    StyleSheet,
+    Text,
+    View,
+    FlatList, 
+    TouchableOpacity,
+    SafeAreaView,
+    StatusBar,
+} from 'react-native';
+import { DEFAULT_FONT } from '../common/SousChefTheme'
 import SousChefCard from '../components/SousChefCard';
-import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
+import {
+    beginReadyToGoFetch,
+    beginRecentRecipesFetch,
+    beginRecommendedRecipesFetch,
+} from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -20,7 +33,7 @@ class DiscoverRecipes extends React.Component {
           </LinearGradient>
         ),
         headerTitleStyle: {
-            fontFamily: "Avenir",
+            fontFamily: DEFAULT_FONT,
             fontSize: 35
         },
         drawerLabel: 'Discover'
@@ -49,22 +62,24 @@ class DiscoverRecipes extends React.Component {
                         horizontal= {true}
                         data={this.props.readyToGo}
                         renderItem={({item}) => {
-                            return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
-                            }}>
-                                <SousChefCard
-                                    headerText={item.title}
-                                    bodyText={
-                                        "Time: " +
-                                        (item.timeHour == "0" ? " " : item.timeHour + "h ") +
-                                        (item.timeMinute == "0" ? " " : item.timeMinute + "m ") +
-                                        "\n" +
-                                        "Serving Size: " +
-                                        item.servings
-                                    }
-                                    imagePath={item.images}
-                                />
-                            </TouchableOpacity>);
+                            return (
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                }}>
+                                    <SousChefCard
+                                        headerText={item.title}
+                                        bodyText={
+                                            "Time: " +
+                                            (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                            (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                            "\n" +
+                                            "Serving Size: " +
+                                            item.servings
+                                        }
+                                        imagePath={item.images}
+                                    />
+                                </TouchableOpacity>
+                            );
                         }}
                     />
                 </View>
@@ -76,22 +91,24 @@ class DiscoverRecipes extends React.Component {
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recent}
                         renderItem={({item}) => {
-                            return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
-                            }}>
-                                <SousChefCard
-                                    headerText={item.title}
-                                    bodyText={
-                                        "Time: " +
-                                        (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                        (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                        "\n" +
-                                        "Serving Size: " +
-                                        item.servings
-                                    }
-                                    imagePath={item.images}
-                                />
-                            </TouchableOpacity>);
+                            return (
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                }}>
+                                    <SousChefCard
+                                        headerText={item.title}
+                                        bodyText={
+                                            "Time: " +
+                                            (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                            (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                            "\n" +
+                                            "Serving Size: " +
+                                            item.servings
+                                        }
+                                        imagePath={item.images}
+                                    />
+                                </TouchableOpacity>
+                            );
                         }}
                     />
                 </View>
@@ -103,22 +120,24 @@ class DiscoverRecipes extends React.Component {
                         keyExtractor={(item, index) => index.toString()}
                         data={this.props.recommended}
                         renderItem={({item}) => {
-                            return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("CookNow", {recipeID: item.id});
-                            }}>
-                                <SousChefCard
-                                    headerText={item.title}
-                                    bodyText={
-                                        "Time: " +
-                                        (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                        (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                        "\n" +
-                                        "Serving Size: " +
-                                        item.servings
-                                    }
-                                    imagePath={item.images}
-                                />
-                            </TouchableOpacity>);
+                            return (
+                                <TouchableOpacity onPress={() => {
+                                    this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                }}>
+                                    <SousChefCard
+                                        headerText={item.title}
+                                        bodyText={
+                                            "Time: " +
+                                            (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                            (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                            "\n" +
+                                            "Serving Size: " +
+                                            item.servings
+                                        }
+                                        imagePath={item.images}
+                                    />
+                                </TouchableOpacity>
+                            );
                         }}
                     />
                 </View>
@@ -131,7 +150,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        // backgroundColor: BACKGROUND_COLOR,
         paddingBottom: 10
     },
     section: {
@@ -139,7 +157,7 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     sectionHeader: {
-        fontFamily: "Avenir",
+        fontFamily: DEFAULT_FONT,
         fontSize: 18,
         margin: 5,
         fontWeight: 'bold',
@@ -149,11 +167,6 @@ const styles = StyleSheet.create({
         borderBottomColor: BACKGROUND_COLOR,
         borderBottomWidth: 0.5,
         paddingBottom: 5,
-        // shadowOpacity: 0.75,
-        //   shadowRadius: 5,
-        //   shadowColor: 'grey',
-        //   shadowOffset: { height: 0, width: 0 },
-        // borderColor: "#1d945b",
     }
 })
 

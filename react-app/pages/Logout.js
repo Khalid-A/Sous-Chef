@@ -23,13 +23,11 @@ export class Logout extends Component {
 
     render() {
         return (
-
-          <View style={styles.container}>
-              <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
-              <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
-
-          </LinearGradient>
-    </View>
+            <View style={styles.container}>
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+                </LinearGradient>
+            </View>
         );
     }
 }

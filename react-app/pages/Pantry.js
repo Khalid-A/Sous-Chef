@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-    BUTTON_BACKGROUND_COLOR,
-    BACKGROUND_COLOR,
-    ACTION_BUTTON_COLOR
-} from '../common/SousChefColors'
+import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors'
 import LinearGradient from 'react-native-linear-gradient';
-import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView,StatusBar, Header } from 'react-native';
-import {beginPantryFetch, addPantryItem, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
+import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView,StatusBar } from 'react-native';
+import { beginPantryFetch, addPantryItem, editPantryItem, removePantryItem } from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
-import {DEFAULT_FONT} from '../common/SousChefTheme';
+import { DEFAULT_FONT } from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
@@ -53,12 +49,12 @@ class Pantry extends React.Component {
         headerBackground:(
           <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
             <SafeAreaView style={{flex:1 }}>
-              <StatusBar barStyle="light-content"/>
+                <StatusBar barStyle="light-content"/>
             </SafeAreaView>
           </LinearGradient>
         ),
         headerTitleStyle: {
-            fontFamily: "Avenir",
+            fontFamily: DEFAULT_FONT,
             fontSize: 35
         },
         drawerLabel: 'Pantry'
@@ -224,12 +220,12 @@ class Pantry extends React.Component {
                                     });
                                 }}
                             >
-                            <View style={{alignItems:'center',}}>
-                            <Icon
-                                name="md-create"
-                                style={styles.actionButtonIcon}
-                            />
-                                <Text style={styles.text}>edit</Text>
+                                <View style={{alignItems:'center',}}>
+                                    <Icon
+                                        name="md-create"
+                                        style={styles.actionButtonIcon}
+                                    />
+                                    <Text style={styles.text}>edit</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -239,13 +235,13 @@ class Pantry extends React.Component {
                                     removePantryItem(data.item.title, this.props.userID);
                                 }}
                             >
-                            <View style={{alignItems:'center',}}>
-                            <Icon
-                                name="md-close"
-                                style={styles.actionButtonIcon}
-                            />
-                          <Text style={styles.text}>delete</Text>
-                          </View>
+                                <View style={{alignItems:'center',}}>
+                                    <Icon
+                                        name="md-close"
+                                        style={styles.actionButtonIcon}
+                                    />
+                                    <Text style={styles.text}>delete</Text>
+                                </View>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backLeftBtnRight]}
@@ -362,8 +358,9 @@ class Pantry extends React.Component {
                             Quantity:
                         </Text>
 
-                        <Text style={{fontFamily:'Avenir',marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>{this.state.pickedValue[0].value}{" "}
-                        {this.state.pickedValue[1]}</Text>
+                        <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
+                            {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
+                        </Text>
                         <RkButton
                             style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
                             contentStyle={{color: 'white'}}
@@ -372,7 +369,9 @@ class Pantry extends React.Component {
                                     pickerVisible: true
                                 })
                             }
-                        >Change Quantity</RkButton>
+                        >
+                            Change Quantity
+                        </RkButton>
                     </DialogContent>
                 </Dialog>
                 <RkPicker
@@ -528,32 +527,32 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
   },
   rowBack: {
-  alignItems: 'center',
-  backgroundColor: '#DDD',
-  flex: 1,
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  paddingLeft: 15,
+      alignItems: 'center',
+      backgroundColor: '#DDD',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingLeft: 15,
   },
   backRightBtn: {
-  alignItems: 'center',
-  bottom: 0,
-  justifyContent: 'center',
-  position: 'absolute',
-  top: 0,
-  width: 75
-},
-backRightBtnLeft: {
-  backgroundColor: BUTTON_BACKGROUND_COLOR,
-  right: 0
-},
-backRightBtnRight: {
-  backgroundColor: 'red',
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 75
+  },
+  backRightBtnLeft: {
+    backgroundColor: BUTTON_BACKGROUND_COLOR,
+    right: 0
+  },
+  backRightBtnRight: {
+      backgroundColor: 'red',
       left: 0
   },
   backLeftBtnRight: {
       backgroundColor: '#ffc100',
-  left: 75
+      left: 75
   },
   text: {
       fontFamily: DEFAULT_FONT,
@@ -563,7 +562,6 @@ backRightBtnRight: {
   },
   textInput:{
     fontFamily: DEFAULT_FONT,
-    // fontWeight: 'bold',
     fontSize: 13,
   },
 })

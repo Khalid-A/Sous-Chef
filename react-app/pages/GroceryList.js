@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-    BUTTON_BACKGROUND_COLOR,
-    BACKGROUND_COLOR,
-    ACTION_BUTTON_COLOR
-} from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, Dimensions,SafeAreaView,StatusBar, Header } from 'react-native';
+import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors'
+import { StyleSheet, Text, View, TouchableOpacity, Alert, SafeAreaView, StatusBar } from 'react-native';
 import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
-import {DEFAULT_FONT} from '../common/SousChefTheme';
+import { DEFAULT_FONT } from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -53,13 +49,13 @@ class GroceryList extends React.Component {
         headerTransparent:false,
         headerBackground:(
           <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-            <SafeAreaView style={{flex:1 }}>
-              <StatusBar barStyle="light-content"/>
-            </SafeAreaView>
+                <SafeAreaView style={{flex:1 }}>
+                    <StatusBar barStyle="light-content"/>
+                </SafeAreaView>
           </LinearGradient>
         ),
         headerTitleStyle: {
-            fontFamily: "Avenir",
+            fontFamily: DEFAULT_FONT,
             fontSize: 35
         },
         drawerLabel: 'Grocery List'
@@ -224,12 +220,12 @@ class GroceryList extends React.Component {
                                     });
                                 }}
                             >
-                            <View style={{alignItems:'center',}}>
-                            <Icon
-                                name="md-create"
-                                style={styles.actionButtonIcon}
-                            />
-                                <Text style={styles.text}>edit</Text>
+                                <View style={{alignItems:'center',}}>
+                                    <Icon
+                                        name="md-create"
+                                        style={styles.actionButtonIcon}
+                                    />
+                                    <Text style={styles.text}>edit</Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -239,13 +235,13 @@ class GroceryList extends React.Component {
                                     removeGroceryListItem(data.item.title, this.props.userID);
                                 }}
                             >
-                            <View style={{alignItems:'center',}}>
-                            <Icon
-                                name="md-close"
-                                style={styles.actionButtonIcon}
-                            />
-                          <Text style={styles.text}>delete</Text>
-                          </View>
+                                <View style={{alignItems:'center',}}>
+                                    <Icon
+                                        name="md-close"
+                                        style={styles.actionButtonIcon}
+                                    />
+                                    <Text style={styles.text}>delete</Text>
+                                </View>
 
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -386,23 +382,20 @@ class GroceryList extends React.Component {
                         <Text style={[styles.popupHeader]}>
                             Quantity:
                         </Text>
-                          <Text style={{fontFamily:'Avenir',marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>{this.state.pickedValue[0].value}{" "}
-                          {this.state.pickedValue[1]}</Text>
-                          <RkButton
-                              style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
-                              contentStyle={{color: 'white'}}
-                              onPress={
-                                  () => this.setState({
-                                      pickerVisible: true
-                                  })
-                              }
-                          >Change Quantity</RkButton>
-
-
-
-
-
-
+                            <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
+                                {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
+                            </Text>
+                            <RkButton
+                                style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
+                                contentStyle={{color: 'white'}}
+                                onPress={
+                                    () => this.setState({
+                                        pickerVisible: true
+                                    })
+                                }
+                            >
+                                Change Quantity
+                            </RkButton>
                     </DialogContent>
                 </Dialog>
                 <RkPicker

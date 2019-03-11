@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { RkButton } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { loginExistingUser } from './../redux/actions/AuthenticationAction';
-import {BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
+import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
+import { DEFAULT_FONT } from '../common/SousChefTheme';
 
 class Welcome extends React.Component {
     static navigationOptions = {
@@ -38,22 +38,18 @@ class Welcome extends React.Component {
         return (
             <View style={styles.container}>
                 <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+                    <Text style={styles.welcome}>Welcome to Sous Chef</Text>
 
-                <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
-                <Text style={styles.welcome}>Welcome to Sous Chef</Text>
+                    <TouchableOpacity style ={styles.button} onPress={this.onLoginPressed}>
+                        <Text style ={styles.buttonText}>LOGIN</Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity style = {styles.button} onPress={this.onLoginPressed}>
-                    <Text style ={styles.buttonText}>LOGIN</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity style = {styles.button} onPress={this.onSignUpPressed}>
+                        <Text style ={styles.buttonText}>SIGN UP</Text>
+                    </TouchableOpacity>
 
-
-
-                <TouchableOpacity style = {styles.button}
-                    onPress={this.onSignUpPressed}
-                ><Text style ={styles.buttonText}>SIGN UP</Text></TouchableOpacity>
-
-
-                  </LinearGradient>
+                </LinearGradient>
             </View>
         );
     }
@@ -83,9 +79,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontFamily: 'Avenir',
+    fontFamily: DEFAULT_FONT,
     textAlign: 'center',
-    // margin: 10,
     color: BUTTON_BACKGROUND_COLOR,
     backgroundColor:'transparent',
     fontWeight: 'bold',
