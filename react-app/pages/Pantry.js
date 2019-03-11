@@ -224,7 +224,13 @@ class Pantry extends React.Component {
                                     });
                                 }}
                             >
+                            <View style={{alignItems:'center',}}>
+                            <Icon
+                                name="md-create"
+                                style={styles.actionButtonIcon}
+                            />
                                 <Text style={styles.text}>edit</Text>
+                                </View>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -233,7 +239,13 @@ class Pantry extends React.Component {
                                     removePantryItem(data.item.title, this.props.userID);
                                 }}
                             >
-                                <Text style={styles.text}>delete</Text>
+                            <View style={{alignItems:'center',}}>
+                            <Icon
+                                name="md-close"
+                                style={styles.actionButtonIcon}
+                            />
+                          <Text style={styles.text}>delete</Text>
+                          </View>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backLeftBtnRight]}
@@ -271,7 +283,7 @@ class Pantry extends React.Component {
                     }}
                 >
                     <ActionButton.Item
-                        buttonColor={ACTION_BUTTON_COLOR}
+                        buttonColor={'#1d945b'}
                         title="New Item"
                         onPress={
                         () => this.setState(
@@ -349,16 +361,18 @@ class Pantry extends React.Component {
                         <Text style={[styles.popupHeader]}>
                             Quantity:
                         </Text>
+
+                        <Text style={{fontFamily:'Avenir',marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>{this.state.pickedValue[0].value}{" "}
+                        {this.state.pickedValue[1]}</Text>
                         <RkButton
+                            style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
+                            contentStyle={{color: 'white'}}
                             onPress={
                                 () => this.setState({
                                     pickerVisible: true
                                 })
                             }
-                        >
-                            {this.state.pickedValue[0].value}{" "}
-                            {this.state.pickedValue[1]}
-                        </RkButton>
+                        >Change Quantity</RkButton>
                     </DialogContent>
                 </Dialog>
                 <RkPicker
@@ -454,90 +468,104 @@ class Pantry extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        backgroundColor: BACKGROUND_COLOR,
-        paddingBottom: 25
-    },
-    actionButtonIcon: {
-        fontSize: 20,
-        height: 22,
-        color: 'white',
-    },
-    list: {
-        flex: 1,
-        flexDirection: "column",
-    },
-    popupHeader: {
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-    },
-    header: {
-        fontFamily: DEFAULT_FONT,
-        fontSize: 25,
-        margin: 10,
-    },
-    headerContainer: {
-        borderColor: "lightgrey",
-        borderBottomWidth: 2
-    },
-    listItem: {
-        flex: 1,
-        height: 50,
-        borderColor: "lightgrey",
-        backgroundColor: BACKGROUND_COLOR,
-        borderBottomWidth: 2
-    },
-    text: {
-        fontFamily: DEFAULT_FONT,
-        fontSize: 15,
-        color: BACKGROUND_COLOR
-    },
-    dialogButtonContainer: {
-        backgroundColor: BUTTON_BACKGROUND_COLOR,
-    },
-    dialogButtonText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT
-    },
-    dialogTitleContainer: {
-        backgroundColor: BUTTON_BACKGROUND_COLOR
-    },
-    dialogTitleText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontSize: 25
-    },
-    rowBack: {
-		alignItems: 'center',
-		backgroundColor: '#DDD',
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingLeft: 15,
-    },
-    backRightBtn: {
-		alignItems: 'center',
-		bottom: 0,
-		justifyContent: 'center',
-		position: 'absolute',
-		top: 0,
-		width: 75
-	},
-	backRightBtnLeft: {
-		backgroundColor: 'green',
-		right: 0
-	},
-	backRightBtnRight: {
-		backgroundColor: 'red',
-		left: 0
-    },
-    backLeftBtnRight: {
-        backgroundColor: 'purple',
-		left: 75
-    }
+  container: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      backgroundColor: 'white',
+      paddingBottom: 25
+  },
+  actionButtonIcon: {
+      fontSize: 20,
+      height: 22,
+      color: 'white',
+  },
+  list: {
+      flex: 1,
+      flexDirection: "column",
+  },
+  popupHeader: {
+      fontFamily: DEFAULT_FONT,
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: BUTTON_BACKGROUND_COLOR,
+      padding: 5,
+  },
+  header: {
+      fontFamily: DEFAULT_FONT,
+      fontWeight: 'bold',
+      color: BUTTON_BACKGROUND_COLOR,
+      fontSize: 20,
+      margin: 10,
+  },
+  headerContainer: {
+      borderColor: "lightgrey",
+      borderBottomWidth: 0.5
+  },
+  listItem: {
+      flex: 1,
+      height: 50,
+      borderColor: "lightgrey",
+      backgroundColor: 'white',
+      borderBottomWidth: 0.25,
+      justifyContent:'center',
+  },
+  dialogButtonContainer: {
+      backgroundColor: '#1d945b'
+  },
+  dialogButtonText: {
+      color: "white",
+      fontFamily: DEFAULT_FONT,
+      fontWeight: 'bold',
+  },
+  dialogTitleContainer: {
+      backgroundColor: '#1d945b'
+  },
+  dialogTitleText: {
+      color: "white",
+      fontFamily: DEFAULT_FONT,
+      fontSize: 20,
+      fontWeight: 'bold',
+  },
+  rowBack: {
+  alignItems: 'center',
+  backgroundColor: '#DDD',
+  flex: 1,
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  paddingLeft: 15,
+  },
+  backRightBtn: {
+  alignItems: 'center',
+  bottom: 0,
+  justifyContent: 'center',
+  position: 'absolute',
+  top: 0,
+  width: 75
+},
+backRightBtnLeft: {
+  backgroundColor: BUTTON_BACKGROUND_COLOR,
+  right: 0
+},
+backRightBtnRight: {
+  backgroundColor: 'red',
+      left: 0
+  },
+  backLeftBtnRight: {
+      backgroundColor: '#ffc100',
+  left: 75
+  },
+  text: {
+      fontFamily: DEFAULT_FONT,
+      fontWeight: 'bold',
+      fontSize: 13,
+      color: 'white',
+  },
+  textInput:{
+    fontFamily: DEFAULT_FONT,
+    // fontWeight: 'bold',
+    fontSize: 13,
+  },
 })
 
 const mapStateToProps = state => {
