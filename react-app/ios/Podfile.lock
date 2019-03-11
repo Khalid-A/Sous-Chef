@@ -189,7 +189,7 @@ PODS:
     - React
   - RNReanimated (1.0.0-alpha.12):
     - React
-  - RNVectorIcons (6.2.0):
+  - RNVectorIcons (6.3.0):
     - React
   - yoga (0.58.6.React)
 
