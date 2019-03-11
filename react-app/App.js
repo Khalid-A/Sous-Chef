@@ -12,7 +12,8 @@ import CookNow from './pages/CookNow';
 import Finished from './pages/Finished';
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from "react-navigation";
 import { Provider } from 'react-redux';
-import { YellowBox, View, TouchableOpacity, Button } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { YellowBox, View, TouchableOpacity, Button, Text } from 'react-native';
 import store from './redux/store';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { DARK_GREEN_BACKGROUND } from './common/SousChefColors';
@@ -153,6 +154,7 @@ const AppNavigator = createAppContainer(createStackNavigator({
         },
         {
             initialRouteName: "DiscoverRecipes",
+
             drawerBackgroundColor: DARK_GREEN_BACKGROUND,
             contentOptions: {
                 activeTintColor: "lightgrey",
@@ -161,12 +163,31 @@ const AppNavigator = createAppContainer(createStackNavigator({
         }
         ),
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            headerStyle:{
+              backgroundColor: DARK_GREEN_BACKGROUND,
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+            // fontWeight: 'bold',
+            },
+
+
         }),
+
     }
+
 },
+
 {
-    initialRouteName: "Welcome"
+    initialRouteName: "Welcome",
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: DARK_GREEN_BACKGROUND,
+            borderBottomColor: 'transparent',
+        },
+        headerTintColor: 'white',
+    },
 }
 ));
 

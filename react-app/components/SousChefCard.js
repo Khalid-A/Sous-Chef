@@ -1,6 +1,5 @@
 import React from 'react';
-import { BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { StyleSheet, Image, View, Dimensions} from 'react-native';
 import { RkCard, RkText } from 'react-native-ui-kitten';
 
 export default class SousChefCard extends React.Component {
@@ -20,7 +19,7 @@ export default class SousChefCard extends React.Component {
                     require("../assets/sousChefLogo.png") :
                     {uri: this.props.imagePath}
                 } style={[styles.cardImage]}/>
-                <View rkCardContent style={{flex: 1}}>
+              <View rkCardContent style={{flex: 1, margin: 0, padding: 0,}}>
                     <RkText style={[styles.cardHeader]}>{this.props.headerText}</RkText>
                     <RkText style={[styles.cardBody]}>{this.props.bodyText}</RkText>
                 </View>
@@ -32,25 +31,34 @@ export default class SousChefCard extends React.Component {
 const styles = StyleSheet.create({
     card: {
         flex: 1,
-        margin: 10,
-        width: 200,
-        borderRadius: 10,
+        margin: 3,
+        width: Dimensions.get('window').width/2,
+        height: Dimensions.get('window').height/4  ,
+        borderRadius: 3,
+        backgroundColor: "white",
+        padding:0,
         overflow: 'hidden',
-        backgroundColor: BACKGROUND_COLOR
+        borderColor: 'transparent',
     },
     cardHeader: {
+        margin: 0,
+        padding: 0,
         alignSelf: "flex-start",
-        fontFamily: "Avenir Next",
-        fontSize: 15
+        fontFamily: "Avenir",
+        fontSize: 14,
+        fontWeight: 'bold',
     },
     cardBody: {
+        margin: 0,
+        padding: 0,
         alignSelf: "flex-start",
-        fontFamily: "Avenir Next",
-        fontSize: 13
+        fontFamily: "Avenir",
+        fontSize: 12,
+        color: 'grey',
     },
     cardImage: {
-        flex: 2, 
-        borderRadius: 10, 
-        overflow: 'hidden'
+        flex: 2,
+        borderRadius: 3,
+        overflow: 'hidden',
     }
 })

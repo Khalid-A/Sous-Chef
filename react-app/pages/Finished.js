@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, StyleSheet, Platform, Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import { AppRegistry, TextInput } from 'react-native';
-import { Dimensions } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import { Dimensions } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
+import { DEFAULT_FONT } from '../common/SousChefTheme';
+import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import { removeFromPantry } from '../redux/actions/PantryAction';
 import { addRatingForRecipe } from '../redux/actions/RecipeAction';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import {
   getIsFavorited,
   saveIsFavorited,
@@ -15,19 +16,21 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import StarRating from 'react-native-star-rating';
 
-import firebase from 'react-native-firebase';
-
 class Finished extends React.Component {
   static navigationOptions = {
     title: "Finished",
     headerVisible: true,
     headerTintColor: "white",
-    headerLeft: null,
-    headerStyle: {
-      backgroundColor: BUTTON_BACKGROUND_COLOR,
-    },
+    headerTransparent:false,
+    headerBackground:(
+      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+        <SafeAreaView style={{flex:1 }}>
+          <StatusBar barStyle="light-content"/>
+        </SafeAreaView>
+      </LinearGradient>
+    ),
     headerTitleStyle: {
-      fontFamily: "Avenir",
+      fontFamily: DEFAULT_FONT,
       fontSize: 30,
       textAlign: 'left',
     },
@@ -200,7 +203,7 @@ const styles = StyleSheet.create({
   },
   detail:{
     fontSize: 15,
-    fontFamily: "Avenir",
+    fontFamily: DEFAULT_FONT,
 
   },
   title: {
