@@ -5,7 +5,7 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SousChefCard from '../components/SousChefCard';
 import SousChefTextInput from './../components/SousChefTextInput';
-import { beginSearchRecipesFetch } from '../redux/actions/RecipeAction';
+import { beginSearchRecipesFetch, beginRandomRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 
 class SearchRecipes extends React.Component {
@@ -26,33 +26,39 @@ class SearchRecipes extends React.Component {
         this.state = {
             searchQuery: '',
             displaySearchText: '',
+            searchRecipes: [],
         };
     }
 
     componentWillMount() {
         var searchText = this.props.navigation.getParam("searchQuery")
         this.props.beginSearchRecipesFetch(searchText)
+        this.props.beginRandomRecipesFetch()
+
         this.setState({
             searchQuery: searchText,
-            displaySearchText: 'Results: \"' + searchText + '\"'
+            displaySearchText: 'Results: \"' + searchText.trim() + '\"'
         })
     }
 
     searchPressed = () => {
-        var searchQuery = this.state.searchQuery
+        var searchQuery = this.state.searchQuery.trim()
         if (searchQuery != '') {
             this.props.beginSearchRecipesFetch(searchQuery)
         }
     }
 
-    componentWillReceiveProps = (prevProps, prevState) => {
-        if (prevProps.searchRecipesFound) {
+    componentWillReceiveProps = (nextProps, nextState) => {
+        if (nextProps.searchRecipes.length == 0) {
             this.setState({
-                displaySearchText: 'Results: \"' + this.state.searchQuery + '\"'
+                searchRecipes: this.props.randomRecipes,
+                displaySearchText: 'No Results: \"' + this.state.searchQuery.trim() + '\"'
             })
+            return
         } else {
             this.setState({
-                displaySearchText: 'No Results: \"' + this.state.searchQuery + '\"'
+                searchRecipes: this.props.searchRecipes,
+                displaySearchText: 'Results: \"' + this.state.searchQuery.trim() + '\"'
             })
         }
     }
@@ -89,7 +95,7 @@ class SearchRecipes extends React.Component {
                     <FlatList
                         style={[styles.section]}
                         keyExtractor={(item, index) => index.toString()}
-                        data={this.props.searchRecipes}
+                        data={this.state.searchRecipes}
                         renderItem={({item}) => {
                             return (<TouchableOpacity onPress={() => {
                                 this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
@@ -138,8 +144,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        searchRecipesFound: state.searchRecipesFound[0],
         searchRecipes: state.searchRecipes,
+        randomRecipes: state.randomRecipes,
         userID: state.userInfo.userID,
     }
 }
@@ -148,5 +154,6 @@ export default connect(
     mapStateToProps,
     {
         beginSearchRecipesFetch: beginSearchRecipesFetch,
+        beginRandomRecipesFetch: beginRandomRecipesFetch,
     }
 )(SearchRecipes);

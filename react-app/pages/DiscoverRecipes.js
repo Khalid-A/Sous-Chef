@@ -38,7 +38,7 @@ class DiscoverRecipes extends React.Component {
     }
 
     searchPressed = () => {
-        if (this.state.searchQuery != '') {
+        if (this.state.searchQuery.trim() != '') {
             this.props.navigation.navigate('SearchRecipes', {
                 searchQuery: this.state.searchQuery
             });

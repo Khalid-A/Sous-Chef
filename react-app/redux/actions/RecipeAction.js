@@ -9,8 +9,9 @@ export const ADD_RECENT = "ADD_RECENT";
 
 export const CLEAR_SEARCH = "CLEAR_SEARCH";
 export const ADD_SEARCH = "ADD_SEARCH";
-export const FOUND_RECIPES = "FOUND_RECIPES";
-export const NO_RECIPES_FOUND = "NO_RECIPES_FOUND";
+
+export const CLEAR_RANDOM = "CLEAR_RANDOM";
+export const ADD_RANDOM = "ADD_RANDOM";
 
 export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
@@ -150,47 +151,19 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
     );
 }
 
-export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
-    dispatch({
-        type: CLEAR_SEARCH
-    });
-    dispatch({
-        type: NO_RECIPES_FOUND
-    });
-    var searchResults = recipesRef.where(
-        'categories',
-        'array-contains',
-        searchQuery.toLowerCase()
-    )
+/**
+ * addSearchRecipesFromResult function that dispatches an action to 
+ * add all documents retrieved from the passed in query to the redux store
+ */
+const addSearchRecipesFromResult = (searchResults, dispatch, addType) => {
     searchResults.get().then(function(querySnapshot){
         if (querySnapshot.size == 0) {
-            var newSearchResults = recipesRef.orderBy("rating.reviewCount", "desc").limit(10);
-            newSearchResults.get().then(function(querySnapshot) {
-                querySnapshot.forEach(doc => {
-                    var data = doc.data();
-                    dispatch({
-                        type: ADD_SEARCH,
-                        payload: {
-                            images: data["images"],
-                            servings: data["servings"],
-                            timeHour: data["time"]["hour"],
-                            timeMinute: data["time"]["minute"],
-                            title: data["title"],
-                            recipeID: data["id"],
-                            id: doc.id
-                        }
-                    })
-                });
-            });
-            dispatch({
-                type: NO_RECIPES_FOUND
-            });
             return;
         }
         querySnapshot.forEach(doc => {
             var data = doc.data();
             dispatch({
-                type: ADD_SEARCH,
+                type: addType,
                 payload: {
                     images: data["images"],
                     servings: data["servings"],
@@ -202,14 +175,66 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
                 }
             })
         });
-        dispatch({
-            type: FOUND_RECIPES
-        });
     }).catch(err => {
         console.log('Error getting documents', err);
     });
 }
 
+/**
+ * beginSearchRecipesFetch function that dispatches an action to add
+ * all documents that match the search query to the redux store
+ */
+export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH
+    });
+    searchQuery = searchQuery.toLowerCase().trim()
+    // Search by prefix
+    var searchLength = searchQuery.length;
+    var prefix = searchQuery.slice(0, searchLength-1);
+    var lastLetter = searchQuery.slice(searchLength-1, searchLength);
+
+    var searchStart = searchQuery;
+    var searchEnd = prefix + String.fromCharCode(lastLetter.charCodeAt(0) + 1);
+
+    var searchPrefixResults = recipesRef.where(
+        'lowercaseTitle',
+        '>=',
+        searchStart
+    ).where(
+        'lowercaseTitle',
+        '<',
+        searchEnd
+    )
+    addSearchRecipesFromResult(searchPrefixResults, dispatch, ADD_SEARCH)
+
+    // Search by category
+    var searchCategoryResults = recipesRef.where(
+        'categories',
+        'array-contains',
+        searchQuery
+    )
+    addSearchRecipesFromResult(searchCategoryResults, dispatch, ADD_SEARCH)
+    
+}
+
+/**
+ * beginRandomRecipesFetch function that dispatches an action to add
+ * random recipes to the redux store. Random recipes are recipes that
+ * have minimal reviews.
+ */
+export const beginRandomRecipesFetch = ()  => async dispatch => {
+    dispatch({
+        type: CLEAR_RANDOM
+    })
+    var searchResults = recipesRef.orderBy("rating.reviewCount", "desc").limit(10);
+    addSearchRecipesFromResult(searchResults, dispatch, ADD_RANDOM)
+}
+
+/**
+ * getIsFavorited function that updates the redux store to indicate
+ * if the current user has favorited the current recipe.
+ */
 export const getIsFavorited = (userID, recipeID) => {
     return (dispatch) => {
         var recipeDocRef = relevantRecipesRef.doc(userID)
@@ -247,6 +272,10 @@ export const getIsFavorited = (userID, recipeID) => {
     }
 }
 
+/**
+ * flipIsFavorited function that updates the redux store to indicate
+ * the opposite of whether or not the favorited flag is set.
+ */
 export const flipIsFavorited = (isFavorited) => {
     return (dispatch) => {
         return dispatch({

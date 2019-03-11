@@ -7,8 +7,8 @@ import {
     ADD_RECOMMENDED, 
     CLEAR_SEARCH,
     ADD_SEARCH,
-    FOUND_RECIPES,
-    NO_RECIPES_FOUND,
+    CLEAR_RANDOM,
+    ADD_RANDOM,
 } from '../actions/RecipeAction';
 
 /**
@@ -65,6 +65,11 @@ export function recentRecipes(state = [], action) {
     }
 }
 
+/**
+ * Reducer for search recipes to apply actions to the store.
+ * @param {array} state The current store state for ready to go recipes
+ * @param {object} action The action to apply to the store
+ */
 export function searchRecipes(state = [], action) {
     switch(action.type) {
         case CLEAR_SEARCH:
@@ -78,12 +83,19 @@ export function searchRecipes(state = [], action) {
     }
 }
 
-export function searchRecipesFound(state = [], action) {
+/**
+ * Reducer for random recipes to apply actions to the store.
+ * @param {array} state The current store state for ready to go recipes
+ * @param {object} action The action to apply to the store
+ */
+export function randomRecipes(state = [], action) {
     switch(action.type) {
-        case FOUND_RECIPES:
-            return [true];
-        case NO_RECIPES_FOUND:
-            return [false];
+        case CLEAR_RANDOM:
+            return [];
+        case ADD_RANDOM:
+            var newArr = [...state];
+            newArr.push(action.payload);
+            return newArr;
         default:
             return state;
     }
