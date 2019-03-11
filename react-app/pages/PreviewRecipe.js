@@ -75,7 +75,6 @@ class PreviewRecipe extends React.Component {
                 error
             );
         });
-        console.warn(this.props.navigation.getParam("recipeID"))
         this.props.saveIsRecent(this.props.userID, this.props.navigation.getParam("recipeID"))
     }
 
