@@ -139,7 +139,12 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         flex: 1,
-    }
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+    },
 })
 
 const mapStateToProps = state => {
