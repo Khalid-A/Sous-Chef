@@ -20,8 +20,6 @@ import { TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
 import { getIsFavorited, saveIsFavorited, saveIsRecent } from '../redux/actions/FavoritedAction';
 
-const recipesRef = firebase.firestore().collection('test_recipes');
-
 class CookNow extends React.Component {
   static navigationOptions = {
         title: "Cook Now",

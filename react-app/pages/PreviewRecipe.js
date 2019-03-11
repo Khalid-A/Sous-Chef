@@ -5,10 +5,11 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
-import { StyleSheet, Image, Text, View, ScrollView, FlatList, Dimensions, Button, TouchableOpacity, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput} from 'react-native';
 import firebase from 'react-native-firebase';
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import { connect } from 'react-redux';
+import { saveIsRecent } from '../redux/actions/FavoritedAction';
 
 const recipesRef = firebase.firestore().collection('test_recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
@@ -74,6 +75,8 @@ class PreviewRecipe extends React.Component {
                 error
             );
         });
+        console.warn(this.props.navigation.getParam("recipeID"))
+        this.props.saveIsRecent(this.props.userID, this.props.navigation.getParam("recipeID"))
     }
 
     updatePantryAmount = (have, item, surplus) => {
@@ -552,4 +555,12 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(PreviewRecipe);
+const mapDispatchToProps = dispatch => {
+    return {
+      saveIsRecent: (userID, recipeID) => {
+        saveIsRecent(userID, recipeID)
+      },
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreviewRecipe);
