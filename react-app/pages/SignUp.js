@@ -19,7 +19,7 @@ export class SignUp extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.userID) {
-            this.props.navigation.navigate('Main');
+            this.props.navigation.navigate('PrepopulatePantry');
         }
     }
 

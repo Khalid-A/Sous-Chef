@@ -17,10 +17,10 @@ import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefCol
 import { DEFAULT_FONT } from '../common/SousChefTheme';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { TabBar } from 'react-native-tab-view';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
+import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 
 const recipesRef = firebase.firestore().collection('test_recipes');
-
 
 class CookNow extends React.Component {
   static navigationOptions = {
@@ -45,7 +45,7 @@ class CookNow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipe: null,
+      recipe: this.props.navigation.getParam("recipe"),
       recipeID: this.props.navigation.getParam("recipeID"),
       index: 0,
       routes: [
@@ -58,18 +58,10 @@ class CookNow extends React.Component {
     this.finishCooking = this.finishCooking.bind(this);
   }
 
-  componentWillMount(){
-    recipesRef.doc(this.state.recipeID).get().then((doc) => {
-     this.setState({recipe: doc.data()});
-    })
-    .catch(function(error) {
-        console.warn("Error getting documents: ", error);
-    });
-  }
-
   finishCooking(){
     this.props.navigation.navigate('Finished', {
-      ingredientsToRemove: this.state.recipe.ingredients
+      recipeID: this.state.recipe.id,
+      ingredientsToRemove: this.props.navigation.getParam("ingredientsToRemove")
     });
   }
 
@@ -88,14 +80,11 @@ class CookNow extends React.Component {
   }
 
   listIngredients(){
-    if(this.state.recipe.ingredients == null){
+    if(!this.state.recipe || !this.state.recipe.ingredients){
       console.warn("null");
     }
-    return Object.keys(this.state.recipe.ingredients).map((ingredientID) => {
-      const text = this.state.recipe.ingredients[ingredientID].originalText;
-      const quantity = this.state.recipe.ingredients[ingredientID].originalQuantity;
-      // const unit = this.state.recipe.ingredients[ingredientID].unit;
-      if(!text){
+    return this.state.recipe.ingredients.map((ingredient) => {
+      if(!ingredient.originalText){
         return null;
       }
       return (
@@ -104,8 +93,9 @@ class CookNow extends React.Component {
             name='album'
             color='#17ba6b'
             size={10} />
-          <Text style={styles.detail}>{quantity} {text}</Text>
-
+          <Text style={styles.detail}>
+            {ingredient.originalQuantity} {ingredient.originalText}
+          </Text>
         </View>
 
       );
@@ -293,4 +283,5 @@ const styles = StyleSheet.create({
     paddingTop:10
   },
 });
+
 export default connect(null,  null)(CookNow)

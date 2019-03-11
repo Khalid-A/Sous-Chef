@@ -1,4 +1,3 @@
-import { BACKGROUND_COLOR } from './../common/SousChefColors'
 import { RkTextInput } from 'react-native-ui-kitten';
 import { StyleSheet } from 'react-native';
 import React, {Component} from 'react';
@@ -23,8 +22,6 @@ export default class SousChefTextInput extends Component {
                     value={this.props.value}
                     inputStyle={{
                       color: 'white',
-                      // fontSize: 20,
-
                     }}
 
             />

@@ -1,6 +1,5 @@
 import React from 'react';
-import { BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Image, Text, View, Dimensions,ScrollView} from 'react-native';
+import { StyleSheet, Image, View, Dimensions} from 'react-native';
 import { RkCard, RkText } from 'react-native-ui-kitten';
 
 export default class SousChefCard extends React.Component {
@@ -36,16 +35,10 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width/2,
         height: Dimensions.get('window').height/4  ,
         borderRadius: 3,
-        // overflow: 'hidden',
         backgroundColor: "white",
         padding:0,
         overflow: 'hidden',
         borderColor: 'transparent',
-        // shadowOpacity: 0.75,
-        //   shadowRadius: 5,
-        //   shadowColor: 'red',
-        //   shadowOffset: { height: 0, width: 0 },
-        // borderColor: "#1d945b",
     },
     cardHeader: {
         margin: 0,

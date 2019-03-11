@@ -64,7 +64,7 @@ class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                    this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
                                 }}>
                                     <SousChefCard
                                         headerText={item.title}
@@ -93,7 +93,7 @@ class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                    this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
                                 }}>
                                     <SousChefCard
                                         headerText={item.title}
@@ -122,7 +122,7 @@ class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate("CookNow", {recipeID: item.id});
+                                    this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
                                 }}>
                                     <SousChefCard
                                         headerText={item.title}
