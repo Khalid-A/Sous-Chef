@@ -69,16 +69,17 @@ var filterPrevReadyRecipes = async (userID, ingredients) => {
 	var numReadyToGo = 0;
 	var irrelevantRecipes = [];
 	await relevantRecipes.doc(userID).collection('recipes').get()
-		.then(async (docs) => {
-			console.log("Filtering through", docs.docs.length,
+		.then(async (querySnapshot) => {
+			console.log("Filtering through", querySnapshot.docs.length,
 				"existing relevant recipes.");
-			docs.forEach(async (doc) => {
+			querySnapshot.forEach(async (doc) => {
 				const recipe = doc.data();
-				const recipeID = recipe.id;
+				const recipeID = recipe.recipeID;
 				await recipes.get(recipeID).then((recipeDoc) => {
 					if (!recipeDoc.exists) {
-						throw "Current relevant recipe " + recipeID +
-							" not found in recipe DB.";
+						console.log("Current relevant recipe " + recipeID +
+							" not found in recipe DB.");
+						return;
 					}
 					const recipeData = recipeDoc.data();
 					const ingredientsNeeded =
@@ -107,6 +108,8 @@ var filterPrevReadyRecipes = async (userID, ingredients) => {
 			return transaction.get(ref).then((doc) => {
 				transaction.update(ref, { "isReadyToGo": false });
 			});
+		}).catch((error) => {
+			console.warn("Error marking not relevant for", ref);
 		});
 	});
 
@@ -131,18 +134,20 @@ var addNewReadyRecipes = async (userID, ingredients, numReadyToGo) => {
 			recipes.startAfter(lastVisible).limit(DOCS_PER_PAGE) :
 			recipes.limit(DOCS_PER_PAGE);
 
-		await page.get().then(async (docs) => {
-			console.log("Request for", MAX_NUM_READY_TO_GO, "recipes.");
-			if (docs.docs.length == 0) {
+		console.log("Request for", MAX_NUM_READY_TO_GO, "recipes.");
+		await page.get().then(async (querySnapshot) => {
+			console.log("Then.");
+			console.log(querySnapshot.docs.length + " recipe docs retrieved.");
+			if (querySnapshot.docs.length == 0) {
 				throw "No more docs to retrieve.";
 			}
 			// Get the last visible document
-			lastVisible = docs.docs[docs.docs.length - 1];
+			lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
 
-			for (var docsIndex = 0; docsIndex < docs.docs.length; docsIndex++) {
-				const recipe = docs.docs[docsIndex].data();
-				console.log("Received data for DB recipe", recipeID);
+			querySnapshot.forEach(async (doc) => {
+				const recipe = doc.data();
 				const recipeID = recipe.id;
+				console.log("Received data for DB recipe", recipeID);
 				const ingredientsNeeded = Object.values(recipe.ingredients);
 				if (isReadyToGo(ingredientsNeeded, ingredients)) {
 					// We can make this recipe! Add it to our list
@@ -153,15 +158,16 @@ var addNewReadyRecipes = async (userID, ingredients, numReadyToGo) => {
 				}
 
 				if (numReadyToGo == MAX_NUM_READY_TO_GO) {
-					console.log("Found", MAX_NUM_READY_TO_GO, "ready to go!");
-					break;
+					throw "Found " + MAX_NUM_READY_TO_GO + " ready to go!";
 				}
-			}
+			});
 		}).catch((error) => {
 			isEndOfData = true;
 			console.warn(error);
 		});
 	}
+
+	return numReadyToGo;
 }
 
 var isTooSoon = (taskObject, now) => {
@@ -178,7 +184,7 @@ var isTooSoon = (taskObject, now) => {
  * Any change to a pantry triggers recalculation of ready-to-go recipes.
  */
 exports.updateReadyToGoRecipes = functions.firestore
-	.document('pantrylists/{userID}').onWrite((change, context) => {
+	.document('pantrylists/{userID}/ingredients/{ingredientID}').onWrite(async (change, context) => {
 		// Read transaction data with the intention of modifying
 		return admin.firestore().runTransaction((transaction) => {
 			return transaction.get(taskData).then((doc) => {
@@ -196,20 +202,31 @@ exports.updateReadyToGoRecipes = functions.firestore
 			}).then(async () => {
 				// Begin job
 				const userID = context.params.userID;
-				const updatedIngredients = change.after.data().ingredients;
+				var updatedIngredients = [];
 
-				// First filter out any ready-to-go recipes that are no longer ready
-				var numReadyToGo = await filterPrevReadyRecipes(userID, updatedIngredients);
-				console.log("Filtered through previously ready recipes. Now there are", numReadyToGo, "ready recipes.");
+				change.after.ref.parent.get().then((docs) => {
+					docs.forEach((doc) => {
+						var data = doc.data();
+						data.ingredient = doc.id;
+						updatedIngredients.push(data);
+					});
+					return updatedIngredients;
+				}).then(async (updatedIngredients) => {
+					console.log(updatedIngredients.length + " ingredients in pantry.");
 
-				// Now add other recipes that are ready to go
-				numReadyToGo = await addNewReadyRecipes(userID, updatedIngredients, numReadyToGo);
-				console.log("Added newly ready recipes. Now there are", numReadyToGo, "ready recipes.");
+					// First filter out any ready-to-go recipes that are no longer ready
+					var numReadyToGo = await filterPrevReadyRecipes(userID, updatedIngredients);
+					console.log("Filtered through previously ready recipes. Now there are", numReadyToGo, "ready recipes.");
 
-				// Modify transaction data to update end time
-				admin.firestore().runTransaction((transaction) => {
-					return transaction.get(taskData).then((doc) => {
-						transaction.update(taskData, { "lastEnded": Date.now() });
+					// Now add other recipes that are ready to go
+					numReadyToGo = await addNewReadyRecipes(userID, updatedIngredients, numReadyToGo);
+					console.log("Added newly ready recipes. Now there are", numReadyToGo, "ready recipes.");
+
+					// Modify transaction data to update end time
+					admin.firestore().runTransaction((transaction) => {
+						return transaction.get(taskData).then((doc) => {
+							transaction.update(taskData, { "lastEnded": Date.now() });
+						});
 					});
 				});
 			}).catch((error) => {
