@@ -11,16 +11,13 @@ import {
   StatusBar,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
-import { setIngredientsToRemove } from '../redux/actions/PantryAction';
-
-const recipesRef = firebase.firestore().collection('test_recipes');
+import { getIsFavorited, saveIsFavorited, saveIsRecent } from '../redux/actions/FavoritedAction';
 
 class CookNow extends React.Component {
   static navigationOptions = {
@@ -46,19 +43,37 @@ class CookNow extends React.Component {
     super(props);
     this.state = {
       recipe: this.props.navigation.getParam("recipe"),
-      recipeID: this.props.navigation.getParam("recipeID"),
+      recipeID: this.props.navigation.getParam("recipe").id,
       index: 0,
       routes: [
         { key: 'Ingredients', title: 'INGREDIENTS' },
         { key: 'Directions', title: 'DIRECTIONS' },
       ],
+      isFavorited: null,
     };
     this.listIngredients = this.listIngredients.bind(this);
     this.listDirections = this.listDirections.bind(this);
     this.finishCooking = this.finishCooking.bind(this);
   }
 
+  componentWillMount(){
+    this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipe").id)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.isFavorited !== this.props.isFavorited) {
+      this.setState({isFavorited: nextProps.isFavorited})
+    }
+  }
+
   finishCooking(){
+    this.props.saveIsFavorited(
+      this.props.userID,
+      this.state.recipeID,
+      this.state.isFavorited
+    )
+    this.props.saveIsRecent(this.props.userID, this.state.recipeID)
+
     this.props.navigation.navigate('Finished', {
       recipeID: this.state.recipe.id,
       ingredientsToRemove: this.props.navigation.getParam("ingredientsToRemove")
@@ -147,8 +162,13 @@ class CookNow extends React.Component {
             </View>
             <View style={styles.favorite}>
               <Icon
-                name='favorite'
+                name={(this.state.isFavorited) ? 'favorite' : 'favorite-border'}
                 color='#17ba6b'
+                onPress={()=>{
+                  this.setState({
+                    isFavorited: !this.state.isFavorited
+                  })
+                }}
               />
             </View>
           </View>
@@ -174,9 +194,7 @@ class CookNow extends React.Component {
             initialLayout={{ width: Dimensions.get('window').width }}
           />
           <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {styles.button}>
-            <TouchableOpacity
-              onPress={this.onSignUpPressed}
-            >
+            <TouchableOpacity>
               <Text style = {styles.buttonText} onPress={this.finishCooking}>
                 FINISHED!
               </Text>
@@ -284,4 +302,25 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null,  null)(CookNow)
+const mapStateToProps = state => {
+  return {
+    userID: state.userInfo.userID,
+    isFavorited: state.favoritedTracker.isFavorited
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getIsFavorited: (userID, recipeID) => {
+      dispatch(getIsFavorited(userID, recipeID))
+    },
+    saveIsFavorited: (userID, recipeID, isFavorited) => {
+      saveIsFavorited(userID, recipeID, isFavorited)
+    },
+    saveIsRecent: (userID, recipeID) => {
+      saveIsRecent(userID, recipeID)
+    },
+  }
+}
+
+export default connect(mapStateToProps,  mapDispatchToProps)(CookNow)
