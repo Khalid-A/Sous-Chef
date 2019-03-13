@@ -15,8 +15,7 @@ import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
-import { TabView, SceneMap } from 'react-native-tab-view';
-import { TabBar } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
 import { setIngredientsToRemove } from '../redux/actions/PantryAction';
 
