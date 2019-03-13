@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   StyleSheet,
   Image,
   Text,
@@ -14,8 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
-import { TabView, SceneMap } from 'react-native-tab-view';
-import { TabBar } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
 import { getIsFavorited, saveIsFavorited, saveIsRecent } from '../redux/actions/FavoritedAction';
 
@@ -34,7 +33,7 @@ class CookNow extends React.Component {
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
-            fontSize: 30,
+            fontSize: 25,
             textAlign: 'left',
         },
     }
@@ -131,14 +130,15 @@ class CookNow extends React.Component {
 
   render() {
     if(this.state.recipe){
+      console.log("cooknow",this.state)
       return (
         <View style={styles.container}>
-          <Image 
+          <Image
             source={
               this.state.recipe.images.trim() == "" ?
               require("../assets/sousChefLogo.png") :
               {uri: this.state.recipe.images}
-            } 
+            }
             style={[styles.image]}
           />
           <Text style={styles.title}>{this.state.recipe.title}</Text>
@@ -205,7 +205,7 @@ class CookNow extends React.Component {
     }
     return null;
   }
-  
+
 }
 
 const styles = StyleSheet.create({
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   recipeStats: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     paddingBottom: 0,
     marginBottom: 0,
     borderBottomColor: BACKGROUND_COLOR,

@@ -4,7 +4,7 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList, 
+    FlatList,
     TouchableOpacity,
     SafeAreaView,
     StatusBar,
@@ -34,7 +34,8 @@ class DiscoverRecipes extends React.Component {
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
-            fontSize: 35
+            fontSize: 25,
+            textAlign: 'left',
         },
         drawerLabel: 'Discover'
     }

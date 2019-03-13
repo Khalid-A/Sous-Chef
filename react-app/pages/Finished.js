@@ -24,9 +24,9 @@ class Finished extends React.Component {
       </LinearGradient>
     ),
     headerTitleStyle: {
-      fontFamily: DEFAULT_FONT,
-      fontSize: 30,
-      textAlign: 'left',
+        fontFamily: DEFAULT_FONT,
+        fontSize: 25,
+        textAlign: 'left',
     },
   }
   constructor(props) {
@@ -72,7 +72,7 @@ class Finished extends React.Component {
     if (this.state.rating !== null) {
       addRatingForRecipe(this.props.navigation.getParam("recipeID"), parseFloat(this.state.rating), this.props.userID);
     }
-    
+
     this.props.navigation.navigate('Pantry');
   }
 

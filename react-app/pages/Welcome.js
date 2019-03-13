@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, SafeAreaView, StatusBar, } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { loginExistingUser } from './../redux/actions/AuthenticationAction';
@@ -7,10 +7,20 @@ import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
 
 class Welcome extends React.Component {
-    static navigationOptions = {
-        header: null,
-        headerVisible: false,
-    }
+  static navigationOptions = {
+    header: null,
+    headerVisible: false,
+    headerTransparent:false,
+    headerBackground:(
+      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+        <SafeAreaView style={{flex:1 }}>
+          <StatusBar barStyle="light-content"/>
+        </SafeAreaView>
+      </LinearGradient>
+    ),
+
+  }
+
     constructor(props) {
         super(props);
         this.state = {};

@@ -1,6 +1,6 @@
 import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from '../common/SousChefColors'
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, TouchableOpacity, Dimensions} from 'react-native';
+import { StyleSheet, Image, Text, View, TouchableOpacity, Dimensions, SafeAreaView, StatusBar,} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
@@ -8,6 +8,17 @@ import { DEFAULT_FONT } from './../common/SousChefTheme';
 import SousChefTextInput from './../components/SousChefTextInput'
 
 export class Login extends Component {
+  static navigationOptions = {
+    headerTransparent:false,
+    headerBackground:(
+      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+        <SafeAreaView style={{flex:1 }}>
+          <StatusBar barStyle="light-content"/>
+        </SafeAreaView>
+      </LinearGradient>
+    ),
+
+  }
 
     constructor(props) {
         super(props);
@@ -67,7 +78,7 @@ export class Login extends Component {
                             LOGIN
                         </Text>
                     </TouchableOpacity>
-                    
+
                     <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
                 </LinearGradient>
             </View>

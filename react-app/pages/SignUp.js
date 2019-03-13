@@ -1,6 +1,6 @@
 import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from './../common/SousChefColors'
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import { StyleSheet, Image, Text, View, ScrollView, Dimensions, TouchableOpacity, SafeAreaView, StatusBar,} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { RkButton } from 'react-native-ui-kitten';
 import { createUser } from './../redux/actions/AuthenticationAction';
@@ -8,6 +8,17 @@ import { connect } from 'react-redux';
 import SousChefTextInput from './../components/SousChefTextInput'
 
 export class SignUp extends Component {
+  static navigationOptions = {
+    headerTransparent:false,
+    headerBackground:(
+      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+        <SafeAreaView style={{flex:1 }}>
+          <StatusBar barStyle="light-content"/>
+        </SafeAreaView>
+      </LinearGradient>
+    ),
+
+  }
 
     constructor(props) {
         super(props);
