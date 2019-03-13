@@ -136,8 +136,8 @@ const styles = StyleSheet.create({
         flexDirection: "column"
     },
     sectionHeader: {
-        fontFamily: "Avenir Next",
-        fontSize: 25,
+        fontFamily: DEFAULT_FONT,
+        fontSize: 20,
         margin: 10
     },
     sectionContainer: {
