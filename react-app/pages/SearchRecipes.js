@@ -3,7 +3,7 @@ import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefCol
 import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import SousChefCard from '../components/SousChefCard';
+import SousChefCardSearch from '../components/SousChefCardSearch';
 import SousChefTextInput from './../components/SousChefTextInput';
 import { beginSearchRecipesFetch, beginRandomRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
@@ -70,18 +70,18 @@ class SearchRecipes extends React.Component {
                     <SousChefTextInput
                         placeholder={'bread'}
                         label={'Search:'}
-                        onChangeText={searchQuery => this.setState({ 
+                        onChangeText={searchQuery => this.setState({
                             searchQuery: searchQuery
                         })}
                         value={this.state.searchQuery}
                     />
-                    <ActionButton 
-                        buttonColor={BUTTON_BACKGROUND_COLOR} 
+                    <ActionButton
+                        buttonColor={BUTTON_BACKGROUND_COLOR}
                         onPress={() => {this.searchPressed()}}
                         renderIcon={active => {
                             return (
-                                <Icon 
-                                    name="md-search" 
+                                <Icon
+                                    name="md-search"
                                     style={styles.actionButtonIcon}
                                 />
                             );
@@ -90,7 +90,7 @@ class SearchRecipes extends React.Component {
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>
-                        {this.state.displaySearchText} 
+                        {this.state.displaySearchText}
                     </Text>
                     <FlatList
                         style={[styles.section]}
@@ -100,7 +100,7 @@ class SearchRecipes extends React.Component {
                             return (<TouchableOpacity onPress={() => {
                                 this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
                             }}>
-                                <SousChefCard
+                                <SousChefCardSearch
                                     headerText={item.title}
                                     bodyText={
                                         "Time: " +
