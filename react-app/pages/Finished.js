@@ -7,13 +7,7 @@ import { DEFAULT_FONT } from '../common/SousChefTheme';
 import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
 import { removeFromPantry } from '../redux/actions/PantryAction';
 import { addRatingForRecipe } from '../redux/actions/RecipeAction';
-import {
-  getIsFavorited,
-  saveIsFavorited,
-  saveIsRecent,
-} from '../redux/actions/FavoritedAction';
-import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { saveIsRecent } from '../redux/actions/FavoritedAction';
 import StarRating from 'react-native-star-rating';
 
 class Finished extends React.Component {
@@ -62,15 +56,7 @@ class Finished extends React.Component {
         this.props.navigation.getParam("ingredientsToRemove")
       ),
     });
-    this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipeID"))
   }
-
-  componentWillReceiveProps(nextProps){
-    if (nextProps.isFavorited !== this.props.isFavorited) {
-      this.setState({isFavorited: nextProps.isFavorited})
-    }
-  }
-
 
   removeItem = (ingredientIndex) => {
     delete this.state.ingredients[ingredientIndex];
@@ -80,11 +66,6 @@ class Finished extends React.Component {
   }
 
   updatePantry() {
-    this.props.saveIsFavorited(
-      this.props.userID,
-      this.state.recipeID,
-      this.state.isFavorited
-    )
     this.props.saveIsRecent(this.props.userID, this.state.recipeID)
 
     this.props.removeFromPantry(this.props.userID, this.state.ingredients)
@@ -151,30 +132,6 @@ class Finished extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <ActionButton
-          buttonColor={BUTTON_BACKGROUND_COLOR}
-          onPress={() => {
-            this.setState({
-              isFavorited: !this.state.isFavorited
-            })
-          }}
-          renderIcon={() => {
-            if (this.state.isFavorited)
-                return (
-                    <Icon
-                        name="md-heart"
-                        style={styles.actionButtonIcon}
-                    />
-                );
-            else
-                return (
-                    <Icon
-                        name="md-heart-empty"
-                        style={styles.actionButtonIcon}
-                    />
-                );
-          }}
-          />
       </View>
     );
   }
@@ -230,18 +187,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userID: state.userInfo.userID,
-    isFavorited: state.favoritedTracker.isFavorited
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getIsFavorited: (userID, recipeID) => {
-      dispatch(getIsFavorited(userID, recipeID))
-    },
-    saveIsFavorited: (userID, recipeID, isFavorited) => {
-      saveIsFavorited(userID, recipeID, isFavorited)
-    },
     saveIsRecent: (userID, recipeID) => {
       saveIsRecent(userID, recipeID)
     },

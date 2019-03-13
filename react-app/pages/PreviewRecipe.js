@@ -14,8 +14,6 @@ import { saveIsRecent } from '../redux/actions/FavoritedAction';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
-
-
 const recipesRef = firebase.firestore().collection('test_recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
@@ -614,4 +612,13 @@ changeServings = (text) => {
         }
       }
 
-      export default connect(mapStateToProps, mapDispatchToProps)(PreviewRecipe);
+
+const mapDispatchToProps = dispatch => {
+    return {
+      saveIsRecent: (userID, recipeID) => {
+        saveIsRecent(userID, recipeID)
+      },
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreviewRecipe);
