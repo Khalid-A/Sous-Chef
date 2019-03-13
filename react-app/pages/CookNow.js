@@ -36,7 +36,7 @@ class CookNow extends React.Component {
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
-            fontSize: 30,
+            fontSize: 25,
             textAlign: 'left',
         },
     }

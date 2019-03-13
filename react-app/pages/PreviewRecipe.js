@@ -5,13 +5,15 @@ import {
   ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions, ScrollView,  SafeAreaView,
+  StatusBar,} from 'react-native';
 import firebase from 'react-native-firebase';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { connect } from 'react-redux';
 import { saveIsRecent } from '../redux/actions/FavoritedAction';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
+import { Icon } from 'react-native-elements';
 
 
 const recipesRef = firebase.firestore().collection('test_recipes');
@@ -23,14 +25,19 @@ class PreviewRecipe extends React.Component {
     title: "Preview Recipe",
     headerVisible: true,
     headerTintColor: "white",
-    headerLeft: null,
-    headerStyle: {
-      backgroundColor: BUTTON_BACKGROUND_COLOR,
-    },
+    headerTransparent:false,
+    headerBackground:(
+      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+        <SafeAreaView style={{flex:1 }}>
+          <StatusBar barStyle="light-content"/>
+        </SafeAreaView>
+      </LinearGradient>
+    ),
     headerTitleStyle: {
-      fontFamily: "Avenir Next",
-      fontSize: 35
-    }
+        fontFamily: DEFAULT_FONT,
+        fontSize: 25,
+        textAlign: 'left',
+    },
   }
 
   constructor(props) {
@@ -257,7 +264,6 @@ calculateHaveIngredients = () => {
         dontHaveIngredients.push(arr);
       }
     }
-    console.warn(dontHaveIngredients);
     this.setState({
       haveIngredients: haveIngredients,
       dontHaveIngredients: dontHaveIngredients
@@ -307,7 +313,6 @@ changeServings = (text) => {
     }
 
     FirstRoute(){
-      console.warn(this.state.dontHaveIngredients);
       return (
         <ScrollView style={{flex:1, marginBottom: 0,}}>
           <SwipeListView
@@ -339,7 +344,7 @@ changeServings = (text) => {
               <TouchableOpacity
                 style={[styles.backRightBtn, styles.backRightBtnRight,
                   {
-                    backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : "purple"
+                    backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : {BUTTON_BACKGROUND_COLOR}
                   }]}
                   onPress={ _ => {
                     this.addIngrToGroceryList(data.index);
@@ -409,47 +414,30 @@ changeServings = (text) => {
               />
           </ScrollView>
         );}
-
-        getFirst(){
-          return <View>
-            <Text>HELLO FROM 1</Text>
-          </View>
-        }
-
-        getSecond(){
-          return <View>
-            <Text>HELLO FROM 2</Text>
-          </View>        }
-
-
         render() {
-          console.warn("Rerendering");
-          console.warn(this.state.dontHaveIngredients);
           if (this.state.recipe && this.state.recipe.ingredients) {
             return (
               <View style={[styles.container]}>
-                <Text style={[styles.sectionHeader]}>
+                <Text style={[styles.title]}>
                   {this.state.recipe.title ? this.state.recipe.title : "<Recipe Name>"}
                 </Text>
+                <View style={styles.servings}>
+                  <Icon
+                    name='restaurant'
+                    color='#17ba6b' />
+                  <Text style={{color:BUTTON_BACKGROUND_COLOR, fontFamily:DEFAULT_FONT, marginRight: 20, marginLeft: 20, fontSize:18,width:60}}>
+                      Serves:
+                    </Text>
+                    <TextInput
+                      style={{width:60, fontSize: 14, borderBottomColor: 'gray', borderBottomWidth: 0.5, paddingLeft:20,}}
+                      keyboardType={"number-pad"}
+                      maxLength={3}
+                      enablesReturnKeyAutomatically={true}
+                      onChangeText={(text) => this.changeServings(text)}
+                      defaultValue={this.state.recipe.servings.toString()}
+                      />
 
-                <View style={[styles.servings]}>
-                  <Text style={[styles.serves]}>
-                    Serves:
-                  </Text>
-                  <TextInput
-                    style={{height: 40, fontSize: 14, borderColor: 'gray', borderWidth: 1}}
-                    keyboardType={"number-pad"}
-                    maxLength={3}
-                    enablesReturnKeyAutomatically={true}
-                    onChangeText={(text) => this.changeServings(text)}
-                    defaultValue={this.state.recipe.servings.toString()}
-                    />
                 </View>
-
-                <Text style={[styles.ingredientsLabel]}>
-                  You don&apos;t have:
-                </Text>
-
                 <TabView
                   style={{flex: 1,}}
                   navigationState={{
@@ -521,48 +509,46 @@ changeServings = (text) => {
           flexDirection: "column",
           paddingBottom: 10
         },
-        section: {
-          flex: 1,
-          flexDirection: "row"
+        title: {
+          fontSize: 30,
+          fontFamily: DEFAULT_FONT,
+          margin: 5,
+          fontWeight: 'bold',
+          color: BUTTON_BACKGROUND_COLOR,
+          alignSelf:'center'
+
         },
-        sectionHeader: {
-          fontFamily: "Avenir Next",
-          fontSize: 25,
-          margin: 10
-        },
-        sectionContainer: {
-          flex: 1,
-        },
-        ingredientQuantity: {
-          fontWeight: "bold",
-          fontSize: 10
+        servings: {
+          width: Dimensions.get('window').width/3,
+          height: 60,
+          padding:15,
+          alignItems: 'center',
+          flexDirection: 'row',
+        //  justifyContent:'center',
         },
         ingredientName: {
+          fontSize: 16,
+          fontFamily: DEFAULT_FONT,
+          paddingLeft:10,
         },
         ingredientSubtext: {
-          fontSize: 11
+          fontSize: 11,
+          fontFamily: DEFAULT_FONT,
+          paddingLeft:10,
+          color: BUTTON_BACKGROUND_COLOR,
         },
-        ingredientsLabel: {
-          fontWeight: "bold",
-        },
-        imageContainer: {
-          justifyContent: 'center',
-          alignItems: 'center'
-        },
-        ingredientFlatList: {
-          height: 500
-        },
-
         list: {
           flex: 1,
           flexDirection: "column",
           width: "100%"
         },
         listItem: {
-          flex: 1,
-          height: 50,
-          backgroundColor: BACKGROUND_COLOR,
-          paddingLeft: 4
+            flex: 1,
+            height: 50,
+            borderColor: "lightgrey",
+            backgroundColor: 'white',
+            borderBottomWidth: 0.25,
+            justifyContent:'center',
         },
         text: {
           fontFamily: DEFAULT_FONT,
@@ -578,22 +564,6 @@ changeServings = (text) => {
           top: 0,
           width: 75
         },
-        backRightBtnRight: {
-          backgroundColor: 'purple',
-          left: 0
-        },
-        backRightBtnLeft: {
-          backgroundColor: 'purple',
-          right: 0
-        },
-        backLeftBtnRight: {
-          backgroundColor: 'green',
-          left: 75
-        },
-        backLeftBtnLeft: {
-          backgroundColor: 'green',
-          right: 75
-        },
         rowBack: {
           alignItems: 'center',
           backgroundColor: '#DDD',
@@ -602,11 +572,13 @@ changeServings = (text) => {
           justifyContent: 'space-between',
           paddingLeft: 15,
         },
-        buttons: {
-          width: "100%",
-          flexDirection: "row",
-          alignItems: 'center',
-          justifyContent: 'center'
+        backRightBtnRight: {
+          backgroundColor: '#ffc100',
+          left: 0
+        },
+        backLeftBtnRight: {
+          backgroundColor: 'green',
+          left: 75
         },
         buttonText: {
           fontSize: 16,
