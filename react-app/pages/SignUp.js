@@ -56,7 +56,7 @@ export class SignUp extends Component {
                     value={this.state.password}
                 />
               <TouchableOpacity style = {styles.button}
-                    onPress={this.hanglesSignUp}
+                    onPress={this.handleSignUp}
                 ><Text style ={styles.buttonText}>SIGN UP</Text></TouchableOpacity>
                 <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
                 </LinearGradient>
