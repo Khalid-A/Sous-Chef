@@ -1,8 +1,8 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
-import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR, DEFAULT_FONT} from '../common/SousChefColors';
+import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-elements';
 import SousChefCardSearch from '../components/SousChefCardSearch';
 import SousChefTextInput from './../components/SousChefTextInput';
 import { beginSearchRecipesFetch, beginRandomRecipesFetch } from '../redux/actions/RecipeAction';
@@ -67,35 +67,31 @@ class SearchRecipes extends React.Component {
     render() {
         return (
             <View style={[styles.container]}>
-                <View>
-                  <RkTextInput
-                          rkType="clear"
-                          placeholder={'chicken'}
-                          label={'Search:'}
-                          onChangeText={searchQuery => this.setState({
-                              searchQuery: searchQuery
-                          })}
-                          labelStyle={styles.text}
-                          style={styles.textInput}
-                          autoCapitalize="none"
-                          value={this.props.value}
-                          inputStyle={{
-                            color: '#1d945b',
-                          }}
-                  />
-                    <ActionButton
-                        buttonColor={BUTTON_BACKGROUND_COLOR}
-                        onPress={() => {this.searchPressed()}}
-                        renderIcon={active => {
-                            return (
-                                <Icon
-                                    name="md-search"
-                                    style={styles.actionButtonIcon}
-                                />
-                            );
+              <View style={{margin:5, alignItems:'center', flexDirection:'row', width: Dimensions.get('window').width - 70}}>
+                <RkTextInput
+                        rkType="clear"
+                        placeholder={'chicken'}
+                        label={'Search:'}
+                        onChangeText={searchQuery => this.setState({
+                            searchQuery: searchQuery
+                        })}
+                        labelStyle={styles.textInputLabel}
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        value={this.props.value}
+                        inputStyle={{
+                          color: '#1d945b',
                         }}
-                    />
-                </View>
+                />
+                <Icon
+                    name="search"
+                    style={styles.actionButtonIcon}
+                    onPress={() => {this.searchPressed()}}
+                    raised = {true}
+                    color={BUTTON_BACKGROUND_COLOR}
+                    reverseColor={'white'}
+                />
+              </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>
                         {this.state.displaySearchText}
@@ -150,11 +146,15 @@ const styles = StyleSheet.create({
     actionButtonIcon: {
         fontSize: 20,
         height: 22,
-        color: 'white',
-    },
-    text: {
-        fontSize: 15,
         color: BUTTON_BACKGROUND_COLOR,
+        flex: 2,
+    },
+    textInputLabel: {
+      fontSize: 20,
+      fontFamily: DEFAULT_FONT,
+      // margin: 5,
+      fontWeight: 'bold',
+      color: BUTTON_BACKGROUND_COLOR,
     },
     textInput: {
         borderBottomColor: BACKGROUND_COLOR,
