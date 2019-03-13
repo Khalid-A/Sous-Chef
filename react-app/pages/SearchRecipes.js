@@ -7,6 +7,7 @@ import SousChefCardSearch from '../components/SousChefCardSearch';
 import SousChefTextInput from './../components/SousChefTextInput';
 import { beginSearchRecipesFetch, beginRandomRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
+import { RkTextInput } from 'react-native-ui-kitten';
 
 class SearchRecipes extends React.Component {
     static navigationOptions = {
@@ -67,14 +68,21 @@ class SearchRecipes extends React.Component {
         return (
             <View style={[styles.container]}>
                 <View>
-                    <SousChefTextInput
-                        placeholder={'bread'}
-                        label={'Search:'}
-                        onChangeText={searchQuery => this.setState({
-                            searchQuery: searchQuery
-                        })}
-                        value={this.state.searchQuery}
-                    />
+                  <RkTextInput
+                          rkType="clear"
+                          placeholder={'chicken'}
+                          label={'Search:'}
+                          onChangeText={searchQuery => this.setState({
+                              searchQuery: searchQuery
+                          })}
+                          labelStyle={styles.text}
+                          style={styles.textInput}
+                          autoCapitalize="none"
+                          value={this.props.value}
+                          inputStyle={{
+                            color: '#1d945b',
+                          }}
+                  />
                     <ActionButton
                         buttonColor={BUTTON_BACKGROUND_COLOR}
                         onPress={() => {this.searchPressed()}}
@@ -122,12 +130,11 @@ class SearchRecipes extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        backgroundColor: BACKGROUND_COLOR,
-        paddingBottom: 25
-    },
+  container: {
+      flex: 1,
+      flexDirection: "column",
+      paddingBottom: 10
+  },
     section: {
         flex: 1,
         flexDirection: "column"
@@ -144,6 +151,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         height: 22,
         color: 'white',
+    },
+    text: {
+        fontSize: 15,
+        color: BUTTON_BACKGROUND_COLOR,
+    },
+    textInput: {
+        borderBottomColor: BACKGROUND_COLOR,
+        borderBottomWidth: 1,
+        color: 'red',
     },
 })
 

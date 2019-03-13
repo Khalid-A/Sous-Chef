@@ -30,15 +30,18 @@ export default class SousChefCardSearch extends React.Component {
 
 const styles = StyleSheet.create({
     card: {
+        flexDirection:'row',
         flex: 1,
-        margin: 3,
-        width: Dimensions.get('window').width/2,
-        height: Dimensions.get('window').height/4  ,
+        margin: 5,
+        width: Dimensions.get('window').width -10,
+        height: Dimensions.get('window').height/5.5  ,
         borderRadius: 3,
         backgroundColor: "white",
         padding:0,
         overflow: 'hidden',
         borderColor: 'transparent',
+        alignItems:'center',
+        justifyContent:'center',
     },
     cardHeader: {
         margin: 0,
@@ -59,6 +62,7 @@ const styles = StyleSheet.create({
     cardImage: {
         flex: 2,
         borderRadius: 3,
+        height: Dimensions.get('window').height/5.5,
         overflow: 'hidden',
     }
 })
