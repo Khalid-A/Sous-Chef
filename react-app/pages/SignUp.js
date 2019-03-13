@@ -56,7 +56,7 @@ export class SignUp extends Component {
                     value={this.state.password}
                 />
               <TouchableOpacity style = {styles.button}
-                    onPress={this.handleLogin}
+                    onPress={this.handleSignUp}
                 ><Text style ={styles.buttonText}>SIGN UP</Text></TouchableOpacity>
                 <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
                 </LinearGradient>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         backgroundColor: BACKGROUND_COLOR,
     },
     errorMessage: {
-        color: DARK_GREEN_BACKGROUND,
+        color: 'white',
         borderTopWidth: 20,
         borderLeftWidth: 20,
         borderRightWidth: 20,

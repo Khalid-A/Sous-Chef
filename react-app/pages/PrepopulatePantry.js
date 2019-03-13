@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-    BUTTON_BACKGROUND_COLOR, 
+    BUTTON_BACKGROUND_COLOR,
     BACKGROUND_COLOR,
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView, StatusBar,  } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { beginPantryFetch, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
 import {DEFAULT_FONT} from '../common/SousChefTheme';
@@ -18,8 +19,8 @@ import firebase from 'react-native-firebase';
 
 
 const defaultState = {
-    addDialogVisible : false, 
-    newIngredient: "", 
+    addDialogVisible : false,
+    newIngredient: "",
     newIngredientUnit: "",
     pickedValue: [{value: "1", key: 1}, ""],
     pickerVisible: false,
@@ -35,16 +36,21 @@ class PrepopulatePantry extends React.Component {
         title:"Pantry Staples",
         headerVisible: true,
         headerTintColor: "white",
-        headerLeft: null,
-        headerStyle: {
-            backgroundColor: BUTTON_BACKGROUND_COLOR,
-        },
+        headerTransparent:false,
+        headerBackground:(
+          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+            <SafeAreaView style={{flex:1 }}>
+              <StatusBar barStyle="light-content"/>
+            </SafeAreaView>
+          </LinearGradient>
+        ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
-            fontSize: 35
+            fontSize: 25,
+            textAlign: 'left',
         },
     }
-    
+
     constructor(props) {
         super(props);
         this.state = defaultState;
@@ -71,7 +77,7 @@ class PrepopulatePantry extends React.Component {
     editItem = () => {
         if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
             editPantryItem(
-                this.state.editIngredient, 
+                this.state.editIngredient,
                 parseInt(this.state.pickedValue[0].value),
                 this.props.userID
             );
@@ -95,7 +101,7 @@ class PrepopulatePantry extends React.Component {
 			rowMap[rowKey].closeRow();
 		}
     }
-    
+
     fetchIngredientData(ingredient, callback) {
         firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
@@ -154,20 +160,20 @@ class PrepopulatePantry extends React.Component {
                     }}
                     renderHiddenItem={ (data, rowMap) => (
                         <View style={styles.rowBack}>
-                            <TouchableOpacity 
-                                style={[styles.backRightBtn, styles.backRightBtnLeft]} 
+                            <TouchableOpacity
+                                style={[styles.backRightBtn, styles.backRightBtnLeft]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
                                     this.fetchIngredientData(data.item.title, () => {
                                         this.setState(previousState => {
                                             var roundedAmount = parseInt(parseFloat(data.item.amount));
                                             return {
-                                                editIngredient: data.item.title, 
+                                                editIngredient: data.item.title,
                                                 pickedValue: [
                                                     {
-                                                        key: roundedAmount, 
+                                                        key: roundedAmount,
                                                         value: roundedAmount.toString()
-                                                    }, 
+                                                    },
                                                     previousState.pickedValue[1]
                                                 ]
                                             }
@@ -181,8 +187,8 @@ class PrepopulatePantry extends React.Component {
                             >
                                 <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={[styles.backRightBtn, styles.backRightBtnRight]} 
+                            <TouchableOpacity
+                                style={[styles.backRightBtn, styles.backRightBtnRight]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
                                     removePantryItem(data.item.title, this.props.userID);
@@ -197,19 +203,19 @@ class PrepopulatePantry extends React.Component {
                     leftOpenValue={75}
                 />
 
-                <ActionButton 
-                    buttonColor={BUTTON_BACKGROUND_COLOR} 
+                <ActionButton
+                    buttonColor={BUTTON_BACKGROUND_COLOR}
                     onPress={() => {this.props.navigation.navigate('DiscoverRecipes');}}
                     renderIcon={active => {
                         return (
-                            <Icon 
-                                name="md-arrow-round-forward" 
+                            <Icon
+                                name="md-arrow-round-forward"
                                 style={styles.actionButtonIcon}
                             />
                         );
                     }}
                 />
-                
+
                 <RkPicker
                     title='Select Amount'
                     data={(() => {
@@ -303,13 +309,13 @@ class PrepopulatePantry extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        backgroundColor: BACKGROUND_COLOR,
-        paddingBottom: 25
-    },
+  container: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      backgroundColor: 'white',
+      paddingBottom: 25
+  },
     actionButtonIcon: {
         fontSize: 20,
         height: 22,
@@ -322,71 +328,80 @@ const styles = StyleSheet.create({
     popupHeader: {
         fontFamily: DEFAULT_FONT,
         fontSize: 20,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        padding: 5,
     },
     header: {
         fontFamily: DEFAULT_FONT,
-        fontSize: 25,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        fontSize: 20,
         margin: 10,
     },
     headerContainer: {
         borderColor: "lightgrey",
-        borderBottomWidth: 2
+        borderBottomWidth: 0.5
     },
     listItem: {
         flex: 1,
         height: 50,
         borderColor: "lightgrey",
-        backgroundColor: BACKGROUND_COLOR,
-        borderBottomWidth: 2
+        backgroundColor: 'white',
+        borderBottomWidth: 0.25,
+        justifyContent:'center',
     },
     text: {
         fontFamily: DEFAULT_FONT,
-        fontSize: 15,
-        color: BACKGROUND_COLOR
+        fontWeight: 'bold',
+        fontSize: 13,
+        color: 'white',
     },
     dialogButtonContainer: {
-        backgroundColor: BUTTON_BACKGROUND_COLOR,
+        backgroundColor: '#1d945b'
     },
     dialogButtonText: {
         color: "white",
-        fontFamily: DEFAULT_FONT
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
     },
     dialogTitleContainer: {
-        backgroundColor: BUTTON_BACKGROUND_COLOR
+        backgroundColor: '#1d945b'
     },
     dialogTitleText: {
         color: "white",
         fontFamily: DEFAULT_FONT,
-        fontSize: 25
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     rowBack: {
-		alignItems: 'center',
-		backgroundColor: '#DDD',
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingLeft: 15,
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
     },
     backRightBtn: {
-		alignItems: 'center',
-		bottom: 0,
-		justifyContent: 'center',
-		position: 'absolute',
-		top: 0,
-		width: 75
-	},
-	backRightBtnLeft: {
-		backgroundColor: 'green',
-		right: 0
-	},
-	backRightBtnRight: {
-		backgroundColor: 'red',
-		left: 0
+      alignItems: 'center',
+      bottom: 0,
+      justifyContent: 'center',
+      position: 'absolute',
+      top: 0,
+      width: 75
+    },
+    backRightBtnLeft: {
+      backgroundColor: BUTTON_BACKGROUND_COLOR,
+      right: 0
+    },
+    backRightBtnRight: {
+        backgroundColor: 'red',
+        left: 0
     },
     backLeftBtnRight: {
-        backgroundColor: 'purple',
-		left: 75
-    }
+        backgroundColor: '#ffc100',
+        left: 75
+    },
 })
 
 const mapStateToProps = state => {

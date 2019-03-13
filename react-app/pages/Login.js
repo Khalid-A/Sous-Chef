@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         backgroundColor: BACKGROUND_COLOR,
     },
     errorMessage: {
-        color: DARK_GREEN_BACKGROUND,
+        color: 'white',
         borderTopWidth: 20,
         borderLeftWidth: 20,
         borderRightWidth: 20,
