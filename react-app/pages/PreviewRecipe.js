@@ -611,14 +611,4 @@ changeServings = (text) => {
           },
         }
       }
-
-
-const mapDispatchToProps = dispatch => {
-    return {
-      saveIsRecent: (userID, recipeID) => {
-        saveIsRecent(userID, recipeID)
-      },
-    }
-  }
-
 export default connect(mapStateToProps, mapDispatchToProps)(PreviewRecipe);
