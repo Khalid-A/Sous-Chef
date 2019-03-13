@@ -8,6 +8,7 @@ import SousChefTextInput from './../components/SousChefTextInput';
 import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import { RkTextInput } from 'react-native-ui-kitten';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
@@ -55,14 +56,22 @@ class DiscoverRecipes extends React.Component {
     render() {
         return (
             <View style={[styles.container]}>
-                <View>
-                    <SousChefTextInput
-                        placeholder={'chicken'}
-                        label={'Search:'}
-                        onChangeText={searchQuery => this.setState({
-                            searchQuery: searchQuery
-                        })}
-                    />
+                <View style={{margin:5, alignItems:'center', justifyContent:'center',}}>
+                  <RkTextInput
+                          rkType="clear"
+                          placeholder={'chicken'}
+                          label={'Search:'}
+                          onChangeText={searchQuery => this.setState({
+                              searchQuery: searchQuery
+                          })}
+                          labelStyle={styles.text}
+                          style={styles.textInput}
+                          autoCapitalize="none"
+                          value={this.props.value}
+                          inputStyle={{
+                            color: '#1d945b',
+                          }}
+                  />
                     <ActionButton
                         buttonColor={BUTTON_BACKGROUND_COLOR}
                         onPress={() => {this.searchPressed()}}
@@ -191,6 +200,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         height: 22,
         color: 'white',
+    },
+    text: {
+        fontSize: 15,
+        color: BUTTON_BACKGROUND_COLOR,
+    },
+    textInput: {
+        borderBottomColor: BACKGROUND_COLOR,
+        borderBottomWidth: 1,
+        color: 'red',
     },
 })
 
