@@ -11,8 +11,8 @@ const MAX_NUM_READY_TO_GO = 20;
 // Number of recipes to query at a time
 const DOCS_PER_PAGE = 50;
 
-// Number of seconds in an hour
-const MS_IN_HOUR = 1000 * 60 * 60;
+// Number of seconds in five minutes
+const MS_IN_FIVE_MIN = 1000 * 60 * 5;
 
 /**
  * Firebase collections
@@ -87,7 +87,6 @@ var filterPrevReadyRecipes = (userID, ingredients) => {
 			var recipeIDs = [];
 
 			querySnapshot.forEach((doc) => {
-				// var data = doc.data();
 				var recipeID = doc.id;
 				if (recipeID === null || recipeID === undefined || recipeID === "") {
 					console.warn(doc.id);
@@ -216,7 +215,7 @@ var isTooSoon = (taskObject, now) => {
 	if (taskObject.lastEnded < taskObject.lastStarted) {
 		return true; // Last task has not ended
 	}
-	if (now < taskObject.lastEnded + MS_IN_HOUR) {
+	if (now < taskObject.lastEnded + MS_IN_FIVE_MIN) {
 		return true; // Not long enough since last task ended
 	}
 	return false;
@@ -232,7 +231,7 @@ exports.updateReadyToGoRecipes = functions.firestore
 			var timestamp = Date.now();
 			console.log("Pantry write event triggered at time", timestamp);
 			// Figure out whether to start job
-			var exit = false//isTooSoon(doc.data(), timestamp);
+			var exit = isTooSoon(doc.data(), timestamp);
 			if (exit) {
 				throw "Too soon to start job.";
 			}
