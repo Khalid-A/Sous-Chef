@@ -1,6 +1,6 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
-import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR, DEFAULT_FONT } from '../common/SousChefColors';
+import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity,SafeAreaView, StatusBar } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SousChefCard from '../components/SousChefCard';
