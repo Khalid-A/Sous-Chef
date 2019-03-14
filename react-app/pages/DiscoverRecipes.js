@@ -70,6 +70,7 @@ class DiscoverRecipes extends React.Component {
                           value={this.props.value}
                           inputStyle={{
                             color: '#1d945b',
+                            fontSize: 20,
                           }}
                   />
                   <Icon
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     textInput: {
         borderBottomColor: BACKGROUND_COLOR,
         borderBottomWidth: 1,
-        color: 'red',
+        // color: 'red',
     },
 })
 

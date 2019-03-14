@@ -437,6 +437,7 @@ changeServings = (text) => {
 
                 </View>
                 <TabView
+                  swipeEnabled={false}
                   style={{flex: 1,}}
                   navigationState={{
                     index: this.state.index,
@@ -551,7 +552,7 @@ changeServings = (text) => {
         text: {
           fontFamily: DEFAULT_FONT,
           fontSize: 15,
-          color: BACKGROUND_COLOR,
+          color: 'white',
           padding: 4
         },
         backRightBtn: {
