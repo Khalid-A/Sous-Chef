@@ -1,5 +1,6 @@
 import { BACKGROUND_COLOR } from '../common/SousChefColors'
 import React, { Component } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, Image, Text, View, ScrollView } from 'react-native';
 import { logoutUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
@@ -22,11 +23,11 @@ export class Logout extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.scrollContainer}>
             <View style={styles.container}>
-                <Image source={require('../assets/sousChefLogo.png')} style={[styles.logo]} resizeMode="contain" />
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+                </LinearGradient>
             </View>
-            </ScrollView>
         );
     }
 }
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
         width: 135,
     },
 });
-  
+
 const mapStateToProps = (state) => {
     return {
         userID: state.userInfo.userID
@@ -63,5 +64,5 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-    
+
 export default connect(mapStateToProps, mapDispatchToProps)(Logout)

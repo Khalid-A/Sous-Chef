@@ -1,29 +1,21 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, SafeAreaView, StatusBar } from 'react-native';
-import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
+import {
+    BUTTON_BACKGROUND_COLOR,
+    BACKGROUND_COLOR,
+    ACTION_BUTTON_COLOR
+} from '../common/SousChefColors'
+import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView, StatusBar,  } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { beginPantryFetch, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
+import {DEFAULT_FONT} from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
-import {
-    RkTextInput,
-    RkPicker,
-    RkButton
-} from 'react-native-ui-kitten';
-import Dialog, {
-    DialogFooter,
-    SlideAnimation,
-    DialogButton,
-    DialogTitle,
-    DialogContent
-} from 'react-native-popup-dialog';
+import { RkPicker } from 'react-native-ui-kitten';
 import convert from 'convert-units';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import firebase from 'react-native-firebase';
-import { addPantryItem } from '../redux/actions/PantryAction';
 
 
 const defaultState = {
@@ -35,23 +27,21 @@ const defaultState = {
     unconventionalUnits: false,
     units: [],
     standardUnit: "",
-    standardUnit: "",
     editIngredient: "",
     editPickerVisible: false
 };
 
-class GroceryList extends React.Component {
+class PrepopulatePantry extends React.Component {
     static navigationOptions = {
-        title:"Grocery List",
+        title:"Pantry Staples",
         headerVisible: true,
         headerTintColor: "white",
-        headerLeft: null,
         headerTransparent:false,
         headerBackground:(
           <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
-                    <StatusBar barStyle="light-content"/>
-                </SafeAreaView>
+            <SafeAreaView style={{flex:1 }}>
+              <StatusBar barStyle="light-content"/>
+            </SafeAreaView>
           </LinearGradient>
         ),
         headerTitleStyle: {
@@ -59,12 +49,15 @@ class GroceryList extends React.Component {
             fontSize: 25,
             textAlign: 'left',
         },
-        drawerLabel: 'Grocery List'
     }
 
     constructor(props) {
         super(props);
         this.state = defaultState;
+    }
+
+    componentWillMount() {
+        this.props.beginPantryFetch(this.props.userID);
     }
 
     measurementData = [
@@ -81,34 +74,9 @@ class GroceryList extends React.Component {
         convert().possibilities("mass").concat(convert().possibilities("volume"))
     ];
 
-    addItem = () => {
-        if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
-            addGroceryListItem(
-                this.state.newIngredient,
-                parseInt(this.state.pickedValue[0].value),
-                this.props.userID
-            );
-        } else {
-            var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
-            })[0].abbr;
-            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
-            })[0].abbr;
-            addGroceryListItem(
-                this.state.newIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
-                this.props.userID
-            );
-        }
-        this.setState({
-            addDialogVisible: false
-        })
-    }
-
     editItem = () => {
-        if (this.state.unconventionalUnits) {
-            editGroceryItem(
+        if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
+            editPantryItem(
                 this.state.editIngredient,
                 parseInt(this.state.pickedValue[0].value),
                 this.props.userID
@@ -120,7 +88,7 @@ class GroceryList extends React.Component {
             var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
                 return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
             })[0].abbr;
-            editGroceryItem(
+            editPantryItem(
                 this.state.editIngredient,
                 convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
                 this.props.userID
@@ -173,10 +141,6 @@ class GroceryList extends React.Component {
         });
     }
 
-    componentWillMount() {
-        this.props.beginGroceryListFetch(this.props.userID);
-    }
-
     render() {
         return (
             <View style={[styles.container]}>
@@ -185,7 +149,7 @@ class GroceryList extends React.Component {
                 </View>
                 <SwipeListView
                     useFlatList
-                    data={this.props.groceryList}
+                    data={this.props.pantry}
                     style={[styles.list]}
                     renderItem={({item}, rowMap) => {
                         return <View style={[styles.listItem]}>
@@ -221,184 +185,37 @@ class GroceryList extends React.Component {
                                     });
                                 }}
                             >
-                                <View style={{alignItems:'center',}}>
-                                    <Icon
-                                        name="md-create"
-                                        style={styles.actionButtonIcon}
-                                    />
-                                    <Text style={styles.text}>edit</Text>
-                                </View>
+                                <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backRightBtnRight]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
-                                    removeGroceryListItem(data.item.title, this.props.userID);
+                                    removePantryItem(data.item.title, this.props.userID);
                                 }}
                             >
-                                <View style={{alignItems:'center',}}>
-                                    <Icon
-                                        name="md-close"
-                                        style={styles.actionButtonIcon}
-                                    />
-                                    <Text style={styles.text}>delete</Text>
-                                </View>
-
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.backRightBtn, styles.backLeftBtnRight]}
-                                onPress={ _ => {
-                                    this.closeRow(rowMap, data.index);
-                                    firebase.firestore().collection("standardmappings").doc(data.item.title).get().then(ingredientSnapshot => {
-                                        if (ingredientSnapshot.exists) {
-                                            removeGroceryListItem(data.item.title, this.props.userID);
-                                            addPantryItem(data.item.title, data.item.amount, this.props.userID);
-                                        } else {
-                                            Alert.alert(
-                                                "Cannot Move to Pantry",
-                                                "Custom ingredients that are not used in any recipes in Sous Chef cannot be added to your pantry.",
-                                                [
-                                                    {
-                                                        text: "OK"
-                                                    }
-                                                ]
-                                            );
-                                        }
-                                    })
-                                }}
-                            >
-                                <Text style={styles.text}>move to pantry</Text>
+                                <Text style={styles.text}>delete</Text>
                             </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
-                    leftOpenValue={150}
+                    leftOpenValue={75}
                 />
+
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
+                    onPress={() => {this.props.navigation.navigate('DiscoverRecipes');}}
                     renderIcon={active => {
-                        if (!active)
-                            return (
-                                <Icon
-                                    name="md-create"
-                                    style={styles.actionButtonIcon}
-                                />
-                            );
-                        else
-                            return (
-                                <Icon
-                                    name="md-add"
-                                    style={styles.actionButtonIcon}
-                                />
-                            );
+                        return (
+                            <Icon
+                                name="md-arrow-round-forward"
+                                style={styles.actionButtonIcon}
+                            />
+                        );
                     }}
-                >
-                    <ActionButton.Item
-                        buttonColor={'#1d945b'}
-                        title="New Item"
-                        onPress={
-                        () => this.setState(
-                            {addDialogVisible: true}
-                        )
-                    }>
-                        <Icon
-                            name="md-add"
-                            style={styles.actionButtonIcon}
-                        />
-                    </ActionButton.Item>
-                    <ActionButton.Item
-                        buttonColor={'#ffc100'}
-                        title="Move All To Pantry"
-                        onPress={() => console.warn("move all to pantry tapped!")}
-                    >
-                        <Icon
-                            name="md-nutrition"
-                            style={styles.actionButtonIcon}
-                        />
-                    </ActionButton.Item>
-                </ActionButton>
-                <Dialog
-                    width={0.8}
-                    visible={this.state.addDialogVisible}
-                    onTouchOutside={() => {
-                        this.setState({ addDialogVisible: false });
-                    }}
-                    dialogTitle={
-                        <DialogTitle
-                            style={[styles.dialogTitleContainer]}
-                            textStyle={[styles.dialogTitleText]}
-                            title="Add Item"
-                        />
-                    }
-                    footer={
-                    <DialogFooter>
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Cancel"
-                            onPress={() => {
-                                this.setState({
-                                    addDialogVisible: false
-                                });
-                            }}
-                        />
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Add Item"
-                            onPress={
-                                () => {
-                                    this.addItem();
-                                }
-                            }
-                        />
-                    </DialogFooter>
-                    }
-                    dialogAnimation={new SlideAnimation({
-                        slideFrom: 'bottom',
-                        useNativeDriver: true
-                    })}
-                >
-                    <DialogContent>
-                        <Text
-                            style={[styles.popupHeader]}
-                        >
-                            Item Name:
-                        </Text>
-                        <RkTextInput
-                            placeholder = "eggs"
-                            labelStyle={styles.text}
-                            style={styles.textInput}
-                            onChangeText={
-                                ingredient => {
-                                    this.setState({
-                                        newIngredient: ingredient
-                                    });
-                                    this.fetchIngredientData(ingredient, () => {});
-                                }
-                            }
-                            value={this.state.newIngredient}
-                        />
-                        <Text style={[styles.popupHeader]}>
-                            Quantity:
-                        </Text>
-                            <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
-                                {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
-                            </Text>
-                            <RkButton
-                                style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
-                                contentStyle={{color: 'white'}}
-                                onPress={
-                                    () => this.setState({
-                                        pickerVisible: true
-                                    })
-                                }
-                            >
-                                Change Quantity
-                            </RkButton>
-                    </DialogContent>
-                </Dialog>
+                />
+
                 <RkPicker
                     title='Select Amount'
                     data={(() => {
@@ -492,13 +309,13 @@ class GroceryList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        backgroundColor: 'white',
-        paddingBottom: 25
-    },
+  container: {
+      flex: 1,
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      backgroundColor: 'white',
+      paddingBottom: 25
+  },
     actionButtonIcon: {
         fontSize: 20,
         height: 22,
@@ -534,6 +351,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.25,
         justifyContent:'center',
     },
+    text: {
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
+        fontSize: 13,
+        color: 'white',
+    },
     dialogButtonContainer: {
         backgroundColor: '#1d945b'
     },
@@ -552,51 +375,38 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     rowBack: {
-		alignItems: 'center',
-		backgroundColor: '#DDD',
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingLeft: 15,
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
     },
     backRightBtn: {
-		alignItems: 'center',
-		bottom: 0,
-		justifyContent: 'center',
-		position: 'absolute',
-		top: 0,
-		width: 75
-	},
-	backRightBtnLeft: {
-		backgroundColor: BUTTON_BACKGROUND_COLOR,
-		right: 0
-	},
-	backRightBtnRight: {
-		backgroundColor: 'red',
+      alignItems: 'center',
+      bottom: 0,
+      justifyContent: 'center',
+      position: 'absolute',
+      top: 0,
+      width: 75
+    },
+    backRightBtnLeft: {
+      backgroundColor: BUTTON_BACKGROUND_COLOR,
+      right: 0
+    },
+    backRightBtnRight: {
+        backgroundColor: 'red',
         left: 0
     },
     backLeftBtnRight: {
         backgroundColor: '#ffc100',
-		left: 75
-    },
-    text: {
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-        fontSize: 13,
-        color: 'white',
-    },
-    textInput:{
-      fontFamily: DEFAULT_FONT,
-      // fontWeight: 'bold',
-      fontSize: 13,
-
-
+        left: 75
     },
 })
 
 const mapStateToProps = state => {
     return {
-        groceryList: state.groceryList,
+        pantry: state.pantry,
         userID: state.userInfo.userID
     }
 }
@@ -604,6 +414,6 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     {
-        beginGroceryListFetch: beginGroceryListFetch
+        beginPantryFetch: beginPantryFetch
     }
-)(GroceryList);
+)(PrepopulatePantry);

@@ -1,6 +1,7 @@
 export const CLEAR_PANTRY = "CLEAR_PANTRY";
 export const ADD_PANTRY = "ADD_PANTRY";
 export const ADD_NEW_PANTRY_ITEM = "ADD_NEW_PANTRY_ITEM";
+export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 
 import firebase from 'react-native-firebase';
 
@@ -8,7 +9,7 @@ import firebase from 'react-native-firebase';
  * pantryRef Firestore collection reference to all pantry lists.
  */
 const pantryRef = firebase.firestore().collection("pantrylists");
-const ingredientsRef = firebase.firestore().collection("IDToIngredient");
+const ingredientsRef = firebase.firestore().collection("standardmappings");
 const ingredientsIDLookupRef = firebase.firestore().collection("ingredientToID");
 
 /**
@@ -29,17 +30,17 @@ export const beginPantryFetch = (userid) => async dispatch => {
                     });
                 }
                 var amount = snapshot.docs[index].get("amount");
-                var unit = snapshot.docs[index].get("unit");
-                var callback = ((amount, unit) => (ingredientSnapshot) => {
+                var title = snapshot.docs[index].id;
+                var callback = ((amount, title) => (ingredientSnapshot) => {
                     dispatch({
                         type: ADD_PANTRY,
                         payload: {
-                            title: ingredientSnapshot.get("name"),
+                            title: title,
                             amount: amount,
-                            unit: unit
+                            unit: ingredientSnapshot.get("unit")
                         }
                     });
-                })(amount, unit);
+                })(amount, title);
 
                 ingredientsRef.doc(
                     snapshot.docs[index].id
@@ -49,22 +50,51 @@ export const beginPantryFetch = (userid) => async dispatch => {
     })
 }
 
-export const addPantryItem = (name, amount, unit, userid) => {
-    ingredientsIDLookupRef.doc(name).get().then(snapshot => {
-        var ingredientID;
-        if (!snapshot.exists) {
-            var newIngredient = ingredientsRef.doc();
-            newIngredient.set({name: name});
-            ingredientsIDLookupRef.doc(name).set({id: newIngredient.id});
-            ingredientID = newIngredient.id;
-        } else {
-            ingredientID = snapshot.get("id");
-            console.warn(ingredientID);
-        }
-        pantryRef.doc(userid).onSnapshot(pantryListSnapshot => {
-            pantryListSnapshot.ref.collection(
-                "ingredients"
-            ).doc(ingredientID).set({amount: amount, unit: unit});
+export const addPantryItem = (name, amount, userid) => {
+    pantryRef.doc(userid).get().then(pantrySnapshot => {
+        pantrySnapshot.ref.collection(
+            "ingredients"
+        ).doc(name.toLowerCase()).get().then(docSnap => {
+            if (docSnap.exists) {
+                pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount + docSnap.get("amount")});
+            } else {
+                pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).set({amount: amount});
+            }
         });
     })
 }
+
+export const removePantryItem = (name, userid) => {
+    pantryRef.doc(userid).get().then(pantrySnapshot => {
+        pantrySnapshot.ref.collection("ingredients").doc(name.toLowerCase()).delete();
+    });
+}
+
+export const editPantryItem = (name, amount, userid) => {
+    pantryRef.doc(userid).get().then(pantrySnapshot => {
+        pantrySnapshot.ref.collection(
+            "ingredients"
+        ).doc(name.toLowerCase()).set({amount: amount});
+    });
+}
+
+export const removeFromPantry = (userID, ingredients) => {
+    Object.keys(ingredients).map((ingredientIdx) => {
+        console.log(ingredients[ingredientIdx])
+        const ingredientInfo = ingredients[ingredientIdx][0]
+        const surplus = ingredients[ingredientIdx][1]
+        const ingredient = ingredientInfo['ingredient']
+        if (surplus <= 0) {
+            pantryRef.doc(userID).collection('ingredients').doc(ingredient)
+                .delete().catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+        } else {
+            pantryRef.doc(userID).collection('ingredients').doc(ingredient)
+                .update({
+                    amount: surplus
+                })
+        }
+    });
+}
+
