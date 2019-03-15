@@ -70,37 +70,6 @@ class Pantry extends React.Component {
         this.state = defaultState;
     }
 
-    // measurementData = [
-    //     [{key: 1, value: "1"},
-    //     {key: 2, value: "2"},
-    //     {key: 3, value: "3"},
-    //     {key: 4, value: "4"},
-    //     {key: 5, value: "5"},
-    //     {key: 6, value: "6"},
-    //     {key: 7, value: "7"},
-    //     {key: 8, value: "8"},
-    //     {key: 9, value: "9"},
-    //     {key: 10, value: "10"},],
-    //     convert().possibilities("mass").concat(convert().possibilities("volume"))
-    // ];
-    //
-    // addItem = () => {
-    //     if (this.state.unconventionalUnits) {
-    //         addPantryItem(
-    //             this.state.newIngredient,
-    //             parseInt(this.state.pickedValue[0].value),
-    //             this.props.userID
-    //         );
-    //     } else {
-    //         var unitAbbreviation = convert().list().filter((unitEntry) => {
-    //             return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
-    //         })[0].abbr;
-    //         var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-    //             return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
-    //         })[0].abbr;
-    //         addPantryItem(
-    //             this.state.newIngredient,
-    //             convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
     volumeUnits = ['cup', 'tablespoon', 'teaspoon', 'liter', 'l', 'milliliter',
         'cups', 'tablespoons', 'teaspoons', 'liters', 'milliliters', 'ml',
         'pint', 'pints', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal'];
@@ -220,12 +189,12 @@ class Pantry extends React.Component {
         // Find ingredient in DB and figure out which units to store it in
         // Start with assuming the user tried units we're familiar with
         var standardUnits = null;
-        ingrMappings.doc(ingredient).get().then(function(doc) {
-            if (!doc.exists) {
+        firebase.firestore().collection("standardmappings").doc(ingredient).get().then((snapshot) =>{
+            if (!snapshot.exists) {
                 console.warn("Ingredient " + ingredient + " not found.");
             }
             else {
-                standardUnits = doc.data().unit;
+                standardUnits = snapshot.get("unit");
             }
         });
 
@@ -250,17 +219,17 @@ class Pantry extends React.Component {
             // We know we failed to recognize this unit of measurement.
             // Use backups and hope this random word is appropriate.
             if (backupUnits) {
-                ingrMappings.doc(backupIngredient).get().then(function(doc) {
-                    if (!doc.exists) {
+                firebase.firestore().collection("standardmappings").doc(backupIngredient).get().then((snapshot) =>{
+                    if (!snapshot.exists) {
                         console.warn("Ingredient " + ingredient +
                             " not found.");
                     }
                     else {
-                        standardUnits = doc.data().unit;
+                        standardUnits = snapshot.get("unit");
                     }
                 });
 
-                // The units match (e.g. clove)
+                // The units match! (e.g. clove)
                 if (backupUnits == standardUnits) {
                     standardQuantity = number;
                     ingredient = backupIngredient;
@@ -274,38 +243,22 @@ class Pantry extends React.Component {
 
         if (standardQuantity) {
             // We successfully identified units for this ingredient
-            addPantryItem(
-                ingredient,
-                standardQuantity,
-                standardUnits,
-                this.props.userID
-            );
+            // addPantryItem(
+            //     ingredient,
+            //     standardQuantity,
+            //     standardUnits,
+            //     this.props.userID
+            // );
+
+            console.warn("Added '" + standardQuantity + "' '" + standardUnits + "' '" + ingredient + "'.");
+
+            this.setState({
+                addDialogVisible: false
+            });
         }
-
-        this.setState({
-            addDialogVisible: false
-        });
-    }
-
-    editItem = () => {
-        if (this.state.unconventionalUnits || this.state.pickedValue[1] == "") {
-            editPantryItem(
-                this.state.editIngredient,
-                parseInt(this.state.pickedValue[0].value),
-                this.props.userID
-            );
-        } else {
-            var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
-            })[0].abbr;
-            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
-            })[0].abbr;
-            editPantryItem(
-                this.state.editIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
-                this.props.userID
-            );
+        else {
+            // TODO: remove
+            console.warn("Invalid input");
         }
     }
 
@@ -317,45 +270,6 @@ class Pantry extends React.Component {
 		if (rowMap[rowKey]) {
 			rowMap[rowKey].closeRow();
 		}
-    }
-
-    fetchIngredientData(ingredient, callback) {
-        firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
-            var unit = snapshot.get("unit");
-            if (unit == undefined) {
-                this.setState({
-                    standardUnit: "",
-                    units: [""],
-                    unconventionalUnits: true,
-                    pickedValue:[{key: 1, value: "1"}, ""]
-                });
-                callback();
-                return;
-            }
-            var unitList = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === unit.toLowerCase()
-            });
-            var units = [];
-            if (unitList.length == 0) {
-                units = [unit];
-            } else {
-                var unitsPossibility = convert().from(unitList[0].abbr).possibilities();
-                units = convert().list().filter((unit) => {
-                    return unitsPossibility.includes(unit.abbr);
-                }).map((value) => {
-                    return value.singular.toLowerCase();
-                });
-            }
-            this.setState({
-                standardUnit: unit,
-                units: units,
-                unconventionalUnits: units.length == 1,
-                pickedValue: [{key: 1, value: "1"}, unit.toLowerCase()]
-            });
-            callback();
-        }).catch((reason) => {
-            console.warn(reason);
-        });
     }
 
     render() {
@@ -381,25 +295,6 @@ class Pantry extends React.Component {
                                 style={[styles.backRightBtn, styles.backRightBtnLeft]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
-                                    this.fetchIngredientData(data.item.title, () => {
-                                        this.setState(previousState => {
-                                            var roundedAmount = parseInt(parseFloat(data.item.amount));
-                                            return {
-                                                editIngredient: data.item.title,
-                                                pickedValue: [
-                                                    {
-                                                        key: roundedAmount,
-                                                        value: roundedAmount.toString()
-                                                    },
-                                                    previousState.pickedValue[1]
-                                                ]
-                                            }
-                                        }, () => {
-                                            this.setState({
-                                                editPickerVisible: true
-                                            })
-                                        });
-                                    });
                                 }}
                             >
                                 <View style={{alignItems:'center',}}>
@@ -531,118 +426,21 @@ class Pantry extends React.Component {
                                     this.setState({
                                         newIngredient: ingredient
                                     });
-                                    this.fetchIngredientData(ingredient, () => {});
                                 }
                             }
                             value={this.state.newIngredient}
                         />
-                        <Text style={[styles.popupHeader]}>
-                            Quantity:
-                        </Text>
-
-                        <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
-                            {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
-                        </Text>
                         <RkButton
                             style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
                             contentStyle={{color: 'white'}}
                             onPress={
-                                () => this.setState({
-                                    pickerVisible: true
-                                })
+                                this.addItem();
                             }
                         >
-                            Change Quantity
+                            Add Item
                         </RkButton>
                     </DialogContent>
                 </Dialog>
-                <RkPicker
-                    title='Select Amount'
-                    data={(() => {
-                        if (this.state.newIngredient == "" || this.state.units.length == 0) {
-                            return this.measurementData
-                        }
-                        var arrayOfNumbers = new Array(100).fill(0).map(Number.call, Number);
-                        var values = arrayOfNumbers.map((number) => {
-                            return {key: number, value: number.toString()};
-                        });
-                        if (this.state.unconventionalUnits) {
-                            return [
-                                values
-                            ];
-                        } else {
-                            return [
-                                values,
-                                this.state.units
-                            ];
-                        }
-                    })()}
-                    visible={this.state.pickerVisible}
-                    selectedOptions={(() => {
-                        return this.state.pickedValue
-                    })()}
-                    onConfirm={(data) => {
-                        if (this.state.unconventionalUnits) {
-                            var newValue = [data[0], this.state.pickedValue[1]];
-                            this.setState({
-                                pickedValue: newValue
-                            });
-                        } else {
-                            this.setState({
-                                pickedValue: data
-                            })
-                        }
-                        this.setState(
-                            {
-                                pickerVisible: false
-                            }
-                        )
-                    }}
-                    onCancel={
-                        () => this.setState({pickerVisible: false})
-                    }
-                />
-                <RkPicker
-                    title='Edit Amount'
-                    data={(() => {
-                        if (this.state.editIngredient == "" || this.state.units.length == 0) {
-                            return this.measurementData
-                        }
-                        var arrayOfNumbers = new Array(100).fill(0).map(Number.call, Number);
-                        var values = arrayOfNumbers.map((number) => {
-                            return {key: number, value: number.toString()};
-                        });
-                        if (this.state.unconventionalUnits) {
-                            return [
-                                values
-                            ];
-                        } else {
-                            return [
-                                values,
-                                this.state.units
-                            ];
-                        }
-                    })()}
-                    visible={this.state.editPickerVisible}
-                    selectedOptions={(() => {
-                        return this.state.pickedValue
-                    })()}
-                    onConfirm={(data) => {
-                        var newValue = data;
-                        if (this.state.unconventionalUnits) {
-                            var newValue = [data[0], this.state.pickedValue[1]];
-                        }
-                        this.setState({
-                            pickedValue: newValue,
-                            editPickerVisible: false
-                        }, () => {
-                            this.editItem();
-                        });
-                    }}
-                    onCancel={
-                        () => this.setState({editPickerVisible: false})
-                    }
-                />
             </View>
         );
     }
