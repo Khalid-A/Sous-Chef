@@ -72,7 +72,8 @@ class Pantry extends React.Component {
 
     volumeUnits = ['cup', 'tablespoon', 'tsp', 'teaspoon', 'tbsp', 'liter', 'l', 'milliliter',
         'cups', 'tablespoons', 'teaspoons', 'liters', 'milliliters', 'ml',
-        'pint', 'pints', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal'];
+        'pint', 'pints', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal',
+        'fluid ounce', 'fluid ounces', 'fluid oz', 'fl oz'];
     weightUnits = ['oz', 'ounce', 'ounces', 'gram', 'grams', 'g', 'kg', 'kilo',
         'kilos', 'kilogram', 'kilograms', 'pound', 'pounds', 'lb', 'lbs'];
     itemUnits = ['carton', 'bag', 'package', 'container', 'whole',
@@ -92,8 +93,13 @@ class Pantry extends React.Component {
 
     manualConversions = {
         "fluid ounce": [6, "teaspoon"],
+        "fluid ounces": [6, "teaspoon"],
+        "fluid oz": [6, "teaspoon"],
+        "fl oz": [6, "teaspoon"],
         "pound": [1, "lb"],
+        "pounds": [1, "lb"],
         "kilo": [1, "kg"],
+        "kilos": [1, "kg"],
         "tsp": [1, "teaspoon"],
         "tbsp": [1, "tablespoon"]
     };
@@ -142,10 +148,20 @@ class Pantry extends React.Component {
         var unitIndex = -1;
         for (var i = 0; i < measurementUnits.length; i++) {
             var unit = measurementUnits[i];
+            var rawUnits;
             for (var j = 0; j < tokens.length; j++) {
                 var token = tokens[j];
+
+                // Check for two-word units
+                if (j < tokens.length - 1 && measurementUnits.indexOf(token + " " + tokens[j+1]) != -1) {
+                    unitIndex = j;
+                    rawUnits = token + " " + tokens[j+1];
+                }
+
+                // Check for one-word units
                 if (token == unit) {
                     unitIndex = j;
+                    rawUnits = token;
                     break;
                 }
             }
@@ -153,8 +169,6 @@ class Pantry extends React.Component {
         }
 
         if (unitIndex == -1) return "whole";
-
-        var rawUnits = tokens[unitIndex];
 
         // Ignore text before units
         tokens.splice(0, unitIndex + 1);
