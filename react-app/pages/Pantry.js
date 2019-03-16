@@ -70,7 +70,7 @@ class Pantry extends React.Component {
         this.state = defaultState;
     }
 
-    volumeUnits = ['cup', 'tablespoon', 'teaspoon', 'liter', 'l', 'milliliter',
+    volumeUnits = ['cup', 'tablespoon', 'tsp', 'teaspoon', 'tbsp', 'liter', 'l', 'milliliter',
         'cups', 'tablespoons', 'teaspoons', 'liters', 'milliliters', 'ml',
         'pint', 'pints', 'quart', 'quarts', 'qt', 'gallon', 'gallons', 'gal'];
     weightUnits = ['oz', 'ounce', 'ounces', 'gram', 'grams', 'g', 'kg', 'kilo',
@@ -90,6 +90,14 @@ class Pantry extends React.Component {
         'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
         'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
+    manualConversions = {
+        "fluid ounce": [6, "teaspoon"],
+        "pound": [1, "lb"],
+        "kilo": [1, "kg"],
+        "tsp": [1, "teaspoon"],
+        "tbsp": [1, "tablespoon"]
+    };
+
     disallowedPunctuation = [', ', '- ', '. ', '; ', ': ']
 
     sanitize = (text) => {
@@ -104,7 +112,7 @@ class Pantry extends React.Component {
         var numberResult = null;
         for (var i = 0; i < numbers.length; i++) {
             var number = numbers[i];
-            if (tokens[0].indexOf(number) != -1) {
+            if (tokens[0] == number) {
                 numberResult = parseFloat(tokens[0]);
                 break;
             }
@@ -209,9 +217,23 @@ class Pantry extends React.Component {
             }
             else {
                 // We might have to do a conversion. See if we can.
+                // First check if "from" units work with math.js
+                if (rawUnits in manualConversions) {
+                    // These units don't work with math.js, use units that do
+                    number *= manualConversions[rawUnits][0];
+                    rawUnits = manualConversions[rawUnits][1];
+                }
+                // Now check if "to" units work with math.js
+                var standardQuantityMultiplier = 1;
+                if (standardUnits in manualConversions) {
+                    // These units don't work with math.js
+                    // Convert to recognizeable units and modify result at end
+                    standardQuantityMultiplier = manualConversions[standardUnits][0];
+                    standardUnits = manualConversions[standardUnits][1];
+                }
                 var conversion = math.unit(number + " " + rawUnits)
                     .toNumber(standardUnits);
-                standardQuantity = conversion;
+                standardQuantity = conversion / standardQuantityMultiplier;
             }
         }
         catch (err) {
@@ -418,7 +440,7 @@ class Pantry extends React.Component {
                             Item Name:
                         </Text>
                         <RkTextInput
-                            placeholder = "eggs"
+                            placeholder = "100 ounces flour"
                             labelStyle={styles.text}
                             style={styles.textInput}
                             onChangeText={
