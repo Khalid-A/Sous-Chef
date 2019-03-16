@@ -81,7 +81,7 @@ class Pantry extends React.Component {
         'packages', 'containers', 'boxes', 'loaves', 'bottles', 'jars',
         'sticks'];
 
-    measurementUnits = volumeUnits.concat(weightUnits).concat(itemUnits);
+    measurementUnits = this.volumeUnits.concat(this.weightUnits).concat(this.itemUnits);
 
     // Stop accepting words for numbers after and including "twenty-one"
     numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -108,7 +108,7 @@ class Pantry extends React.Component {
 
     sanitize = (text) => {
         var result = text.trim().toLowerCase();
-        disallowedPunctuation.forEach((item) => {
+        this.disallowedPunctuation.forEach((item) => {
             result = result.replace(item, ' ');
         });
         return result;
@@ -116,8 +116,8 @@ class Pantry extends React.Component {
 
     parseQuantity = (tokens) => {
         var numberResult = null;
-        for (var i = 0; i < numbers.length; i++) {
-            var number = numbers[i];
+        for (var i = 0; i < this.numbers.length; i++) {
+            var number = this.numbers[i];
             if (tokens[0] == number) {
                 numberResult = parseFloat(tokens[0]);
                 break;
@@ -125,10 +125,10 @@ class Pantry extends React.Component {
         }
         if (numberResult == null) {
             // Couldn't find an arabic numberal, try text up to "twenty"
-            for (var i = 0; i < numberNames.length; i++) {
-                var number = numberNames[i];
+            for (var i = 0; i < this.numberNames.length; i++) {
+                var number = this.numberNames[i];
                 if (tokens[0].indexOf(number) != -1) {
-                    numberResult = parseInt(numbers[i]);
+                    numberResult = parseInt(this.numbers[i]);
                     break;
                 }
             }
@@ -146,14 +146,14 @@ class Pantry extends React.Component {
 
     parseUnits = (tokens) => {
         var unitIndex = -1;
-        for (var i = 0; i < measurementUnits.length; i++) {
-            var unit = measurementUnits[i];
+        for (var i = 0; i < this.measurementUnits.length; i++) {
+            var unit = this.measurementUnits[i];
             var rawUnits;
             for (var j = 0; j < tokens.length; j++) {
                 var token = tokens[j];
 
                 // Check for two-word units
-                if (j < tokens.length - 1 && measurementUnits.indexOf(token + " " + tokens[j+1]) != -1) {
+                if (j < tokens.length - 1 && this.measurementUnits.indexOf(token + " " + tokens[j+1]) != -1) {
                     unitIndex = j;
                     rawUnits = token + " " + tokens[j+1];
                 }
@@ -181,10 +181,10 @@ class Pantry extends React.Component {
         var tokens = text.split(" ");
 
         // First parse out the number on the left side, if any
-        var number = parseQuantity(tokens);
+        var number = this.parseQuantity(tokens);
 
         // Now find raw units, if any
-        var rawUnits = parseUnits(tokens);
+        var rawUnits = this.parseUnits(tokens);
 
         // Now assume the rest of the tokens are the ingredient
         var ingredient;
@@ -232,18 +232,18 @@ class Pantry extends React.Component {
             else {
                 // We might have to do a conversion. See if we can.
                 // First check if "from" units work with math.js
-                if (rawUnits in manualConversions) {
+                if (rawUnits in this.manualConversions) {
                     // These units don't work with math.js, use units that do
-                    number *= manualConversions[rawUnits][0];
-                    rawUnits = manualConversions[rawUnits][1];
+                    number *= this.manualConversions[rawUnits][0];
+                    rawUnits = this.manualConversions[rawUnits][1];
                 }
                 // Now check if "to" units work with math.js
                 var standardQuantityMultiplier = 1;
-                if (standardUnits in manualConversions) {
+                if (standardUnits in this.manualConversions) {
                     // These units don't work with math.js
                     // Convert to recognizeable units and modify result at end
-                    standardQuantityMultiplier = manualConversions[standardUnits][0];
-                    standardUnits = manualConversions[standardUnits][1];
+                    standardQuantityMultiplier = this.manualConversions[standardUnits][0];
+                    standardUnits = this.manualConversions[standardUnits][1];
                 }
                 var conversion = math.unit(number + " " + rawUnits)
                     .toNumber(standardUnits);
@@ -470,7 +470,9 @@ class Pantry extends React.Component {
                             style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
                             contentStyle={{color: 'white'}}
                             onPress={
-                                this.addItem();
+                                () => {
+                                    this.addItem();
+                                }
                             }
                         >
                             Add Item
