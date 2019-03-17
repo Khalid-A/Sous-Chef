@@ -86,6 +86,7 @@ def getStandardizableRecipes():
                         'standardQuantity': standardQuantity,
                         'originalQuantity': quantity,
                         'originalText': originaltext,
+                        'standardUnit': mappingInfo['standardUnit']
                     }
 
             if len(missingLines) == 0:
