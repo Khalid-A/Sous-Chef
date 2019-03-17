@@ -25,6 +25,7 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import firebase from 'react-native-firebase';
 import { addPantryItem } from '../redux/actions/PantryAction';
 
+const math = require('mathjs');
 
 const defaultState = {
     addDialogVisible : false,
