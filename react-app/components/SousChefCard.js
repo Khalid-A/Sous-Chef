@@ -20,8 +20,8 @@ export default class SousChefCard extends React.Component {
                     {uri: this.props.imagePath}
                 } style={[styles.cardImage]}/>
               <View rkCardContent style={{flex: 1, margin: 0, padding: 0,}}>
-                    <RkText style={[styles.cardHeader]}>{this.props.headerText}</RkText>
-                    <RkText style={[styles.cardBody]}>{this.props.bodyText}</RkText>
+                    <RkText numberOfLines={1} style={[styles.cardHeader]}>{this.props.headerText}</RkText>
+                    <RkText numberOfLines={2} style={[styles.cardBody]}>{this.props.bodyText}</RkText>
                 </View>
             </RkCard>
         )
