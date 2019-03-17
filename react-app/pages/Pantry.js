@@ -176,9 +176,7 @@ class Pantry extends React.Component {
 
     addItem = () => {
         var text = this.state.newIngredient;
-        text = text.replace(".", "");
-        text = text.replace(":", "");
-        text = text.replace(";", "");
+        text = this.sanitize(text);
         var tokens = text.split(" ");
 
         // First parse out the number on the left side, if any
