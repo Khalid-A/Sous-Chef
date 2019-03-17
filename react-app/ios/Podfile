@@ -27,7 +27,17 @@ target 'SousChef' do
   pod 'Crashlytics', '~> 3.10.9'
   
   pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
-  pod 'React', :path => '../node_modules/react-native'
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'Core',
+    'CxxBridge',
+    'RCTText',
+    'RCTNetwork',
+    'RCTWebSocket',
+    'RCTImage',
+    'RCTNetwork',
+    'DevSupport'
+  ]
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'

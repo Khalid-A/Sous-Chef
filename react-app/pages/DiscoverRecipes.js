@@ -1,23 +1,14 @@
 import React from 'react';
-import { BACKGROUND_COLOR } from '../common/SousChefColors'
-import {
-    StyleSheet,
-    Text,
-    View,
-    FlatList,
-    TouchableOpacity,
-    SafeAreaView,
-    StatusBar,
-} from 'react-native';
-import { DEFAULT_FONT } from '../common/SousChefTheme'
+import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR, DEFAULT_FONT } from '../common/SousChefColors';
+import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity,SafeAreaView, StatusBar, Dimensions } from 'react-native';
+import ActionButton from 'react-native-action-button';
+import { Icon } from 'react-native-elements';
 import SousChefCard from '../components/SousChefCard';
-import {
-    beginReadyToGoFetch,
-    beginRecentRecipesFetch,
-    beginRecommendedRecipesFetch,
-} from '../redux/actions/RecipeAction';
+import SousChefTextInput from './../components/SousChefTextInput';
+import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFetch } from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import { RkTextInput } from 'react-native-ui-kitten';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
@@ -41,7 +32,9 @@ class DiscoverRecipes extends React.Component {
     }
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            searchQuery: '',
+        };
     }
 
     drawerOpen = () => {this.props.navigation.openDrawer();}
@@ -52,9 +45,43 @@ class DiscoverRecipes extends React.Component {
         this.props.beginRecommendedRecipesFetch(this.props.userID);
     }
 
+    searchPressed = () => {
+        if (this.state.searchQuery.trim() != '') {
+            this.props.navigation.navigate('SearchRecipes', {
+                searchQuery: this.state.searchQuery
+            });
+        }
+    }
+
     render() {
         return (
             <View style={[styles.container]}>
+                <View style={{margin:5, alignItems:'center', flexDirection:'row', width: Dimensions.get('window').width - 70}}>
+                  <RkTextInput
+                          rkType="clear"
+                          placeholder={'chicken'}
+                          label={'Search:'}
+                          onChangeText={searchQuery => this.setState({
+                              searchQuery: searchQuery
+                          })}
+                          labelStyle={styles.textInputLabel}
+                          style={styles.textInput}
+                          autoCapitalize="none"
+                          value={this.props.value}
+                          inputStyle={{
+                            color: '#1d945b',
+                            fontSize: 20,
+                          }}
+                  />
+                  <Icon
+                      name="search"
+                      style={styles.actionButtonIcon}
+                      onPress={() => {this.searchPressed()}}
+                      raised = {true}
+                      color={BUTTON_BACKGROUND_COLOR}
+                      reverseColor={'white'}
+                  />
+                </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Ready To Go</Text>
                     <FlatList
@@ -165,10 +192,25 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         flex: 1,
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: BUTTON_BACKGROUND_COLOR,
+        flex: 2,
+    },
+    textInputLabel: {
+      fontSize: 20,
+      fontFamily: DEFAULT_FONT,
+      // margin: 5,
+      fontWeight: 'bold',
+      color: BUTTON_BACKGROUND_COLOR,
+    },
+    textInput: {
         borderBottomColor: BACKGROUND_COLOR,
-        borderBottomWidth: 0.5,
-        paddingBottom: 5,
-    }
+        borderBottomWidth: 1,
+        // color: 'red',
+    },
 })
 
 const mapStateToProps = state => {

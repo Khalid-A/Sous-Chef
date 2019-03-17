@@ -6,7 +6,9 @@ import { favoritedTracker } from './reducers/FavoritedReducer';
 import {
     readyToGoRecipes,
     recommendedRecipes,
-    recentRecipes
+    recentRecipes,
+    searchRecipes,
+    randomRecipes,
 } from './reducers/RecipesReducer';
 import { groceryList } from './reducers/GroceryListReducer';
 
@@ -15,6 +17,8 @@ const store = createStore(
         readyToGoRecipes: readyToGoRecipes,
         recommendedRecipes: recommendedRecipes,
         recentRecipes: recentRecipes,
+        searchRecipes: searchRecipes,
+        randomRecipes: randomRecipes,
         pantry: pantry,
         userInfo: userInfo,
         groceryList: groceryList,

@@ -135,14 +135,6 @@ export const signInSuccess = (dispatch, userID, email) => {
         relevantRecipesID: relevantRecipesID
     })
 
-    // load dummy data to test with
-    relevantRecipesRef.doc(userID)
-        .collection('recipes').doc('2198f390-582a-4462-b62f-f6dbba7165c0').set({
-            recipeID: '2198f390-582a-4462-b62f-f6dbba7165c0',
-            isReadyToGo: true,
-            isRecommended: true
-        })
-
     pantryRef.doc(userID).set({
         pantryListID: pantryListID
     }) 
