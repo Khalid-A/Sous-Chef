@@ -38,7 +38,8 @@ const defaultState = {
     units: [],
     standardUnit: "",
     editIngredient: "",
-    editPickerVisible: false
+    editPickerVisible: false,
+    errorMessage: "",
 };
 
 const ingrMappings = firebase.firestore().collection('standardmappings');
@@ -211,11 +212,8 @@ class Pantry extends React.Component {
         // Find ingredient in DB and figure out which units to store it in
         // Start with assuming the user tried units we're familiar with
         var standardUnits = null;
-        firebase.firestore().collection("standardmappings").doc(ingredient).get().then((snapshot) =>{
-            if (!snapshot.exists) {
-                console.warn("Ingredient " + ingredient + " not found.");
-            }
-            else {
+        ingrMappings.doc(ingredient).get().then((snapshot) =>{
+            if (snapshot.exists) {
                 standardUnits = snapshot.get("unit");
             }
         }).then(() => {
@@ -256,11 +254,7 @@ class Pantry extends React.Component {
                 // Use backups and hope this random word is appropriate.
                 if (backupUnits) {
                     firebase.firestore().collection("standardmappings").doc(backupIngredient).get().then((snapshot) =>{
-                        if (!snapshot.exists) {
-                            console.warn("Ingredient " + ingredient +
-                                " not found.");
-                        }
-                        else {
+                        if (snapshot.exists) {
                             standardUnits = snapshot.get("unit");
                         }
                     });
@@ -269,10 +263,6 @@ class Pantry extends React.Component {
                     if (backupUnits == standardUnits) {
                         standardQuantity = number;
                         ingredient = backupIngredient;
-                    }
-                    else {
-                        console.warn("Can't compare " + backupUnits +
-                            " to " + standardUnits);
                     }
                 }
             }
@@ -284,12 +274,14 @@ class Pantry extends React.Component {
                     standardQuantity,
                     this.props.userID
                 );
-
-                console.warn("Added '" + standardQuantity + "' '" + standardUnits + "' '" + ingredient + "'.");
+                this.setState({
+                    errorMessage: "Successfully added!"
+                })
             }
             else {
-                // TODO: remove
-                console.warn("Invalid input.");
+                this.setState({
+                    errorMessage: "Invalid input."
+                })
             }
         });
     }
@@ -444,13 +436,8 @@ class Pantry extends React.Component {
                     })}
                 >
                     <DialogContent>
-                        <Text
-                            style={[styles.popupHeader]}
-                        >
-                            Item Name:
-                        </Text>
                         <RkTextInput
-                            placeholder = "100 ounces flour"
+                            placeholder = "10 cups all-purpose flour"
                             labelStyle={styles.text}
                             style={styles.textInput}
                             onChangeText={
@@ -462,6 +449,11 @@ class Pantry extends React.Component {
                             }
                             value={this.state.newIngredient}
                         />
+                        <Text
+                            style={[styles.popupHeader]}
+                        >
+                            {this.state.errorMessage}
+                        </Text>
                         <RkButton
                             style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
                             contentStyle={{color: 'white'}}
@@ -499,7 +491,7 @@ const styles = StyleSheet.create({
   },
   popupHeader: {
       fontFamily: DEFAULT_FONT,
-      fontSize: 20,
+      fontSize: 12,
       fontWeight: 'bold',
       color: BUTTON_BACKGROUND_COLOR,
       padding: 5,
