@@ -94,12 +94,13 @@ def getStandardizableRecipes():
                 for category in data['categories']:
                     categories.append(category.lower())
                 data['categories'] = categories
+                data['lowercaseTitle'] = data['title'].lower()
 
                 doc_ref = db.collection(u'test_recipes').document(data['id'])
                 doc_ref.set(data)
                 print(recipe_file)
 
-# getStandardizableRecipes()
+getStandardizableRecipes()
 
 def getMappingConversions():
     mapping = readCSVToDict('./ingredientline_updated.csv')
