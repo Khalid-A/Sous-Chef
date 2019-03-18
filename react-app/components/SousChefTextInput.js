@@ -12,19 +12,19 @@ export default class SousChefTextInput extends Component {
     render() {
         return (
             <RkTextInput
-                    rkType="clear"
-                    label={this.props.label}
-                    placeholder={this.props.placeholder}
-                    labelStyle={styles.text}
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    onChangeText={this.props.onChangeText}
-                    value={this.props.value}
-                    inputStyle={{
-                      color: 'white',
-                    }}
+                rkType="clear"
+                label={this.props.label}
+                placeholder={this.props.placeholder}
+                labelStyle={styles.text}
+                style={styles.textInput}
+                autoCapitalize="none"
+                onChangeText={this.props.onChangeText}
+                value={this.props.value}
+                inputStyle={{
+                    color: 'white',
+                }}
 
-            />
+                />
         )
     }
 }

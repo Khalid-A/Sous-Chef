@@ -11,52 +11,52 @@ const groceryRef = firebase.firestore().collection('grocerylists');
 const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
 
 /**
- * createUser is a function that given an email and a password,
- * will either create a user acouunt in firebase and will also generate
- * the relevant collections in Firebase and the IDs to be associated 
- * with the user. 
- * 
- * @param {string} email: user's email address
- * @param {string} password: user's password
- */
+* createUser is a function that given an email and a password,
+* will either create a user acouunt in firebase and will also generate
+* the relevant collections in Firebase and the IDs to be associated
+* with the user.
+*
+* @param {string} email: user's email address
+* @param {string} password: user's password
+*/
 export const createUser = (email, password) => {
     return (dispatch) => {
         firebase.auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => signInSuccess(
-                dispatch, 
-                firebase.auth().currentUser.uid, 
-                email
-            ))
-            .catch(error => authenticationFailure(dispatch, error.message, email));
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => signInSuccess(
+            dispatch,
+            firebase.auth().currentUser.uid,
+            email
+        ))
+        .catch(error => authenticationFailure(dispatch, error.message, email));
     }
 }
 
 /**
- * signInUser is a function that given an email and a password,
- * will set the user to be the current user in firebase and will retreive
- * the IDs associated with this user from Firebase.
- * 
- * @param {string} email: user's email address
- * @param {string} password: user's password
- */
+* signInUser is a function that given an email and a password,
+* will set the user to be the current user in firebase and will retreive
+* the IDs associated with this user from Firebase.
+*
+* @param {string} email: user's email address
+* @param {string} password: user's password
+*/
 export const loginUser = (email, password) => {
     return (dispatch) => {
         firebase.auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => loginSuccess(
-                dispatch,
-                firebase.auth().currentUser.uid,
-                email
-            ))
-            .catch(error => authenticationFailure(dispatch, error.message, email));
+        .signInWithEmailAndPassword(email, password)
+        .then(() => loginSuccess(
+            dispatch,
+            firebase.auth().currentUser.uid,
+            email
+        ))
+        .catch(error => authenticationFailure(dispatch, error.message, email));
     }
 }
 
 /**
- * loginExisting is a function that checks if a user is already logged into the
- * app and sets the redux state to contain the logged in user's information.
- */
+* loginExisting is a function that checks if a user is already logged into the
+* app and sets the redux state to contain the logged in user's information.
+*/
 export const loginExistingUser = () => {
     return (dispatch) => {
         firebase.auth().onAuthStateChanged((user) => {
@@ -67,13 +67,13 @@ export const loginExistingUser = () => {
                     user.email
                 )
             }
-         });
+        });
     }
 }
 
 /**
- * logoutUser is a function that logs out the current user.
- */
+* logoutUser is a function that logs out the current user.
+*/
 export const logoutUser = () => {
     return (dispatch) => {
         firebase.auth().signOut()
@@ -84,14 +84,14 @@ export const logoutUser = () => {
 }
 
 /**
- * loginSuccess retrieves information about the current user from Firebase 
- * and dispatches a redux action to update all IDs associated with the 
- * user in store.
- * 
- * @param {function} dispatch: dispatch function for redux
- * @param {string} userID: the userID of the user in question
- * @param {boolean} email: the email of the user in question
- */
+* loginSuccess retrieves information about the current user from Firebase
+* and dispatches a redux action to update all IDs associated with the
+* user in store.
+*
+* @param {function} dispatch: dispatch function for redux
+* @param {string} userID: the userID of the user in question
+* @param {boolean} email: the email of the user in question
+*/
 export const loginSuccess = (dispatch, userID, email) => {
     usersRef.where("userID", "=", userID).onSnapshot(
         function(doc) {
@@ -108,19 +108,19 @@ export const loginSuccess = (dispatch, userID, email) => {
 }
 
 /**
- * signInSuccess creates unique IDs that will be associated with a
- * particular user and creates necessary documents in Firebase to
- * store these new IDs.
- * 
- * @param {function} dispatch: dispatch function for redux
- * @param {string} userID: the userID of the user in question
- * @param {email} email: the email of the user in question
- */
+* signInSuccess creates unique IDs that will be associated with a
+* particular user and creates necessary documents in Firebase to
+* store these new IDs.
+*
+* @param {function} dispatch: dispatch function for redux
+* @param {string} userID: the userID of the user in question
+* @param {email} email: the email of the user in question
+*/
 export const signInSuccess = (dispatch, userID, email) => {
     const groceryListID = uuid4();
     const pantryListID = uuid4();
     const relevantRecipesID = uuid4();
-    
+
     const userInfo = {
         userID: userID,
         email: email,
@@ -137,14 +137,14 @@ export const signInSuccess = (dispatch, userID, email) => {
 
     pantryRef.doc(userID).set({
         pantryListID: pantryListID
-    }) 
+    })
 
     // prepopulate pantry with staple pantry items
     prepopulatePantry(userID)
 
     groceryRef.doc(userID).set({
         groceryListID: groceryListID
-    }) 
+    })
 
     dispatch({
         type: LOGIN_SUCCESS,
@@ -166,10 +166,10 @@ this.commonPantryItems = {
 };
 
 /**
- * prepopulatePantry adds common pantry items into a user's pantry.
- * 
- * @param {string} userID: user whose pantry we want to prepopulate.
- */
+* prepopulatePantry adds common pantry items into a user's pantry.
+*
+* @param {string} userID: user whose pantry we want to prepopulate.
+*/
 function prepopulatePantry(userID) {
     Object.keys(commonPantryItems).forEach(function(key) {
         pantryRef.doc(userID).collection('ingredients').doc(key).set({
@@ -179,13 +179,13 @@ function prepopulatePantry(userID) {
 }
 
 /**
- * authenticationFailure is a function that dispatches the authentication
- * error to the redux store.
- * 
- * @param {function} dispatch: dispatch function for redux
- * @param {string} errorMessage: message describing the error
- * @param {string} email: the email of the user in question
- */
+* authenticationFailure is a function that dispatches the authentication
+* error to the redux store.
+*
+* @param {function} dispatch: dispatch function for redux
+* @param {string} errorMessage: message describing the error
+* @param {string} email: the email of the user in question
+*/
 function authenticationFailure(dispatch, errorMessage, email) {
     dispatch({
         type: LOGIN_FAILURE,

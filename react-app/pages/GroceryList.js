@@ -48,11 +48,11 @@ class GroceryList extends React.Component {
         headerLeft: null,
         headerTransparent:false,
         headerBackground:(
-          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
                 <SafeAreaView style={{flex:1 }}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
-          </LinearGradient>
+            </LinearGradient>
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
@@ -129,9 +129,9 @@ class GroceryList extends React.Component {
     }
 
     closeRow(rowMap, rowKey) {
-		if (rowMap[rowKey]) {
-			rowMap[rowKey].closeRow();
-		}
+        if (rowMap[rowKey]) {
+            rowMap[rowKey].closeRow();
+        }
     }
 
     fetchIngredientData(ingredient, callback) {
@@ -220,12 +220,12 @@ class GroceryList extends React.Component {
                                         });
                                     });
                                 }}
-                            >
+                                >
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-create"
                                         style={styles.actionButtonIcon}
-                                    />
+                                        />
                                     <Text style={styles.text}>edit</Text>
                                 </View>
                             </TouchableOpacity>
@@ -235,12 +235,12 @@ class GroceryList extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     removeGroceryListItem(data.item.title, this.props.userID);
                                 }}
-                            >
+                                >
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-close"
                                         style={styles.actionButtonIcon}
-                                    />
+                                        />
                                     <Text style={styles.text}>delete</Text>
                                 </View>
 
@@ -266,7 +266,7 @@ class GroceryList extends React.Component {
                                         }
                                     })
                                 }}
-                            >
+                                >
                                 <Text style={styles.text}>move to pantry</Text>
                             </TouchableOpacity>
                         </View>
@@ -274,48 +274,48 @@ class GroceryList extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
                     leftOpenValue={150}
-                />
+                    />
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
                     renderIcon={active => {
                         if (!active)
-                            return (
-                                <Icon
-                                    name="md-create"
-                                    style={styles.actionButtonIcon}
+                        return (
+                            <Icon
+                                name="md-create"
+                                style={styles.actionButtonIcon}
                                 />
-                            );
+                        );
                         else
-                            return (
-                                <Icon
-                                    name="md-add"
-                                    style={styles.actionButtonIcon}
+                        return (
+                            <Icon
+                                name="md-add"
+                                style={styles.actionButtonIcon}
                                 />
-                            );
+                        );
                     }}
-                >
+                    >
                     <ActionButton.Item
                         buttonColor={'#1d945b'}
                         title="New Item"
                         onPress={
-                        () => this.setState(
-                            {addDialogVisible: true}
-                        )
-                    }>
+                            () => this.setState(
+                                {addDialogVisible: true}
+                            )
+                        }>
                         <Icon
                             name="md-add"
                             style={styles.actionButtonIcon}
-                        />
+                            />
                     </ActionButton.Item>
                     <ActionButton.Item
                         buttonColor={'#ffc100'}
                         title="Move All To Pantry"
                         onPress={() => console.warn("move all to pantry tapped!")}
-                    >
+                        >
                         <Icon
                             name="md-nutrition"
                             style={styles.actionButtonIcon}
-                        />
+                            />
                     </ActionButton.Item>
                 </ActionButton>
                 <Dialog
@@ -329,41 +329,41 @@ class GroceryList extends React.Component {
                             style={[styles.dialogTitleContainer]}
                             textStyle={[styles.dialogTitleText]}
                             title="Add Item"
-                        />
+                            />
                     }
                     footer={
-                    <DialogFooter>
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Cancel"
-                            onPress={() => {
-                                this.setState({
-                                    addDialogVisible: false
-                                });
-                            }}
-                        />
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Add Item"
-                            onPress={
-                                () => {
-                                    this.addItem();
+                        <DialogFooter>
+                            <DialogButton
+                                style={[styles.dialogButtonContainer]}
+                                textStyle={[styles.dialogButtonText]}
+                                text="Cancel"
+                                onPress={() => {
+                                    this.setState({
+                                        addDialogVisible: false
+                                    });
+                                }}
+                                />
+                            <DialogButton
+                                style={[styles.dialogButtonContainer]}
+                                textStyle={[styles.dialogButtonText]}
+                                text="Add Item"
+                                onPress={
+                                    () => {
+                                        this.addItem();
+                                    }
                                 }
-                            }
-                        />
-                    </DialogFooter>
+                                />
+                        </DialogFooter>
                     }
                     dialogAnimation={new SlideAnimation({
                         slideFrom: 'bottom',
                         useNativeDriver: true
                     })}
-                >
+                    >
                     <DialogContent>
                         <Text
                             style={[styles.popupHeader]}
-                        >
+                            >
                             Item Name:
                         </Text>
                         <RkTextInput
@@ -379,24 +379,24 @@ class GroceryList extends React.Component {
                                 }
                             }
                             value={this.state.newIngredient}
-                        />
+                            />
                         <Text style={[styles.popupHeader]}>
                             Quantity:
                         </Text>
-                            <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
-                                {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
-                            </Text>
-                            <RkButton
-                                style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
-                                contentStyle={{color: 'white'}}
-                                onPress={
-                                    () => this.setState({
-                                        pickerVisible: true
-                                    })
-                                }
+                        <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
+                            {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
+                        </Text>
+                        <RkButton
+                            style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
+                            contentStyle={{color: 'white'}}
+                            onPress={
+                                () => this.setState({
+                                    pickerVisible: true
+                                })
+                            }
                             >
-                                Change Quantity
-                            </RkButton>
+                            Change Quantity
+                        </RkButton>
                     </DialogContent>
                 </Dialog>
                 <RkPicker
@@ -444,7 +444,7 @@ class GroceryList extends React.Component {
                     onCancel={
                         () => this.setState({pickerVisible: false})
                     }
-                />
+                    />
                 <RkPicker
                     title='Edit Amount'
                     data={(() => {
@@ -485,7 +485,7 @@ class GroceryList extends React.Component {
                     onCancel={
                         () => this.setState({editPickerVisible: false})
                     }
-                />
+                    />
             </View>
         );
     }
@@ -552,32 +552,32 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     rowBack: {
-		alignItems: 'center',
-		backgroundColor: '#DDD',
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingLeft: 15,
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
     },
     backRightBtn: {
-		alignItems: 'center',
-		bottom: 0,
-		justifyContent: 'center',
-		position: 'absolute',
-		top: 0,
-		width: 75
-	},
-	backRightBtnLeft: {
-		backgroundColor: BUTTON_BACKGROUND_COLOR,
-		right: 0
-	},
-	backRightBtnRight: {
-		backgroundColor: 'red',
+        alignItems: 'center',
+        bottom: 0,
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 0,
+        width: 75
+    },
+    backRightBtnLeft: {
+        backgroundColor: BUTTON_BACKGROUND_COLOR,
+        right: 0
+    },
+    backRightBtnRight: {
+        backgroundColor: 'red',
         left: 0
     },
     backLeftBtnRight: {
         backgroundColor: '#ffc100',
-		left: 75
+        left: 75
     },
     text: {
         fontFamily: DEFAULT_FONT,
@@ -586,9 +586,9 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     textInput:{
-      fontFamily: DEFAULT_FONT,
-      // fontWeight: 'bold',
-      fontSize: 13,
+        fontFamily: DEFAULT_FONT,
+        // fontWeight: 'bold',
+        fontSize: 13,
 
 
     },

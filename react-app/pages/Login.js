@@ -8,17 +8,17 @@ import { DEFAULT_FONT } from './../common/SousChefTheme';
 import SousChefTextInput from './../components/SousChefTextInput'
 
 export class Login extends Component {
-  static navigationOptions = {
-    headerTransparent:false,
-    headerBackground:(
-      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-        <SafeAreaView style={{flex:1 }}>
-          <StatusBar barStyle="light-content"/>
-        </SafeAreaView>
-      </LinearGradient>
-    ),
+    static navigationOptions = {
+        headerTransparent:false,
+        headerBackground:(
+            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+                <SafeAreaView style={{flex:1 }}>
+                    <StatusBar barStyle="light-content"/>
+                </SafeAreaView>
+            </LinearGradient>
+        ),
 
-  }
+    }
 
     constructor(props) {
         super(props);
@@ -49,31 +49,31 @@ export class Login extends Component {
                         label={'Email:'}
                         onChangeText={email => this.setState({ email })}
                         value={this.state.email}
-                    />
+                        />
                     <View
                         style={{
                             borderBottomColor: 'white',
                             borderBottomWidth: 1,
                         }}
-                    />
+                        />
 
                     <SousChefTextInput
                         placeholder='examplePassword'
                         label={'Password:'}
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}
-                    />
+                        />
                     <View
                         style={{
                             borderBottomColor: 'white',
                             borderBottomWidth: 1,
                         }}
-                    />
+                        />
 
                     <TouchableOpacity
                         style = {styles.button}
                         onPress={this.handleLogin}
-                    >
+                        >
                         <Text style ={styles.buttonText}>
                             LOGIN
                         </Text>
@@ -87,35 +87,35 @@ export class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      justifyContent: 'center',
-  },
-  logo: {
-      marginTop: Dimensions.get('window').height/5,
-      height: 60,
-      width: 160,
-  },
-  linearGradient: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 16,
-    fontFamily: DEFAULT_FONT,
-    textAlign: 'center',
-    color: BUTTON_BACKGROUND_COLOR,
-    backgroundColor:'transparent',
-    fontWeight: 'bold',
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 10,
-    width: 250,
-    borderRadius:30,
-    margin: 10,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    logo: {
+        marginTop: Dimensions.get('window').height/5,
+        height: 60,
+        width: 160,
+    },
+    linearGradient: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    buttonText: {
+        fontSize: 16,
+        fontFamily: DEFAULT_FONT,
+        textAlign: 'center',
+        color: BUTTON_BACKGROUND_COLOR,
+        backgroundColor:'transparent',
+        fontWeight: 'bold',
+    },
+    button: {
+        alignItems: 'center',
+        backgroundColor: 'white',
+        padding: 10,
+        width: 250,
+        borderRadius:30,
+        margin: 10,
+    },
     emailPasswordContainer: {
         flex: 1,
         justifyContent: 'flex-start',

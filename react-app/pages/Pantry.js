@@ -47,11 +47,11 @@ class Pantry extends React.Component {
         headerLeft: null,
         headerTransparent:false,
         headerBackground:(
-          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-            <SafeAreaView style={{flex:1 }}>
-                <StatusBar barStyle="light-content"/>
-            </SafeAreaView>
-          </LinearGradient>
+            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+                <SafeAreaView style={{flex:1 }}>
+                    <StatusBar barStyle="light-content"/>
+                </SafeAreaView>
+            </LinearGradient>
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
@@ -133,9 +133,9 @@ class Pantry extends React.Component {
     }
 
     closeRow(rowMap, rowKey) {
-		if (rowMap[rowKey]) {
-			rowMap[rowKey].closeRow();
-		}
+        if (rowMap[rowKey]) {
+            rowMap[rowKey].closeRow();
+        }
     }
 
     fetchIngredientData(ingredient, callback) {
@@ -220,12 +220,12 @@ class Pantry extends React.Component {
                                         });
                                     });
                                 }}
-                            >
+                                >
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-create"
                                         style={styles.actionButtonIcon}
-                                    />
+                                        />
                                     <Text style={styles.text}>edit</Text>
                                 </View>
                             </TouchableOpacity>
@@ -235,12 +235,12 @@ class Pantry extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     removePantryItem(data.item.title, this.props.userID);
                                 }}
-                            >
+                                >
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-close"
                                         style={styles.actionButtonIcon}
-                                    />
+                                        />
                                     <Text style={styles.text}>delete</Text>
                                 </View>
                             </TouchableOpacity>
@@ -251,7 +251,7 @@ class Pantry extends React.Component {
                                     removePantryItem(data.item.title, this.props.userID);
                                     addGroceryListItem(data.item.title, data.item.amount, this.props.userID);
                                 }}
-                            >
+                                >
                                 <Text style={styles.text}>move to grocery</Text>
                             </TouchableOpacity>
                         </View>
@@ -259,38 +259,38 @@ class Pantry extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
                     leftOpenValue={150}
-                />
+                    />
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
                     renderIcon={active => {
                         if (!active)
-                            return (
-                                <Icon
-                                    name="md-create"
-                                    style={styles.actionButtonIcon}
+                        return (
+                            <Icon
+                                name="md-create"
+                                style={styles.actionButtonIcon}
                                 />
-                            );
+                        );
                         else
-                            return (
-                                <Icon
-                                    name="md-add"
-                                    style={styles.actionButtonIcon}
+                        return (
+                            <Icon
+                                name="md-add"
+                                style={styles.actionButtonIcon}
                                 />
-                            );
+                        );
                     }}
-                >
+                    >
                     <ActionButton.Item
                         buttonColor={'#1d945b'}
                         title="New Item"
                         onPress={
-                        () => this.setState(
-                            {addDialogVisible: true}
-                        )
-                    }>
+                            () => this.setState(
+                                {addDialogVisible: true}
+                            )
+                        }>
                         <Icon
                             name="md-add"
                             style={styles.actionButtonIcon}
-                        />
+                            />
                     </ActionButton.Item>
                 </ActionButton>
                 <Dialog
@@ -304,41 +304,41 @@ class Pantry extends React.Component {
                             style={[styles.dialogTitleContainer]}
                             textStyle={[styles.dialogTitleText]}
                             title="Add Item"
-                        />
+                            />
                     }
                     footer={
-                    <DialogFooter>
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Cancel"
-                            onPress={() => {
-                                this.setState({
-                                    addDialogVisible: false
-                                });
-                            }}
-                        />
-                        <DialogButton
-                            style={[styles.dialogButtonContainer]}
-                            textStyle={[styles.dialogButtonText]}
-                            text="Add Item"
-                            onPress={
-                                () => {
-                                    this.addItem();
+                        <DialogFooter>
+                            <DialogButton
+                                style={[styles.dialogButtonContainer]}
+                                textStyle={[styles.dialogButtonText]}
+                                text="Cancel"
+                                onPress={() => {
+                                    this.setState({
+                                        addDialogVisible: false
+                                    });
+                                }}
+                                />
+                            <DialogButton
+                                style={[styles.dialogButtonContainer]}
+                                textStyle={[styles.dialogButtonText]}
+                                text="Add Item"
+                                onPress={
+                                    () => {
+                                        this.addItem();
+                                    }
                                 }
-                            }
-                        />
-                    </DialogFooter>
+                                />
+                        </DialogFooter>
                     }
                     dialogAnimation={new SlideAnimation({
                         slideFrom: 'bottom',
                         useNativeDriver: true
                     })}
-                >
+                    >
                     <DialogContent>
                         <Text
                             style={[styles.popupHeader]}
-                        >
+                            >
                             Item Name:
                         </Text>
                         <RkTextInput
@@ -354,7 +354,7 @@ class Pantry extends React.Component {
                                 }
                             }
                             value={this.state.newIngredient}
-                        />
+                            />
                         <Text style={[styles.popupHeader]}>
                             Quantity:
                         </Text>
@@ -370,7 +370,7 @@ class Pantry extends React.Component {
                                     pickerVisible: true
                                 })
                             }
-                        >
+                            >
                             Change Quantity
                         </RkButton>
                     </DialogContent>
@@ -420,7 +420,7 @@ class Pantry extends React.Component {
                     onCancel={
                         () => this.setState({pickerVisible: false})
                     }
-                />
+                    />
                 <RkPicker
                     title='Edit Amount'
                     data={(() => {
@@ -461,110 +461,110 @@ class Pantry extends React.Component {
                     onCancel={
                         () => this.setState({editPickerVisible: false})
                     }
-                />
+                    />
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      backgroundColor: 'white',
-      paddingBottom: 25
-  },
-  actionButtonIcon: {
-      fontSize: 20,
-      height: 22,
-      color: 'white',
-  },
-  list: {
-      flex: 1,
-      flexDirection: "column",
-  },
-  popupHeader: {
-      fontFamily: DEFAULT_FONT,
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: BUTTON_BACKGROUND_COLOR,
-      padding: 5,
-  },
-  header: {
-      fontFamily: DEFAULT_FONT,
-      fontWeight: 'bold',
-      color: BUTTON_BACKGROUND_COLOR,
-      fontSize: 20,
-      margin: 10,
-  },
-  headerContainer: {
-      borderColor: "lightgrey",
-      borderBottomWidth: 0.5
-  },
-  listItem: {
-      flex: 1,
-      height: 50,
-      borderColor: "lightgrey",
-      backgroundColor: 'white',
-      borderBottomWidth: 0.25,
-      justifyContent:'center',
-  },
-  dialogButtonContainer: {
-      backgroundColor: '#1d945b'
-  },
-  dialogButtonText: {
-      color: "white",
-      fontFamily: DEFAULT_FONT,
-      fontWeight: 'bold',
-  },
-  dialogTitleContainer: {
-      backgroundColor: '#1d945b'
-  },
-  dialogTitleText: {
-      color: "white",
-      fontFamily: DEFAULT_FONT,
-      fontSize: 20,
-      fontWeight: 'bold',
-  },
-  rowBack: {
-      alignItems: 'center',
-      backgroundColor: '#DDD',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingLeft: 15,
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75
-  },
-  backRightBtnLeft: {
-    backgroundColor: BUTTON_BACKGROUND_COLOR,
-    right: 0
-  },
-  backRightBtnRight: {
-      backgroundColor: 'red',
-      left: 0
-  },
-  backLeftBtnRight: {
-      backgroundColor: '#ffc100',
-      left: 75
-  },
-  text: {
-      fontFamily: DEFAULT_FONT,
-      fontWeight: 'bold',
-      fontSize: 13,
-      color: 'white',
-  },
-  textInput:{
-    fontFamily: DEFAULT_FONT,
-    fontSize: 13,
-  },
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        backgroundColor: 'white',
+        paddingBottom: 25
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+    },
+    list: {
+        flex: 1,
+        flexDirection: "column",
+    },
+    popupHeader: {
+        fontFamily: DEFAULT_FONT,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        padding: 5,
+    },
+    header: {
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        fontSize: 20,
+        margin: 10,
+    },
+    headerContainer: {
+        borderColor: "lightgrey",
+        borderBottomWidth: 0.5
+    },
+    listItem: {
+        flex: 1,
+        height: 50,
+        borderColor: "lightgrey",
+        backgroundColor: 'white',
+        borderBottomWidth: 0.25,
+        justifyContent:'center',
+    },
+    dialogButtonContainer: {
+        backgroundColor: '#1d945b'
+    },
+    dialogButtonText: {
+        color: "white",
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
+    },
+    dialogTitleContainer: {
+        backgroundColor: '#1d945b'
+    },
+    dialogTitleText: {
+        color: "white",
+        fontFamily: DEFAULT_FONT,
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    rowBack: {
+        alignItems: 'center',
+        backgroundColor: '#DDD',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 15,
+    },
+    backRightBtn: {
+        alignItems: 'center',
+        bottom: 0,
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 0,
+        width: 75
+    },
+    backRightBtnLeft: {
+        backgroundColor: BUTTON_BACKGROUND_COLOR,
+        right: 0
+    },
+    backRightBtnRight: {
+        backgroundColor: 'red',
+        left: 0
+    },
+    backLeftBtnRight: {
+        backgroundColor: '#ffc100',
+        left: 75
+    },
+    text: {
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
+        fontSize: 13,
+        color: 'white',
+    },
+    textInput:{
+        fontFamily: DEFAULT_FONT,
+        fontSize: 13,
+    },
 })
 
 const mapStateToProps = state => {

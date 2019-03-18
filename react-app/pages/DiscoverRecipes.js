@@ -17,11 +17,11 @@ class DiscoverRecipes extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-            <SafeAreaView style={{flex:1 }}>
-              <StatusBar barStyle="light-content"/>
-            </SafeAreaView>
-          </LinearGradient>
+            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+                <SafeAreaView style={{flex:1 }}>
+                    <StatusBar barStyle="light-content"/>
+                </SafeAreaView>
+            </LinearGradient>
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
@@ -57,30 +57,30 @@ class DiscoverRecipes extends React.Component {
         return (
             <View style={[styles.container]}>
                 <View style={{margin:5, alignItems:'center', flexDirection:'row', width: Dimensions.get('window').width - 70}}>
-                  <RkTextInput
-                          rkType="clear"
-                          placeholder={'chicken'}
-                          label={'Search:'}
-                          onChangeText={searchQuery => this.setState({
-                              searchQuery: searchQuery
-                          })}
-                          labelStyle={styles.textInputLabel}
-                          style={styles.textInput}
-                          autoCapitalize="none"
-                          value={this.props.value}
-                          inputStyle={{
+                    <RkTextInput
+                        rkType="clear"
+                        placeholder={'chicken'}
+                        label={'Search:'}
+                        onChangeText={searchQuery => this.setState({
+                            searchQuery: searchQuery
+                        })}
+                        labelStyle={styles.textInputLabel}
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        value={this.props.value}
+                        inputStyle={{
                             color: '#1d945b',
                             fontSize: 20,
-                          }}
-                  />
-                  <Icon
-                      name="search"
-                      style={styles.actionButtonIcon}
-                      onPress={() => {this.searchPressed()}}
-                      raised = {true}
-                      color={BUTTON_BACKGROUND_COLOR}
-                      reverseColor={'white'}
-                  />
+                        }}
+                        />
+                    <Icon
+                        name="search"
+                        style={styles.actionButtonIcon}
+                        onPress={() => {this.searchPressed()}}
+                        raised = {true}
+                        color={BUTTON_BACKGROUND_COLOR}
+                        reverseColor={'white'}
+                        />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Ready To Go</Text>
@@ -92,8 +92,8 @@ class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
-                                }}>
+                                        this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
+                                    }}>
                                     <SousChefCard
                                         headerText={item.title}
                                         bodyText={
@@ -105,11 +105,11 @@ class DiscoverRecipes extends React.Component {
                                             item.servings
                                         }
                                         imagePath={item.images}
-                                    />
+                                        />
                                 </TouchableOpacity>
                             );
                         }}
-                    />
+                        />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recent</Text>
@@ -121,8 +121,8 @@ class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
-                                }}>
+                                        this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
+                                    }}>
                                     <SousChefCard
                                         headerText={item.title}
                                         bodyText={
@@ -134,11 +134,11 @@ class DiscoverRecipes extends React.Component {
                                             item.servings
                                         }
                                         imagePath={item.images}
-                                    />
+                                        />
                                 </TouchableOpacity>
                             );
                         }}
-                    />
+                        />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>Recommended</Text>
@@ -150,8 +150,8 @@ class DiscoverRecipes extends React.Component {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity onPress={() => {
-                                    this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
-                                }}>
+                                        this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
+                                    }}>
                                     <SousChefCard
                                         headerText={item.title}
                                         bodyText={
@@ -163,11 +163,11 @@ class DiscoverRecipes extends React.Component {
                                             item.servings
                                         }
                                         imagePath={item.images}
-                                    />
+                                        />
                                 </TouchableOpacity>
                             );
                         }}
-                    />
+                        />
                 </View>
             </View>
         );
@@ -200,11 +200,11 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     textInputLabel: {
-      fontSize: 20,
-      fontFamily: DEFAULT_FONT,
-      // margin: 5,
-      fontWeight: 'bold',
-      color: BUTTON_BACKGROUND_COLOR,
+        fontSize: 20,
+        fontFamily: DEFAULT_FONT,
+        // margin: 5,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
     },
     textInput: {
         borderBottomColor: BACKGROUND_COLOR,
