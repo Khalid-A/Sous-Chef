@@ -340,8 +340,8 @@ class Pantry extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     this.setState({
                                         addDialogVisible: true,
-                                        newIngredient: data.item.title,
-                                        editBeforeText: data.item.title
+                                        newIngredient: item.amount + " " + item.unit + " " + item.title,
+                                        editBeforeText: item.amount + " " + item.unit + " " + item.title
                                     });
                                 }}
                             >
