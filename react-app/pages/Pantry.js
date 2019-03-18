@@ -252,7 +252,7 @@ class Pantry extends React.Component {
                 // We know we failed to recognize this unit of measurement.
                 // Use backups and hope this random word is appropriate.
                 if (backupUnits) {
-                    firebase.firestore().collection("standardmappings").doc(backupIngredient).get().then((snapshot) =>{
+                    ingrMappings.doc(backupIngredient).get().then((snapshot) =>{
                         if (snapshot.exists) {
                             standardUnits = snapshot.get("unit");
                         }
@@ -265,10 +265,10 @@ class Pantry extends React.Component {
                     }
                 }
             }
-        }
+        });
 
         if (this.state.editBeforeText != "") {
-            var noChange;
+            var noChange = true;
             // If this was called after an edit (rather than new ingredient)
             // then check if there was a change, and delete old if so.
             if (this.state.editBeforeText != this.state.newIngredient) {
@@ -276,10 +276,7 @@ class Pantry extends React.Component {
                 removePantryItem(this.state.editBeforeText, this.props.userID);
                 noChange = false;
             }
-            else {
-                // There was no change, do not edit
-                noChange = true;
-            }
+
             this.setState({
                 editBeforeText: ""
             });
@@ -479,17 +476,6 @@ class Pantry extends React.Component {
                         >
                             {this.state.errorMessage}
                         </Text>
-                        <RkButton
-                            style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
-                            contentStyle={{color: 'white'}}
-                            onPress={
-                                () => {
-                                    this.addItem();
-                                }
-                            }
-                        >
-                            Add Item
-                        </RkButton>
                     </DialogContent>
                 </Dialog>
             </View>
