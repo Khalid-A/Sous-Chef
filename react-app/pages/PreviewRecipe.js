@@ -342,7 +342,7 @@ changeServings = (text) => {
               <TouchableOpacity
                 style={[styles.backRightBtn, styles.backRightBtnRight,
                   {
-                    backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : {BUTTON_BACKGROUND_COLOR}
+                    backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : '#ffc100'
                   }]}
                   onPress={ _ => {
                     this.addIngrToGroceryList(data.index);
@@ -437,15 +437,16 @@ changeServings = (text) => {
 
                 </View>
                 <TabView
+                  swipeEnabled={false}
                   style={{flex: 1,}}
                   navigationState={{
                     index: this.state.index,
                     routes: [
                       {key: 'first',
-                        title: 'You Have',
+                        title: 'You Don\'t Have',
                       },
                       {key: 'second',
-                        title: 'You Don\'t Have',
+                        title: 'You Have',
 
                       },
                     ],
@@ -551,7 +552,7 @@ changeServings = (text) => {
         text: {
           fontFamily: DEFAULT_FONT,
           fontSize: 15,
-          color: BACKGROUND_COLOR,
+          color: 'white',
           padding: 4
         },
         backRightBtn: {
@@ -571,11 +572,11 @@ changeServings = (text) => {
           paddingLeft: 15,
         },
         backRightBtnRight: {
-          backgroundColor: '#ffc100',
+          backgroundColor: '#17ba6b',
           left: 0
         },
         backLeftBtnRight: {
-          backgroundColor: 'green',
+          backgroundColor: '#17ba6b',
           left: 75
         },
         buttonText: {

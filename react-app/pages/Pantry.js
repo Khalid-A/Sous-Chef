@@ -37,7 +37,8 @@ const defaultState = {
     unconventionalUnits: false,
     units: [],
     standardUnit: "",
-    editBeforeText: ""
+    editBeforeText: "",
+    errorMessage: ""
 };
 
 const ingrMappings = firebase.firestore().collection('standardmappings');
@@ -115,12 +116,8 @@ class Pantry extends React.Component {
 
     parseQuantity = (tokens) => {
         var numberResult = null;
-        for (var i = 0; i < this.numbers.length; i++) {
-            var number = this.numbers[i];
-            if (tokens[0] == number) {
-                numberResult = parseFloat(tokens[0]);
-                break;
-            }
+        if (parseFloat(tokens[0])) {
+            numberResult = parseFloat(tokens[0]);
         }
         if (numberResult == null) {
             // Couldn't find an arabic numberal, try text up to "twenty"
@@ -155,6 +152,7 @@ class Pantry extends React.Component {
                 if (j < tokens.length - 1 && this.measurementUnits.indexOf(token + " " + tokens[j+1]) != -1) {
                     unitIndex = j;
                     rawUnits = token + " " + tokens[j+1];
+                    break;
                 }
 
                 // Check for one-word units
@@ -176,7 +174,10 @@ class Pantry extends React.Component {
     }
 
     addItem = () => {
-        var text = sanitize(this.state.newIngredient);
+        var text = this.state.newIngredient;
+        text = text.replace(".", "");
+        text = text.replace(":", "");
+        text = text.replace(";", "");
         var tokens = text.split(" ");
 
         // First parse out the number on the left side, if any
@@ -210,68 +211,58 @@ class Pantry extends React.Component {
         // Find ingredient in DB and figure out which units to store it in
         // Start with assuming the user tried units we're familiar with
         var standardUnits = null;
-        firebase.firestore().collection("standardmappings").doc(ingredient).get().then((snapshot) =>{
-            if (!snapshot.exists) {
-                console.warn("Ingredient " + ingredient + " not found.");
-            }
-            else {
+        ingrMappings.doc(ingredient).get().then((snapshot) =>{
+            if (snapshot.exists) {
                 standardUnits = snapshot.get("unit");
             }
-        });
-
-        var standardQuantity = null;
-        try {
-            if (standardUnits == null) {
-                throw "Ingredient not found";
-            }
-            // Perform the unit conversion assuming we know the units
-            if (rawUnits == standardUnits) {
-                standardQuantity = number;
-            }
-            else {
-                // We might have to do a conversion. See if we can.
-                // First check if "from" units work with math.js
-                if (rawUnits in this.manualConversions) {
-                    // These units don't work with math.js, use units that do
-                    number *= this.manualConversions[rawUnits][0];
-                    rawUnits = this.manualConversions[rawUnits][1];
+        }).then(() => {
+            var standardQuantity = null;
+            try {
+                if (standardUnits == null) {
+                    throw "Ingredient not found";
                 }
-                // Now check if "to" units work with math.js
-                var standardQuantityMultiplier = 1;
-                if (standardUnits in this.manualConversions) {
-                    // These units don't work with math.js
-                    // Convert to recognizeable units and modify result at end
-                    standardQuantityMultiplier = this.manualConversions[standardUnits][0];
-                    standardUnits = this.manualConversions[standardUnits][1];
-                }
-                var conversion = math.unit(number + " " + rawUnits)
-                    .toNumber(standardUnits);
-                standardQuantity = conversion / standardQuantityMultiplier;
-            }
-        }
-        catch (err) {
-            // These units aren't standard for pantries (e.g. clove).
-            // We know we failed to recognize this unit of measurement.
-            // Use backups and hope this random word is appropriate.
-            if (backupUnits) {
-                firebase.firestore().collection("standardmappings").doc(backupIngredient).get().then((snapshot) =>{
-                    if (!snapshot.exists) {
-                        console.warn("Ingredient " + ingredient +
-                            " not found.");
-                    }
-                    else {
-                        standardUnits = snapshot.get("unit");
-                    }
-                });
-
-                // The units match! (e.g. clove)
-                if (backupUnits == standardUnits) {
+                // Perform the unit conversion assuming we know the units
+                if (rawUnits == standardUnits) {
                     standardQuantity = number;
-                    ingredient = backupIngredient;
                 }
                 else {
-                    console.warn("Can't compare " + backupUnits +
-                        " to " + standardUnits);
+                    // We might have to do a conversion. See if we can.
+                    // First check if "from" units work with math.js
+                    if (rawUnits in this.manualConversions) {
+                        // These units don't work with math.js, use units that do
+                        number *= this.manualConversions[rawUnits][0];
+                        rawUnits = this.manualConversions[rawUnits][1];
+                    }
+                    // Now check if "to" units work with math.js
+                    var standardQuantityMultiplier = 1;
+                    if (standardUnits in this.manualConversions) {
+                        // These units don't work with math.js
+                        // Convert to recognizeable units and modify result at end
+                        standardQuantityMultiplier = this.manualConversions[standardUnits][0];
+                        standardUnits = this.manualConversions[standardUnits][1];
+                    }
+                    var conversion = math.unit(number + " " + rawUnits)
+                        .toNumber(standardUnits);
+
+                    standardQuantity = conversion / standardQuantityMultiplier;
+                }
+            }
+            catch (err) {
+                // These units aren't standard for pantries (e.g. clove).
+                // We know we failed to recognize this unit of measurement.
+                // Use backups and hope this random word is appropriate.
+                if (backupUnits) {
+                    firebase.firestore().collection("standardmappings").doc(backupIngredient).get().then((snapshot) =>{
+                        if (snapshot.exists) {
+                            standardUnits = snapshot.get("unit");
+                        }
+                    });
+
+                    // The units match! (e.g. clove)
+                    if (backupUnits == standardUnits) {
+                        standardQuantity = number;
+                        ingredient = backupIngredient;
+                    }
                 }
             }
         }
@@ -298,22 +289,19 @@ class Pantry extends React.Component {
 
         if (standardQuantity) {
             // We successfully identified units for this ingredient
-            // addPantryItem(
-            //     ingredient,
-            //     standardQuantity,
-            //     standardUnits,
-            //     this.props.userID
-            // );
-
-            console.warn("Added '" + standardQuantity + "' '" + standardUnits + "' '" + ingredient + "'.");
-
+            addPantryItem(
+                ingredient,
+                standardQuantity,
+                this.props.userID
+            );
             this.setState({
-                addDialogVisible: false
-            });
+                errorMessage: "Successfully added!"
+            })
         }
         else {
-            // TODO: remove
-            console.warn("Invalid input");
+            this.setState({
+                errorMessage: "Invalid input."
+            });
         }
     }
 
@@ -473,13 +461,8 @@ class Pantry extends React.Component {
                     })}
                 >
                     <DialogContent>
-                        <Text
-                            style={[styles.popupHeader]}
-                        >
-                            Item Name:
-                        </Text>
                         <RkTextInput
-                            placeholder = "100 ounces flour"
+                            placeholder = "10 cups all-purpose flour"
                             labelStyle={styles.text}
                             style={styles.textInput}
                             onChangeText={
@@ -491,6 +474,11 @@ class Pantry extends React.Component {
                             }
                             value={this.state.newIngredient}
                         />
+                        <Text
+                            style={[styles.popupHeader]}
+                        >
+                            {this.state.errorMessage}
+                        </Text>
                         <RkButton
                             style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
                             contentStyle={{color: 'white'}}
@@ -528,7 +516,7 @@ const styles = StyleSheet.create({
   },
   popupHeader: {
       fontFamily: DEFAULT_FONT,
-      fontSize: 20,
+      fontSize: 12,
       fontWeight: 'bold',
       color: BUTTON_BACKGROUND_COLOR,
       padding: 5,
