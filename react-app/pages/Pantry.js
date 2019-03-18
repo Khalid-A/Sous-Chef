@@ -37,8 +37,7 @@ const defaultState = {
     unconventionalUnits: false,
     units: [],
     standardUnit: "",
-    editIngredient: "",
-    editPickerVisible: false
+    editBeforeText: ""
 };
 
 const ingrMappings = firebase.firestore().collection('standardmappings');
@@ -277,6 +276,26 @@ class Pantry extends React.Component {
             }
         }
 
+        if (this.state.editBeforeText != "") {
+            var noChange;
+            // If this was called after an edit (rather than new ingredient)
+            // then check if there was a change, and delete old if so.
+            if (this.state.editBeforeText != this.state.newIngredient) {
+                // There was a change, remove old
+                removePantryItem(this.state.editBeforeText, this.props.userID);
+                noChange = false;
+            }
+            else {
+                // There was no change, do not edit
+                noChange = true;
+            }
+            this.setState({
+                editBeforeText: ""
+            });
+
+            if (noChange) return;
+        }
+
         if (standardQuantity) {
             // We successfully identified units for this ingredient
             // addPantryItem(
@@ -331,6 +350,11 @@ class Pantry extends React.Component {
                                 style={[styles.backRightBtn, styles.backRightBtnLeft]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
+                                    this.setState({
+                                        addDialogVisible: true,
+                                        newIngredient: data.item.title,
+                                        editBeforeText: data.item.title
+                                    });
                                 }}
                             >
                                 <View style={{alignItems:'center',}}>
@@ -426,7 +450,8 @@ class Pantry extends React.Component {
                             text="Cancel"
                             onPress={() => {
                                 this.setState({
-                                    addDialogVisible: false
+                                    addDialogVisible: false,
+                                    editBeforeText: ""
                                 });
                             }}
                         />
