@@ -190,7 +190,7 @@ class Pantry extends React.Component {
                     renderItem={({item}, rowMap) => {
                         return <View style={[styles.listItem]}>
                             <Text style={{padding: 10}}>
-                                {item.amount} {item.unit} {item.title}
+                                {Math.round(item.amount*100) / 100)} {item.unit} {item.title}
                             </Text>
                         </View>
                     }}
