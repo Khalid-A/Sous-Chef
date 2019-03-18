@@ -190,7 +190,7 @@ class GroceryList extends React.Component {
                     renderItem={({item}, rowMap) => {
                         return <View style={[styles.listItem]}>
                             <Text style={{padding: 10}}>
-                                {Math.round(item.amount*100) / 100)} {item.unit} {item.title}
+                                {item.amount.toFixed(2)} {item.unit} {item.title}
                             </Text>
                         </View>
                     }}
