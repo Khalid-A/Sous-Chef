@@ -211,12 +211,12 @@ class Pantry extends React.Component {
         // Find ingredient in DB and figure out which units to store it in
         // Start with assuming the user tried units we're familiar with
         var standardUnits = null;
+        var standardQuantity = null;
         ingrMappings.doc(ingredient).get().then((snapshot) =>{
             if (snapshot.exists) {
                 standardUnits = snapshot.get("unit");
             }
         }).then(() => {
-            var standardQuantity = null;
             try {
                 if (standardUnits == null) {
                     throw "Ingredient not found";
@@ -337,8 +337,9 @@ class Pantry extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     this.setState({
                                         addDialogVisible: true,
-                                        newIngredient: item.amount + " " + item.unit + " " + item.title,
-                                        editBeforeText: item.amount + " " + item.unit + " " + item.title
+                                        errorMessage: "",
+                                        newIngredient: data.item.amount + " " + data.item.unit + " " + data.item.title,
+                                        editBeforeText:  data.item.amount + " " + data.item.unit + " " + data.item.title
                                     });
                                 }}
                             >
