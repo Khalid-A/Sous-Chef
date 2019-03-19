@@ -3,12 +3,12 @@ import { CLEAR_GROCERY_LIST, ADD_GROCERY_LIST } from '../actions/GroceryListActi
 export function groceryList(state = [], action) {
     switch(action.type) {
         case CLEAR_GROCERY_LIST:
-            return [];
+        return [];
         case ADD_GROCERY_LIST:
-            var newArr = [...state];
-            newArr.push(action.payload);
-            return newArr;
+        var newArr = [...state];
+        newArr.push(action.payload);
+        return newArr;
         default:
-            return state;
+        return state;
     }
 }

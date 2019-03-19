@@ -22,31 +22,31 @@ export const FLIP_FAVORITED = "FLIP_FAVORITED";
 import firebase from 'react-native-firebase';
 
 /**
- * recipesRef Reference to the all recipes collection in firestore.
- */
+* recipesRef Reference to the all recipes collection in firestore.
+*/
 const recipesRef = firebase.firestore().collection('test_recipes');
 
 /**
- * relevantRecipesRef Collection reference to the relevant recipes collection
- * in firestore.
- */
+* relevantRecipesRef Collection reference to the relevant recipes collection
+* in firestore.
+*/
 const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
 
 /**
- * relevantRecipeUpdate is a general purpose thunk that given a snapshot from
- * relevantrecipes collection in firestore, will check if that snapshot has
- * recipes that have recipeFieldToCheck field set to true, and then grabbing
- * the respective recipes from the recipe collection and updating the store.
- *
- * @param {string} recipeFieldToCheck The field inside the relevant recipes
- * document to check against to see if the recipe is a match for the desired
- * category.
- * @param {function} dispatch dispatch function for redux
- * @param {string} clear_type The clear action type for the desired category
- * in redux.
- * @param {string} add_type The add action type for the desired category in
- * redux.
- */
+* relevantRecipeUpdate is a general purpose thunk that given a snapshot from
+* relevantrecipes collection in firestore, will check if that snapshot has
+* recipes that have recipeFieldToCheck field set to true, and then grabbing
+* the respective recipes from the recipe collection and updating the store.
+*
+* @param {string} recipeFieldToCheck The field inside the relevant recipes
+* document to check against to see if the recipe is a match for the desired
+* category.
+* @param {function} dispatch dispatch function for redux
+* @param {string} clear_type The clear action type for the desired category
+* in redux.
+* @param {string} add_type The add action type for the desired category in
+* redux.
+*/
 const relevantRecipeUpdate = (
     recipeFieldToCheck,
     dispatch,
@@ -96,9 +96,9 @@ const relevantRecipeUpdate = (
 }
 
 /**
- * beginReadyToGo function that listens on ready to go recipes
- * to get the recipes that a user has all of the ingredients for.
- */
+* beginReadyToGo function that listens on ready to go recipes
+* to get the recipes that a user has all of the ingredients for.
+*/
 export const beginReadyToGoFetch = (userID) => async dispatch => {
     relevantRecipesRef.doc(userID).onSnapshot(
         relevantRecipeUpdate(
@@ -108,9 +108,9 @@ export const beginReadyToGoFetch = (userID) => async dispatch => {
 }
 
 /**
- * beginRecommendedRecipesFetch function that listens on recommended recipe
- * collection to get live updates on the users recommendations.
- */
+* beginRecommendedRecipesFetch function that listens on recommended recipe
+* collection to get live updates on the users recommendations.
+*/
 export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
     relevantRecipesRef.doc(userID).onSnapshot(
         relevantRecipeUpdate(
@@ -120,10 +120,10 @@ export const beginRecommendedRecipesFetch = (userID) => async dispatch => {
 }
 
 /**
- * Retrieves data related to previewing a recipe.
- * Note: This is not a redux function.
- * @param {string} id The recipe id.
- */
+* Retrieves data related to previewing a recipe.
+* Note: This is not a redux function.
+* @param {string} id The recipe id.
+*/
 export function beginRecipePreviewFetch(id) {
     var results = {};
 
@@ -140,9 +140,9 @@ export function beginRecipePreviewFetch(id) {
 }
 
 /**
- * beginRecentRecipesFetch function that listens on recent recipe
- * collection to get the recipes that a user has interacted with recently.
- */
+* beginRecentRecipesFetch function that listens on recent recipe
+* collection to get the recipes that a user has interacted with recently.
+*/
 export const beginRecentRecipesFetch = (userID) => async dispatch => {
     relevantRecipesRef.doc(userID).onSnapshot(
         relevantRecipeUpdate(
@@ -152,9 +152,9 @@ export const beginRecentRecipesFetch = (userID) => async dispatch => {
 }
 
 /**
- * addSearchRecipesFromResult function that dispatches an action to 
- * add all documents retrieved from the passed in query to the redux store
- */
+* addSearchRecipesFromResult function that dispatches an action to
+* add all documents retrieved from the passed in query to the redux store
+*/
 const addSearchRecipesFromResult = (searchResults, dispatch, addType) => {
     searchResults.get().then(function(querySnapshot){
         if (querySnapshot.size == 0) {
@@ -181,9 +181,9 @@ const addSearchRecipesFromResult = (searchResults, dispatch, addType) => {
 }
 
 /**
- * beginSearchRecipesFetch function that dispatches an action to add
- * all documents that match the search query to the redux store
- */
+* beginSearchRecipesFetch function that dispatches an action to add
+* all documents that match the search query to the redux store
+*/
 export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
     dispatch({
         type: CLEAR_SEARCH
@@ -215,14 +215,14 @@ export const beginSearchRecipesFetch = (searchQuery) => async dispatch => {
         searchQuery
     )
     addSearchRecipesFromResult(searchCategoryResults, dispatch, ADD_SEARCH)
-    
+
 }
 
 /**
- * beginRandomRecipesFetch function that dispatches an action to add
- * random recipes to the redux store. Random recipes are recipes that
- * have minimal reviews.
- */
+* beginRandomRecipesFetch function that dispatches an action to add
+* random recipes to the redux store. Random recipes are recipes that
+* have minimal reviews.
+*/
 export const beginRandomRecipesFetch = ()  => async dispatch => {
     dispatch({
         type: CLEAR_RANDOM
@@ -232,13 +232,13 @@ export const beginRandomRecipesFetch = ()  => async dispatch => {
 }
 
 /**
- * getIsFavorited function that updates the redux store to indicate
- * if the current user has favorited the current recipe.
- */
+* getIsFavorited function that updates the redux store to indicate
+* if the current user has favorited the current recipe.
+*/
 export const getIsFavorited = (userID, recipeID) => {
     return (dispatch) => {
         var recipeDocRef = relevantRecipesRef.doc(userID)
-            .collection('recipes').doc(recipeID)
+        .collection('recipes').doc(recipeID)
 
         recipeDocRef.get().then(doc => {
             if (!doc.exists) {
@@ -273,9 +273,9 @@ export const getIsFavorited = (userID, recipeID) => {
 }
 
 /**
- * flipIsFavorited function that updates the redux store to indicate
- * the opposite of whether or not the favorited flag is set.
- */
+* flipIsFavorited function that updates the redux store to indicate
+* the opposite of whether or not the favorited flag is set.
+*/
 export const flipIsFavorited = (isFavorited) => {
     return (dispatch) => {
         return dispatch({

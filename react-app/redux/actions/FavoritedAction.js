@@ -9,7 +9,7 @@ const relevantRecipesRef = firebase.firestore().collection('relevantrecipes');
 export const getIsFavorited = (userID, recipeID) => {
     return (dispatch) => {
         var recipeDocRef = relevantRecipesRef.doc(userID)
-            .collection('recipes').doc(recipeID)
+        .collection('recipes').doc(recipeID)
 
         recipeDocRef.get().then(doc => {
             if (!doc.exists) {
@@ -45,7 +45,7 @@ export const getIsFavorited = (userID, recipeID) => {
 
 export const saveIsFavorited = (userID, recipeID, isFavorited) => {
     var recipeDocRef = relevantRecipesRef.doc(userID)
-        .collection('recipes').doc(recipeID)
+    .collection('recipes').doc(recipeID)
     recipeDocRef.update({
         isFavorited: isFavorited
     })
@@ -53,7 +53,7 @@ export const saveIsFavorited = (userID, recipeID, isFavorited) => {
 
 export const saveIsRecent = (userID, recipeID) => {
     var recipeDocRef = relevantRecipesRef.doc(userID)
-        .collection('recipes').doc(recipeID)
+    .collection('recipes').doc(recipeID)
     recipeDocRef.update({
         isRecent: true,
         lastAccessed: new Date(),

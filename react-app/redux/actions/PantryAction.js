@@ -6,17 +6,17 @@ export const SET_INGREDIENTS_TO_REMOVE = "SET_INGREDIENTS_TO_REMOVE";
 import firebase from 'react-native-firebase';
 
 /**
- * pantryRef Firestore collection reference to all pantry lists.
- */
+* pantryRef Firestore collection reference to all pantry lists.
+*/
 const pantryRef = firebase.firestore().collection("pantrylists");
 const ingredientsRef = firebase.firestore().collection("standardmappings");
 const ingredientsIDLookupRef = firebase.firestore().collection("ingredientToID");
 
 /**
- * beginPantryFetch Creates a listener that updates the current user's
- * pantry list as updates are made to it.
- * @param {string} userid The ID of the currently logged in user
- */
+* beginPantryFetch Creates a listener that updates the current user's
+* pantry list as updates are made to it.
+* @param {string} userid The ID of the currently logged in user
+*/
 export const beginPantryFetch = (userid) => async dispatch => {
     pantryRef.doc(userid).onSnapshot(pantryListSnapshot => {
         pantryListSnapshot.ref.collection(
@@ -86,15 +86,14 @@ export const removeFromPantry = (userID, ingredients) => {
         const ingredient = ingredientInfo['ingredient']
         if (surplus <= 0) {
             pantryRef.doc(userID).collection('ingredients').doc(ingredient)
-                .delete().catch(function(error) {
-                    console.error("Error removing document: ", error);
-                });
+            .delete().catch(function(error) {
+                console.error("Error removing document: ", error);
+            });
         } else {
             pantryRef.doc(userID).collection('ingredients').doc(ingredient)
-                .update({
-                    amount: surplus
-                })
+            .update({
+                amount: surplus
+            })
         }
     });
 }
-

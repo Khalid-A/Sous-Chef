@@ -38,11 +38,11 @@ class PrepopulatePantry extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-          <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-            <SafeAreaView style={{flex:1 }}>
-              <StatusBar barStyle="light-content"/>
-            </SafeAreaView>
-          </LinearGradient>
+            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+                <SafeAreaView style={{flex:1 }}>
+                    <StatusBar barStyle="light-content"/>
+                </SafeAreaView>
+            </LinearGradient>
         ),
         headerTitleStyle: {
             fontFamily: DEFAULT_FONT,
@@ -97,9 +97,9 @@ class PrepopulatePantry extends React.Component {
     }
 
     closeRow(rowMap, rowKey) {
-		if (rowMap[rowKey]) {
-			rowMap[rowKey].closeRow();
-		}
+        if (rowMap[rowKey]) {
+            rowMap[rowKey].closeRow();
+        }
     }
 
     fetchIngredientData(ingredient, callback) {
@@ -184,7 +184,7 @@ class PrepopulatePantry extends React.Component {
                                         });
                                     });
                                 }}
-                            >
+                                >
                                 <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -193,7 +193,7 @@ class PrepopulatePantry extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     removePantryItem(data.item.title, this.props.userID);
                                 }}
-                            >
+                                >
                                 <Text style={styles.text}>delete</Text>
                             </TouchableOpacity>
                         </View>
@@ -201,7 +201,7 @@ class PrepopulatePantry extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
                     leftOpenValue={75}
-                />
+                    />
 
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
@@ -211,10 +211,10 @@ class PrepopulatePantry extends React.Component {
                             <Icon
                                 name="md-arrow-round-forward"
                                 style={styles.actionButtonIcon}
-                            />
+                                />
                         );
                     }}
-                />
+                    />
 
                 <RkPicker
                     title='Select Amount'
@@ -261,7 +261,7 @@ class PrepopulatePantry extends React.Component {
                     onCancel={
                         () => this.setState({pickerVisible: false})
                     }
-                />
+                    />
                 <RkPicker
                     title='Edit Amount'
                     data={(() => {
@@ -302,20 +302,20 @@ class PrepopulatePantry extends React.Component {
                     onCancel={
                         () => this.setState({editPickerVisible: false})
                     }
-                />
+                    />
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      backgroundColor: 'white',
-      paddingBottom: 25
-  },
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        backgroundColor: 'white',
+        paddingBottom: 25
+    },
     actionButtonIcon: {
         fontSize: 20,
         height: 22,
@@ -383,16 +383,16 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     backRightBtn: {
-      alignItems: 'center',
-      bottom: 0,
-      justifyContent: 'center',
-      position: 'absolute',
-      top: 0,
-      width: 75
+        alignItems: 'center',
+        bottom: 0,
+        justifyContent: 'center',
+        position: 'absolute',
+        top: 0,
+        width: 75
     },
     backRightBtnLeft: {
-      backgroundColor: BUTTON_BACKGROUND_COLOR,
-      right: 0
+        backgroundColor: BUTTON_BACKGROUND_COLOR,
+        right: 0
     },
     backRightBtnRight: {
         backgroundColor: 'red',

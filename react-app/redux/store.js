@@ -24,7 +24,7 @@ const store = createStore(
         groceryList: groceryList,
         itemsToRemove: itemsToRemove,
         favoritedTracker: favoritedTracker,
-    }), 
+    }),
     {},
     applyMiddleware(reduxThunk)
 );

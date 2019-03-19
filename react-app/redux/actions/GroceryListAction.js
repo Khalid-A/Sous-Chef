@@ -4,16 +4,16 @@ export const ADD_GROCERY_LIST = "ADD_GROCERY_LIST";
 import firebase from 'react-native-firebase';
 
 /**
- * groceryListsRef Firestore collection reference to all grocery lists.
- */
+* groceryListsRef Firestore collection reference to all grocery lists.
+*/
 const groceryListsRef = firebase.firestore().collection("grocerylists");
 const ingredientsRef = firebase.firestore().collection("standardmappings");
 
 /**
- * beginGroceryListsFetch Creates a listener that updates the current user's
- * grocery list as updates are made to it.
- * @param {string} userid The ID of the currently logged in user
- */
+* beginGroceryListsFetch Creates a listener that updates the current user's
+* grocery list as updates are made to it.
+* @param {string} userid The ID of the currently logged in user
+*/
 export const beginGroceryListFetch = (userid) => async dispatch => {
     groceryListsRef.doc(userid).onSnapshot(groceryListSnapshot => {
         groceryListSnapshot.ref.collection(

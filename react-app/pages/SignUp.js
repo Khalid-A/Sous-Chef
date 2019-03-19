@@ -8,17 +8,17 @@ import { connect } from 'react-redux';
 import SousChefTextInput from './../components/SousChefTextInput'
 
 export class SignUp extends Component {
-  static navigationOptions = {
-    headerTransparent:false,
-    headerBackground:(
-      <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-        <SafeAreaView style={{flex:1 }}>
-          <StatusBar barStyle="light-content"/>
-        </SafeAreaView>
-      </LinearGradient>
-    ),
+    static navigationOptions = {
+        headerTransparent:false,
+        headerBackground:(
+            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
+                <SafeAreaView style={{flex:1 }}>
+                    <StatusBar barStyle="light-content"/>
+                </SafeAreaView>
+            </LinearGradient>
+        ),
 
-  }
+    }
 
     constructor(props) {
         super(props);
@@ -40,27 +40,27 @@ export class SignUp extends Component {
 
     render() {
         return (
-          <View style={styles.container}>
-              <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
-              <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain"/>
-                <SousChefTextInput
-                    placeholder='example@email.com'
-                    label={'Email:'}
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.email}
-                />
-                <SousChefTextInput
-                    placeholder='examplePassword'
-                    label={'Password:'}
-                    onChangeText={password => this.setState({ password })}
-                    value={this.state.password}
-                />
-              <TouchableOpacity style = {styles.button}
-                    onPress={this.handleSignUp}
-                ><Text style ={styles.buttonText}>SIGN UP</Text></TouchableOpacity>
-                <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
+            <View style={styles.container}>
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain"/>
+                    <SousChefTextInput
+                        placeholder='example@email.com'
+                        label={'Email:'}
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
+                        />
+                    <SousChefTextInput
+                        placeholder='examplePassword'
+                        label={'Password:'}
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                        />
+                    <TouchableOpacity style = {styles.button}
+                        onPress={this.handleSignUp}
+                        ><Text style ={styles.buttonText}>SIGN UP</Text></TouchableOpacity>
+                    <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
                 </LinearGradient>
-          </View>
+            </View>
         );
     }
 }
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     linearGradient: {
-      flex: 1,
-      alignItems: 'center',
+        flex: 1,
+        alignItems: 'center',
     },
     logo: {
         marginTop: Dimensions.get('window').height/5,
@@ -95,20 +95,20 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     buttonText: {
-      fontSize: 16,
-      fontFamily: 'Avenir',
-      textAlign: 'center',
-      color: BUTTON_BACKGROUND_COLOR,
-      backgroundColor:'transparent',
-      fontWeight: 'bold',
+        fontSize: 16,
+        fontFamily: 'Avenir',
+        textAlign: 'center',
+        color: BUTTON_BACKGROUND_COLOR,
+        backgroundColor:'transparent',
+        fontWeight: 'bold',
     },
     button: {
-      alignItems: 'center',
-      backgroundColor: 'white',
-      padding: 10,
-      width: 250,
-      borderRadius:30,
-      margin: 10,
+        alignItems: 'center',
+        backgroundColor: 'white',
+        padding: 10,
+        width: 250,
+        borderRadius:30,
+        margin: 10,
     },
 });
 

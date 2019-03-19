@@ -67,8 +67,8 @@ class SearchRecipes extends React.Component {
     render() {
         return (
             <View style={[styles.container]}>
-              <View style={{margin:5, alignItems:'center', flexDirection:'row', width: Dimensions.get('window').width - 70}}>
-                <RkTextInput
+                <View style={{margin:5, alignItems:'center', flexDirection:'row', width: Dimensions.get('window').width - 70}}>
+                    <RkTextInput
                         rkType="clear"
                         placeholder={'chicken'}
                         label={'Search:'}
@@ -80,19 +80,19 @@ class SearchRecipes extends React.Component {
                         autoCapitalize="none"
                         value={this.props.value}
                         inputStyle={{
-                          color: '#1d945b',
-                          fontSize: 20,
+                            color: '#1d945b',
+                            fontSize: 20,
                         }}
-                />
-                <Icon
-                    name="search"
-                    style={styles.actionButtonIcon}
-                    onPress={() => {this.searchPressed()}}
-                    raised = {true}
-                    color={BUTTON_BACKGROUND_COLOR}
-                    reverseColor={'white'}
-                />
-              </View>
+                        />
+                    <Icon
+                        name="search"
+                        style={styles.actionButtonIcon}
+                        onPress={() => {this.searchPressed()}}
+                        raised = {true}
+                        color={BUTTON_BACKGROUND_COLOR}
+                        reverseColor={'white'}
+                        />
+                </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>
                         {this.state.displaySearchText}
@@ -105,33 +105,33 @@ class SearchRecipes extends React.Component {
                             return (<TouchableOpacity onPress={() => {
                                 this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
                             }}>
-                                <SousChefCardSearch
-                                    headerText={item.title}
-                                    bodyText={
-                                        "Time: " +
-                                        (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                        (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                        "\n" +
-                                        "Serving Size: " +
-                                        item.servings
-                                    }
-                                    imagePath={item.images}
+                            <SousChefCardSearch
+                                headerText={item.title}
+                                bodyText={
+                                    "Time: " +
+                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                    "\n" +
+                                    "Serving Size: " +
+                                    item.servings
+                                }
+                                imagePath={item.images}
                                 />
-                            </TouchableOpacity>);
-                        }}
+                        </TouchableOpacity>);
+                    }}
                     />
-                </View>
             </View>
-        );
-    }
+        </View>
+    );
+}
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      flexDirection: "column",
-      paddingBottom: 10
-  },
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        paddingBottom: 10
+    },
     section: {
         flex: 1,
         flexDirection: "column"
@@ -151,11 +151,11 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     textInputLabel: {
-      fontSize: 20,
-      fontFamily: DEFAULT_FONT,
-      // margin: 5,
-      fontWeight: 'bold',
-      color: BUTTON_BACKGROUND_COLOR,
+        fontSize: 20,
+        fontFamily: DEFAULT_FONT,
+        // margin: 5,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
     },
     textInput: {
         borderBottomColor: BACKGROUND_COLOR,

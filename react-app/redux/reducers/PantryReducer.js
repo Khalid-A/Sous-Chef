@@ -3,13 +3,13 @@ import { CLEAR_PANTRY, ADD_PANTRY, SET_INGREDIENTS_TO_REMOVE } from '../actions/
 export function pantry(state = [], action) {
     switch(action.type) {
         case CLEAR_PANTRY:
-            return [];
+        return [];
         case ADD_PANTRY:
-            var newArr = [...state];
-            newArr.push(action.payload);
-            return newArr;
+        var newArr = [...state];
+        newArr.push(action.payload);
+        return newArr;
         default:
-            return state;
+        return state;
     }
 }
 
@@ -20,11 +20,11 @@ export function pantry(state = [], action) {
 */
 export function itemsToRemove(state = {}, action) {
     switch(action.type) {
-      case SET_INGREDIENTS_TO_REMOVE:
-      return Object.assign({}, state, {
-        ingredientsToRemove: action.payload,
-      });
-      default:
-      return state
+        case SET_INGREDIENTS_TO_REMOVE:
+        return Object.assign({}, state, {
+            ingredientsToRemove: action.payload,
+        });
+        default:
+        return state
     }
-  }
+}
