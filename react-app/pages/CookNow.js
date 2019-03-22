@@ -181,7 +181,7 @@ class CookNow extends React.Component {
                         <View style={styles.servings}>
                             <Icon
                                 name='restaurant'
-                                color='#17ba6b'
+                                color={BUTTON_BACKGROUND_COLOR}
                             />
                             <Text style={styles.subtitle}>
                                 Servings: {"\n"}{this.state.recipe.servings}
@@ -190,7 +190,7 @@ class CookNow extends React.Component {
                         <View style={styles.cookTime} >
                             <Icon
                                 name='timer'
-                                color='#17ba6b'
+                                color={BUTTON_BACKGROUND_COLOR}
                             />
                             <Text style={styles.subtitle}>
                                 {"Cook Time: \n"}
