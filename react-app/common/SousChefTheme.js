@@ -51,4 +51,64 @@ export default globalStyles = StyleSheet.create({
         borderBottomWidth: 1,
         fontSize: 20,
     },
+    listItem: {
+        flex: 1,
+        height: 50,
+        borderColor: "lightgrey",
+        backgroundColor: 'white',
+        borderBottomWidth: 0.25,
+        justifyContent:'center',
+    },
+    list: {
+        flex: 1,
+        flexDirection: "column",
+    },
+    containerList: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        backgroundColor: 'white',
+        paddingBottom: 25
+    },
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+    },
+    popupHeader: {
+        fontFamily: DEFAULT_FONT,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        padding: 5,
+    },
+    header: {
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
+        color: BUTTON_BACKGROUND_COLOR,
+        fontSize: 20,
+        margin: 10,
+    },
+    headerContainer: {
+        borderColor: "lightgrey",
+        borderBottomWidth: 0.5
+    },
+    dialogButtonContainer: {
+        backgroundColor: '#1d945b'
+    },
+    dialogButtonText: {
+        color: "white",
+        fontFamily: DEFAULT_FONT,
+        fontWeight: 'bold',
+    },
+    dialogTitleContainer: {
+        backgroundColor: '#1d945b'
+    },
+    dialogTitleText: {
+        color: "white",
+        fontFamily: DEFAULT_FONT,
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+
 });

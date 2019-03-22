@@ -21,9 +21,9 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import convert from 'convert-units';
 import {SwipeListView} from 'react-native-swipe-list-view';
-
 import firebase from 'react-native-firebase';
 import { addGroceryListItem } from '../redux/actions/GroceryListAction';
+import globalStyle from '../common/SousChefTheme';
 
 
 const defaultState = {
@@ -179,16 +179,16 @@ class Pantry extends React.Component {
 
     render() {
         return (
-            <View style={[styles.container]}>
-                <View style={[styles.headerContainer]}>
-                    <Text style={[styles.header]}>Items:</Text>
+            <View style={[globalStyle.containerList]}>
+                <View style={[globalStyle.headerContainer]}>
+                    <Text style={[globalStyle.header]}>Items:</Text>
                 </View>
                 <SwipeListView
                     useFlatList
                     data={this.props.pantry}
-                    style={[styles.list]}
+                    style={[globalStyle.list]}
                     renderItem={({item}, rowMap) => {
-                        return <View style={[styles.listItem]}>
+                        return <View style={[globalStyle.listItem]}>
                             <Text style={{padding: 10}}>
                                 {item.amount.toFixed(2)} {item.unit} {item.title}
                             </Text>
@@ -224,7 +224,7 @@ class Pantry extends React.Component {
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-create"
-                                        style={styles.actionButtonIcon}
+                                        style={globalStyle.actionButtonIcon}
                                         />
                                     <Text style={styles.text}>edit</Text>
                                 </View>
@@ -239,7 +239,7 @@ class Pantry extends React.Component {
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-close"
-                                        style={styles.actionButtonIcon}
+                                        style={globalStyle.actionButtonIcon}
                                         />
                                     <Text style={styles.text}>delete</Text>
                                 </View>
@@ -267,14 +267,14 @@ class Pantry extends React.Component {
                         return (
                             <Icon
                                 name="md-create"
-                                style={styles.actionButtonIcon}
+                                style={globalStyle.actionButtonIcon}
                                 />
                         );
                         else
                         return (
                             <Icon
                                 name="md-add"
-                                style={styles.actionButtonIcon}
+                                style={globalStyle.actionButtonIcon}
                                 />
                         );
                     }}
@@ -289,7 +289,7 @@ class Pantry extends React.Component {
                         }>
                         <Icon
                             name="md-add"
-                            style={styles.actionButtonIcon}
+                            style={globalStyle.actionButtonIcon}
                             />
                     </ActionButton.Item>
                 </ActionButton>
@@ -301,16 +301,16 @@ class Pantry extends React.Component {
                     }}
                     dialogTitle={
                         <DialogTitle
-                            style={[styles.dialogTitleContainer]}
-                            textStyle={[styles.dialogTitleText]}
+                            style={[globalStyle.dialogTitleContainer]}
+                            textStyle={[globalStyle.dialogTitleText]}
                             title="Add Item"
                             />
                     }
                     footer={
                         <DialogFooter>
                             <DialogButton
-                                style={[styles.dialogButtonContainer]}
-                                textStyle={[styles.dialogButtonText]}
+                                style={[globalStyle.dialogButtonContainer]}
+                                textStyle={[globalStyle.dialogButtonText]}
                                 text="Cancel"
                                 onPress={() => {
                                     this.setState({
@@ -319,8 +319,8 @@ class Pantry extends React.Component {
                                 }}
                                 />
                             <DialogButton
-                                style={[styles.dialogButtonContainer]}
-                                textStyle={[styles.dialogButtonText]}
+                                style={[globalStyle.dialogButtonContainer]}
+                                textStyle={[globalStyle.dialogButtonText]}
                                 text="Add Item"
                                 onPress={
                                     () => {
@@ -337,7 +337,7 @@ class Pantry extends React.Component {
                     >
                     <DialogContent>
                         <Text
-                            style={[styles.popupHeader]}
+                            style={[globalStyle.popupHeader]}
                             >
                             Item Name:
                         </Text>
@@ -355,7 +355,7 @@ class Pantry extends React.Component {
                             }
                             value={this.state.newIngredient}
                             />
-                        <Text style={[styles.popupHeader]}>
+                        <Text style={[globalStyle.popupHeader]}>
                             Quantity:
                         </Text>
 
@@ -468,65 +468,6 @@ class Pantry extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        backgroundColor: 'white',
-        paddingBottom: 25
-    },
-    actionButtonIcon: {
-        fontSize: 20,
-        height: 22,
-        color: 'white',
-    },
-    list: {
-        flex: 1,
-        flexDirection: "column",
-    },
-    popupHeader: {
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-        padding: 5,
-    },
-    header: {
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-        fontSize: 20,
-        margin: 10,
-    },
-    headerContainer: {
-        borderColor: "lightgrey",
-        borderBottomWidth: 0.5
-    },
-    listItem: {
-        flex: 1,
-        height: 50,
-        borderColor: "lightgrey",
-        backgroundColor: 'white',
-        borderBottomWidth: 0.25,
-        justifyContent:'center',
-    },
-    dialogButtonContainer: {
-        backgroundColor: '#1d945b'
-    },
-    dialogButtonText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-    },
-    dialogTitleContainer: {
-        backgroundColor: '#1d945b'
-    },
-    dialogTitleText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
     rowBack: {
         alignItems: 'center',
         backgroundColor: '#DDD',

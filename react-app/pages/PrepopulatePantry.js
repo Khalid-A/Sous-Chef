@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { RkPicker } from 'react-native-ui-kitten';
 import convert from 'convert-units';
 import { SwipeListView } from 'react-native-swipe-list-view';
-
+import globalStyle from '../common/SousChefTheme';
 import firebase from 'react-native-firebase';
 
 
@@ -143,16 +143,16 @@ class PrepopulatePantry extends React.Component {
 
     render() {
         return (
-            <View style={[styles.container]}>
-                <View style={[styles.headerContainer]}>
-                    <Text style={[styles.header]}>Items:</Text>
+            <View style={[globalStyle.containerList]}>
+                <View style={[globalStyle.headerContainer]}>
+                    <Text style={[globalStyle.header]}>Items:</Text>
                 </View>
                 <SwipeListView
                     useFlatList
                     data={this.props.pantry}
-                    style={[styles.list]}
+                    style={[globalStyle.list]}
                     renderItem={({item}, rowMap) => {
-                        return <View style={[styles.listItem]}>
+                        return <View style={[globalStyle.listItem]}>
                             <Text style={{padding: 10}}>
                                 {item.amount} {item.unit} {item.title}
                             </Text>
@@ -210,7 +210,7 @@ class PrepopulatePantry extends React.Component {
                         return (
                             <Icon
                                 name="md-arrow-round-forward"
-                                style={styles.actionButtonIcon}
+                                style={globalStyle.actionButtonIcon}
                                 />
                         );
                     }}
@@ -309,48 +309,7 @@ class PrepopulatePantry extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        backgroundColor: 'white',
-        paddingBottom: 25
-    },
-    actionButtonIcon: {
-        fontSize: 20,
-        height: 22,
-        color: 'white',
-    },
-    list: {
-        flex: 1,
-        flexDirection: "column",
-    },
-    popupHeader: {
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-        padding: 5,
-    },
-    header: {
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-        fontSize: 20,
-        margin: 10,
-    },
-    headerContainer: {
-        borderColor: "lightgrey",
-        borderBottomWidth: 0.5
-    },
-    listItem: {
-        flex: 1,
-        height: 50,
-        borderColor: "lightgrey",
-        backgroundColor: 'white',
-        borderBottomWidth: 0.25,
-        justifyContent:'center',
-    },
+
     text: {
         fontFamily: DEFAULT_FONT,
         fontWeight: 'bold',
@@ -359,20 +318,6 @@ const styles = StyleSheet.create({
     },
     dialogButtonContainer: {
         backgroundColor: '#1d945b'
-    },
-    dialogButtonText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-    },
-    dialogTitleContainer: {
-        backgroundColor: '#1d945b'
-    },
-    dialogTitleText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-        fontWeight: 'bold',
     },
     rowBack: {
         alignItems: 'center',

@@ -21,9 +21,9 @@ import Dialog, {
 } from 'react-native-popup-dialog';
 import convert from 'convert-units';
 import {SwipeListView} from 'react-native-swipe-list-view';
-
 import firebase from 'react-native-firebase';
 import { addPantryItem } from '../redux/actions/PantryAction';
+import globalStyle from '../common/SousChefTheme';
 
 
 const defaultState = {
@@ -179,16 +179,16 @@ class GroceryList extends React.Component {
 
     render() {
         return (
-            <View style={[styles.container]}>
-                <View style={[styles.headerContainer]}>
-                    <Text style={[styles.header]}>Items:</Text>
+            <View style={[globalStyle.containerList]}>
+                <View style={[globalStyle.headerContainer]}>
+                    <Text style={[globalStyle.header]}>Items:</Text>
                 </View>
                 <SwipeListView
                     useFlatList
                     data={this.props.groceryList}
-                    style={[styles.list]}
+                    style={[globalStyle.list]}
                     renderItem={({item}, rowMap) => {
-                        return <View style={[styles.listItem]}>
+                        return <View style={[globalStyle.listItem]}>
                             <Text style={{padding: 10}}>
                                 {item.amount.toFixed(2)} {item.unit} {item.title}
                             </Text>
@@ -224,7 +224,7 @@ class GroceryList extends React.Component {
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-create"
-                                        style={styles.actionButtonIcon}
+                                        style={globalStyle.actionButtonIcon}
                                         />
                                     <Text style={styles.text}>edit</Text>
                                 </View>
@@ -239,7 +239,7 @@ class GroceryList extends React.Component {
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-close"
-                                        style={styles.actionButtonIcon}
+                                        style={globalStyle.actionButtonIcon}
                                         />
                                     <Text style={styles.text}>delete</Text>
                                 </View>
@@ -282,14 +282,14 @@ class GroceryList extends React.Component {
                         return (
                             <Icon
                                 name="md-create"
-                                style={styles.actionButtonIcon}
+                                style={globalStyle.actionButtonIcon}
                                 />
                         );
                         else
                         return (
                             <Icon
                                 name="md-add"
-                                style={styles.actionButtonIcon}
+                                style={globalStyle.actionButtonIcon}
                                 />
                         );
                     }}
@@ -304,7 +304,7 @@ class GroceryList extends React.Component {
                         }>
                         <Icon
                             name="md-add"
-                            style={styles.actionButtonIcon}
+                            style={globalStyle.actionButtonIcon}
                             />
                     </ActionButton.Item>
                     <ActionButton.Item
@@ -314,7 +314,7 @@ class GroceryList extends React.Component {
                         >
                         <Icon
                             name="md-nutrition"
-                            style={styles.actionButtonIcon}
+                            style={globalStyle.actionButtonIcon}
                             />
                     </ActionButton.Item>
                 </ActionButton>
@@ -326,16 +326,16 @@ class GroceryList extends React.Component {
                     }}
                     dialogTitle={
                         <DialogTitle
-                            style={[styles.dialogTitleContainer]}
-                            textStyle={[styles.dialogTitleText]}
+                            style={[globalStyle.dialogTitleContainer]}
+                            textStyle={[globalStyle.dialogTitleText]}
                             title="Add Item"
                             />
                     }
                     footer={
                         <DialogFooter>
                             <DialogButton
-                                style={[styles.dialogButtonContainer]}
-                                textStyle={[styles.dialogButtonText]}
+                                style={[globalStyle.dialogButtonContainer]}
+                                textStyle={[globalStyle.dialogButtonText]}
                                 text="Cancel"
                                 onPress={() => {
                                     this.setState({
@@ -344,8 +344,8 @@ class GroceryList extends React.Component {
                                 }}
                                 />
                             <DialogButton
-                                style={[styles.dialogButtonContainer]}
-                                textStyle={[styles.dialogButtonText]}
+                                style={[globalStyle.dialogButtonContainer]}
+                                textStyle={[globalStyle.dialogButtonText]}
                                 text="Add Item"
                                 onPress={
                                     () => {
@@ -362,7 +362,7 @@ class GroceryList extends React.Component {
                     >
                     <DialogContent>
                         <Text
-                            style={[styles.popupHeader]}
+                            style={[globalStyle.popupHeader]}
                             >
                             Item Name:
                         </Text>
@@ -380,7 +380,7 @@ class GroceryList extends React.Component {
                             }
                             value={this.state.newIngredient}
                             />
-                        <Text style={[styles.popupHeader]}>
+                        <Text style={[globalStyle.popupHeader]}>
                             Quantity:
                         </Text>
                         <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
@@ -492,65 +492,6 @@ class GroceryList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        backgroundColor: 'white',
-        paddingBottom: 25
-    },
-    actionButtonIcon: {
-        fontSize: 20,
-        height: 22,
-        color: 'white',
-    },
-    list: {
-        flex: 1,
-        flexDirection: "column",
-    },
-    popupHeader: {
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-        padding: 5,
-    },
-    header: {
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-        fontSize: 20,
-        margin: 10,
-    },
-    headerContainer: {
-        borderColor: "lightgrey",
-        borderBottomWidth: 0.5
-    },
-    listItem: {
-        flex: 1,
-        height: 50,
-        borderColor: "lightgrey",
-        backgroundColor: 'white',
-        borderBottomWidth: 0.25,
-        justifyContent:'center',
-    },
-    dialogButtonContainer: {
-        backgroundColor: '#1d945b'
-    },
-    dialogButtonText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontWeight: 'bold',
-    },
-    dialogTitleContainer: {
-        backgroundColor: '#1d945b'
-    },
-    dialogTitleText: {
-        color: "white",
-        fontFamily: DEFAULT_FONT,
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
     rowBack: {
         alignItems: 'center',
         backgroundColor: '#DDD',
@@ -587,10 +528,7 @@ const styles = StyleSheet.create({
     },
     textInput:{
         fontFamily: DEFAULT_FONT,
-        // fontWeight: 'bold',
         fontSize: 13,
-
-
     },
 })
 
