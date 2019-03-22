@@ -1,0 +1,1377 @@
+ingredient_line,n_occurances,main_ingredient,newUnit,standardUnit,1 standard unit is?
+teaspoons plain yogurt,1,yogurt,teaspoon,cup,48.00000
+teaspoon water,2,water,teaspoon,cup,48.00000
+teaspoons hot water,2,water,teaspoon,cup,48.00000
+teaspoons water,1,water,teaspoon,cup,48.00000
+teaspoons peanut butter,1,peanut butter,teaspoon,cup,48.00000
+teaspoon parsley flakes,1,parsley flake,teaspoon,cup,48.00000
+teaspoon dried parsley,8,parsley,teaspoon,cup,48.00000
+teaspoons chopped fresh parsley,2,parsley,teaspoon,cup,48.00000
+teaspoons chopped fresh flat-leaf parsley,1,parsley,teaspoon,cup,48.00000
+"teaspoons chopped fresh flat-leaf parsley, divided (optional)",1,parsley,teaspoon,cup,48.00000
+teaspoons dried parsley,1,parsley,teaspoon,cup,48.00000
+teaspoons freshly shredded parmesan cheese,1,parmesan cheese,teaspoon,cup,48.00000
+teaspoons grated parmesan cheese (optional),1,parmesan cheese,teaspoon,cup,48.00000
+teaspoons canola oil,2,canola oil,teaspoon,cup,48.00000
+teaspoon butter,7,butter,teaspoon,cup,48.00000
+teaspoons butter,1,butter,teaspoon,cup,48.00000
+"teaspoons butter, divided",1,butter,teaspoon,cup,48.00000
+teaspoon brown sugar,6,brown sugar,teaspoon,cup,48.00000
+teaspoons brown sugar,2,brown sugar,teaspoon,cup,48.00000
+teaspoon packed dark brown sugar,1,brown sugar,teaspoon,cup,48.00000
+teaspoons italian-seasoned dry bread crumbs,1,bread crumb,teaspoon,cup,48.00000
+teaspoons applesauce,1,apple sauce,teaspoon,cup,48.00000
+dash worcestershire sauce,1,worcestershire sauce,dash,tablespoon,24.00000
+dashes worcestershire sauce (optional),1,worcestershire sauce,dash,tablespoon,24.00000
+tablespoons water,11,water,tablespoon,cup,16.00000
+tablespoon water,10,water,tablespoon,cup,16.00000
+"tablespoon water, or as needed",3,water,tablespoon,cup,16.00000
+tablespoons sour cream,4,sour cream,tablespoon,cup,16.00000
+tablespoons raisins,3,raisin,tablespoon,cup,16.00000
+tablespoons chopped fresh parsley,9,parsley,tablespoon,cup,16.00000
+tablespoon chopped fresh parsley,5,parsley,tablespoon,cup,16.00000
+tablespoon chopped fresh rosemary,5,parsley,tablespoon,cup,16.00000
+tablespoon minced fresh parsley,5,parsley,tablespoon,cup,16.00000
+tablespoons chopped fresh flat-leaf parsley,4,parsley,tablespoon,cup,16.00000
+tablespoons grated parmesan cheese,4,parmesan cheese,tablespoon,cup,16.00000
+tablespoon grated parmesan cheese,3,parmesan cheese,tablespoon,cup,16.00000
+" tablespoon grated parmesan cheese, or more to taste",1,parmesan cheese,tablespoon,cup,16.00000
+tablespoons shredded parmesan cheese,3,parmesan cheese,tablespoon,cup,16.00000
+tablespoons ketchup,5,ketchup,tablespoon,cup,16.00000
+cup apple cider vinegar,1,cider vinegar,cup,cup,1.00000
+cup cider vinegar,1,cider vinegar,cup,cup,1.00000
+tablespoons apple cider vinegar,5,cider vinegar,tablespoon,cup,16.00000
+tablespoon apple cider vinegar,1,cider vinegar,tablespoon,cup,16.00000
+tablespoons canola oil,7,canola oil,tablespoon,cup,16.00000
+tablespoon canola oil,4,canola oil,tablespoon,cup,16.00000
+tablespoons butter,52,butter,tablespoon,cup,16.00000
+tablespoon butter,28,butter,tablespoon,cup,16.00000
+"tablespoons butter, melted",13,butter,tablespoon,cup,16.00000
+"tablespoons butter, softened",7,butter,tablespoon,cup,16.00000
+tablespoons melted butter,3,butter,tablespoon,cup,16.00000
+tablespoons packed brown sugar,1,brown sugar,tablespoon,cup,16.00000
+tablespoons brown sugar,19,brown sugar,tablespoon,cup,16.00000
+tablespoon brown sugar,11,brown sugar,tablespoon,cup,16.00000
+tablespoons dry bread crumbs,4,bread crumb,tablespoon,cup,16.00000
+tablespoons chopped fresh basil,5,basil,tablespoon,cup,16.00000
+tablespoons dried basil,4,basil,tablespoon,cup,16.00000
+tablespoon chopped fresh basil,3,basil,tablespoon,cup,16.00000
+tablespoons all-purpose flour,25,all-purpose flour,tablespoon,cup,16.00000
+cups pillsbury best® all purpose flour,1,all-purpose flour,cup,cup,1.00000
+pinch salt,1,salt,pinch,tablespoon,3.00000
+pinch sea salt,1,salt,pinch,tablespoon,3.00000
+"pinch seasoned salt, or to taste",2,seasoned salt,pinch,teaspoon,16.00000
+"pinch red pepper flakes, or to taste",7,red pepper flake,pinch,teaspoon,16.00000
+pinch red pepper flakes,5,red pepper flake,pinch,teaspoon,16.00000
+pinch crushed red pepper flakes,2,red pepper flake,pinch,teaspoon,16.00000
+"pinch red pepper flakes, or to taste (optional)",2,red pepper flake,pinch,teaspoon,16.00000
+pinches red pepper flakes,2,red pepper flake,pinch,teaspoon,16.00000
+pinch paprika,4,paprika,pinch,teaspoon,16.00000
+"pinch paprika, or to taste",2,paprika,pinch,teaspoon,16.00000
+pinch ground nutmeg,3,nutmeg,pinch,teaspoon,16.00000
+teaspoon garlic salt,1,garlic salt,teaspoon,teaspoon,1.00000
+"pinch garlic salt, or to taste",4,garlic salt,pinch,teaspoon,16.00000
+"pinch cayenne pepper, or more to taste",4,cayenne pepper,pinch,teaspoon,16.00000
+"pinch cayenne pepper, or to taste (optional)",2,cayenne pepper,pinch,teaspoon,16.00000
+pinch salt and ground black pepper to taste,12,black pepper,pinch,teaspoon,16.00000
+pinch ground black pepper,11,black pepper,pinch,teaspoon,16.00000
+"pinch ground black pepper, or to taste",4,black pepper,pinch,teaspoon,16.00000
+pinch ground black pepper to taste,2,black pepper,pinch,teaspoon,16.00000
+pinch salt and ground black pepper,2,black pepper,pinch,teaspoon,16.00000
+ounces burrata cheese,2,burrata cheese,ounce,cup,8.00000
+ounces crumbled blue cheese,2,blue cheese,ounce,cup,8.00000
+ounce sheep's milk feta cheese,1,feta cheese,ounce,ounce,1.00000
+wedge lime,1,lime,wedge,whole,8.00000
+lemon wedge,2,lemon,wedge,whole,8.00000
+teaspoon whiskey (optional),1,whiskey,teaspoon,fluid ounce,6.00000
+pinch white sugar,4,white sugar,pinch,tablespoon,5.00000
+pinch onion powder,2,onion powder,pinch,tablespoon,5.00000
+"pinch garlic powder, or to taste",4,garlic powder,pinch,tablespoon,5.00000
+pinch ground cinnamon,4,cinnamon,pinch,teaspoon,16.00000
+chicken leg quarters,1,chicken leg,quarter,whole,4.00000
+teaspoon worcestershire sauce,19,worcestershire sauce,teaspoon,tablespoon,3.00000
+teaspoons worcestershire sauce,7,worcestershire sauce,teaspoon,tablespoon,3.00000
+teaspoon heinz worcestershire sauce,1,worcestershire sauce,teaspoon,tablespoon,3.00000
+teaspoon worcestershire sauce (optional),1,worcestershire sauce,teaspoon,tablespoon,3.00000
+"teaspoons worcestershire sauce, or to taste",1,worcestershire sauce,teaspoon,tablespoon,3.00000
+teaspoon white sugar,37,white sugar,teaspoon,tablespoon,3.00000
+teaspoons white sugar,5,white sugar,teaspoon,tablespoon,3.00000
+"teaspoon white sugar, or to taste",4,white sugar,teaspoon,tablespoon,3.00000
+"teaspoon white sugar, or more to taste",2,white sugar,teaspoon,tablespoon,3.00000
+teaspoon white sugar (optional),1,white sugar,teaspoon,tablespoon,3.00000
+"teaspoon white sugar, or more to taste (optional)",1,white sugar,teaspoon,tablespoon,3.00000
+"teaspoon white sugar, or to taste (optional)",1,white sugar,teaspoon,tablespoon,3.00000
+teaspoon vegetable oil,12,vegetable oil,teaspoon,tablespoon,3.00000
+teaspoons vegetable oil,8,vegetable oil,teaspoon,tablespoon,3.00000
+"teaspoons vegetable oil, divided",2,vegetable oil,teaspoon,tablespoon,3.00000
+"teaspoons vegetable oil, as needed",1,vegetable oil,teaspoon,tablespoon,3.00000
+"teaspoons vegetable oil, or as needed",1,vegetable oil,teaspoon,tablespoon,3.00000
+teaspoon vanilla extract,73,vanilla extract,teaspoon,tablespoon,3.00000
+teaspoons vanilla extract,34,vanilla extract,teaspoon,tablespoon,3.00000
+teaspoon vanilla extract (optional),1,vanilla extract,teaspoon,tablespoon,3.00000
+"teaspoon vanilla extract, or more to taste",1,vanilla extract,teaspoon,tablespoon,3.00000
+teaspoons pure vanilla extract,1,vanilla extract,teaspoon,tablespoon,3.00000
+teaspoon chopped fresh thyme,4,thyme,teaspoon,tablespoon,3.00000
+teaspoon dried rosemary,3,rosemary,teaspoon,tablespoon,3.00000
+teaspoons honey,3,honey,teaspoon,tablespoon,3.00000
+teaspoon honey,2,honey,teaspoon,tablespoon,3.00000
+teaspoon dried dill weed,3,dill,teaspoon,tablespoon,3.00000
+"teaspoon fresh dill, finely chopped",3,dill,teaspoon,tablespoon,3.00000
+teaspoon cumin,3,cumin,teaspoon,tablespoon,3.00000
+teaspoon ground cumin,1,cumin,teaspoon,tablespoon,3.00000
+"teaspoon ground sumac, or to taste",1,sumac,teaspoon,tablespoon,3.00000
+tablespoons tequila,3,tequila,tablespoon,fluid ounce,2.00000
+"pound chicken livers, rinsed and trimmed",1,chicken liver,pound,pound,1.00000
+"pound sea scallops, thawed",1,scallop,pound,pound,1.00000
+"skinless, boneless chicken breast halves",15,chicken breast,half,whole,2.00000
+"(4 ounce) boneless, skinless chicken breast halves",3,chicken breast,half,whole,2.00000
+"boneless, skinless chicken breast halves, sliced into thin strips",1,chicken breast,half,whole,2.00000
+"cooked chicken breast halves, chopped",1,chicken breast,half,whole,2.00000
+"cooked chicken breast halves, chopped (optional)",1,chicken breast,half,whole,2.00000
+large chicken breast halves,1,chicken breast,half,whole,2.00000
+"banana halves, cut crosswise",1,banana,half,whole,2.00000
+"honey graham crackers, crushed and divided",1,graham crackers,whole,whole,2.00000
+(10 ounce) package frozen peas,2,frozen pea,package,cup,1.25000
+"kohlrabi bulb, cut into cubes",1,kohlrabi,bulb,bulb,1.00000
+"kohlrabi bulb, peeled and diced",1,kohlrabi,bulb,bulb,1.00000
+"kohlrabi bulbs, peeled and diced",1,kohlrabi,bulb,bulb,1.00000
+"kohlrabi bulbs, peeled and grated",1,kohlrabi,bulb,bulb,1.00000
+"kohlrabi bulbs, peeled and sliced into 1\4 inch half moons",1,kohlrabi,bulb,bulb,1.00000
+"cloves garlic, minced",104,garlic,clove,clove,1.00000
+"clove garlic, minced",45,garlic,clove,clove,1.00000
+"cloves garlic, chopped",21,garlic,clove,clove,1.00000
+"cloves garlic, crushed",15,garlic,clove,clove,1.00000
+cloves garlic,12,garlic,clove,clove,1.00000
+"cloves garlic, sliced",5,garlic,clove,clove,1.00000
+"clove garlic, crushed",4,garlic,clove,clove,1.00000
+"clove garlic, peeled",4,garlic,clove,clove,1.00000
+"cloves garlic, finely chopped",4,garlic,clove,clove,1.00000
+"cloves garlic, peeled",4,garlic,clove,clove,1.00000
+"clove garlic, chopped",3,garlic,clove,clove,1.00000
+"cloves garlic, diced",3,garlic,clove,clove,1.00000
+"cloves garlic, pressed",3,garlic,clove,clove,1.00000
+"cloves garlic, thinly sliced",3,garlic,clove,clove,1.00000
+"large clove garlic, minced",3,garlic,clove,clove,1.00000
+"large cloves garlic, minced",3,garlic,clove,clove,1.00000
+clove garlic,2,garlic,clove,clove,1.00000
+"clove garlic, minced, or more to taste",2,garlic,clove,clove,1.00000
+"cloves fresh garlic, minced",2,garlic,clove,clove,1.00000
+"cloves garlic, coarsely chopped",2,garlic,clove,clove,1.00000
+"cloves garlic, pressed, divided",2,garlic,clove,clove,1.00000
+"clove garlic, crushed (or more to taste)",1,garlic,clove,clove,1.00000
+"clove garlic, finely chopped",1,garlic,clove,clove,1.00000
+"clove garlic, halved",1,garlic,clove,clove,1.00000
+"clove garlic, peeled and minced",1,garlic,clove,clove,1.00000
+"clove garlic, peeled and quartered",1,garlic,clove,clove,1.00000
+"clove garlic, slivered",1,garlic,clove,clove,1.00000
+"clove garlic, smashed",1,garlic,clove,clove,1.00000
+"clove garlic, thinly sliced",1,garlic,clove,clove,1.00000
+"cloves garlic, chopped, or more to taste",1,garlic,clove,clove,1.00000
+"cloves garlic, crushed and minced",1,garlic,clove,clove,1.00000
+"cloves garlic, crushed, or more to taste",1,garlic,clove,clove,1.00000
+"cloves garlic, crushed, or to taste",1,garlic,clove,clove,1.00000
+"cloves garlic, halved",1,garlic,clove,clove,1.00000
+"cloves garlic, lightly crushed",1,garlic,clove,clove,1.00000
+"cloves garlic, minced (optional)",1,garlic,clove,clove,1.00000
+"cloves garlic, minced, divided",1,garlic,clove,clove,1.00000
+"cloves garlic, minced, or more to taste",1,garlic,clove,clove,1.00000
+"cloves garlic, or more to taste",1,garlic,clove,clove,1.00000
+"cloves garlic, peeled and lightly cracked into large pieces (divided)",1,garlic,clove,clove,1.00000
+"cloves garlic, peeled and lightly smashed - divided",1,garlic,clove,clove,1.00000
+"cloves garlic, peeled and sliced",1,garlic,clove,clove,1.00000
+"cloves garlic, peeled, halved",1,garlic,clove,clove,1.00000
+"cloves garlic, quartered",1,garlic,clove,clove,1.00000
+"cloves garlic, smashed",1,garlic,clove,clove,1.00000
+teaspoon minced garlic,16,garlic,teaspoon,clove,1.00000
+teaspoons minced garlic,5,garlic,teaspoon,clove,1.00000
+"teaspoon garlic, minced",1,garlic,teaspoon,clove,1.00000
+teaspoon garlic powder,1,garlic powder,teaspoon,tablespoon,3.00000
+teaspoons garlic powder,1,garlic powder,teaspoon,tablespoon,3.00000
+teaspoon minced fresh garlic,1,garlic,teaspoon,clove,1.00000
+teaspoon minced garlic or roasted garlic,1,garlic,teaspoon,clove,1.00000
+teaspoon pressed garlic,1,garlic,teaspoon,clove,1.00000
+teaspoons crushed garlic,1,garlic,teaspoon,clove,1.00000
+"teaspoons garlic, minced",1,garlic,teaspoon,clove,1.00000
+teaspoons minced fresh garlic,1,garlic,teaspoon,clove,1.00000
+cube tomato-flavored bouillon,1,tomato-flavored bouillon,cube,cube,1.00000
+cubes chicken bouillon,6,chicken bouillon,cube,cube,1.00000
+cube chicken bouillon,2,chicken bouillon,cube,cube,1.00000
+cube chicken bouillon (such as maggi�),1,chicken bouillon,cube,cube,1.00000
+(8 ounce) container sour cream,3,sour cream,container,cup,1.00000
+cup plain yogurt,7,yogurt,cup,cup,1.00000
+cup non-fat plain yogurt,7,yogurt,cup,cup,1.00000
+cup nonfat plain yogurt,4,yogurt,cup,cup,1.00000
+cup vanilla yogurt,4,yogurt,cup,cup,1.00000
+cup whole wheat flour,1,whole wheat flour,cup,cup,1.00000
+cup whole-wheat flour,8,whole wheat flour,cup,cup,1.00000
+cup white whole wheat flour,5,whole wheat flour,cup,cup,1.00000
+cups whole wheat flour,3,whole wheat flour,cup,cup,1.00000
+cups whole milk,5,whole milk,cup,cup,1.00000
+cup white wine,11,white wine,cup,cup,1.00000
+cup dry white wine,8,white wine,cup,cup,1.00000
+cup heavy whipping cream,16,whipping cream,cup,cup,1.00000
+cups heavy whipping cream,8,whipping cream,cup,cup,1.00000
+cup coconut water,1,coconut water,cup,cup,1.00000
+cup water,94,water,cup,cup,1.00000
+cups water,77,water,cup,cup,1.00000
+cup boiling water,14,water,cup,cup,1.00000
+cup warm water,10,water,cup,cup,1.00000
+cup cold water,9,water,cup,cup,1.00000
+cup hot water,7,water,cup,cup,1.00000
+"cup water, or as needed",5,water,cup,cup,1.00000
+cups boiling water,4,water,cup,cup,1.00000
+cups hot water,3,water,cup,cup,1.00000
+"cups ice water, or as needed",3,water,cup,cup,1.00000
+cups warm water,3,water,cup,cup,1.00000
+cups warm water (110 degrees f (43 degrees c)),1,water,cup,cup,1.00000
+cups warm water - 110 to 115 degrees f (43 to 45 degrees c),3,water,cup,cup,1.00000
+cup chopped walnuts,17,walnut,cup,cup,1.00000
+cups walnuts,1,walnut,cup,cup,1.00000
+cup chopped walnuts (optional),8,walnut,cup,cup,1.00000
+cup vegetable shortening,6,vegetable shortening,cup,cup,1.00000
+cup crisco� all-vegetable shortening*,3,vegetable shortening,cup,cup,1.00000
+cups vegetable broth,5,vegetable broth,cup,cup,1.00000
+cup sunflower seeds,4,sunflower seed,cup,cup,1.00000
+cups sliced fresh strawberries,4,strawberry,cup,cup,1.00000
+cups sliced strawberries,3,strawberry,cup,cup,1.00000
+cup soy milk,3,soy milk,cup,cup,1.00000
+cup sour cream,1,sour cream,cup,cup,1.00000
+cup light sour cream,1,sour cream,cup,cup,1.00000
+cups sour cream,3,sour cream,cup,cup,1.00000
+cup shortening,3,shortening,cup,cup,1.00000
+cup ricotta cheese,3,ricotta cheese,cup,cup,1.00000
+tablespoons rice wine vinegar,1,rice wine vinegar,tablespoon,cup,16.00000
+cup rice vinegar,3,rice wine vinegar,cup,cup,1.00000
+cup rice wine vinegar,3,rice wine vinegar,cup,cup,1.00000
+cup seasoned rice vinegar,3,rice vinegar,cup,tablespoon,0.06250
+cups cooked brown rice,4,rice,cup,cup,1.00000
+cups cooked white rice,3,rice,cup,cup,1.00000
+cup white rice,3,rice,cup,cup,1.00000
+cup brown rice,3,rice,cup,cup,1.00000
+cups brown rice,3,rice,cup,cup,1.00000
+cups white rice,3,rice,cup,cup,1.00000
+cup long-grain rice,3,rice,cup,cup,1.00000
+cup golden raisins,3,raisin,cup,cup,1.00000
+cup raisins (optional),3,raisin,cup,cup,1.00000
+"cup quinoa, rinsed and drained",3,quinoa,cup,cup,1.00000
+cup bulk pork sausage,1,pork sausage,cup,cup,1.00000
+cup pizza sauce,3,pizza sauce,cup,cup,1.00000
+cup chopped pecans,18,pecan,cup,cup,1.00000
+cup pecans,3,pecan,cup,cup,1.00000
+cup peanut butter,6,peanut butter,cup,cup,1.00000
+cups peanut butter,6,peanut butter,cup,cup,1.00000
+cups creamy peanut butter,1,peanut butter,cup,cup,1.00000
+cup jif® creamy peanut butter,1,peanut butter,cup,cup,1.00000
+cup crunchy peanut butter,5,peanut butter,cup,cup,1.00000
+cup creamy peanut butter,3,peanut butter,cup,cup,1.00000
+cup chilled peach schnapps,1,peach schnapps,cup,cup,1.00000
+cup peach schnapps,3,peach schnapp,cup,cup,1.00000
+cups prepared pasta sauce,3,pasta sauce,cup,cup,1.00000
+cup chopped fresh mint,1,mint,cup,cup,1.00000
+cup chopped fresh parsley,13,parsley,cup,cup,1.00000
+cup chopped fresh flat-leaf parsley,2,parsley,cup,cup,1.00000
+cup chopped italian parsley,1,parsley,cup,cup,1.00000
+cup chopped fresh italian parsley,2,parsley,cup,cup,1.00000
+cup chopped fresh parsley (optional),2,parsley,cup,cup,1.00000
+"cup chopped fresh parsley, divided",2,parsley,cup,cup,1.00000
+"cup chopped flat leaf parsley, or more to taste",1,parsley,cup,cup,1.00000
+cup chopped fresh italian flat-leaf parsley,1,parsley,cup,cup,1.00000
+cup finely grated parmigiano-reggiano cheese,5,parmigiano-reggiano cheese,cup,cup,1.00000
+cup grated parmesan cheese,39,parmesan cheese,cup,cup,1.00000
+cup shredded parmesan cheese,10,parmesan cheese,cup,cup,1.00000
+"cup grated parmesan cheese, divided",3,parmesan cheese,cup,cup,1.00000
+cup orange marmalade,3,orange marmalade,cup,cup,1.00000
+cup shredded monterey jack cheese,4,monterey jack cheese,cup,cup,1.00000
+cup shredded mexican cheese blend,3,mexican cheese blend,cup,cup,1.00000
+cups marinara sauce,3,marinara sauce,cup,cup,1.00000
+cup maple syrup,3,maple syrup,cup,cup,1.00000
+cups elbow macaroni,4,macaroni,cup,cup,1.00000
+cup low-fat milk,3,low-fat milk,cup,cup,1.00000
+cup 1% milk,2,low-fat milk,cup,cup,1.00000
+cup lentils,4,lentil,cup,cup,1.00000
+cups ketchup,4,ketchup,cup,cup,1.00000
+cup ketchup,1,ketchup,cup,cup,1.00000
+cup italian-style salad dressing,3,italian dressing,cup,cup,1.00000
+"cup light cream, divided",1,light cream,cup,cup,1.00000
+"cups heavy cream, chilled",1,heavy cream,cup,cup,1.00000
+cups heavy cream,3,heavy cream,cup,cup,1.00000
+cups graham cracker crumbs,5,graham cracker crumb,cup,cup,1.00000
+cup crumbled goat cheese,4,goat cheese,cup,cup,1.00000
+cup frozen peas,3,frozen pea,cup,cup,1.00000
+cup oats,1,oat,cup,cup,1.00000
+cup fat-free milk,3,fat-free milk,cup,cup,1.00000
+cup dijon mustard,4,dijon mustard,cup,cup,1.00000
+tablespoon dijon mustard,1,dijon mustard,tablespoon,cup,16.00000
+cup creme fraiche,3,creme fraiche,cup,cup,1.00000
+cups crushed saltine crackers,3,cracker,cup,cup,1.00000
+cups quick cooking oats,3,cooking oat,cup,cup,1.00000
+cup flaked coconut,4,coconut,cup,cup,1.00000
+tablespoons unsweeted cocoa powder,1,cocoa powder,tablespoon,cup,16.00000
+cup cocoa powder,3,cocoa powder,cup,cup,1.00000
+cup unsweetened cocoa powder,3,cocoa powder,cup,cup,1.00000
+cups apple cider vinegar,3,cider vinegar,cup,cup,1.00000
+cups cider vinegar,3,cider vinegar,cup,cup,1.00000
+cup chocolate chips,1,chocolate chip,cup,cup,1.00000
+cups semisweet chocolate chips,3,chocolate chip,cup,cup,1.00000
+cup semisweet chocolate chips,3,chocolate chip,cup,cup,1.00000
+cup semi-sweet chocolate chips,1,chocolate chip,cup,cup,1.00000
+cups chicken stock,5,chicken stock,cup,cup,1.00000
+cup chicken stock,4,chicken stock,cup,cup,1.00000
+cups chicken broth,22,chicken broth,cup,cup,1.00000
+tablespoons chicken broth,1,chicken broth,tablespoon,cup,16.00000
+cup chicken broth,10,chicken broth,cup,cup,1.00000
+"cup chicken broth, divided",1,chicken broth,cup,cup,1.00000
+"cup chicken broth, or more as needed",1,chicken broth,cup,cup,1.00000
+cup cherry preserves,1,cherry preserve,cup,cup,1.00000
+cup cherry pie filling,1,cherry pie filling,cup,cup,1.00000
+tablespoon shredded reduced-fat cheddar cheese,1,cheddar cheese,tablespoon,cup,16.00000
+cup shredded cheddar cheese,37,cheddar cheese,cup,cup,1.00000
+cups shredded cheddar cheese,11,cheddar cheese,cup,cup,1.00000
+cup shredded reduced-fat cheddar cheese,3,cheddar cheese,cup,cup,1.00000
+cups shredded sharp cheddar cheese,3,cheddar cheese,cup,cup,1.00000
+cup sliced celery,3,celery,cup,cup,1.00000
+cup chopped celery,1,celery,cup,cup,1.00000
+cup diced carrot,3,carrot,cup,whole,0.50000
+cups grated carrot,3,carrot,cup,whole,0.50000
+cup grated carrot,3,carrot,cup,whole,0.50000
+cup shredded carrots,3,carrot,cup,whole,0.50000
+cup canola oil,15,canola oil,cup,cup,1.00000
+"cup canola oil, or as needed",1,canola oil,cup,cup,1.00000
+"cup canola oil, or to taste",1,canola oil,cup,cup,1.00000
+cup canned pumpkin,1,canned pumpkin,cup,cup,1.00000
+cup crisco� butter shortening*,4,butter shortening,cup,cup,1.00000
+cup butter,50,butter,cup,cup,1.00000
+"cup butter, softened",33,butter,cup,cup,1.00000
+"cup butter, melted",28,butter,cup,cup,1.00000
+cup unsalted butter,6,butter,cup,cup,1.00000
+"cup unsalted butter, melted",4,butter,cup,cup,1.00000
+"cup butter, cut into small pieces",2,butter,cup,cup,1.00000
+"cup butter, divided",2,butter,cup,cup,1.00000
+"cup butter, room temperature",2,butter,cup,cup,1.00000
+"cup butter, at room temperature",1,butter,cup,cup,1.00000
+"cup butter, cubed",1,butter,cup,cup,1.00000
+"cup butter, cut into 1 tablespoon sized pieces",1,butter,cup,cup,1.00000
+"cup butter, cut into chunks",1,butter,cup,cup,1.00000
+"cup butter, cut into pieces",1,butter,cup,cup,1.00000
+"cup butter, softened*",1,butter,cup,cup,1.00000
+"cup chilled butter, cut into pieces",1,butter,cup,cup,1.00000
+"cup chilled unsalted butter, cut into 1\2-inch cubes",1,butter,cup,cup,1.00000
+cup bulgur,1,bulgur,cup,cup,1.00000
+cup buckwheat flour,3,buckwheat flour,cup,cup,1.00000
+cup brown sugar,44,brown sugar,cup,cup,1.00000
+cup firmly packed light brown sugar,1,brown sugar,cup,cup,1.00000
+cups firmly packed light brown sugar,1,brown sugar,cup,cup,1.00000
+cup packed brown sugar,23,brown sugar,cup,cup,1.00000
+cup light brown sugar,3,brown sugar,cup,cup,1.00000
+cup packed light brown sugar,3,brown sugar,cup,cup,1.00000
+cups packed light brown sugar,1,brown sugar,cup,cup,1.00000
+cups brown sugar,3,brown sugar,cup,cup,1.00000
+"cup brown sugar, packed",2,brown sugar,cup,cup,1.00000
+"cup brewed espresso, chilled",1,brewed espresso,cup,cup,1.00000
+cup brewed coffee,1,brewed coffee,cup,cup,1.00000
+cup breast milk,3,breast milk,cup,cup,1.00000
+cups bread flour,3,bread flour,cup,cup,1.00000
+cup bread flour,2,bread flour,cup,cup,1.00000
+cup japanese-style bread crumbs (panko),1,bread crumb,cup,cup,1.00000
+cup dry bread crumbs,9,bread crumb,cup,cup,1.00000
+cup plain bread crumbs,1,bread crumb,cup,cup,1.00000
+cup seasoned bread crumbs,6,bread crumb,cup,cup,1.00000
+cup bread crumbs,5,bread crumb,cup,cup,1.00000
+cup whole wheat bread crumbs,4,bread crumb,cup,cup,1.00000
+cup italian seasoned bread crumbs,3,bread crumb,cup,cup,1.00000
+cup panko bread crumbs,3,bread crumb,cup,cup,1.00000
+"cup bread crumbs, or as needed",2,bread crumb,cup,cup,1.00000
+cup frozen blueberries,3,blueberry,cup,cup,1.00000
+cups fresh blueberries,1,blueberry,cup,cup,1.00000
+"cup ocean spray� fresh blueberries, cleaned and rinsed",3,blueberry,cup,cup,1.00000
+cups blueberries,3,blueberry,cup,cup,1.00000
+cup blueberries,3,blueberry,cup,cup,1.00000
+cup crumbled blue cheese,4,blue cheese,cup,cup,1.00000
+cup fresh blackberries,3,blackberry,cup,cup,1.00000
+cup biscuit baking mix (such as bisquick�),2,biscuit baking mix,cup,cup,1.00000
+cup biscuit baking mix,1,biscuit baking mix,cup,cup,1.00000
+cup bull's-eye bold original barbecue sauce,1,barbecue sauce,cup,cup,1.00000
+cup baking mix,1,baking mix,cup,cup,1.00000
+cup baking cocoa,2,baking cocoa,cup,cup,1.00000
+cup arugula,3,arugula,cup,cup,1.00000
+cup arborio rice,1,arborio rice,cup,cup,1.00000
+cup apple,1,apple,cup,whole,1.00000
+cup applesauce,8,applesauce,cup,cup,1.00000
+cup unsweetened applesauce,4,applesauce,cup,cup,1.00000
+cup apple juice,1,apple juice,cup,cup,1.00000
+"cup apple juice, or more if needed",1,apple juice,cup,cup,1.00000
+cup sliced almonds,4,almond,cup,cup,1.00000
+cups all-purpose flour,96,all-purpose flour,cup,cup,1.00000
+cup all-purpose flour,71,all-purpose flour,cup,cup,1.00000
+cups pillsbury best� all purpose flour,9,all-purpose flour,cup,cup,1.00000
+"cup all-purpose flour, or more if needed",2,all-purpose flour,cup,cup,1.00000
+"cup all-purpose flour, divided",1,all-purpose flour,cup,cup,1.00000
+"cup all-purpose flour, or as needed",1,all-purpose flour,cup,cup,1.00000
+cup 2% milk,2,2% milk,cup,cup,1.00000
+(8 ounce) package shredded cheddar cheese,3,cheddar cheese,package,cup,1.00000
+pint fresh blueberries,4,blueberry,pint,cup,1.00000
+cup brown sugar replacement (such as splenda� brown sugar blend),1,brown sugar replacement,cup,cup,1.00000
+cup barbeque sauce,2,barbeque sauce,cup,cup ,1.00000
+"cup cold butter, cut into small pieces",1,butter,cup,cup,1.00000
+fluid ounce aperol (bitter orange aperitif),1,aperol,fluid ounce,fluid ounce,1.00000
+fluid ounce ginger beer,1,ginger beer,fluid ounce,fluid ounce,1.00000
+fluid ounces ginger beer,1,ginger beer,fluid ounce,fluid ounce,1.00000
+fluid ounce sloe gin,1,gin,fluid ounce,fluid ounce,1.00000
+fluid ounces gin,1,gin,fluid ounce,fluid ounce,1.00000
+fluid ounce amaretto liqueur,1,amaretto,fluid ounce,fluid ounce,1.00000
+fluid ounces scotch whiskey,1,whiskey,fluid ounce,fluid ounce,1.00000
+fluid ounces rye whiskey,1,whiskey,fluid ounce,fluid ounce,1.00000
+fluid ounce tennessee whiskey (such as jack daniels ®),1,whiskey,fluid ounce,fluid ounce,1.00000
+fluid ounce vodka,9,vodka,fluid ounce,fluid ounce,1.00000
+fluid ounces vodka,8,vodka,fluid ounce,fluid ounce,1.00000
+fluid ounce triple sec,4,triple sec,fluid ounce,fluid ounce,1.00000
+fluid ounce tequila,3,tequila,fluid ounce,fluid ounce,1.00000
+(1.5 fluid ounce) jigger tequila (such as jose cuervo®),1,tequila,fluid ounce,fluid ounce,1.00000
+fluid ounces tequila,3,tequila,fluid ounce,fluid ounce,1.00000
+fluid ounce simple syrup,4,simple syrup,fluid ounce,fluid ounce,1.00000
+fluid ounces light rum,5,rum,fluid ounce,fluid ounce,1.00000
+fluid ounce light rum,1,rum,fluid ounce,fluid ounce,1.00000
+fluid ounces dark rum,5,rum,fluid ounce,fluid ounce,1.00000
+fluid ounces rum,3,rum,fluid ounce,fluid ounce,1.00000
+fluid ounces orange juice,5,orange juice,fluid ounce,fluid ounce,1.00000
+fluid ounces pisco,1,pisco,fluid ounce,fluid ounce,1.00000
+fluid ounce grapefruit juice,3,grapefruit,fluid ounce,fluid ounce,1.00000
+fluid ounce grenadine syrup,1,grenadine syrup,fluid ounce,fluid ounce,1.00000
+fluid ounce coffee-flavored liqueur (such as kahlua�),5,coffee liqueur,fluid ounce,fluid ounce,1.00000
+(1 ounce) envelope dry onion soup mix,2,onion soup mix,envelope,ounce,1.00000
+ounces minced prosciutto,2,prosciutto,ounce,ounce,1.00000
+"ounces philadelphia cream cheese, softened",2,cream cheese,ounce,ounce,1.00000
+"ounces dark chocolate, coarsely chopped",2,chocolate,ounce,ounce,1.00000
+(14.5 ounce) can chicken broth,4,chicken broth,ounce,cup,0.75000
+(1 ounce) package ranch salad dressing mix,2,ranch dressing,package,ounce,1.00000
+(1 ounce) package ranch dressing mix (such as hidden valley ranch ®),1,ranch dressing,package,ounce,1.00000
+(1 ounce) package dry onion soup mix,2,onion soup mix,package,ounce,1.00000
+pound ground turkey,5,turkey,pound,pound,1.00000
+pounds ground turkey,4,turkey,pound,pound,1.00000
+pounds unpeeled large shrimp,1,shrimp,pound,pound,1.00000
+"pound large shrimp, shelled and deveined, shells reserved",1,shrimp,pound,pound,1.00000
+"pound large shrimp, peeled and deveined",5,shrimp,pound,pound,1.00000
+"pound uncooked medium shrimp, peeled and deveined",5,shrimp,pound,pound,1.00000
+pounds ground beef chuck,4,beef,pound,pound,1.00000
+pounds lean ground beef,4,beef,pound,pound,1.00000
+"thin slices prosciutto, thinly sliced",1,prosciutto,slice,ounce,2.00000
+"thin slices prosciutto, torn into pieces",1,prosciutto,slice,ounce,2.00000
+tablespoon worcestershire sauce,13,worcestershire sauce,tablespoon,tablespoon,1.00000
+tablespoons worcestershire sauce,8,worcestershire sauce,tablespoon,tablespoon,1.00000
+tablespoon heinz worcestershire sauce,1,worcestershire sauce,tablespoon,tablespoon,1.00000
+"tablespoons worcestershire sauce, or more to taste",1,worcestershire sauce,tablespoon,tablespoon,1.00000
+tablespoons white wine vinegar,3,white wine vinegar,tablespoon,tablespoon,1.00000
+tablespoons white sugar,35,white sugar,tablespoon,tablespoon,1.00000
+tablespoon white sugar,18,white sugar,tablespoon,tablespoon,1.00000
+"tablespoons white sugar, or more to taste",3,white sugar,tablespoon,tablespoon,1.00000
+"tablespoon white sugar, or more to taste",1,white sugar,tablespoon,tablespoon,1.00000
+tablespoon vegetable oil for frying,1,vegetable oil,tablespoon,tablespoon,1.00000
+tablespoons vegetable oil,35,vegetable oil,tablespoon,tablespoon,1.00000
+tablespoon vegetable oil,30,vegetable oil,tablespoon,tablespoon,1.00000
+"tablespoons vegetable oil, or as needed",3,vegetable oil,tablespoon,tablespoon,1.00000
+tablespoon vanilla extract,8,vanilla extract,tablespoon,tablespoon,1.00000
+tablespoons vanilla extract,3,vanilla extract,tablespoon,tablespoon,1.00000
+tablespoon chopped fresh thyme,4,thyme,tablespoon,tablespoon,1.00000
+tablespoons quick-cooking tapioca,3,tapioca,tablespoon,tablespoon,1.00000
+tablespoon sugar,3,sugar,tablespoon,tablespoon,1.00000
+cup sugar,1,sugar,cup,tablespoon,0.06250
+tablespoon salt,1,salt,tablespoon,tablespoon,1.00000
+"tablespoon salt, or as needed",1,salt,tablespoon,tablespoon,1.00000
+tablespoon kosher salt,1,salt,tablespoon,tablespoon,1.00000
+tablespoons kosher salt,5,salt,tablespoon,tablespoon,1.00000
+teaspoos salt,1,salt,teaspoon,tablespoon,3.00000
+"teaspoon fine sea salt, or as needed",1,salt,teaspoon,tablespoon,3.00000
+teaspoon kosher salt,1,salt,teaspoon,tablespoon,3.00000
+teaspoons kosher salt,1,salt,teaspoon,tablespoon,3.00000
+tablespoons salt,4,salt,tablespoon,tablespoon,1.00000
+teaspoon salt,1,salt,teaspoon,tablespoon,3.00000
+teaspoons salt,1,salt,teaspoon,tablespoon,3.00000
+teaspoon garam masala,1,garam masala,teaspoon,teaspoon,1.00000
+teaspoon sea salt,1,salt,teaspoon,tablespoon,3.00000
+teaspoons sea salt,1,salt,teaspoon,tablespoon,3.00000
+tablespoons dried rosemary,1,rosemary,tablespoon,tablespoon,1.00000
+tablespoons chopped fresh rosemary,3,rosemary,tablespoon,tablespoon,1.00000
+tablespoon rice vinegar,3,rice vinegar,tablespoon,tablespoon,1.00000
+tablespoons rice vinegar,3,rice vinegar,tablespoon,tablespoon,1.00000
+tablespoon red wine vinegar,4,red wine vinegar,tablespoon,tablespoon,1.00000
+tablespoon onion powder,3,onion powder,tablespoon,tablespoon,1.00000
+teaspoons onion powder,1,onion powder,tablespoon,tablespoon,3.00000
+teaspoon onion powder,1,onion powder,tablespoon,tablespoon,3.00000
+tablespoon milk,3,milk,tablespoon,cup,16.00000
+cup milk,3,milk,cup,cup,1.00000
+cup cold milk,1,milk,cup,cup,1.00000
+cups milk,3,milk,cup,cup,1.00000
+tablespoon margarine,3,margarine,tablespoon,tablespoon,1.00000
+tablespoons lard,4,lard,tablespoon,tablespoon,1.00000
+tablespoon honey,9,honey,tablespoon,tablespoon,1.00000
+tablespoons honey,9,honey,tablespoon,tablespoon,1.00000
+"tablespoon honey, or to taste",1,honey,tablespoon,tablespoon,1.00000
+"teaspoons honey, or to taste",1,honey,tablespoon,tablespoon,1.00000
+tablespoons heavy cream,5,heavy cream,tablespoon,cup,16.23060
+tablespoons garlic powder,3,garlic powder,tablespoon,tablespoon,1.00000
+tablespoons flour,3,flour,tablespoon,cup,16.0000
+cup flour,3,flour,cup,cup,1.00000
+teaspoon soy sauce,1,soy sauce,teaspoon,tablespoon,0.33333
+teaspoons soy sauce,1,soy sauce,teaspoon,tablespoon,0.33333
+tablespoon soy sauce,1,soy sauce,tablespoon,tablespoon,1.00000
+tablespoons soy sauce,1,soy sauce,tablespoon,tablespoon,1.00000
+cup soy sauce,1,soy sauce,cup,tablespoon,0.06250
+tablespoon ground flax seed,3,flax seed,tablespoon,tablespoon,1.00000
+tablespoon fish sauce,3,fish sauce,tablespoon,tablespoon,1.00000
+tablespoons fresh dill,4,dill,tablespoon,tablespoon,1.00000
+tablespoon chopped fresh dill,4,dill,tablespoon,tablespoon,1.00000
+teaspoon curry powder,1,curry powder,teaspoon,tablespoon,0.33333
+tablespoon curry powder,4,curry powder,tablespoon,tablespoon,1.00000
+tablespoons curry powder,4,curry powder,tablespoon,tablespoon,1.00000
+tablespoon ground cumin,5,cumin,tablespoon,tablespoon,1.00000
+tablespoons ground cumin,3,cumin,tablespoon,tablespoon,1.00000
+tablespoon ground cinnamon,5,cinnamon,tablespoon,teaspoon,0.33333
+tablespoons chopped fresh chives,3,chive,tablespoon,tablespoon,1.00000
+tablespoon balsamic vinegar,5,balsamic vinegar,tablespoon,teaspoon,0.33333
+tablespoons bacon drippings,4,bacon dripping,tablespoon,tablespoon,1.00000
+tablespoons bacon grease,1,bacon dripping,tablespoon,tablespoon,1.00000
+teaspoon ginger paste,1,ginger paste,teaspoon,teaspoon,1.00000
+teaspoon ground ginger,13,ginger,teaspoon,teaspoon,1.00000
+teaspoon minced fresh ginger root,4,ginger,teaspoon,teaspoon,1.00000
+teaspoon grated fresh ginger,3,ginger,teaspoon,teaspoon,1.00000
+teaspoons ground ginger,2,ginger,teaspoon,teaspoon,1.00000
+teaspoons minced fresh ginger root,2,ginger,teaspoon,teaspoon,1.00000
+teaspoon grated ginger root,1,ginger,teaspoon,teaspoon,1.00000
+teaspoon minced fresh ginger,1,ginger,teaspoon,teaspoon,1.00000
+teaspoon minced fresh ginger root (optional),1,ginger,teaspoon,teaspoon,1.00000
+teaspoons finely grated fresh ginger,1,ginger,teaspoon,teaspoon,1.00000
+teaspoons grated fresh ginger,1,ginger,teaspoon,teaspoon,1.00000
+teaspoons grated fresh ginger root,1,ginger,teaspoon,teaspoon,1.00000
+tablespoons grated fresh ginger root,1,ginger,tablespoon,teaspoon,0.33333
+teaspoons za'atar,1,za'atar,teaspoon,teaspoon,1.00000
+teaspoon prepared yellow mustard,4,yellow mustard,teaspoon,teaspoon,1.00000
+teaspoon yellow mustard,1,yellow mustard,teaspoon,teaspoon,1.00000
+teaspoon xanthan gum,1,xanthan gum,teaspoon,teaspoon,1.00000
+teaspoons xanthan gum,1,xanthan gum,teaspoon,teaspoon,1.00000
+teaspoon white vinegar,3,white vinegar,teaspoon,teaspoon,1.00000
+teaspoons white vinegar,1,white vinegar,teaspoon,teaspoon,1.00000
+teaspoon ground white pepper,6,white pepper,teaspoon,teaspoon,1.00000
+teaspoon white pepper,3,white pepper,teaspoon,teaspoon,1.00000
+teaspoon ground white pepper (optional),2,white pepper,teaspoon,teaspoon,1.00000
+"teaspoon ground white pepper, or to taste",1,white pepper,teaspoon,teaspoon,1.00000
+teaspoons wasabi paste,1,wasabi paste,teaspoon,teaspoon,1.00000
+teaspoon vinegar,1,vinegar,teaspoon,teaspoon,1.00000
+teaspoons vinegar,1,vinegar,teaspoon,teaspoon,1.00000
+teaspoons vegetable bouillon,1,vegetable boullion,teaspoon,teaspoon,1.00000
+teaspoon vegetable bouillon powder,1,vegetable bouillon,teaspoon,teaspoon,1.00000
+teaspoon ground turmeric,13,turmeric,teaspoon,teaspoon,1.00000
+teaspoons ground turmeric,5,turmeric,teaspoon,teaspoon,1.00000
+cup turbinado sugar,1,turbinado sugar,cup,teaspoon,0.02083
+teaspoons turbinado sugar,1,turbinado sugar,teaspoon,teaspoon,1.00000
+teaspoon tomato paste,2,tomato paste,teaspoon,teaspoon,1.00000
+teaspoon tomato paste (optional),1,tomato paste,teaspoon,teaspoon,1.00000
+teaspoons low-sodium tomato paste,1,tomato paste,teaspoon,teaspoon,1.00000
+teaspoon dried tarragon,3,tarragon,teaspoon,teaspoon,1.00000
+teaspoon dried sage,3,sage,teaspoon,teaspoon,1.00000
+teaspoon red pepper flakes,32,red pepper flakes,teaspoon,teaspoon,1.00000
+teaspoons red pepper flakes,4,red pepper flakes,teaspoon,teaspoon,1.00000
+"teaspoon red pepper flakes, or more to taste",1,red pepper flakes,teaspoon,teaspoon,1.00000
+"teaspoon red pepper flakes, or to taste",5,red pepper flake,teaspoon,teaspoon,1.00000
+teaspoon crushed red pepper flakes,3,red pepper flake,teaspoon,teaspoon,1.00000
+teaspoon red curry paste,1,red curry paste,teaspoon,teaspoon,1.00000
+"teaspoon red curry paste, or to taste",1,red curry paste,teaspoon,teaspoon,1.00000
+teaspoon red chili powder,2,red chili powder,teaspoon,teaspoon,1.00000
+teaspoon chili powder,2,chili powder,teaspoon,teaspoon,1.00000
+teaspoon red chile powder,1,red chile powder,teaspoon,teaspoon,1.00000
+"teaspoon red chile powder, or to taste",1,red chile powder,teaspoon,teaspoon,1.00000
+teaspoon ground red chile pepper,1,red chile pepper,teaspoon,teaspoon,1.00000
+"serrano chile peppers, diced",1,chile pepper,whole,whole,1.00000
+serrano pepper,1,chile pepper,whole,whole,1.00000
+fresno chile peppers,1,chile pepper,whole,whole,1.00000
+"chile pepper, minced",1,chile pepper,whole,whole,1.00000
+"chile pepper, chopped",1,chile pepper,whole,whole,1.00000
+teaspoons lal mirchi (ground indian red chile pepper),1,red chile pepper,teaspoon,teaspoon,1.00000
+teaspoon pepper,15,pepper,teaspoon,teaspoon,1.00000
+"teaspoon pepper, divided",2,pepper,teaspoon,teaspoon,1.00000
+teaspoon paprika,33,paprika,teaspoon,teaspoon,1.00000
+teaspoon smoked paprika,3,paprika,teaspoon,teaspoon,1.00000
+teaspoon ground paprika,1,paprika,teaspoon,teaspoon,1.00000
+teaspoon paprika for garnish,1,paprika,teaspoon,teaspoon,1.00000
+"teaspoon paprika, or as needed",1,paprika,teaspoon,teaspoon,1.00000
+teaspoon sweet paprika,1,paprika,teaspoon,teaspoon,1.00000
+teaspoon dried oregano,33,oregano,teaspoon,teaspoon,1.00000
+tablespoon dried oregano,6,oregano,teaspoon,teaspoon,1.00000
+teaspoon oregano,4,oregano,teaspoon,teaspoon,1.00000
+"teaspoon crushed oregano, or more to taste",1,oregano,teaspoon,teaspoon,1.00000
+teaspoons dried oregano,3,oregano,teaspoon,teaspoon,1.00000
+teaspoons chopped fresh oregano,2,oregano,teaspoon,teaspoon,1.00000
+"teaspoons chopped fresh oregano, or to taste",1,oregano,teaspoon,teaspoon,1.00000
+teaspoons olive oil,17,olive oil,teaspoon,teaspoon,1.00000
+teaspoon olive oil,11,olive oil,teaspoon,teaspoon,1.00000
+teaspoons extra-virgin olive oil,3,olive oil,teaspoon,teaspoon,1.00000
+"teaspoon olive oil, or as needed",2,olive oil,teaspoon,teaspoon,1.00000
+"teaspoons olive oil, divided",2,olive oil,teaspoon,teaspoon,1.00000
+"teaspoon olive oil, or more if needed",1,olive oil,teaspoon,teaspoon,1.00000
+"teaspoons extra-virgin olive oil, or as needed",1,olive oil,teaspoon,teaspoon,1.00000
+"teaspoons olive oil, or as needed",1,olive oil,teaspoon,teaspoon,1.00000
+"teaspoons oil, divided",1,oil,teaspoon,teaspoon,1.00000
+teaspoon ground nutmeg,15,nutmeg,teaspoon,teaspoon,1.00000
+teaspoons ground nutmeg,2,nutmeg,teaspoon,teaspoon,1.00000
+teaspoon freshly grated nutmeg,1,nutmeg,teaspoon,teaspoon,1.00000
+teaspoon grated nutmeg,1,nutmeg,teaspoon,teaspoon,1.00000
+teaspoon ground nutmeg (optional),1,nutmeg,teaspoon,teaspoon,1.00000
+"teaspoon ground nutmeg, or to taste",1,nutmeg,teaspoon,teaspoon,1.00000
+teaspoon mustard seed,3,mustard seed,teaspoon,teaspoon,1.00000
+teaspoons mustard seed,1,mustard seed,teaspoon,teaspoon,1.00000
+teaspoon dry mustard powder,4,mustard powder,teaspoon,teaspoon,1.00000
+teaspoons dry mustard powder,2,mustard powder,teaspoon,teaspoon,1.00000
+teaspoon mustard powder,1,mustard powder,teaspoon,teaspoon,1.00000
+teaspoons mustard powder,1,mustard powder,teaspoon,teaspoon,1.00000
+teaspoon ground mustard,2,mustard,teaspoon,teaspoon,1.00000
+teaspoon prepared mustard,2,mustard,teaspoon,teaspoon,1.00000
+teaspoon prepared horseradish,1,mustard,teaspoon,teaspoon,1.00000
+teaspoons dry mustard,1,mustard,teaspoon,teaspoon,1.00000
+teaspoons ground mustard,1,mustard,teaspoon,teaspoon,1.00000
+teaspoon lemon zest,9,lemon,whole,whole,1.00000
+tablespoon lemon zest,9,lemon,whole,whole,1.00000
+teaspoon lemon pepper seasoning,2,lemon pepper seasoning,teaspoon,teaspoon,1.00000
+teaspoon lemon-pepper seasoning,1,lemon pepper seasoning,teaspoon,teaspoon,1.00000
+teaspoon lemon pepper,6,lemon pepper,teaspoon,teaspoon,1.00000
+"teaspoon lemon pepper, or to taste",1,lemon pepper,teaspoon,teaspoon,1.00000
+teaspoon lemon extract,1,lemon extract,teaspoon,teaspoon,1.00000
+teaspoons lemon extract,1,lemon extract,teaspoon,teaspoon,1.00000
+teaspoon dried italian seasoning,5,italian seasoning,teaspoon,teaspoon,1.00000
+teaspoon cumin seeds,5,cumin seed,teaspoon,teaspoon,1.00000
+teaspoons cumin seeds,5,cumin seed,teaspoon,teaspoon,1.00000
+teaspoon ground cinnamon,47,cinnamon,teaspoon,teaspoon,1.00000
+teaspoons ground cinnamon,15,cinnamon,teaspoon,teaspoon,1.00000
+"teaspoon ground cinnamon, or to taste",2,cinnamon,teaspoon,teaspoon,1.00000
+teaspoon ground cinnamon (optional),1,cinnamon,teaspoon,teaspoon,1.00000
+"teaspoon ground cinnamon, or as desired (optional)",1,cinnamon,teaspoon,teaspoon,1.00000
+"teaspoon ground cinnamon, or more to taste",1,cinnamon,teaspoon,teaspoon,1.00000
+"teaspoon ground cinnamon, or to taste (optional)",1,cinnamon,teaspoon,teaspoon,1.00000
+teaspoons cinnamon,1,cinnamon,teaspoon,teaspoon,1.00000
+teaspoon celery salt,4,celery salt,teaspoon,teaspoon,1.00000
+tablespoon cayenne pepper,1,cayenne pepper,tablespoon,teaspoon,0.33333
+teaspoon cayenne pepper,1,cayenne pepper,teaspoon,teaspoon,1.00000
+"teaspoon cayenne pepper, or more to taste",3,cayenne pepper,teaspoon,teaspoon,1.00000
+"teaspoon cayenne pepper, or to taste",3,cayenne pepper,teaspoon,teaspoon,1.00000
+teaspoons ground cardamom,1,cardamon,teaspoon,teaspoon,1.00000
+teaspoon ground cardamom,6,cardamom,teaspoon,teaspoon,1.00000
+teaspoon ground cardamom (optional),1,cardamom,teaspoon,teaspoon,1.00000
+teaspoons capers,2,caper,teaspoon,teaspoon,1.00000
+"pinch cajun seasoning (such as tony chachere's), or to taste",1,cajun seasoning,pinch,teaspoon,16.00000
+teaspoon cajun seasoning,3,cajun seasoning,teaspoon,teaspoon,1.00000
+teaspoons cajun seasoning,2,cajun seasoning,teaspoon,teaspoon,1.00000
+teaspoons bread machine yeast,1,bread machine yeast,teaspoon,teaspoon,1.00000
+teaspoon ground black pepper,146,black pepper,teaspoon,teaspoon,1.00000
+teaspoons ground black pepper,13,black pepper,teaspoon,teaspoon,1.00000
+teaspoon finely ground black pepper,146,black pepper,teaspoon,teaspoon,1.00000
+teaspoon freshly ground black pepper,10,black pepper,teaspoon,teaspoon,1.00000
+"teaspoon ground black pepper, or to taste",8,black pepper,teaspoon,teaspoon,1.00000
+teaspoon coarsely ground black pepper,4,black pepper,teaspoon,teaspoon,1.00000
+teaspoon black pepper,3,black pepper,teaspoon,teaspoon,1.00000
+teaspoon fresh ground black pepper,2,black pepper,teaspoon,teaspoon,1.00000
+teaspoon freshly cracked black pepper,1,black pepper,teaspoon,teaspoon,1.00000
+"teaspoon freshly ground black pepper, or to taste",1,black pepper,teaspoon,teaspoon,1.00000
+teaspoon ground black pepper (optional),1,black pepper,teaspoon,teaspoon,1.00000
+"teaspoon ground black pepper, or more to taste",1,black pepper,teaspoon,teaspoon,1.00000
+teaspoons freshly ground black pepper,1,black pepper,teaspoon,teaspoon,1.00000
+"teaspoons ground black pepper, or to taste",1,black pepper,teaspoon,teaspoon,1.00000
+teaspoons balsamic vinegar,1,balsamic vinegar,teaspoon,teaspoon,1.00000
+teaspoon baking soda,60,baking soda,teaspoon,teaspoon,1.00000
+teaspoons baking soda,11,baking soda,teaspoon,teaspoon,1.00000
+teaspoon baking powder,39,baking powder,teaspoon,teaspoon,1.00000
+teaspoons baking powder,28,baking powder,teaspoon,teaspoon,1.00000
+teaspoons asian seasoning blend,1,asian seasoning blend,teaspoon,teaspoon,1.00000
+teaspoons agave nectar,1,agave,teaspoon,teaspoon,1.00000
+teaspoons active dry yeast,7,active dry yeast,teaspoon,teaspoon,1.00000
+"cup cherries, pitted",1,cherry,cup,whole,1.00000
+"small zucchini, sliced lengthwise into 1\4-inch thick strips",1,zucchini,whole,whole,1.00000
+"small zucchini, sliced",1,zucchini,whole,whole,1.00000
+"small zucchini, cut in half lengthwise",1,zucchini,whole,whole,1.00000
+"zucchinis, sliced",4,zucchini,whole,whole,1.00000
+"zucchinis, cut into 1\2-inch slices",3,zucchini,whole,whole,1.00000
+"zucchini, diced",2,zucchini,whole,whole,1.00000
+"zucchini, grated",2,zucchini,whole,whole,1.00000
+"zucchini, chopped",1,zucchini,whole,whole,1.00000
+"zucchini, cut crosswise into 1\2-inch slices",1,zucchini,whole,whole,1.00000
+"zucchini, diced (optional)",1,zucchini,whole,whole,1.00000
+"zucchini, ends trimmed, cut lengthwise into 1\4-inch thick slices",1,zucchini,whole,whole,1.00000
+"zucchini, halved lengthwise",1,zucchini,whole,whole,1.00000
+"zucchini, halved lengthwise and sliced",1,zucchini,whole,whole,1.00000
+"zucchini, minced",1,zucchini,whole,whole,1.00000
+"zucchini, peeled and cut into chunks",1,zucchini,whole,whole,1.00000
+"zucchini, peeled and diced",1,zucchini,whole,whole,1.00000
+"zucchini, scrubbed and cut into 1\2-inch cubes",1,zucchini,whole,whole,1.00000
+"zucchini, shredded",1,zucchini,whole,whole,1.00000
+"zucchini, trimmed and very thinly sliced",1,zucchini,whole,whole,1.00000
+"zucchinis, cut into thick rounds",1,zucchini,whole,whole,1.00000
+"zucchinis, quartered lengthwise",1,zucchini,whole,whole,1.00000
+"zucchinis, sliced 1\4-inch thick, lengthwise",1,zucchini,whole,whole,1.00000
+"zucchinis, thickly sliced",1,zucchini,whole,whole,1.00000
+wonton wrappers,1,wonton wrapper,whole,whole,1.00000
+wontons,1,wonton,whole,whole,1.00000
+"large chilled seedless watermelon, cut into 1-inch cubes",1,watermellon,whole,whole,1.00000
+walleye fillets,2,walleye,whole,whole,1.00000
+"twine, cut into 12-inch lengths",1,twine,whole,whole,1.00000
+"turnips, diced",1,turnip,whole,whole,1.00000
+(4 ounce) fillets trout,3,trout,whole,whole,1.00000
+"whole trout, cleaned",1,trout,whole,whole,1.00000
+corn tortillas,4,tortilla,whole,whole,1.00000
+(8 inch) flour tortillas,3,tortilla,whole,whole,1.00000
+"corn tortilla, cut into 1-inch strips",1,tortilla,whole,whole,1.00000
+"corn tortillas, cut into 1-inch strips",1,tortilla,whole,whole,1.00000
+"high fiber, whole wheat tortillas, sliced into 1\2-inch strips",1,tortilla,whole,whole,1.00000
+large flour tortillas,1,tortilla,whole,whole,1.00000
+"large tomatoes, sliced",1,tomato,whole,whole,1.00000
+"tomatoes, chopped",6,tomato,whole,whole,1.00000
+"tomatoes, diced",6,tomato,whole,whole,1.00000
+"tomato, diced",5,tomato,whole,whole,1.00000
+"tomato, chopped",4,tomato,whole,whole,1.00000
+"ripe tomatoes, chopped",1,tomato,whole,whole,1.00000
+"roma (plum) tomatoes, halved",1,tomato,whole,whole,1.00000
+"roma (plum) tomatoes, diced",3,tomato,whole,whole,1.00000
+"roma (plum) tomatoes - peeled, quartered, and seeded",1,tomato,whole,whole,1.00000
+"roma (plum) tomatoes, seeded and diced",3,tomato,whole,whole,1.00000
+"tomato, seeded and chopped",2,tomato,whole,whole,1.00000
+"tomato, seeded and diced",2,tomato,whole,whole,1.00000
+"tomato, sliced",2,tomato,whole,whole,1.00000
+"tomatoes, cut in half crosswise",2,tomato,whole,whole,1.00000
+"tomatoes, finely chopped",2,tomato,whole,whole,1.00000
+"tomatoes, sliced",2,tomato,whole,whole,1.00000
+"large fresh tomatoes, peeled and diced",1,tomato,whole,whole,1.00000
+thin tomato slices,1,tomato,whole,whole,1.00000
+tomato slices,1,tomato,whole,whole,1.00000
+"tomato, cubed",1,tomato,whole,whole,1.00000
+"tomato, cut into wedges",1,tomato,whole,whole,1.00000
+"tomato, seeded and cut into small dice",1,tomato,whole,whole,1.00000
+"tomato, seeded and finely chopped",1,tomato,whole,whole,1.00000
+tomatoes,1,tomato,whole,whole,1.00000
+"tomatoes on the vine, cored and chopped",1,tomato,whole,whole,1.00000
+"tomatoes, chopped and juices strained",1,tomato,whole,whole,1.00000
+"tomatoes, cut into 1\4-inch slices",1,tomato,whole,whole,1.00000
+"tomatoes, cut into small cubes",1,tomato,whole,whole,1.00000
+"tomatoes, peeled and chopped",1,tomato,whole,whole,1.00000
+"tomatoes, seeded and chopped",1,tomato,whole,whole,1.00000
+"vine-ripened tomatoes, diced",1,tomato,whole,whole,1.00000
+"tomatillos, cut in half crosswise",2,tomatillo,whole,whole,1.00000
+"tomatillos, husked and quartered",1,tomatillo,whole,whole,1.00000
+"tomatillos, husked and rinsed",1,tomatillo,whole,whole,1.00000
+tilapia fillets,1,tilapia,whole,whole,1.00000
+skewers,3,skewer,whole,whole,1.00000
+bamboo skewers,1,skewer,whole,whole,1.00000
+"bamboo skewers, soaked in water for 20 minutes",1,skewer,whole,whole,1.00000
+"russet potatoes, peeled and cubed",1,potato,whole,whole,1.00000
+"potatoes, peeled and cubed",3,potato,whole,whole,1.00000
+"potatoes, cut into wedges",3,potato,whole,whole,1.00000
+"potatoes, peeled and quartered",1,potato,whole,whole,1.00000
+"pounds potatoes, peeled",1,potato,pound,whole,0.50000
+large baking potatoes,2,potato,whole,whole,1.00000
+baking potatoes,1,potato,whole,whole,1.00000
+yukon gold potatoes,1,potato,whole,whole,1.00000
+"yukon gold potatoes, diced",1,potato,whole,whole,1.00000
+"bone-in pork loin chops, 1 1\4-inch thick",1,pork loin chop,whole,whole,1.00000
+boneless pork chops,1,pork loin chop,whole,whole,1.00000
+"boneless pork loin chops, trimmed of fat",1,pork loin chop,whole,whole,1.00000
+"boneless quarter-loin pork chops, fat trimmed and chops cut into 1-inch cubes",1,pork loin chop,whole,whole,1.00000
+pork chops,3,pork chop,whole,whole,1.00000
+"bone-in pork chops, 1\2 inch thick",1,pork chop,whole,whole,1.00000
+center-cut pork chops,1,pork chop,whole,whole,1.00000
+whole black peppercorns,1,peppercorn,whole,whole,1.00000
+"whole black peppercorns, coarsely crushed",1,peppercorn,whole,whole,1.00000
+peaches,1,peach,whole,whole,1.00000
+"fresh peaches - peeled, pitted, and sliced",3,peach,whole,whole,1.00000
+"large  fresh peaches - peeled, pitted, and sliced",1,peach,whole,whole,1.00000
+"large fresh freestone peach, cut into 12 slices",1,peach,whole,whole,1.00000
+"large peach, sliced and frozen",1,peach,whole,whole,1.00000
+"slice orange, seeds removed",1,orange,slice,whole,0.12500
+"orange, sliced",4,orange,whole,whole,1.00000
+"orange, thinly sliced",1,orange,whole,whole,1.00000
+"orange, juiced",3,orange,whole,whole,1.00000
+"small yellow onion, sliced",1,onion,whole,whole,1.00000
+"small white onion, diced",1,onion,whole,whole,1.00000
+"large yellow onion, diced",1,onion,whole,whole,1.00000
+"large yellow onions, diced",1,onion,whole,whole,1.00000
+"onion, chopped",48,onion,whole,whole,1.00000
+"onion, cut into long slices",1,onion,whole,whole,1.00000
+"onion, cut into wedges",48,onion,whole,whole,1.00000
+"green onions, chopped",16,green onion,whole,whole,1.00000
+"small onion, chopped",15,onion,whole,whole,1.00000
+"onion, diced",14,onion,whole,whole,1.00000
+"large onion, chopped",13,onion,whole,whole,1.00000
+"onion, sliced",12,onion,whole,whole,1.00000
+"red onion, chopped",9,onion,whole,whole,1.00000
+"small onion, diced",9,onion,whole,whole,1.00000
+"green onions, thinly sliced",8,green onion,whole,whole,1.00000
+"onion, minced",8,onion,whole,whole,1.00000
+"red onion, diced",7,onion,whole,whole,1.00000
+"green onions, sliced",6,green onion,whole,whole,1.00000
+"large onion, diced",6,onion,whole,whole,1.00000
+"red onion, thinly sliced",6,onion,whole,whole,1.00000
+"small onion, finely chopped",5,onion,whole,whole,1.00000
+"small onion, minced",5,onion,whole,whole,1.00000
+"sweet onion (such as vidalia�), chopped",5,onion,whole,whole,1.00000
+"sweet onion, cut into quarters",1,onion,whole,whole,1.00000
+"green onions, minced",4,green onion,whole,whole,1.00000
+"onion, finely chopped",4,onion,whole,whole,1.00000
+"onion, thinly sliced",4,onion,whole,whole,1.00000
+"onions, chopped",4,onion,whole,whole,1.00000
+"small red onion, chopped",4,onion,whole,whole,1.00000
+"white onion, chopped",3,onion,whole,whole,1.00000
+"green onion, chopped",3,green onion,whole,whole,1.00000
+"green onions, finely chopped",3,green onion,whole,whole,1.00000
+"onions, sliced",3,onion,whole,whole,1.00000
+"red onion, finely chopped",3,onion,whole,whole,1.00000
+"red onion, finely diced",3,onion,whole,whole,1.00000
+"small red onion, diced",3,onion,whole,whole,1.00000
+"white onion, diced",2,onion,whole,whole,1.00000
+"yellow onion, chopped",2,onion,whole,whole,1.00000
+"yellow onion, diced",2,onion,whole,whole,1.00000
+"medium onion, chopped",2,onion,whole,whole,1.00000
+"onion, coarsely chopped",2,onion,whole,whole,1.00000
+"onion, cut into chunks",2,onion,whole,whole,1.00000
+"onion, cut into large chunks",2,onion,whole,whole,1.00000
+"onion, finely diced",2,onion,whole,whole,1.00000
+"onion, halved and thinly sliced",2,onion,whole,whole,1.00000
+"onion, quartered",2,onion,whole,whole,1.00000
+"onions, diced",2,onion,whole,whole,1.00000
+"onions, finely chopped",2,onion,whole,whole,1.00000
+thick slices red onion,1,onion,whole,whole,1.00000
+"thin onion slices, separated into rings",1,onion,whole,whole,1.00000
+thin slices red onion,1,onion,whole,whole,1.00000
+"white onion, chopped (optional)",1,onion,whole,whole,1.00000
+"white onion, coarsely chopped",1,onion,whole,whole,1.00000
+"white onion, finely chopped",1,onion,whole,whole,1.00000
+"white onion, sliced",1,onion,whole,whole,1.00000
+"white onions, sliced thinly",1,onion,whole,whole,1.00000
+"yellow onion, cut into large chunks",1,onion,whole,whole,1.00000
+"yellow onion, halved and thinly sliced",1,onion,whole,whole,1.00000
+"yellow onion, thinly sliced",1,onion,whole,whole,1.00000
+yellow onions,1,onion,whole,whole,1.00000
+"yellow onions, diced",1,onion,whole,whole,1.00000
+kalamata (or pitted black) olives,1,olive,whole,whole,1.00000
+"kalamata olives, pitted and chopped",1,olive,whole,whole,1.00000
+"mango - peeled, seeded, and chopped",2,mango,whole,whole,1.00000
+"large mango, peeled and pitted",1,mango,whole,whole,1.00000
+"mangoes - peeled, seeded, and chopped",1,mango,whole,whole,1.00000
+"mango - peeled, seeded, and diced",2,mango,whole,whole,1.00000
+"mango, peeled and diced",2,mango,whole,whole,1.00000
+"mango, diced",1,mango,whole,whole,1.00000
+"lime, juiced",20,lime,whole,whole,1.00000
+"limes, juiced",16,lime,whole,whole,1.00000
+"lemon, cut in half",1,lemon,whole,whole,1.00000
+"lemon, juiced",25,lemon,whole,whole,1.00000
+"lemon, cut into wedges",6,lemon,whole,whole,1.00000
+"lemon, zested and juiced",6,lemon,whole,whole,1.00000
+"lemon, zested",4,lemon,whole,whole,1.00000
+"lemon, sliced",3,lemon,whole,whole,1.00000
+"lemon, thinly sliced",2,lemon,whole,whole,1.00000
+"lemons, juiced",2,lemon,whole,whole,1.00000
+twist lemon peel,1,lemon,whole,whole,1.00000
+lamb shank (optional),1,lamb shank,whole,whole,1.00000
+lamb shanks,1,lamb shank,whole,whole,1.00000
+"kaiser rolls, split",2,kaiser roll,whole,whole,1.00000
+kaiser rolls,1,kaiser roll,whole,whole,1.00000
+"jicama, peeled and chopped",1,jicama,whole,whole,1.00000
+"jicama, peeled and cut into thin matchsticks",1,jicama,whole,whole,1.00000
+"jicama, peeled and diced",1,jicama,whole,whole,1.00000
+"jicamas, peeled and finely diced",1,jicama,whole,whole,1.00000
+"jalapeno pepper, seeded and minced",6,jalapeno,whole,whole,1.00000
+"jalapeno pepper, diced",3,jalapeno,whole,whole,1.00000
+"jalapeno pepper, finely chopped",3,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and diced",3,jalapeno,whole,whole,1.00000
+"jalapeno peppers, seeded and chopped",3,jalapeno,whole,whole,1.00000
+"jalapeno pepper, minced",2,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and chopped",2,jalapeno,whole,whole,1.00000
+"jalapeno peppers, seeded and diced",2,jalapeno,whole,whole,1.00000
+"jalapeno peppers, seeded and finely diced",2,jalapeno,whole,whole,1.00000
+"jalapeno chile peppers, seeded and minced",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, chopped",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, coarsely chopped (optional)",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, diced, or more to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, halved and seeded",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, or more to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and coarsely chopped",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and coarsely chopped - or to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and diced - or to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and diced, or to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and finely chopped",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, seeded and finely chopped - or more to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno pepper, sliced",1,jalapeno,whole,whole,1.00000
+jalapeno peppers - seeds and membranes removed and peppers chopped (optional),1,jalapeno,whole,whole,1.00000
+"jalapeno peppers, coarsely chopped",1,jalapeno,whole,whole,1.00000
+"jalapeno peppers, halved lengthwise and seeded",1,jalapeno,whole,whole,1.00000
+"jalapeno peppers, or more to taste",1,jalapeno,whole,whole,1.00000
+"jalapeno peppers, seeded and minced",1,jalapeno,whole,whole,1.00000
+"jalapeno peppers, seeded and sliced",1,jalapeno,whole,whole,1.00000
+tablespoons seeded and diced jalapeno pepper,1,jalapeno,tablespoon,whole,1.00000
+ice cubes,3,ice,whole,whole,1.00000
+large ice cubes,1,ice,whole,whole,1.00000
+"cubes  ice, or as needed",1,ice,whole,whole,1.00000
+cubes ice,1,ice,whole,whole,1.00000
+cubes ice cubes,1,ice,whole,whole,1.00000
+hot dog buns,1,hot dog bun,whole,whole,1.00000
+"hot dogs, sliced 3\4-inch thick",1,hot dog bun,whole,whole,1.00000
+cornish game hens,1,hen,whole,whole,1.00000
+hamburger buns,3,hamburger bun,whole,whole,1.00000
+whole smoked goose,1,goose,whole,whole,1.00000
+sheets (12x18-inches each) reynolds wrap� non-stick foil,7,foil,whole,whole,1.00000
+"black mission figs, halved lengthwise",1,fig,whole,whole,1.00000
+"head escarole, chopped",1,escarole,whole,whole,1.00000
+"small eggplant, cut crosswise into 1\2-inch slices",1,eggplant,whole,whole,1.00000
+"eggplant, diced",1,eggplant,whole,whole,1.00000
+"eggplant, peeled and cut into 1\2-inch slices",1,eggplant,whole,whole,1.00000
+"large unpeeled purple eggplant, trimmed and cut into 1\8-inch thick slices",1,eggplant,whole,whole,1.00000
+"large eggplant, chopped",1,eggplant,whole,whole,1.00000
+"large eggplant, ends trimmed",1,eggplant,whole,whole,1.00000
+"large eggplant, peeled and sliced",1,eggplant,whole,whole,1.00000
+"large eggplant, sliced into 1-inch thick rounds",1,eggplant,whole,whole,1.00000
+"eggs, as fresh as possible",1,egg,whole,whole,1.00000
+eggs,113,egg,whole,whole,1.00000
+egg,45,egg,whole,whole,1.00000
+"eggs, beaten",32,egg,whole,whole,1.00000
+large eggs,20,egg,whole,whole,1.00000
+large egg,16,egg,whole,whole,1.00000
+"egg, beaten",15,egg,whole,whole,1.00000
+extra large egg whites,1,egg,whole,whole,1.00000
+egg whites,9,egg,whole,whole,1.00000
+egg yolks,8,egg,whole,whole,1.00000
+egg yolk,8,egg,whole,whole,1.00000
+"hard-cooked eggs, chopped",8,egg,whole,whole,1.00000
+"egg, lightly beaten",7,egg,whole,whole,1.00000
+"eggs, lightly beaten",5,egg,whole,whole,1.00000
+"large eggs, lightly beaten",3,egg,whole,whole,1.00000
+"eggs, room temperature",3,egg,whole,whole,1.00000
+"eggs, separated",3,egg,whole,whole,1.00000
+"hard-cooked eggs, diced",2,egg,whole,whole,1.00000
+"hard-cooked eggs, sliced",2,egg,whole,whole,1.00000
+beaten egg,1,egg,whole,whole,1.00000
+"chicken eggs, separated",1,egg,whole,whole,1.00000
+hard cooked eggs,1,egg,whole,whole,1.00000
+"hard-boiled eggs, crumbled",1,egg,whole,whole,1.00000
+"hard-boiled eggs, thinly sliced (optional)",1,egg,whole,whole,1.00000
+hard-cooked eggs,1,egg,whole,whole,1.00000
+"hard-cooked eggs, peeled",1,egg,whole,whole,1.00000
+"hard-cooked eggs, peeled and sliced in half lengthwise",1,egg,whole,whole,1.00000
+"hard-cooked eggs, sliced 1\8-inch thick",1,egg,whole,whole,1.00000
+large egg yolk,1,egg,whole,whole,1.00000
+large egg yolks,1,egg,whole,whole,1.00000
+"large egg, beaten",1,egg,whole,whole,1.00000
+"large egg, lightly beaten",1,egg,whole,whole,1.00000
+"large eggs, slightly beaten",1,egg,whole,whole,1.00000
+"large eggs, well-beaten",1,egg,whole,whole,1.00000
+whole egg,1,egg,whole,whole,1.00000
+"cucumber, chopped",4,cucumber,whole,whole,1.00000
+"cucumber - peeled, seeded, and chopped",2,cucumber,whole,whole,1.00000
+"cucumber, peeled and diced",2,cucumber,whole,whole,1.00000
+"cucumber, seeded and chopped",2,cucumber,whole,whole,1.00000
+"cucumber, seeded and diced",2,cucumber,whole,whole,1.00000
+"large cucumber, sliced",2,cucumber,whole,whole,1.00000
+"baby cucumbers, seeded and cut into cubes",1,cucumber,whole,whole,1.00000
+"baby cucumbers, sliced",1,cucumber,whole,whole,1.00000
+"cucumber - peeled, seeded, and diced",1,cucumber,whole,whole,1.00000
+"cucumber - peeled, seeded, and shredded",1,cucumber,whole,whole,1.00000
+"cucumber - peeled, seeded, and sliced",1,cucumber,whole,whole,1.00000
+"cup canned garbanzo beans, drained and 1\4 cup liquid reserved",1,garbanzo bean,cup,cup,1.00000
+cucumber slice,1,cucumber,whole,whole,1.00000
+"cucumber, cubed",1,cucumber,whole,whole,1.00000
+"cucumber, cut into small pieces",1,cucumber,whole,whole,1.00000
+"cucumber, peeled and chopped",1,cucumber,whole,whole,1.00000
+"cucumber, thinly sliced",1,cucumber,whole,whole,1.00000
+"cucumbers - peeled, quartered, and cut into 1\2-inch slices",1,cucumber,whole,whole,1.00000
+"cucumbers - peeled, seeded, and cut into 1\2-inch cubes",1,cucumber,whole,whole,1.00000
+"cucumbers, cut into 1\8-inch slices",1,cucumber,whole,whole,1.00000
+"cucumbers, finely chopped",1,cucumber,whole,whole,1.00000
+"cucumbers, halved lengthwise and thinly sliced crosswise",1,cucumber,whole,whole,1.00000
+cup chopped cucumber,1,cucumber,whole,whole,1.00000
+"japanese cucumbers - peeled, seeded, and sliced thin",1,cucumber,whole,whole,1.00000
+"large cucumber, finely diced",1,cucumber,whole,whole,1.00000
+"large cucumber, seeded and diced",1,cucumber,whole,whole,1.00000
+"large cucumber, sliced and then halved",1,cucumber,whole,whole,1.00000
+"large cucumbers - peeled, seeded, and cut into 1\4-inch slices",1,cucumber,whole,whole,1.00000
+"large english cucumber, cubed",1,cucumber,whole,whole,1.00000
+"large english cucumber, finely diced",1,cucumber,whole,whole,1.00000
+"large english cucumber, minced",1,cucumber,whole,whole,1.00000
+wooden craft sticks,1,craft stick,whole,whole,1.00000
+colored wooden craft sticks,1,craft stick,whole,whole,1.00000
+keebler� town house� original crackers,2,crackers,whole,whole,1.00000
+keebler� town house� flipsides� garlic herb crackers,1,crackers,whole,whole,1.00000
+keebler� town house� flipsides� original crackers,1,crackers,whole,whole,1.00000
+keebler� town house toppers� original crackers,1,crackers,whole,whole,1.00000
+"ears corn, husked",1,corn,whole,whole,1.00000
+"ears corn on the cob, cooked, cooled",8,corn,whole,whole,1.00000
+"ears corn on the cob, husks and silk removed",8,corn,whole,whole,1.00000
+"ears fresh corn, husks and silks removed",1,corn,whole,whole,1.00000
+"ears fresh corn, kernels cut from cob",3,corn,whole,whole,1.00000
+"ears corn, kernels cut from cob",3,corn,whole,whole,1.00000
+"ear corn, kernels cut from cob",3,corn,whole,whole,1.00000
+cinnamon stick,2,cinnamon stick,whole,whole,1.00000
+cinnamon sticks,2,cinnamon stick,whole,whole,1.00000
+"cinnamon stick, broken",1,cinnamon stick,whole,whole,1.00000
+chicken wings,1,chicken wing,whole,whole,1.00000
+"skinless, bone-in chicken thighs",1,chicken thigh,whole,whole,1.00000
+bone-in chicken thighs with skin,1,chicken thigh,whole,whole,1.00000
+"boneless, skinless chicken thighs, chopped",1,chicken thigh,whole,whole,1.00000
+chicken drumsticks,1,chicken drumstick,whole,whole,1.00000
+chicken drumsticks and thighs,1,chicken drumstick,whole,whole,1.00000
+"boneless chicken breasts, skin on",1,chicken breast,whole,whole,1.00000
+"boneless skinless chicken breasts, butterflied",1,chicken breast,whole,whole,1.00000
+"boneless skinless chicken breasts, cut into strips",1,chicken breast,whole,whole,1.00000
+"boneless, skinless chicken breasts",1,chicken breast,whole,whole,1.00000
+"chicken breasts, diced",1,chicken breast,whole,whole,1.00000
+"cooked chicken breasts, shredded",1,chicken breast,whole,whole,1.00000
+large chicken breasts,1,chicken breast,whole,whole,1.00000
+"whole skinless, boneless chicken breasts",1,chicken breast,whole,whole,1.00000
+"whole chicken, giblets removed",1,chicken,whole,whole,1.00000
+"whole chicken, quartered",1,chicken,whole,whole,1.00000
+chestnuts,1,chestnut,whole,whole,1.00000
+cherry tomatoes,1,cherry tomato,whole,whole,1.00000
+"cherry tomatoes, halved",1,cherry tomato,whole,whole,1.00000
+"cherry tomatoes, sliced",1,cherry tomato,whole,whole,1.00000
+"cherry tomatoes, thinly sliced",1,cherry tomato,whole,whole,1.00000
+cherries with stems,1,cherry,whole,whole,1.00000
+"bunch swiss chard, chopped",1,chard,whole,whole,1.00000
+"bunch swiss chard, trimmed and chopped",1,chard,whole,whole,1.00000
+"bunches rainbow chard, chopped",1,chard,whole,whole,1.00000
+"chard leaves, stems removed and leaves thinly sliced",1,chard,whole,whole,1.00000
+"carrots, sliced",4,carrot,whole,whole,1.00000
+"carrot, chopped",3,carrot,whole,whole,1.00000
+"carrots, chopped",3,carrot,whole,whole,1.00000
+"carrots, finely chopped",2,carrot,whole,whole,1.00000
+"carrots, grated",2,carrot,whole,whole,1.00000
+"carrots, shredded",2,carrot,whole,whole,1.00000
+"carrots, thinly sliced",2,carrot,whole,whole,1.00000
+cup chopped carrot,2,carrot,whole,whole,1.00000
+cup chopped carrots,2,carrot,whole,whole,1.00000
+"large carrots, sliced",2,carrot,whole,whole,1.00000
+"baby carrots, chopped",1,carrot,whole,whole,1.00000
+"baby carrots, grated (optional)",1,carrot,whole,whole,1.00000
+"carrot, coarsely chopped",1,carrot,whole,whole,1.00000
+"carrot, diced",1,carrot,whole,whole,1.00000
+"carrot, grated",1,carrot,whole,whole,1.00000
+"carrot, quartered",1,carrot,whole,whole,1.00000
+"carrot, shredded",1,carrot,whole,whole,1.00000
+"carrot, shredded and chopped",1,carrot,whole,whole,1.00000
+"carrot, thinly sliced",1,carrot,whole,whole,1.00000
+"carrots, cut into 1-inch pieces",1,carrot,whole,whole,1.00000
+"carrots, cut into matchsticks",1,carrot,whole,whole,1.00000
+"carrots, diced",1,carrot,whole,whole,1.00000
+"carrots, peeled and chopped",1,carrot,whole,whole,1.00000
+"carrots, peeled and cut into large chunks",1,carrot,whole,whole,1.00000
+"carrots, peeled and diced",1,carrot,whole,whole,1.00000
+"carrots, peeled and finely diced",1,carrot,whole,whole,1.00000
+"carrots, peeled and minced",1,carrot,whole,whole,1.00000
+"carrots, shaved into strips using a vegetable peeler",1,carrot,whole,whole,1.00000
+"cup carrots, shredded",1,carrot,whole,whole,1.00000
+"large carrot, cubed",1,carrot,whole,whole,1.00000
+"large carrot, grated",1,carrot,whole,whole,1.00000
+"large carrot, peeled and cut into thin strips",1,carrot,whole,whole,1.00000
+"large carrots, chopped",1,carrot,whole,whole,1.00000
+"large carrots, cut into strips",1,carrot,whole,whole,1.00000
+"large carrots, diced",1,carrot,whole,whole,1.00000
+"large carrots, peeled and cut into cubes",1,carrot,whole,whole,1.00000
+"cantaloupe - peeled, seeded, and cut into 1\2-inch cubes",2,cantaloupe,whole,whole,1.00000
+half pint canning jars with lids and rings,3,canning jar,whole,whole,1.00000
+(1 pint) canning jars with lids and rings,2,canning jar,whole,whole,1.00000
+"head cabbage, finely shredded",3,cabbage,whole,whole,1.00000
+"head cabbage, sliced",3,cabbage,whole,whole,1.00000
+"head cabbage, coarsely chopped",1,cabbage,whole,whole,1.00000
+"head cabbage, shredded",1,cabbage,whole,whole,1.00000
+"head cabbage, thinly sliced",1,cabbage,whole,whole,1.00000
+"head green cabbage, cored and shredded",1,cabbage,whole,whole,1.00000
+"head red cabbage, cored and shredded",1,cabbage,whole,whole,1.00000
+"head red cabbage, finely shredded",1,cabbage,whole,whole,1.00000
+"head red cabbage, shredded",1,cabbage,whole,whole,1.00000
+"heads cabbage, cored",1,cabbage,whole,whole,1.00000
+"heads cabbage, cored and cut into bite-size pieces",1,cabbage,whole,whole,1.00000
+whole wheat buns,1,bun,whole,whole,1.00000
+"green bell pepper, chopped",17,bell pepper,whole,whole,1.00000
+"red pepper, quartered, chopped",1,bell pepper,whole,whole,1.00000
+"red bell pepper, chopped",13,bell pepper,whole,whole,1.00000
+"yellow bell pepper, chopped",5,bell pepper,whole,whole,1.00000
+"green bell pepper, diced",5,bell pepper,whole,whole,1.00000
+red bell pepper,3,bell pepper,whole,whole,1.00000
+"red bell pepper, diced",3,bell pepper,whole,whole,1.00000
+"red bell pepper, finely chopped",3,bell pepper,whole,whole,1.00000
+"red bell pepper, seeded and chopped",3,bell pepper,whole,whole,1.00000
+"small green bell pepper, chopped",3,bell pepper,whole,whole,1.00000
+"green bell pepper, seeded and chopped",3,bell pepper,whole,whole,1.00000
+"green bell pepper, sliced",3,bell pepper,whole,whole,1.00000
+"red bell pepper, minced",2,bell pepper,whole,whole,1.00000
+"red bell pepper, seeded and diced",2,bell pepper,whole,whole,1.00000
+"red bell pepper, sliced",2,bell pepper,whole,whole,1.00000
+"small red bell pepper, chopped",2,bell pepper,whole,whole,1.00000
+"yellow bell pepper, diced",2,bell pepper,whole,whole,1.00000
+"bell peppers, minced",1,bell pepper,whole,whole,1.00000
+"bell peppers, tops cut off and seeded",1,bell pepper,whole,whole,1.00000
+"large green bell pepper, chopped",1,bell pepper,whole,whole,1.00000
+"large green bell pepper, cut into 1-inch squares",1,bell pepper,whole,whole,1.00000
+"large green bell pepper, seeded and coarsely chopped",1,bell pepper,whole,whole,1.00000
+"large green bell pepper, seeded and diced",1,bell pepper,whole,whole,1.00000
+"large green bell pepper, top and seeds removed",1,bell pepper,whole,whole,1.00000
+"red bell pepper - halved, seeded, and stem removed",1,bell pepper,whole,whole,1.00000
+"red bell pepper, cored and very thinly sliced",1,bell pepper,whole,whole,1.00000
+"red bell pepper, cut lengthwise into strips",1,bell pepper,whole,whole,1.00000
+"red bell pepper, finely diced",1,bell pepper,whole,whole,1.00000
+"red bell pepper, halved and seeded",1,bell pepper,whole,whole,1.00000
+"red bell pepper, quartered",1,bell pepper,whole,whole,1.00000
+"red bell pepper, seeded and finely chopped",1,bell pepper,whole,whole,1.00000
+"red bell pepper, seeded and sliced",1,bell pepper,whole,whole,1.00000
+"red bell pepper, seeded and sliced into strips",1,bell pepper,whole,whole,1.00000
+"red bell pepper, thinly sliced",1,bell pepper,whole,whole,1.00000
+"red bell peppers, cored and quartered",1,bell pepper,whole,whole,1.00000
+"red bell peppers, finely chopped",1,bell pepper,whole,whole,1.00000
+"red bell peppers, grated",1,bell pepper,whole,whole,1.00000
+"red bell peppers, halved and seeded",1,bell pepper,whole,whole,1.00000
+"red bell peppers, minced",1,bell pepper,whole,whole,1.00000
+"red bell peppers, seeded and chopped",1,bell pepper,whole,whole,1.00000
+"red bell peppers, seeded and cut into strips",1,bell pepper,whole,whole,1.00000
+"red bell peppers, tops removed and set aside and seeds removed",1,bell pepper,whole,whole,1.00000
+yellow bell pepper,1,bell pepper,whole,whole,1.00000
+"yellow bell pepper - halved, seeded, and stem removed",1,bell pepper,whole,whole,1.00000
+"yellow bell pepper, cored and very thinly sliced",1,bell pepper,whole,whole,1.00000
+"yellow bell pepper, cut lengthwise into strips",1,bell pepper,whole,whole,1.00000
+"yellow pepper, chopped",1,bell pepper,whole,whole,1.00000
+"banana pepper, seeded",1,banana pepper,whole,whole,1.00000
+"banana peppers, chopped",1,banana pepper,whole,whole,1.00000
+"hot banana pepper, seeded and chopped",1,banana pepper,whole,whole,1.00000
+"bananas, sliced",3,banana,whole,whole,1.00000
+small ripe bananas,3,banana,whole,whole,1.00000
+"banana, cut into pieces and frozen",2,banana,whole,whole,1.00000
+banana leaves,1,banana,whole,whole,1.00000
+"banana, frozen and chunked",1,banana,whole,whole,1.00000
+"banana, mashed",1,banana,whole,whole,1.00000
+"bananas, chopped",1,banana,whole,whole,1.00000
+"bananas, mashed",1,banana,whole,whole,1.00000
+"bananas, sliced 1\4-inch thick",1,banana,whole,whole,1.00000
+large banana,1,banana,whole,whole,1.00000
+"large bananas, sliced",1,banana,whole,whole,1.00000
+"very ripe bananas, mashed",1,banana,whole,whole,1.00000
+"french baguette, cut into diagonal 1\2 inch slices",1,baguette,whole,whole,1.00000
+thin slices of sourdough baguette,1,baguette,whole,whole,1.00000
+slices bacon,14,bacon,slice,pound,30.00000
+slice bacon,1,bacon,slice,pound,30.00000
+bacon strips,1,bacon,slice,pound,30.00000
+"slices bacon, diced",1,bacon,slice,pound,30.00000
+"slices bacon, cut into small pieces",1,bacon,slice,pound,30.00000
+"avocado - peeled, pitted, and diced",6,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and mashed",3,avocado,whole,whole,1.00000
+"avocado, peeled and pitted",3,avocado,whole,whole,1.00000
+"avocados, peeled and pitted",3,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and chopped",2,avocado,whole,whole,1.00000
+"avocados - peeled, pitted, and diced",2,avocado,whole,whole,1.00000
+avocado,1,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and cubed",1,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and cut into chunks",1,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and cut into large chunks",1,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and sliced",1,avocado,whole,whole,1.00000
+"avocado - peeled, pitted, and sliced (optional)",1,avocado,whole,whole,1.00000
+"avocado, chopped",1,avocado,whole,whole,1.00000
+"avocado, diced",1,avocado,whole,whole,1.00000
+"avocado, finely chopped",1,avocado,whole,whole,1.00000
+"avocados - peeled, pitted, and chopped",1,avocado,whole,whole,1.00000
+"avocados - peeled, pitted, and cubed",1,avocado,whole,whole,1.00000
+"avocados - peeled, pitted, and diced into 1-inch chunks",1,avocado,whole,whole,1.00000
+"avocados - peeled, pitted, and mashed",1,avocado,whole,whole,1.00000
+"avocados, chopped",1,avocado,whole,whole,1.00000
+"avocados, cubed",1,avocado,whole,whole,1.00000
+"avocados, cut into cubes",1,avocado,whole,whole,1.00000
+"avocados, peeled and diced",1,avocado,whole,whole,1.00000
+"large avocado - peeled, pitted, and cubed",1,avocado,whole,whole,1.00000
+"large avocado, halved, seeded, peeled, and finely chopped",1,avocado,whole,whole,1.00000
+"large apple, cut into chunks",1,apple,whole,whole,1.00000
+"large apple, peeled and chopped",1,apple,whole,whole,1.00000
+large apples - cored and cut into 1x1\4-inch matchsticks,1,apple,whole,whole,1.00000
+"large apples, cored and diced",1,apple,whole,whole,1.00000
+"large apples, cored and finely chopped",1,apple,whole,whole,1.00000
+"large green apples, cored and diced",1,apple,whole,whole,1.00000
+cup chopped apple,1,apple,cup,whole,0.75000
+(.25 ounce) package active dry yeast,5,active dry yeast,package,teaspoon,0.66667
+cups baby spinach leaves,3,spinach,cup,ounce ,0.62500
+(1.75 ounce) package powdered fruit pectin,3,fruit pectin,package,ounce,0.57143
+fluid ounce heavy cream,5,heavy cream,fluid ounce,cup,8.15555
+tablespoons prepared yellow mustard,9,yellow mustard,tablespoon,teaspoon,0.33333
+tablespoon white vinegar,7,white vinegar,tablespoon,teaspoon,0.33333
+tablespoons vinegar,4,vinegar,tablespoon,teaspoon,0.33333
+tablespoons tomato paste,7,tomato paste,tablespoon,teaspoon,0.33333
+tablespoon red pepper flakes,4,red pepper flake,tablespoon,teaspoon,0.33333
+teaspoons paprika,12,paprika,tablespoon,teaspoon,0.33333
+tablespoon paprika,5,paprika,tablespoon,teaspoon,0.33333
+tablespoons paprika,4,paprika,tablespoon,teaspoon,0.33333
+cup paprika,1,paprika,cup,teaspoon,0.02083
+cup corn oil,1,corn oil,cup,cup,1.0000
+"tablespoons extra-virgin olive oil, divided",1,olive oil,tablespoon,teaspoon,0.33333
+tablespoon crisco® pure olive oil,1,olive oil,tablespoon,teaspoon,0.33333
+tablespoons olive oil,85,olive oil,tablespoon,teaspoon,0.33333
+tablespoon olive oil,68,olive oil,tablespoon,teaspoon,0.33333
+tablespoon extra-virgin olive oil,10,olive oil,tablespoon,teaspoon,0.33333
+"tablespoon olive oil, or as needed",5,olive oil,tablespoon,teaspoon,0.33333
+"tablespoons extra-virgin olive oil, or to taste",5,olive oil,tablespoon,teaspoon,0.33333
+tablespoons extra virgin olive oil,4,olive oil,tablespoon,teaspoon,0.33333
+tablespoon extra virgin olive oil,3,olive oil,tablespoon,teaspoon,0.33333
+tablespoon dry mustard,3,mustard,tablespoon,teaspoon,0.33333
+tablespoon ground black pepper,5,black pepper,tablespoon,teaspoon,0.33333
+tablespoons extra-virgin olive oil,18,olive oil,tablespoon,teaspoon,0.33333
+tablespoon minced garlic,13,garlic,tablespoon,clove,0.33333
+tablespoons minced garlic,5,garlic,tablespoon,clove,0.33333
+tablespoon chopped garlic,4,garlic,tablespoon,clove,0.33333
+(6 ounce) package mixed berry-flavored jell-o® mix,1,jello mix,package,ounce,0.16667
+(3 ounce) package strawberry-flavored jell-o� mix,3,jello mix,package,ounce,0.33333
+(6 ounce) package grape-flavored jell-o� mix,1,jello mix,package,ounce,0.166667
+tablespoons balsamic vinegar,20,balsamic vinegar,tablespoon,teaspoon,0.33333
+tablespoon baking powder,8,baking powder,teaspoon,teaspoon,0.33333
+(3.5 ounce) package instant vanilla pudding mix,3,pudding mix,package,ounce ,0.28571
+quarts water,5,water,quart,cup,0.25000
+quarts cold water,1,water,quart,cup,0.25000
+"cups water, or as needed",1,water,cup,cup,1.00000
+"(4.5 ounce) can sliced mushrooms, drained",3,mushroom,can,ounce,0.22222
+"(5 ounce) cans tuna, drained",3,tuna,can,ounce,0.20000
+(7 ounce) can chipotle peppers in adobo sauce,3,chipotle pepper,can,ounce,0.14285
+cup triple sec,5,triple sec,cup,fluid ounce,0.12500
+cup tequila,4,tequila,cup,fluid ounce,0.12500
+cup chilled vodka,1,vodka,cup,fluid ounce,0.12500
+cup amaretto liqueur,1,amaretto,cup,fluid ounce,0.12500
+(15 ounce) cans tomato sauce,1,tomato sauce,can,ounce,0.066667
+(8 ounce) can tomato sauce,3,tomato sauce,can,ounce,0.12500
+"cup black beans, rinsed and slightly crushed",1,black beans,cup,ounce,0.12500
+"ounces mozzarella cheese, sliced",1,mozzarella cheese,ounce,ounce,1.00000
+"(8 ounce) package neufchatel cheese, softened",3,neufchatel cheese,package,ounce,0.12500
+(8 ounce) package sliced fresh mushrooms,3,mushroom,package,ounce,0.12500
+(8 ounce) package egg noodles,3,egg noodle,package,ounce,0.12500
+"(8 ounce) packages cream cheese, cubed",1,cream cheese,package,ounce,0.12500
+"(8 ounce) package cream cheese, softened",17,cream cheese,package,ounce,0.12500
+"(8 ounce) packages cream cheese, softened",9,cream cheese,package,ounce,0.12500
+(8 ounce) package cream cheese,6,cream cheese,package,ounce,0.12500
+"(8 ounce) package cream cheese, softened*",4,cream cheese,package,ounce,0.12500
+pounds red potatoes,2,potato,pound,whole,0.12500
+(10 ounce) can enchilada sauce,2,enchilada sauce,can,ounce,0.10000
+"(10 ounce) package frozen chopped spinach, thawed and drained",2,spinach,package,ounce,0.10000
+(10 ounce) tub philadelphia original cooking creme,2,cooking creme,tub,ounce,0.10000
+cup ice,47,ice,cup,whole,0.10000
+cup ice cubes,1,ice,cup,whole,0.10000
+cup crushed ice,6,ice,cup,whole,0.10000
+cups ice,6,ice,cup,whole,0.10000
+(10.75 ounce) can condensed cream of mushroom soup,3,cream of mushroom,can,ounce,0.09302
+(10.75 ounce) can condensed cream of chicken soup,4,cream of chicken soup,ounce,ounce,0.09302
+(10.75 ounce) can  condensed tomato soup,2,tomato soup,can,ounce,0.09090
+"head garlic, peeled and sliced",1,garlic,bulb,clove,0.08333
+"heads garlic, chopped",1,garlic,bulb,clove,0.08333
+bulbs garlic,1,garlic,bulb,clove,0.08333
+tablespoons evaporated milk,1,evaporated milk,tablespoon,fluid ounce,2.00000
+(12 ounce) can evaporated milk,2,evaporated milk,can,fluid ounce,0.08333
+(12 fluid ounce) can or bottle beer,2,beer,can,fluid ounce,0.08333
+(12 fluid ounce) can evaporated milk,4,evaporated milk,can,fluid ounce,0.08333
+(12 ounce) can beer,4,beer,ounce,fluid ounce,0.08333
+(12 ounce) package frozen raspberries,2,raspberry,package,ounce,0.08333
+(12 ounce) package broccoli coleslaw mix,4,broccoli coleslaw mix,package,ounce,0.08333
+(12 ounce) new york strip steaks,2,new york strip steak,whole,ounce,0.08333
+"trays ice cubes, or as needed",1,ice,tray,whole,0.08333
+"(15 ounce) can black beans, rinsed and drained",10,black bean,can,ounce,0.06667
+"(15 ounce) can black beans, drained and rinsed",9,black bean,can,ounce,0.06667
+(15 ounce) can tomato sauce,4,tomato sauce,can,ounce,0.06666
+"(15 ounce) can kidney beans, drained",4,kidney bean,can,ounce,0.06666
+"(15 ounce) can chickpeas, drained and rinsed",3,chickpea,can,ounce,0.06666
+slices bread,4,bread,slice,whole,0.06666
+"slices whole wheat bread, toasted",3,bread,slice,whole ,0.06666
+(16 ounce) package frozen mixed vegetables,3,vegetable,package,ounce,0.06250
+(16 ounce) package spaghetti,3,spaghetti,package,ounce,0.06250
+(16 ounce) package tri-color rotini pasta,3,pasta,package,ounce,0.06250
+cup worcestershire sauce,5,worcestershire sauce,cup,tablespoon,0.06161
+cup white wine vinegar,6,white wine vinegar,cup,tablespoon,0.06161
+cup white sugar,176,white sugar,cup,tablespoon,0.06161
+cups white sugar,68,white sugar,cup,tablespoon,0.06161
+"cup white sugar, or to taste",3,white sugar,cup,tablespoon,0.06161
+cup confectioners' sugar,1,confectioners' sugar,cup,cup,1.00000
+cups confectioners' sugar,1,confectioners' sugar,cup,cup,1.00000
+"cup confectioner's sugar, for dusting (optional)",1,confectioners' sugar,cup,cup,1.00000
+cup vegetable oil,54,vegetable oil,cup,tablespoon,0.06161
+cups vegetable oil,1,vegetable oil,cup,tablespoon,0.06161
+"cups vegetable oil, or as needed",54,vegetable oil,cup,tablespoon,0.06161
+cup vegetable oil for frying,4,vegetable oil,cup,tablespoon,0.06161
+"cup vegetable oil for frying, or as needed",4,vegetable oil,cup,tablespoon,0.06161
+cup crisco� pure vegetable oil,3,vegetable oil,cup,tablespoon,0.06161
+"cup vegetable oil, or as needed",3,vegetable oil,cup,tablespoon,0.06161
+cup honey,15,honey,cup,tablespoon,0.06161
+cup fish sauce,3,fish sauce,cup,tablespoon,0.06161
+cup white balsamic vinegar,3,balsamic vinegar,cup,teaspoon,0.02083
+"pound bacon, cut in quarters crosswise",1,bacon,pound,pound,1.00000
+pound bacon,3,bacon,pound,pound,1.0000
+pounds bacon,1,bacon,pound,pound,1.0000
+"pound bacon, diced",1,bacon,pound,pound,1.0000
+"pound bacon, cut into 1\4-inch dice",1,bacon,pound,pound,1.0000
+"(1 pound) package bacon, cut into 1\2-inch dice",3,bacon,pound,pound,1.0000
+(19.5 ounce) box pillsbury� family size chocolate fudge brownie mix,3,brownie mix,box,ounce,0.05128
+(6 ounce) can tomato paste,8,tomato paste,can,teaspoon,0.02778
+(6 ounce) cans tomato paste,3,tomato paste,can,teaspoon,0.02778
+cup balsamic vinegar,9,balsamic vinegar,cup,teaspoon,0.02083
+cup aged balsamic vinegar,2,balsamic vinegar,cup,teaspoon,0.02083
+"cup balsamic vinaigrette dressing, or as needed",1,balsamic vinaigrette,cup,teaspoon,0.02083
+cup balsamic vinaigrette salad dressing,1,balsamic vinaigrette,cup,teaspoon,0.02083
+cup baking powder,1,baking powder,cup,teaspoon,0.02083
+cup agave nectar,1,agave,cup,teaspoon,0.02083
+cup prepared yellow mustard,4,yellow mustard,cup,teaspoon,0.02083
+cup white vinegar,16,white vinegar,cup,teaspoon,0.02083
+cup distilled white vinegar,6,white vinegar,cup,teaspoon,0.02083
+cup vinegar,8,vinegar,cup,teaspoon,0.02083
+"cup olive oil, divided",1,olive oil,cup,teaspoon,0.02083
+cup olive oil,63,olive oil,cup,teaspoon,0.02083
+cup extra-virgin olive oil,13,olive oil,cup,teaspoon,0.02083
+cup extra virgin olive oil,3,olive oil,cup,teaspoon,0.02083
+"cup capers, drained",1,caper,cup,teaspoon,0.02083
+"quart vegetable oil for frying, or as needed",5,vegetable oil,quart,tablespoon,0.01562
+quart vegetable oil for frying,3,vegetable oil,quart,tablespoon,0.01562
+tablespoon dried basil,5,basil,tablespoon,cup,16.23060
+pound bulk pork sausage,4,pork sausage,pound,cup,0.51250
+pound bulk pork sausage (optional),1,pork sausage,pound,cup,0.51250
+"stalks celery, sliced",3,celery,stalk,cup,3.00000
+"stalk celery with leaves, cut into chunks",3,celery,stalk,cup,3.00000
+cardamom pods,1,cardamom,whole,teaspoon,20.00000
+pinch chinese five-spice powder,2,chinese five-spice powder,pinch,teaspoon,16.00000
+"(14.5 ounce) can diced tomatoes, drained",4,tomato,can,whole,0.20000
+(28 ounce) can crushed tomatoes,4,tomato,can,whole,0.10000
+(10 ounce) can diced tomatoes with green chile peppers,3,tomato,can,whole,0.11490
+(14.5 ounce) can diced tomatoes and green chilies,1,tomato,can,whole,0.20000
+(14.5 ounce) can diced tomatoes with green chile peppers,3,tomato,can,whole,0.20000
+(16 ounce) can crushed tomatoes,3,tomato,can,whole,0.19000
+(14.5 ounce) can diced tomatoes,3,tomato,can,whole,0.20000
+"(14.5 ounce) can diced tomatoes, undrained",3,tomato,can,whole,0.20000
+"(8 ounce) can sliced water chestnuts, drained",3,chestnut,can,whole,0.04166
+cups shredded zucchini,8,zucchini,cup,whole,0.75000
+cups grated zucchini,7,zucchini,cup,whole,0.66667
+cup chopped tomatoes,3,tomato,cup,whole,0.66667
+cups diced tomatoes,3,tomato,cup,whole,0.66667
+"cups grape tomatoes, halved",3,tomato,cup,whole,0.20000
+cups halved grape tomatoes,3,tomato,cup,whole,0.20000
+cups halved cherry tomatoes,3,tomato,cup,whole,0.03704
+cup chopped potatoes,1,potato,cup,whole,2.00000
+cups sliced peaches,3,peach,cup,whole,0.66667
+cup chopped onion,24,onion,cup,whole,1.00000
+cup chopped red onion,10,onion,cup,whole,1.00000
+cup finely chopped onion,10,onion,cup,whole,1.00000
+cup diced green onion,1,green onion,cup,whole,0.11111
+cup diced green onions,1,green onion,cup,whole,0.11111
+cup chopped green onions,9,green onion,cup,whole,0.11111
+cup diced red onion,8,onion,cup,whole,1.00000
+cup sliced green onions,6,green onion ,cup,whole,0.11111
+cups chopped onion,6,onion,cup,whole,1.00000
+cup chopped green onion,5,green onion,cup,whole,0.11111
+cup diced onion,5,onion,cup,whole,1.00000
+cup minced onion,5,onion,cup,whole,0.80000
+cup chopped red onions,4,onion,cup,whole,1.00000
+cup chopped sweet onion,4,onion,cup,whole,1.00000
+cup finely chopped red onion,3,onion,cup,whole,0.90000
+cup finely diced onion,3,onion,cup,whole,0.90000
+"cup green onions, chopped",3,green onion,cup,whole,0.11111
+tablespoons diced green onion,1,green onion,tablespoon,whole,1.60000
+cup minced red onion,3,onion,cup,whole,0.80000
+cup fresh lime juice,6,lime,cup,whole,0.12500
+cup lime juice,6,lime,cup,whole,0.12500
+"tablespoon fresh lemon juice, or to taste",1,lemon,tablespoon,whole,0.012500
+cup lemon juice,24,lemon,cup,whole,0.12500
+cup fresh lemon juice,3,lemon,cup,whole,0.20000
+tablespoons mayonnaise,1,mayonnaise,tablespoon,cup,16.00000
+cup mayonnaise,1,mayonnaise,cup,cup,1.00000
+"cup grapes, halved",1,grape,cup,cup,1.00000
+"small (4 inch) pita breads, torn into pieces",1,pita bread,whole,whole,1.00000
+"seedless english cucumbers, thinly sliced",1,cucumber,whole,whole,1.00000
+dried black mushrooms,1,mushroom,whole,ounce,0.2
+"(12 ounce) package fresh mushrooms, chopped",1,mushroom,package,ounce,0.08333
+bay leaf,1,bayleaf,whole,whole,1.00000
+cups chocolate syrup (such as hershey's®),1,chocolate syrup,cup,cup,1.00000

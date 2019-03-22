@@ -12,11 +12,18 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
+import {
+    BUTTON_BACKGROUND_COLOR,
+    BACKGROUND_COLOR
+} from '../common/SousChefColors';
+import globalStyle, { DEFAULT_FONT } from '../common/SousChefTheme';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
-import { getIsFavorited, saveIsFavorited, saveIsRecent } from '../redux/actions/FavoritedAction';
+import {
+    getIsFavorited,
+    saveIsFavorited,
+    saveIsRecent,
+} from '../redux/actions/FavoritedAction';
 
 class CookNow extends React.Component {
     static navigationOptions = {
@@ -25,8 +32,12 @@ class CookNow extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient 
+                colors={['#17ba6b', '#1d945b']} 
+                locations={[0.3, 1]} 
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -56,7 +67,10 @@ class CookNow extends React.Component {
     }
 
     componentWillMount(){
-        this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipe").id)
+        this.props.getIsFavorited(
+            this.props.userID, 
+            this.props.navigation.getParam("recipe").id
+        )
     }
 
     componentWillReceiveProps(nextProps){
@@ -65,6 +79,11 @@ class CookNow extends React.Component {
         }
     }
 
+    /*
+        When finished button is pressed function saves the recipe as favorited 
+        if the heart justifyContent was pressed. It adds the recepe to recent 
+        recipes. Finally it navigates to the finished page. 
+    */
     finishCooking(){
         this.props.saveIsFavorited(
             this.props.userID,
@@ -79,6 +98,11 @@ class CookNow extends React.Component {
         });
     }
 
+    /* 
+        The function iterates through the directions and returns each one with 
+        its number and then the direction. The result is a numbered list of 
+        DIRECTIONS in order. 
+    */
     listDirections(){
         if(this.state.recipe.ingredients == null){
             console.warn("ingredients are null");
@@ -93,6 +117,10 @@ class CookNow extends React.Component {
         });
     }
 
+    /* 
+        The function iterates through the indredients and outputs a list of 
+        ingredients with icons that are bullet points.
+    */
     listIngredients(){
         if(!this.state.recipe || !this.state.recipe.ingredients){
             console.warn("null");
@@ -102,11 +130,19 @@ class CookNow extends React.Component {
                 return null;
             }
             return (
-                <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems:'center', marginLeft: 10,}}>
+                <View 
+                    style={{
+                        flexDirection: 'row', 
+                        justifyContent: 'flex-start', 
+                        alignItems: 'center', 
+                        marginLeft: 10,
+                    }}
+                >
                     <Icon
                         name='album'
-                        color='#17ba6b'
-                        size={10} />
+                        color={BUTTON_BACKGROUND_COLOR}
+                        size={10}
+                    />
                     <Text style={styles.detail}>
                         {ingredient.originalQuantity} {ingredient.originalText}
                     </Text>
@@ -116,21 +152,22 @@ class CookNow extends React.Component {
         });
     }
 
+    /* Function for tab navigator to render the ingredients. */
     FirstRoute = () => (
-        <ScrollView style={{flex:1, marginBottom: 0,}}>
+        <ScrollView style={{flex: 1, marginBottom: 0,}}>
             {this.listIngredients()}
         </ScrollView>
     );
 
+    /* Function for tab navigator to render the directions. */
     SecondRoute = () => (
-        <ScrollView style={{flex:1, marginBottom: 0,}}>
+        <ScrollView style={{flex: 1, marginBottom: 0,}}>
             {this.listDirections()}
         </ScrollView>
     );
 
     render() {
         if(this.state.recipe){
-            console.log("cooknow",this.state)
             return (
                 <View style={styles.container}>
                     <Image
@@ -146,7 +183,8 @@ class CookNow extends React.Component {
                         <View style={styles.servings}>
                             <Icon
                                 name='restaurant'
-                                color='#17ba6b' />
+                                color={BUTTON_BACKGROUND_COLOR}
+                            />
                             <Text style={styles.subtitle}>
                                 Servings: {"\n"}{this.state.recipe.servings}
                             </Text>
@@ -154,22 +192,30 @@ class CookNow extends React.Component {
                         <View style={styles.cookTime} >
                             <Icon
                                 name='timer'
-                                color='#17ba6b'
-                                />
+                                color={BUTTON_BACKGROUND_COLOR}
+                            />
                             <Text style={styles.subtitle}>
-                                Cook Time: {"\n"}{this.state.recipe.time.hour} hours {this.state.recipe.time.minute} minutes
+                                {"Cook Time: \n"}
+                                {this.state.recipe.time.hour}
+                                {" hours "}
+                                {this.state.recipe.time.minute}
+                                {" minutes"}
                             </Text>
                         </View>
                         <View style={styles.favorite}>
                             <Icon
-                                name={(this.state.isFavorited) ? 'favorite' : 'favorite-border'}
+                                name={
+                                    (this.state.isFavorited) ? 
+                                    'favorite' : 
+                                    'favorite-border'
+                                }
                                 color='#17ba6b'
                                 onPress={()=>{
                                     this.setState({
                                         isFavorited: !this.state.isFavorited
                                     })
                                 }}
-                                />
+                            />
                         </View>
                     </View>
 
@@ -183,19 +229,38 @@ class CookNow extends React.Component {
                         renderTabBar={props =>
                             <TabBar
                                 {...props}
-                                indicatorStyle={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
-                                style={{ backgroundColor: 'white', color: BUTTON_BACKGROUND_COLOR, }}
-                                activeColor = {{color: BUTTON_BACKGROUND_COLOR, textColor:BUTTON_BACKGROUND_COLOR, }}
+                                indicatorStyle={{
+                                    backgroundColor: BUTTON_BACKGROUND_COLOR 
+                                }}
+                                style={{
+                                    backgroundColor: 'white',
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                }}
+                                activeColor = {{
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                    textColor: BUTTON_BACKGROUND_COLOR,
+                                }}
                                 inactiveColor = {{}}
-                                labelStyle = {{color: BUTTON_BACKGROUND_COLOR, fontWeight: 'bold', fontFamily: 'Avenir'}}
-                                />
+                                labelStyle = {{
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                    fontWeight: 'bold',
+                                    fontFamily: 'Avenir',
+                                }}
+                            />
                         }
                         onIndexChange={index => this.setState({ index })}
                         initialLayout={{ width: Dimensions.get('window').width }}
-                        />
-                    <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {styles.button}>
+                    />
+                    <LinearGradient 
+                        colors={['#17ba6b', '#1d945b']} 
+                        locations={[0.3, 1]} 
+                        style = {globalStyle.gradientButton}
+                    >
                         <TouchableOpacity>
-                            <Text style = {styles.buttonText} onPress={this.finishCooking}>
+                            <Text 
+                                style = {globalStyle.gradientButtonText} 
+                                onPress={this.finishCooking}
+                            >
                                 FINISHED!
                             </Text>
                         </TouchableOpacity>
@@ -205,28 +270,12 @@ class CookNow extends React.Component {
         }
         return null;
     }
-
 }
 
 const styles = StyleSheet.create({
-    scene: {
-        flex: 1,
-    },
     container: {
         flex: 1,
         justifyContent: 'center',
-    },
-    input: {
-        height: 30,
-        width: Dimensions.get('window').width - 20,
-        borderColor: 'gray',
-        borderWidth: 1,
-    },
-    multilineInput: {
-        height: 60,
-        width: Dimensions.get('window').width - 20,
-        borderColor: 'gray',
-        borderWidth: 1,
     },
     detail:{
         fontSize: 15,
@@ -249,26 +298,9 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         color: 'grey',
     },
-    buttonText: {
-        fontSize: 16,
-        fontFamily: DEFAULT_FONT,
-        textAlign: 'center',
-        color: 'white',
-        backgroundColor:'transparent',
-        fontWeight: 'bold',
-    },
     image: {
         height: Dimensions.get('window').height/3.85,
         width: Dimensions.get('window').width,
-    },
-    button: {
-        alignSelf:'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: 10,
-        width: 250,
-        borderRadius:30,
-        margin: 10,
     },
     recipeStats: {
         flexDirection: 'row',
