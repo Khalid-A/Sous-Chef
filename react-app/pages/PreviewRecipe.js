@@ -5,7 +5,7 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
-import globalStyle from '../common/SousChefTheme';
+import globalStyles from '../common/SousChefTheme';
 import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions, ScrollView,  SafeAreaView,
     StatusBar,} from 'react-native';
 import firebase from 'react-native-firebase';
@@ -18,7 +18,6 @@ import { Icon } from 'react-native-elements';
 const recipesRef = firebase.firestore().collection('test_recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
-import globalStyle from '../common/SousChefTheme';
 
 class PreviewRecipe extends React.Component {
     static navigationOptions = {
@@ -320,7 +319,7 @@ FirstRoute(){
                 extraData={this.state}
                 style={[styles.list, {height: 50 * this.state.dontHaveIngredients.length}]}
                 renderItem={({item, index}) =>
-                <View key={item.key} style={[globalStyle.listItem]}>
+                <View key={item.key} style={[globalStyles.listItem]}>
                     <Text
                         style={[styles.ingredientName]}
                         key={"Ingredient Name " + index}
@@ -378,7 +377,7 @@ FirstRoute(){
                         extraData={this.state}
                         style={[styles.list]}
                         renderItem={({item, index}) =>
-                        <View key={item.key} style={[globalStyle.listItem]}>
+                        <View key={item.key} style={[globalStyles.listItem]}>
                             <Text
                                 style={[styles.ingredientName]}
                                 key={"Ingredient Name " + index}
@@ -478,7 +477,7 @@ FirstRoute(){
                                 disabled={this.state.addAllToGlDisabled}
                                 onPress={() => this.addAllToGroceryList()}
                                 >
-                                <Text style = {globalStyle.gradientButtonText} onPress={this.finishCooking}>
+                                <Text style = {globalStyles.gradientButtonText} onPress={this.finishCooking}>
                                     Add All to Grocery List
                                 </Text>
                             </TouchableOpacity>
@@ -488,7 +487,7 @@ FirstRoute(){
                             <TouchableOpacity
                                 onPress={() => this.cookNow()}
                                 >
-                                <Text style = {globalStyle.gradientButtonText} onPress={this.finishCooking}>
+                                <Text style = {globalStyles.gradientButtonText} onPress={this.finishCooking}>
                                     Make right now
                                 </Text>
                             </TouchableOpacity>

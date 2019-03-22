@@ -388,7 +388,6 @@ class GroceryList extends React.Component {
                         </Text>
                         <RkButton
                             style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
-                            contentStyle={{color: 'white'}}
                             onPress={
                                 () => this.setState({
                                     pickerVisible: true

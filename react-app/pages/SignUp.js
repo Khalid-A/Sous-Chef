@@ -2,11 +2,10 @@ import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View, ScrollView, Dimensions, TouchableOpacity, SafeAreaView, StatusBar,} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { RkButton } from 'react-native-ui-kitten';
 import { createUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
 import SousChefTextInput from './../components/SousChefTextInput'
-import globalStyle from '../common/SousChefTheme';
+import globalStyles from '../common/SousChefTheme';
 
 export class SignUp extends Component {
     static navigationOptions = {
@@ -42,7 +41,7 @@ export class SignUp extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={globalStyle.linearGradient} locations={[0.4,0.65,1]}>
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={globalStyles.linearGradient} locations={[0.4,0.65,1]}>
                     <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain"/>
                     <SousChefTextInput
                         placeholder='example@email.com'
@@ -56,10 +55,10 @@ export class SignUp extends Component {
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}
                         />
-                    <TouchableOpacity style = {globalStyle.gradientButton}
+                    <TouchableOpacity style = {globalStyles.gradientButton}
                         onPress={this.handleSignUp}
-                        ><Text style ={globalStyle.gradientButtonText}>SIGN UP</Text></TouchableOpacity>
-                    <Text style={globalStyle.errorMessage}>{this.props.errorMessage}</Text>
+                        ><Text style ={globalStyles.gradientButtonText}>SIGN UP</Text></TouchableOpacity>
+                    <Text style={globalStyles.errorMessage}>{this.props.errorMessage}</Text>
                 </LinearGradient>
             </View>
         );
