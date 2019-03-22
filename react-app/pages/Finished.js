@@ -10,6 +10,7 @@ import { addRatingForRecipe } from '../redux/actions/RecipeAction';
 import { saveIsRecent } from '../redux/actions/FavoritedAction';
 import StarRating from 'react-native-star-rating';
 import { Icon } from 'react-native-elements';
+import globalStyle from '../common/SousChefTheme';
 
 class Finished extends React.Component {
     static navigationOptions = {
@@ -41,7 +42,7 @@ class Finished extends React.Component {
         this.listIngredients = this.listIngredients.bind(this);
 
     }
-
+    /*function formats ingredients for easy iteration for display*/
     getIngredientsToRemove = (ingredients) => {
         ingredientsToRemove = {}
         for (var i = 0; i < ingredients.length; i++) {
@@ -58,14 +59,17 @@ class Finished extends React.Component {
             ),
         });
     }
-
+    /*funtion removes an item from the ingredients to remove list.
+    Change is refelected visually. */
     removeItem = (ingredientIndex) => {
         delete this.state.ingredients[ingredientIndex];
         this.setState({
             ingredients: this.state.ingredients
         });
     }
-
+    /*This function adds the recipe to recent recipes in database.
+    This function removes the items int he list from the pantry.
+    It then navigates to pantry so that the user can se the changes.*/
     updatePantry() {
         this.props.saveIsRecent(this.props.userID, this.state.recipeID)
 
@@ -73,10 +77,11 @@ class Finished extends React.Component {
         if (this.state.rating !== null) {
             addRatingForRecipe(this.props.navigation.getParam("recipeID"), parseFloat(this.state.rating), this.props.userID);
         }
-
         this.props.navigation.navigate('Pantry');
     }
-
+    /*funtion iterates through the ingredients and displays ingredients
+    and quantities that will be decremented from pantry. Delete icon is included
+    for each item. */
     listIngredients(){
         if(this.state.ingredients == null){
             console.warn("null");
@@ -99,19 +104,12 @@ class Finished extends React.Component {
                         name={'clear'}
                         color='#17ba6b'
                         onPress={() => this.removeItem(ingredientID)}
-
                         />
-
-
-
-
-
                 </View>
-
             );
         });
     }
-
+    /* This function sets the rating in the state*/
     addRating(rating) {
         this.setState({
             rating: rating
@@ -143,7 +141,7 @@ class Finished extends React.Component {
                 </ScrollView>
                 <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {styles.button}>
                     <TouchableOpacity>
-                        <Text style = {styles.buttonText} onPress={() => this.updatePantry()}>
+                        <Text style = {globalStyle.gradientButtonText} onPress={() => this.updatePantry()}>
                             Update Pantry
                         </Text>
                     </TouchableOpacity>
@@ -162,18 +160,6 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingRight: 10,
     },
-    input: {
-        height: 30,
-        width: Dimensions.get('window').width - 20,
-        borderColor: 'gray',
-        borderWidth: 1,
-    },
-    multilineInput: {
-        height: 60,
-        width: Dimensions.get('window').width - 20,
-        borderColor: 'gray',
-        borderWidth: 1,
-    },
     detail:{
         flex:3,
         fontSize: 15,
@@ -186,14 +172,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: BUTTON_BACKGROUND_COLOR,
 
-    },
-    buttonText: {
-        fontSize: 16,
-        fontFamily: DEFAULT_FONT,
-        textAlign: 'center',
-        color: 'white',
-        backgroundColor:'transparent',
-        fontWeight: 'bold',
     },
     button: {
         alignSelf:'center',
