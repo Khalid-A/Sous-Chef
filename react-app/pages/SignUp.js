@@ -1,23 +1,25 @@
-import { BACKGROUND_COLOR, BUTTON_BACKGROUND_COLOR, DARK_GREEN_BACKGROUND } from './../common/SousChefColors'
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, ScrollView, Dimensions, TouchableOpacity, SafeAreaView, StatusBar,} from 'react-native';
+import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, SafeAreaView, StatusBar,} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { createUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
 import SousChefTextInput from './../components/SousChefTextInput'
-import globalStyles from '../common/SousChefTheme';
+import globalStyle from '../common/SousChefTheme';
 
 export class SignUp extends Component {
     static navigationOptions = {
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient
+                colors={['#17ba6b','#1d945b']}
+                locations={[0.3,1]}
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
         ),
-
     }
 
     constructor(props) {
@@ -41,24 +43,39 @@ export class SignUp extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={globalStyles.linearGradient} locations={[0.4,0.65,1]}>
-                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain"/>
+                <LinearGradient
+                    colors={['#1d945b', '#17ba6b', '#ffc100',]}
+                    style={globalStyle.linearGradient}
+                    locations={[0.4,0.65,1]}
+                >
+                    <Image 
+                        source={require('../assets/sousChefWhite.png')}
+                        style={[styles.logo]}
+                        resizeMode="contain"
+                    />
                     <SousChefTextInput
                         placeholder='example@email.com'
                         label={'Email:'}
                         onChangeText={email => this.setState({ email })}
                         value={this.state.email}
-                        />
+                    />
                     <SousChefTextInput
                         placeholder='examplePassword'
                         label={'Password:'}
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}
-                        />
-                    <TouchableOpacity style = {globalStyles.gradientButton}
+                    />
+                    <TouchableOpacity
+                        style = {globalStyle.gradientButton}
                         onPress={this.handleSignUp}
-                        ><Text style ={globalStyles.gradientButtonText}>SIGN UP</Text></TouchableOpacity>
-                    <Text style={globalStyles.errorMessage}>{this.props.errorMessage}</Text>
+                    >
+                        <Text style ={globalStyle.gradientButtonText}>
+                            SIGN UP
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={globalStyle.errorMessage}>
+                        {this.props.errorMessage}
+                    </Text>
                 </LinearGradient>
             </View>
         );

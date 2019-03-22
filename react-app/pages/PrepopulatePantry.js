@@ -1,23 +1,31 @@
 import React from 'react';
 import {
     BUTTON_BACKGROUND_COLOR,
-    BACKGROUND_COLOR,
-    ACTION_BUTTON_COLOR,
     YELLOW_BACKGROUND
 } from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView, StatusBar,  } from 'react-native';
+import { StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    SafeAreaView,
+    StatusBar,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { beginPantryFetch, editPantryItem, removePantryItem} from '../redux/actions/PantryAction';
+import {
+    beginPantryFetch,
+    editPantryItem,
+    removePantryItem,
+} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
-import {DEFAULT_FONT} from '../common/SousChefTheme';
+import globalStyle, { DEFAULT_FONT } from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { RkPicker } from 'react-native-ui-kitten';
 import convert from 'convert-units';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import globalStyle from '../common/SousChefTheme';
 import firebase from 'react-native-firebase';
 
+const standardMappingsRef = firebase.firestore().collection("standardmappings");
 
 const defaultState = {
     addDialogVisible : false,
@@ -39,8 +47,12 @@ class PrepopulatePantry extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient
+                colors={['#17ba6b','#1d945b']}
+                locations={[0.3,1]}
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -72,7 +84,9 @@ class PrepopulatePantry extends React.Component {
         {key: 8, value: "8"},
         {key: 9, value: "9"},
         {key: 10, value: "10"},],
-        convert().possibilities("mass").concat(convert().possibilities("volume"))
+        convert().possibilities("mass").concat(
+            convert().possibilities("volume")
+        )
     ];
 
     editItem = () => {
@@ -84,14 +98,17 @@ class PrepopulatePantry extends React.Component {
             );
         } else {
             var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.pickedValue[1].toLowerCase()
             })[0].abbr;
             var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.standardUnit.toLowerCase()
             })[0].abbr;
             editPantryItem(
                 this.state.editIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                convert(parseInt(this.state.pickedValue[0].value))
+                    .from(unitAbbreviation).to(standardUnitAbbreviation),
                 this.props.userID
             );
         }
@@ -104,7 +121,7 @@ class PrepopulatePantry extends React.Component {
     }
 
     fetchIngredientData(ingredient, callback) {
-        firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
+        standardMappingsRef.doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
             if (unit == undefined) {
                 this.setState({
@@ -185,7 +202,7 @@ class PrepopulatePantry extends React.Component {
                                         });
                                     });
                                 }}
-                                >
+                            >
                                 <Text style={styles.text}>edit</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -194,15 +211,17 @@ class PrepopulatePantry extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     removePantryItem(data.item.title, this.props.userID);
                                 }}
-                                >
-                                <Text style={styles.text}>delete</Text>
+                            >
+                                <Text style={styles.text}>
+                                    delete
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
                     leftOpenValue={75}
-                    />
+                />
 
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
@@ -212,10 +231,10 @@ class PrepopulatePantry extends React.Component {
                             <Icon
                                 name="md-arrow-round-forward"
                                 style={globalStyle.actionButtonIcon}
-                                />
+                            />
                         );
                     }}
-                    />
+                />
 
                 <RkPicker
                     title='Select Amount'
@@ -262,7 +281,7 @@ class PrepopulatePantry extends React.Component {
                     onCancel={
                         () => this.setState({pickerVisible: false})
                     }
-                    />
+                />
                 <RkPicker
                     title='Edit Amount'
                     data={(() => {
@@ -303,7 +322,7 @@ class PrepopulatePantry extends React.Component {
                     onCancel={
                         () => this.setState({editPickerVisible: false})
                     }
-                    />
+                />
             </View>
         );
     }

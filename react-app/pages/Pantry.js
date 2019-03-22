@@ -1,10 +1,22 @@
 import React from 'react';
 import { BUTTON_BACKGROUND_COLOR, YELLOW_BACKGROUND } from '../common/SousChefColors'
 import LinearGradient from 'react-native-linear-gradient';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
-import { beginPantryFetch, addPantryItem, editPantryItem, removePantryItem } from '../redux/actions/PantryAction';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    SafeAreaView,
+    StatusBar,
+} from 'react-native';
+import {
+    beginPantryFetch,
+    addPantryItem,
+    editPantryItem,
+    removePantryItem,
+} from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
+import globalStyle, { DEFAULT_FONT } from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
@@ -23,8 +35,8 @@ import convert from 'convert-units';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import firebase from 'react-native-firebase';
 import { addGroceryListItem } from '../redux/actions/GroceryListAction';
-import globalStyle from '../common/SousChefTheme';
 
+const standardMappingsRef = firebase.firestore().collection("standardmappings");
 
 const defaultState = {
     addDialogVisible : false,
@@ -47,8 +59,12 @@ class Pantry extends React.Component {
         headerLeft: null,
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient 
+                colors={['#17ba6b','#1d945b']} 
+                locations={[0.3,1]} 
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -77,7 +93,9 @@ class Pantry extends React.Component {
         {key: 8, value: "8"},
         {key: 9, value: "9"},
         {key: 10, value: "10"},],
-        convert().possibilities("mass").concat(convert().possibilities("volume"))
+        convert().possibilities("mass").concat(
+            convert().possibilities("volume")
+        )
     ];
 
     addItem = () => {
@@ -89,14 +107,17 @@ class Pantry extends React.Component {
             );
         } else {
             var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.pickedValue[1].toLowerCase()
             })[0].abbr;
             var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.standardUnit.toLowerCase()
             })[0].abbr;
             addPantryItem(
                 this.state.newIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                convert(parseInt(this.state.pickedValue[0].value))
+                    .from(unitAbbreviation).to(standardUnitAbbreviation),
                 this.props.userID
             );
         }
@@ -115,14 +136,17 @@ class Pantry extends React.Component {
             );
         } else {
             var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.pickedValue[1].toLowerCase()
             })[0].abbr;
             var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.standardUnit.toLowerCase()
             })[0].abbr;
             editPantryItem(
                 this.state.editIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                convert(parseInt(this.state.pickedValue[0].value))
+                    .from(unitAbbreviation).to(standardUnitAbbreviation),
                 this.props.userID
             );
         }
@@ -139,7 +163,7 @@ class Pantry extends React.Component {
     }
 
     fetchIngredientData(ingredient, callback) {
-        firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
+        standardMappingsRef.doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
             if (unit == undefined) {
                 this.setState({
@@ -181,18 +205,23 @@ class Pantry extends React.Component {
         return (
             <View style={[globalStyle.containerList]}>
                 <View style={[globalStyle.headerContainer]}>
-                    <Text style={[globalStyle.header]}>Items:</Text>
+                    <Text style={[globalStyle.header]}>
+                        Items:
+                    </Text>
                 </View>
                 <SwipeListView
                     useFlatList
                     data={this.props.pantry}
                     style={[globalStyle.list]}
                     renderItem={({item}, rowMap) => {
-                        return <View style={[globalStyle.listItem]}>
-                            <Text style={{padding: 10}}>
-                                {item.amount.toFixed(2)} {item.unit} {item.title}
-                            </Text>
-                        </View>
+                        return (
+                            <View style={[globalStyle.listItem]}>
+                                <Text style={{padding: 10}}>
+                                    {item.amount.toFixed(2) + " " + 
+                                        item.unit + " " + item.title}
+                                </Text>
+                            </View>
+                        )
                     }}
                     renderHiddenItem={ (data, rowMap) => (
                         <View style={styles.rowBack}>
@@ -220,12 +249,12 @@ class Pantry extends React.Component {
                                         });
                                     });
                                 }}
-                                >
+                            >
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-create"
                                         style={globalStyle.actionButtonIcon}
-                                        />
+                                    />
                                     <Text style={styles.text}>edit</Text>
                                 </View>
                             </TouchableOpacity>
@@ -235,12 +264,12 @@ class Pantry extends React.Component {
                                     this.closeRow(rowMap, data.index);
                                     removePantryItem(data.item.title, this.props.userID);
                                 }}
-                                >
+                            >
                                 <View style={{alignItems:'center',}}>
                                     <Icon
                                         name="md-close"
                                         style={globalStyle.actionButtonIcon}
-                                        />
+                                    />
                                     <Text style={styles.text}>delete</Text>
                                 </View>
                             </TouchableOpacity>
@@ -251,7 +280,7 @@ class Pantry extends React.Component {
                                     removePantryItem(data.item.title, this.props.userID);
                                     addGroceryListItem(data.item.title, data.item.amount, this.props.userID);
                                 }}
-                                >
+                            >
                                 <Text style={styles.text}>move to grocery</Text>
                             </TouchableOpacity>
                         </View>
@@ -259,24 +288,26 @@ class Pantry extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
                     leftOpenValue={150}
-                    />
+                />
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
                     renderIcon={active => {
-                        if (!active)
-                        return (
-                            <Icon
-                                name="md-create"
-                                style={globalStyle.actionButtonIcon}
+                        if (!active) {
+                            return (
+                                <Icon
+                                    name="md-create"
+                                    style={globalStyle.actionButtonIcon}
                                 />
-                        );
-                        else
-                        return (
-                            <Icon
-                                name="md-add"
-                                style={globalStyle.actionButtonIcon}
+                            );
+                        }
+                        else {
+                            return (
+                                <Icon
+                                    name="md-add"
+                                    style={globalStyle.actionButtonIcon}
                                 />
-                        );
+                            );
+                        }
                     }}
                     >
                     <ActionButton.Item
@@ -286,11 +317,12 @@ class Pantry extends React.Component {
                             () => this.setState(
                                 {addDialogVisible: true}
                             )
-                        }>
+                        }
+                    >
                         <Icon
                             name="md-add"
                             style={globalStyle.actionButtonIcon}
-                            />
+                        />
                     </ActionButton.Item>
                 </ActionButton>
                 <Dialog
@@ -304,7 +336,7 @@ class Pantry extends React.Component {
                             style={[globalStyle.dialogTitleContainer]}
                             textStyle={[globalStyle.dialogTitleText]}
                             title="Add Item"
-                            />
+                        />
                     }
                     footer={
                         <DialogFooter>
@@ -317,28 +349,22 @@ class Pantry extends React.Component {
                                         addDialogVisible: false
                                     });
                                 }}
-                                />
+                            />
                             <DialogButton
                                 style={[globalStyle.dialogButtonContainer]}
                                 textStyle={[globalStyle.dialogButtonText]}
                                 text="Add Item"
-                                onPress={
-                                    () => {
-                                        this.addItem();
-                                    }
-                                }
-                                />
+                                onPress={() => {this.addItem();}}
+                            />
                         </DialogFooter>
                     }
                     dialogAnimation={new SlideAnimation({
                         slideFrom: 'bottom',
                         useNativeDriver: true
                     })}
-                    >
+                >
                     <DialogContent>
-                        <Text
-                            style={[globalStyle.popupHeader]}
-                            >
+                        <Text style={[globalStyle.popupHeader]}>
                             Item Name:
                         </Text>
                         <RkTextInput
@@ -353,7 +379,7 @@ class Pantry extends React.Component {
                                 }
                             }
                             value={this.state.newIngredient}
-                            />
+                        />
                         <Text style={[globalStyle.popupHeader]}>
                             Quantity:
                         </Text>
@@ -368,7 +394,7 @@ class Pantry extends React.Component {
                                     pickerVisible: true
                                 })
                             }
-                            >
+                        >
                             Change Quantity
                         </RkButton>
                     </DialogContent>
@@ -418,7 +444,7 @@ class Pantry extends React.Component {
                     onCancel={
                         () => this.setState({pickerVisible: false})
                     }
-                    />
+                />
                 <RkPicker
                     title='Edit Amount'
                     data={(() => {
@@ -459,7 +485,7 @@ class Pantry extends React.Component {
                     onCancel={
                         () => this.setState({editPickerVisible: false})
                     }
-                    />
+                />
             </View>
         );
     }

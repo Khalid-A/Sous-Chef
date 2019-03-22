@@ -3,8 +3,6 @@ import { StyleSheet, Image, Text, View, Dimensions, TouchableOpacity, SafeAreaVi
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { loginExistingUser } from './../redux/actions/AuthenticationAction';
-import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
 import globalStyle from '../common/SousChefTheme';
 
 class Welcome extends React.Component {
@@ -13,8 +11,12 @@ class Welcome extends React.Component {
         headerVisible: false,
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient
+                colors={['#17ba6b', '#1d945b']}
+                locations={[0.3,1]}
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -48,18 +50,36 @@ class Welcome extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={globalStyle.linearGradient} locations={[0.4,0.65,1]}>
-                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
-                    <Text style={styles.welcome}>Welcome to Sous Chef</Text>
+                <LinearGradient
+                    colors={['#1d945b', '#17ba6b', '#ffc100',]}
+                    style={globalStyle.linearGradient}
+                    locations={[0.4,0.65,1]}
+                >
+                    <Image 
+                        source={require('../assets/sousChefWhite.png')}
+                        style={[styles.logo]}
+                        resizeMode="contain"
+                    />
 
-                    <TouchableOpacity style ={globalStyle.gradientButton} onPress={this.onLoginPressed}>
+                    <Text style={styles.welcome}>
+                        Welcome to Sous Chef
+                    </Text>
+
+                    <TouchableOpacity 
+                        style={globalStyle.gradientButton}
+                        onPress={this.onLoginPressed}
+                    >
                         <Text style ={globalStyle.gradientButtonText}>LOGIN</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style = {globalStyle.gradientButton} onPress={this.onSignUpPressed}>
-                        <Text style ={globalStyle.gradientButtonText}>SIGN UP</Text>
+                    <TouchableOpacity 
+                        style={globalStyle.gradientButton}
+                        onPress={this.onSignUpPressed}
+                    >
+                        <Text style={globalStyle.gradientButtonText}>
+                            SIGN UP
+                        </Text>
                     </TouchableOpacity>
-
                 </LinearGradient>
             </View>
         );

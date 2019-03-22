@@ -9,7 +9,7 @@ import {
 
 export const DEFAULT_FONT = Platform.OS == 'ios' ? "Avenir" : "Roboto"
 
-export default globalStyles = StyleSheet.create({
+export default globalStyle = StyleSheet.create({
     gradientButtonText: {
         fontSize: 16,
         fontFamily: DEFAULT_FONT,

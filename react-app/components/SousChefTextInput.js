@@ -23,8 +23,7 @@ export default class SousChefTextInput extends Component {
                 inputStyle={{
                     color: 'white',
                 }}
-
-                />
+            />
         )
     }
 }

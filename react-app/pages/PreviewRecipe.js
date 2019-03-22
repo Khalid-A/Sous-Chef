@@ -1,7 +1,7 @@
 import React from 'react';
 import { BUTTON_BACKGROUND_COLOR, YELLOW_BACKGROUND } from '../common/SousChefColors';
 import { DEFAULT_FONT} from '../common/SousChefTheme';
-import globalStyles from '../common/SousChefTheme';
+import globalStyle from '../common/SousChefTheme';
 import {
     StyleSheet,
     Text, 
@@ -32,8 +32,12 @@ class PreviewRecipe extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient
+                colors={['#17ba6b', '#1d945b']}
+                locations={[0.3,1]}
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -93,7 +97,10 @@ class PreviewRecipe extends React.Component {
             error
         );
     });
-    this.props.saveIsRecent(this.props.userID, this.props.navigation.getParam("recipeID"))
+    this.props.saveIsRecent(
+        this.props.userID,
+        this.props.navigation.getParam("recipeID")
+    )
 }
 
 updatePantryAmount = (have, item, surplus) => {
@@ -102,7 +109,7 @@ updatePantryAmount = (have, item, surplus) => {
         // Increment amount in pantry to how much this recipe needs
         firebase.firestore().runTransaction((transaction) => {
             var pantryDocRef = pantryRef.doc(this.props.userID)
-            .collection("ingredients").doc(item.ingredient);
+                .collection("ingredients").doc(item.ingredient);
             return transaction.get(pantryDocRef).then((doc) => {
                 if (!doc.exists) {
                     throw "Document does not exist";
@@ -117,19 +124,19 @@ updatePantryAmount = (have, item, surplus) => {
         }).catch((err) => {
             // We need to add this item to the pantry
             pantryRef.doc(this.props.userID).collection("ingredients")
-            .doc(item.ingredient).set({
-                amount: -surplus
-            });
+                .doc(item.ingredient).set({
+                    amount: -surplus
+                });
         });
     }
     else {
         // We want to make sure this item is removed from the pantry
         pantryRef.doc(this.props.userID).collection("ingredients")
-        .doc(item.ingredient).delete().then(() => {
-            console.log(item.ingredient + " deleted successfully");
-        }).catch((error) => {
-            console.log(item.ingredient + " already deleted");
-        });
+            .doc(item.ingredient).delete().then(() => {
+                console.log(item.ingredient + " deleted successfully");
+            }).catch((error) => {
+                console.log(item.ingredient + " already deleted");
+            });
     }
 }
 
@@ -172,7 +179,7 @@ addIngrToGroceryList = (dontHaveIndex) => {
     // Increment amount in GL to how much this recipe needs
     firebase.firestore().runTransaction((transaction) => {
         var glDocRef = glRef.doc(this.props.userID)
-        .collection("ingredients").doc(item.ingredient);
+            .collection("ingredients").doc(item.ingredient);
         return transaction.get(glDocRef).then((doc) => {
             if (!doc.exists) {
                 throw "Ingredient not in GL";
@@ -187,9 +194,9 @@ addIngrToGroceryList = (dontHaveIndex) => {
     }).catch((err) => {
         // We need to add this item to the pantry
         glRef.doc(this.props.userID).collection("ingredients")
-        .doc(item.ingredient).set({
-            amount: -surplus
-        });
+            .doc(item.ingredient).set({
+                amount: -surplus
+            });
     }).then(() => {
         var copyAddToGL = {...this.state.addToGlIsClicked};
         copyAddToGL[item.ingredient] = true;
@@ -223,7 +230,7 @@ calculateHaveIngredients = () => {
     for (var i = 0; i < this.state.recipe.ingredients.length; i++) {
         // Search for item in pantry
         promises.push(pantryRef.doc(this.props.userID).collection("ingredients")
-        .doc(this.state.recipe.ingredients[i].ingredient).get());
+            .doc(this.state.recipe.ingredients[i].ingredient).get());
     }
 
     // Deal with concurrency issues by "joining" at steps
@@ -237,7 +244,7 @@ calculateHaveIngredients = () => {
             }
             var pantryIngrData = pantryIngrDoc.data();
             surpluses[i] = pantryIngrData.amount -
-            this.state.recipe.ingredients[i].standardQuantity;
+                this.state.recipe.ingredients[i].standardQuantity;
 
             var unitMapCopy = {...this.state.unitsByIngrName};
             unitMapCopy[pantryIngrData.id] = pantryIngrData.unit;
@@ -285,9 +292,13 @@ cookNow = () => {
 }
 
 changeServings = (text) => {
-    if (text.match(/\./i) || text == "") return;
+    if (text.match(/\./i) || text == "") {
+        return;
+    }
     var numServings = parseInt(text);
-    if (numServings == 0 || numServings == NaN) return;
+    if (numServings == 0 || numServings == NaN) {
+        return;
+    }
     var scaleBy = numServings / this.state.recipe.servings;
 
     // Change quantities in recipe
@@ -317,24 +328,29 @@ closeRow(rowMap, rowKey) {
 
 FirstRoute(){
     return (
-        <ScrollView style={{flex:1, marginBottom: 0,}}>
+        <ScrollView style={{flex: 1, marginBottom: 0,}}>
             <SwipeListView
                 useFlatList
                 data={this.state.dontHaveIngredients}
                 keyExtractor={(item, index) => item[0].key}
                 extraData={this.state}
-                style={[styles.list, {height: 50 * this.state.dontHaveIngredients.length}]}
+                style={[
+                    styles.list,
+                    {height: 50 * this.state.dontHaveIngredients.length}
+                ]}
                 renderItem={({item, index}) =>
-                <View key={item.key} style={[globalStyles.listItem]}>
+                <View key={item.key} style={[globalStyle.listItem]}>
                     <Text
                         style={[styles.ingredientName]}
                         key={"Ingredient Name " + index}
-                        data={{surplus: item[1]}}>
+                        data={{surplus: item[1]}}
+                    >
                         {item[0].originalQuantity} {item[0].originalText}
                     </Text>
                     <Text
                         style={[styles.ingredientSubtext]}
-                        key={"Ingredient subtext " + index}>
+                        key={"Ingredient subtext " + index}
+                    >
                         {
                             (Math.round(item[0].standardQuantity*100) / 100) +
                             " " + item[0].standardUnit + " " + item[0].ingredient
@@ -352,16 +368,19 @@ FirstRoute(){
                             onPress={ _ => {
                                 this.addIngrToGroceryList(data.index);
                             }}>
-                            <Text style={styles.text}>{
+                            <Text style={styles.text}>
+                                {
                                     this.state.addToGlIsClicked[data.item[0].ingredient] ?
                                     "Added to\nGL" : "Add to\nGL"
-                                }</Text>
+                                }
+                            </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.backRightBtn, styles.backLeftBtnRight]}
                                 onPress={ _ => {
                                     this.indicateHave(data.index);
-                                }}>
+                                }}
+                            >
                                 <Text style={styles.text}>
                                     Have
                                 </Text>
@@ -369,13 +388,13 @@ FirstRoute(){
                         </View>
                     )}
                     leftOpenValue={150}
-                    />
+                />
             </ScrollView>
         );}
 
         SecondRoute(){
             return (
-                <ScrollView style={{flex:1, marginBottom: 0,}} >
+                <ScrollView style={{flex: 1, marginBottom: 0,}} >
                     <SwipeListView
                         useFlatList
                         data={this.state.haveIngredients}
@@ -383,7 +402,7 @@ FirstRoute(){
                         extraData={this.state}
                         style={[styles.list]}
                         renderItem={({item, index}) =>
-                        <View key={item.key} style={[globalStyles.listItem]}>
+                        <View key={item.key} style={[globalStyle.listItem]}>
                             <Text
                                 style={[styles.ingredientName]}
                                 key={"Ingredient Name " + index}
@@ -392,7 +411,8 @@ FirstRoute(){
                             </Text>
                             <Text
                                 style={[styles.ingredientSubtext]}
-                                key={"Ingredient subtext " + index}>
+                                key={"Ingredient subtext " + index}
+                            >
                                 {
                                     (Math.round(item[0].standardQuantity*100) / 100) +
                                     " " + item[0].standardUnit + " " + item[0].ingredient
@@ -406,7 +426,8 @@ FirstRoute(){
                                 style={[styles.backRightBtn, styles.backRightBtnRight]}
                                 onPress={ _ => {
                                     this.indicateHave(data.index, false);
-                                }}>
+                                }}
+                            >
                                 <Text style={styles.text}>
                                     {"Don't\nHave"}
                                 </Text>
@@ -414,7 +435,7 @@ FirstRoute(){
                         </View>
                     )}
                     leftOpenValue={75}
-                    />
+                />
             </ScrollView>
         );}
         render() {
@@ -427,18 +448,38 @@ FirstRoute(){
                         <View style={styles.servings}>
                             <Icon
                                 name='restaurant'
-                                color='#17ba6b' />
-                            <Text style={{color:BUTTON_BACKGROUND_COLOR, fontFamily:DEFAULT_FONT, marginRight: 20, marginLeft: 20, fontSize:18,width:60}}>
+                                color={BUTTON_BACKGROUND_COLOR}
+                            />
+                            <Text 
+                                style={{
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                    fontFamily: DEFAULT_FONT,
+                                    marginRight: 20,
+                                    marginLeft: 20,
+                                    fontSize: 18,
+                                    width: 60,
+                                }}
+                            >
                                 Serves:
                             </Text>
                             <TextInput
-                                style={{width:60, fontSize: 14, borderBottomColor: 'gray', borderBottomWidth: 0.5, paddingLeft:20,}}
+                                style={{
+                                    width: 60,
+                                    fontSize: 14,
+                                    borderBottomColor: 'gray',
+                                    borderBottomWidth: 0.5,
+                                    paddingLeft: 20,
+                                }}
                                 keyboardType={"number-pad"}
                                 maxLength={3}
                                 enablesReturnKeyAutomatically={true}
-                                onChangeText={(text) => this.changeServings(text)}
-                                defaultValue={this.state.recipe.servings.toString()}
-                                />
+                                onChangeText={
+                                    (text) => this.changeServings(text)
+                                }
+                                defaultValue={
+                                    this.state.recipe.servings.toString()
+                                }
+                            />
 
                         </View>
                         <TabView
@@ -447,61 +488,89 @@ FirstRoute(){
                             navigationState={{
                                 index: this.state.index,
                                 routes: [
-                                    {key: 'first',
+                                    {
+                                        key: 'first',
                                         title: 'You Don\'t Have',
                                     },
-                                    {key: 'second',
+                                    {
+                                        key: 'second',
                                         title: 'You Have',
-
                                     },
                                 ],
                             }}
                             renderScene={({ route, jumpTo }) => {
                                 switch (route.key) {
                                     case 'first':
-                                    return this.FirstRoute();
+                                        return this.FirstRoute();
                                     case 'second':
-                                    return  this.SecondRoute();
+                                        return  this.SecondRoute();
                                 }
                             }}
                             renderTabBar={props =>
                                 <TabBar
                                     {...props}
-                                    indicatorStyle={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
-                                    style={{ backgroundColor: 'white', color: BUTTON_BACKGROUND_COLOR, }}
-                                    activeColor = {{color: BUTTON_BACKGROUND_COLOR, textColor:BUTTON_BACKGROUND_COLOR, }}
+                                    indicatorStyle={{
+                                        backgroundColor: BUTTON_BACKGROUND_COLOR
+                                    }}
+                                    style={{
+                                        backgroundColor: 'white',
+                                        color: BUTTON_BACKGROUND_COLOR,
+                                    }}
+                                    activeColor = {{
+                                        color: BUTTON_BACKGROUND_COLOR,
+                                        textColor:BUTTON_BACKGROUND_COLOR,
+                                    }}
                                     inactiveColor = {{}}
-                                    labelStyle = {{color: BUTTON_BACKGROUND_COLOR, fontWeight: 'bold', fontFamily: 'Avenir'}}
-                                    />
+                                    labelStyle = {{
+                                        color: BUTTON_BACKGROUND_COLOR,
+                                        fontWeight: 'bold',
+                                        fontFamily: DEFAULT_FONT
+                                    }}
+                                />
                             }
                             onIndexChange={index => this.setState({ index })}
-                            initialLayout={{ width: Dimensions.get('window').width }}
-                            />
+                            initialLayout={{
+                                width: Dimensions.get('window').width
+                            }}
+                        />
 
-                        <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {styles.button}>
+                        <LinearGradient 
+                            colors={['#17ba6b','#1d945b']}
+                            locations={[0.3,1]}
+                            style = {styles.button}
+                        >
                             <TouchableOpacity
                                 disabled={this.state.addAllToGlDisabled}
                                 onPress={() => this.addAllToGroceryList()}
+                            >
+                                <Text 
+                                    style = {globalStyle.gradientButtonText}
+                                    onPress={this.finishCooking}
                                 >
-                                <Text style = {globalStyles.gradientButtonText} onPress={this.finishCooking}>
                                     Add All to Grocery List
                                 </Text>
                             </TouchableOpacity>
                         </LinearGradient>
 
-                        <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {styles.button}>
+                        <LinearGradient 
+                            colors={['#17ba6b','#1d945b']}
+                            locations={[0.3,1]}
+                            style = {styles.button}
+                        >
                             <TouchableOpacity
                                 onPress={() => this.cookNow()}
+                            >
+                                <Text 
+                                    style = {globalStyle.gradientButtonText}
+                                    onPress={this.finishCooking}
                                 >
-                                <Text style = {globalStyles.gradientButtonText} onPress={this.finishCooking}>
                                     Make right now
                                 </Text>
                             </TouchableOpacity>
                         </LinearGradient>
                     </View>
                 );
-            }
-            else {
+            } else {
                 return null;
             }
         }
@@ -567,11 +636,11 @@ FirstRoute(){
             paddingLeft: 15,
         },
         backRightBtnRight: {
-            backgroundColor: '#17ba6b',
+            backgroundColor: BUTTON_BACKGROUND_COLOR,
             left: 0
         },
         backLeftBtnRight: {
-            backgroundColor: '#17ba6b',
+            backgroundColor: BUTTON_BACKGROUND_COLOR,
             left: 75
         },
         button: {

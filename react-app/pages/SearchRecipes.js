@@ -1,11 +1,19 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR, DEFAULT_FONT} from '../common/SousChefColors';
-import { StyleSheet, Button, Text, View, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
-import ActionButton from 'react-native-action-button';
+import { BUTTON_BACKGROUND_COLOR, DEFAULT_FONT} from '../common/SousChefColors';
+import {
+    StyleSheet,
+    Text,
+    View,
+    FlatList,
+    TouchableOpacity,
+    Dimensions,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 import SousChefCardSearch from '../components/SousChefCardSearch';
-import SousChefTextInput from './../components/SousChefTextInput';
-import { beginSearchRecipesFetch, beginRandomRecipesFetch } from '../redux/actions/RecipeAction';
+import {
+    beginSearchRecipesFetch,
+    beginRandomRecipesFetch,
+} from '../redux/actions/RecipeAction';
 import { connect } from 'react-redux';
 import { RkTextInput } from 'react-native-ui-kitten';
 import globalStyle from '../common/SousChefTheme';
@@ -19,7 +27,7 @@ class SearchRecipes extends React.Component {
             backgroundColor: BUTTON_BACKGROUND_COLOR,
         },
         headerTitleStyle: {
-            fontFamily: "Avenir Next",
+            fontFamily: DEFAULT_FONT,
             fontSize: 35
         },
     }
@@ -56,7 +64,6 @@ class SearchRecipes extends React.Component {
                 searchRecipes: this.props.randomRecipes,
                 displaySearchText: 'No Results: \"' + this.state.searchQuery.trim() + '\"'
             })
-            return
         } else {
             this.setState({
                 searchRecipes: this.props.searchRecipes,
@@ -68,10 +75,17 @@ class SearchRecipes extends React.Component {
     render() {
         return (
             <View style={[styles.container]}>
-                <View style={{margin:5, alignItems:'center', flexDirection:'row', width: Dimensions.get('window').width - 70}}>
+                <View 
+                    style={{
+                        margin: 5,
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        width: Dimensions.get('window').width - 70
+                    }}
+                >
                     <RkTextInput
                         rkType="clear"
-                        placeholder={'chicken'}
+                        placeholder={'cookies'}
                         label={'Search:'}
                         onChangeText={searchQuery => this.setState({
                             searchQuery: searchQuery
@@ -80,7 +94,7 @@ class SearchRecipes extends React.Component {
                         style={globalStyle.textInputSearch}
                         autoCapitalize="none"
                         value={this.props.value}
-                        />
+                    />
                     <Icon
                         name="search"
                         style={globalStyle.actionButtonIconSearch}
@@ -88,7 +102,7 @@ class SearchRecipes extends React.Component {
                         raised = {true}
                         color={BUTTON_BACKGROUND_COLOR}
                         reverseColor={'white'}
-                        />
+                    />
                 </View>
                 <View style={[styles.sectionContainer]}>
                     <Text style={[styles.sectionHeader]}>
@@ -99,28 +113,35 @@ class SearchRecipes extends React.Component {
                         keyExtractor={(item, index) => index.toString()}
                         data={this.state.searchRecipes}
                         renderItem={({item}) => {
-                            return (<TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate("PreviewRecipe", {recipeID: item.id});
-                            }}>
-                            <SousChefCardSearch
-                                headerText={item.title}
-                                bodyText={
-                                    "Time: " +
-                                    (item.timeHour == "0" ? "" : item.timeHour + "h") +
-                                    (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
-                                    "\n" +
-                                    "Serving Size: " +
-                                    item.servings
-                                }
-                                imagePath={item.images}
-                                />
-                        </TouchableOpacity>);
-                    }}
+                            return (
+                                <TouchableOpacity 
+                                    onPress={() => {
+                                        this.props.navigation.navigate(
+                                            "PreviewRecipe", 
+                                            {recipeID: item.id}
+                                        );
+                                    }}
+                                >
+                                    <SousChefCardSearch
+                                        headerText={item.title}
+                                        bodyText={
+                                            "Time: " +
+                                            (item.timeHour == "0" ? "" : item.timeHour + "h") +
+                                            (item.timeMinute == "0" ? "" : item.timeMinute + "m") +
+                                            "\n" +
+                                            "Serving Size: " +
+                                            item.servings
+                                        }
+                                        imagePath={item.images}
+                                    />
+                                </TouchableOpacity>
+                            );
+                        }}
                     />
+                </View>
             </View>
-        </View>
-    );
-}
+        );
+    }
 }
 
 const styles = StyleSheet.create({

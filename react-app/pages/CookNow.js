@@ -12,12 +12,18 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR } from '../common/SousChefColors';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
+import {
+    BUTTON_BACKGROUND_COLOR,
+    BACKGROUND_COLOR
+} from '../common/SousChefColors';
+import globalStyle, { DEFAULT_FONT } from '../common/SousChefTheme';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
-import { getIsFavorited, saveIsFavorited, saveIsRecent } from '../redux/actions/FavoritedAction';
-import globalStyle from '../common/SousChefTheme';
+import {
+    getIsFavorited,
+    saveIsFavorited,
+    saveIsRecent,
+} from '../redux/actions/FavoritedAction';
 
 class CookNow extends React.Component {
     static navigationOptions = {
@@ -26,8 +32,12 @@ class CookNow extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient 
+                colors={['#17ba6b','#1d945b']} 
+                locations={[0.3,1]} 
+                style={{height:90}}
+            >
+                <SafeAreaView style={{flex:1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -57,7 +67,10 @@ class CookNow extends React.Component {
     }
 
     componentWillMount(){
-        this.props.getIsFavorited(this.props.userID, this.props.navigation.getParam("recipe").id)
+        this.props.getIsFavorited(
+            this.props.userID, 
+            this.props.navigation.getParam("recipe").id
+        )
     }
 
     componentWillReceiveProps(nextProps){
@@ -65,9 +78,12 @@ class CookNow extends React.Component {
             this.setState({isFavorited: nextProps.isFavorited})
         }
     }
-    /*When finished button is pressed function saves the recipe as favorited if the heart justifyContent
-    was pressed. It adds the recepe to recent recipes fo the discover page. Function also navigated to
-    the finished page. */
+
+    /*
+        When finished button is pressed function saves the recipe as favorited 
+        if the heart justifyContent was pressed. It adds the recepe to recent 
+        recipes. Finally it navigates to the finished page. 
+    */
     finishCooking(){
         this.props.saveIsFavorited(
             this.props.userID,
@@ -81,9 +97,12 @@ class CookNow extends React.Component {
             ingredientsToRemove: this.props.navigation.getParam("ingredientsToRemove")
         });
     }
-    /* The function iterates through the directions and returns each one with its
-    number and then the direction. The result is a numbered list of DIRECTIONS
-    in order. */
+
+    /* 
+        The function iterates through the directions and returns each one with 
+        its number and then the direction. The result is a numbered list of 
+        DIRECTIONS in order. 
+    */
     listDirections(){
         if(this.state.recipe.ingredients == null){
             console.warn("ingredients are null");
@@ -97,8 +116,11 @@ class CookNow extends React.Component {
             );
         });
     }
-    /*The function iterates through the indredients and outputs a list of ingredients
-    with icons that are bullet points*/
+
+    /* 
+        The function iterates through the indredients and outputs a list of 
+        ingredients with icons that are bullet points.
+    */
     listIngredients(){
         if(!this.state.recipe || !this.state.recipe.ingredients){
             console.warn("null");
@@ -108,11 +130,19 @@ class CookNow extends React.Component {
                 return null;
             }
             return (
-                <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems:'center', marginLeft: 10,}}>
+                <View 
+                    style={{
+                        flexDirection: 'row', 
+                        justifyContent: 'flex-start', 
+                        alignItems: 'center', 
+                        marginLeft: 10,
+                    }}
+                >
                     <Icon
                         name='album'
-                        color='#17ba6b'
-                        size={10} />
+                        color={BUTTON_BACKGROUND_COLOR}
+                        size={10}
+                    />
                     <Text style={styles.detail}>
                         {ingredient.originalQuantity} {ingredient.originalText}
                     </Text>
@@ -136,7 +166,6 @@ class CookNow extends React.Component {
 
     render() {
         if(this.state.recipe){
-            console.log("cooknow",this.state)
             return (
                 <View style={styles.container}>
                     <Image
@@ -152,7 +181,8 @@ class CookNow extends React.Component {
                         <View style={styles.servings}>
                             <Icon
                                 name='restaurant'
-                                color='#17ba6b' />
+                                color='#17ba6b'
+                            />
                             <Text style={styles.subtitle}>
                                 Servings: {"\n"}{this.state.recipe.servings}
                             </Text>
@@ -161,21 +191,29 @@ class CookNow extends React.Component {
                             <Icon
                                 name='timer'
                                 color='#17ba6b'
-                                />
+                            />
                             <Text style={styles.subtitle}>
-                                Cook Time: {"\n"}{this.state.recipe.time.hour} hours {this.state.recipe.time.minute} minutes
+                                {"Cook Time: \n"}
+                                {this.state.recipe.time.hour}
+                                {" hours "}
+                                {this.state.recipe.time.minute}
+                                {" minutes"}
                             </Text>
                         </View>
                         <View style={styles.favorite}>
                             <Icon
-                                name={(this.state.isFavorited) ? 'favorite' : 'favorite-border'}
+                                name={
+                                    (this.state.isFavorited) ? 
+                                    'favorite' : 
+                                    'favorite-border'
+                                }
                                 color='#17ba6b'
                                 onPress={()=>{
                                     this.setState({
                                         isFavorited: !this.state.isFavorited
                                     })
                                 }}
-                                />
+                            />
                         </View>
                     </View>
 
@@ -189,19 +227,38 @@ class CookNow extends React.Component {
                         renderTabBar={props =>
                             <TabBar
                                 {...props}
-                                indicatorStyle={{ backgroundColor: BUTTON_BACKGROUND_COLOR }}
-                                style={{ backgroundColor: 'white', color: BUTTON_BACKGROUND_COLOR, }}
-                                activeColor = {{color: BUTTON_BACKGROUND_COLOR, textColor:BUTTON_BACKGROUND_COLOR, }}
+                                indicatorStyle={{
+                                    backgroundColor: BUTTON_BACKGROUND_COLOR 
+                                }}
+                                style={{
+                                    backgroundColor: 'white',
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                }}
+                                activeColor = {{
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                    textColor: BUTTON_BACKGROUND_COLOR,
+                                }}
                                 inactiveColor = {{}}
-                                labelStyle = {{color: BUTTON_BACKGROUND_COLOR, fontWeight: 'bold', fontFamily: 'Avenir'}}
-                                />
+                                labelStyle = {{
+                                    color: BUTTON_BACKGROUND_COLOR,
+                                    fontWeight: 'bold',
+                                    fontFamily: 'Avenir',
+                                }}
+                            />
                         }
                         onIndexChange={index => this.setState({ index })}
                         initialLayout={{ width: Dimensions.get('window').width }}
-                        />
-                    <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {globalStyle.gradientButton}>
+                    />
+                    <LinearGradient 
+                        colors={['#17ba6b','#1d945b']} 
+                        locations={[0.3,1]} 
+                        style = {globalStyle.gradientButton}
+                    >
                         <TouchableOpacity>
-                            <Text style = {globalStyle.gradientButtonText} onPress={this.finishCooking}>
+                            <Text 
+                                style = {globalStyle.gradientButtonText} 
+                                onPress={this.finishCooking}
+                            >
                                 FINISHED!
                             </Text>
                         </TouchableOpacity>

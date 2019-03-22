@@ -1,9 +1,26 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR, YELLOW_BACKGROUND } from '../common/SousChefColors'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, SafeAreaView, StatusBar } from 'react-native';
-import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
+import {
+    BUTTON_BACKGROUND_COLOR,
+    YELLOW_BACKGROUND,
+    DARK_GREEN_BACKGROUND,
+} from '../common/SousChefColors'
+import {
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    Alert,
+    SafeAreaView,
+    StatusBar,
+} from 'react-native';
+import {
+    beginGroceryListFetch,
+    addGroceryListItem,
+    editGroceryItem,
+    removeGroceryListItem,
+} from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
+import globalStyle, { DEFAULT_FONT } from '../common/SousChefTheme';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,11 +37,11 @@ import Dialog, {
     DialogContent
 } from 'react-native-popup-dialog';
 import convert from 'convert-units';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import firebase from 'react-native-firebase';
 import { addPantryItem } from '../redux/actions/PantryAction';
-import globalStyle from '../common/SousChefTheme';
 
+const standardMappingsRef = firebase.firestore().collection("standardmappings");
 
 const defaultState = {
     addDialogVisible : false,
@@ -48,8 +65,12 @@ class GroceryList extends React.Component {
         headerLeft: null,
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient 
+                colors={['#17ba6b','#1d945b']}
+                locations={[0.3,1]} 
+                style={{height:90}}
+            >
+                <SafeAreaView style={{flex:1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -78,7 +99,9 @@ class GroceryList extends React.Component {
         {key: 8, value: "8"},
         {key: 9, value: "9"},
         {key: 10, value: "10"},],
-        convert().possibilities("mass").concat(convert().possibilities("volume"))
+        convert().possibilities("mass").concat(
+            convert().possibilities("volume")
+        )
     ];
 
     addItem = () => {
@@ -90,14 +113,17 @@ class GroceryList extends React.Component {
             );
         } else {
             var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.pickedValue[1].toLowerCase()
             })[0].abbr;
-            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+            var stdUnitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.standardUnit.toLowerCase()
             })[0].abbr;
             addGroceryListItem(
                 this.state.newIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                convert(parseInt(this.state.pickedValue[0].value))
+                    .from(unitAbbreviation).to(stdUnitAbbreviation),
                 this.props.userID
             );
         }
@@ -115,14 +141,17 @@ class GroceryList extends React.Component {
             );
         } else {
             var unitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.pickedValue[1].toLowerCase()
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.pickedValue[1].toLowerCase()
             })[0].abbr;
-            var standardUnitAbbreviation = convert().list().filter((unitEntry) => {
-                return unitEntry.singular.toLowerCase() === this.state.standardUnit.toLowerCase()
+            var stdUnitAbbreviation = convert().list().filter((unitEntry) => {
+                return unitEntry.singular.toLowerCase() === 
+                    this.state.standardUnit.toLowerCase()
             })[0].abbr;
             editGroceryItem(
                 this.state.editIngredient,
-                convert(parseInt(this.state.pickedValue[0].value)).from(unitAbbreviation).to(standardUnitAbbreviation),
+                convert(parseInt(this.state.pickedValue[0].value))
+                    .from(unitAbbreviation).to(stdUnitAbbreviation),
                 this.props.userID
             );
         }
@@ -135,7 +164,7 @@ class GroceryList extends React.Component {
     }
 
     fetchIngredientData(ingredient, callback) {
-        firebase.firestore().collection("standardmappings").doc(ingredient.toLowerCase()).get().then((snapshot) =>{
+        standardMappingsRef.doc(ingredient.toLowerCase()).get().then((snapshot) =>{
             var unit = snapshot.get("unit");
             if (unit == undefined) {
                 this.setState({
@@ -154,7 +183,8 @@ class GroceryList extends React.Component {
             if (unitList.length == 0) {
                 units = [unit];
             } else {
-                var unitsPossibility = convert().from(unitList[0].abbr).possibilities();
+                var unitsPossibility = convert().from(unitList[0].abbr)
+                    .possibilities();
                 units = convert().list().filter((unit) => {
                     return unitsPossibility.includes(unit.abbr);
                 }).map((value) => {
@@ -188,11 +218,14 @@ class GroceryList extends React.Component {
                     data={this.props.groceryList}
                     style={[globalStyle.list]}
                     renderItem={({item}, rowMap) => {
-                        return <View style={[globalStyle.listItem]}>
-                            <Text style={{padding: 10}}>
-                                {item.amount.toFixed(2)} {item.unit} {item.title}
-                            </Text>
-                        </View>
+                        return (
+                            <View style={[globalStyle.listItem]}>
+                                <Text style={{padding: 10}}>
+                                    {item.amount.toFixed(2) + " " + item.unit
+                                        + " " + item.title}
+                                </Text>
+                            </View>
+                        )
                     }}
                     renderHiddenItem={ (data, rowMap) => (
                         <View style={styles.rowBack}>
@@ -249,7 +282,7 @@ class GroceryList extends React.Component {
                                 style={[styles.backRightBtn, styles.backLeftBtnRight]}
                                 onPress={ _ => {
                                     this.closeRow(rowMap, data.index);
-                                    firebase.firestore().collection("standardmappings").doc(data.item.title).get().then(ingredientSnapshot => {
+                                    standardMappingsRef.doc(data.item.title).get().then(ingredientSnapshot => {
                                         if (ingredientSnapshot.exists) {
                                             removeGroceryListItem(data.item.title, this.props.userID);
                                             addPantryItem(data.item.title, data.item.amount, this.props.userID);
@@ -274,48 +307,46 @@ class GroceryList extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     rightOpenValue={-75}
                     leftOpenValue={150}
-                    />
+                />
                 <ActionButton
                     buttonColor={BUTTON_BACKGROUND_COLOR}
                     renderIcon={active => {
-                        if (!active)
-                        return (
-                            <Icon
-                                name="md-create"
-                                style={globalStyle.actionButtonIcon}
+                        if (!active) {
+                            return (
+                                <Icon
+                                    name="md-create"
+                                    style={globalStyle.actionButtonIcon}
                                 />
-                        );
-                        else
-                        return (
-                            <Icon
-                                name="md-add"
-                                style={globalStyle.actionButtonIcon}
+                            );
+                        } else {
+                            return (
+                                <Icon
+                                    name="md-add"
+                                    style={globalStyle.actionButtonIcon}
                                 />
-                        );
+                            );
+                        }
                     }}
                     >
                     <ActionButton.Item
-                        buttonColor={'#1d945b'}
+                        buttonColor={DARK_GREEN_BACKGROUND}
                         title="New Item"
-                        onPress={
-                            () => this.setState(
-                                {addDialogVisible: true}
-                            )
-                        }>
+                        onPress={() => this.setState({addDialogVisible: true})}
+                    >
                         <Icon
                             name="md-add"
                             style={globalStyle.actionButtonIcon}
-                            />
+                        />
                     </ActionButton.Item>
                     <ActionButton.Item
                         buttonColor={YELLOW_BACKGROUND}
                         title="Move All To Pantry"
                         onPress={() => console.warn("move all to pantry tapped!")}
-                        >
+                    >
                         <Icon
                             name="md-nutrition"
                             style={globalStyle.actionButtonIcon}
-                            />
+                        />
                     </ActionButton.Item>
                 </ActionButton>
                 <Dialog
@@ -329,7 +360,7 @@ class GroceryList extends React.Component {
                             style={[globalStyle.dialogTitleContainer]}
                             textStyle={[globalStyle.dialogTitleText]}
                             title="Add Item"
-                            />
+                        />
                     }
                     footer={
                         <DialogFooter>
@@ -342,28 +373,22 @@ class GroceryList extends React.Component {
                                         addDialogVisible: false
                                     });
                                 }}
-                                />
+                            />
                             <DialogButton
                                 style={[globalStyle.dialogButtonContainer]}
                                 textStyle={[globalStyle.dialogButtonText]}
                                 text="Add Item"
-                                onPress={
-                                    () => {
-                                        this.addItem();
-                                    }
-                                }
-                                />
+                                onPress={() => {this.addItem();}}
+                            />
                         </DialogFooter>
                     }
                     dialogAnimation={new SlideAnimation({
                         slideFrom: 'bottom',
                         useNativeDriver: true
                     })}
-                    >
+                >
                     <DialogContent>
-                        <Text
-                            style={[globalStyle.popupHeader]}
-                            >
+                        <Text style={[globalStyle.popupHeader]}>
                             Item Name:
                         </Text>
                         <RkTextInput
@@ -378,11 +403,18 @@ class GroceryList extends React.Component {
                                 }
                             }
                             value={this.state.newIngredient}
-                            />
+                        />
                         <Text style={[globalStyle.popupHeader]}>
                             Quantity:
                         </Text>
-                        <Text style={{fontFamily: DEFAULT_FONT, marginBottom: 10, fontSize: 15, fontWeight: 'bold', alignSelf:'center'}}>
+                        <Text style={{
+                            fontFamily: DEFAULT_FONT,
+                            marginBottom: 10,
+                            fontSize: 15,
+                            fontWeight: 'bold',
+                            alignSelf:'center',
+                            }}
+                        >
                             {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
                         </Text>
                         <RkButton
@@ -392,7 +424,7 @@ class GroceryList extends React.Component {
                                     pickerVisible: true
                                 })
                             }
-                            >
+                        >
                             Change Quantity
                         </RkButton>
                     </DialogContent>
@@ -442,7 +474,7 @@ class GroceryList extends React.Component {
                     onCancel={
                         () => this.setState({pickerVisible: false})
                     }
-                    />
+                />
                 <RkPicker
                     title='Edit Amount'
                     data={(() => {
@@ -483,7 +515,7 @@ class GroceryList extends React.Component {
                     onCancel={
                         () => this.setState({editPickerVisible: false})
                     }
-                    />
+                />
             </View>
         );
     }

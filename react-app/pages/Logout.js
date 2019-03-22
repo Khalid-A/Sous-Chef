@@ -1,5 +1,5 @@
 import { BACKGROUND_COLOR } from '../common/SousChefColors';
-import globalStyles from '../common/SousChefTheme';
+import globalStyle from '../common/SousChefTheme';
 import React, { Component } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, Image, View, } from 'react-native';
@@ -25,8 +25,16 @@ export class Logout extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={globalStyles.linearGradient} locations={[0.4,0.65,1]}>
-                    <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
+                <LinearGradient
+                    colors={['#1d945b', '#17ba6b', '#ffc100',]}
+                    style={globalStyle.linearGradient}
+                    locations={[0.4,0.65,1]}
+                >
+                    <Image 
+                        source={require('../assets/sousChefWhite.png')}
+                        style={[styles.logo]}
+                        resizeMode="contain"
+                    />
                 </LinearGradient>
             </View>
         );
