@@ -6,6 +6,7 @@ import { loginUser } from './../redux/actions/AuthenticationAction';
 import { connect } from 'react-redux';
 import { DEFAULT_FONT } from './../common/SousChefTheme';
 import SousChefTextInput from './../components/SousChefTextInput'
+import globalStyle from '../common/SousChefTheme';
 
 export class Login extends Component {
     static navigationOptions = {
@@ -41,7 +42,7 @@ export class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={styles.linearGradient} locations={[0.4,0.65,1]}>
+                <LinearGradient colors={['#1d945b', '#17ba6b', '#ffc100',]} style={globalStyle.linearGradient} locations={[0.4,0.65,1]}>
                     <Image source={require('../assets/sousChefWhite.png')} style={[styles.logo]} resizeMode="contain" />
 
                     <SousChefTextInput
@@ -71,15 +72,15 @@ export class Login extends Component {
                         />
 
                     <TouchableOpacity
-                        style = {styles.button}
+                        style = {globalStyle.gradientButton}
                         onPress={this.handleLogin}
                         >
-                        <Text style ={styles.buttonText}>
+                        <Text style ={globalStyle.gradientButtonText}>
                             LOGIN
                         </Text>
                     </TouchableOpacity>
 
-                    <Text style={styles.errorMessage}>{this.props.errorMessage}</Text>
+                    <Text style={globalStyle.errorMessage}>{this.props.errorMessage}</Text>
                 </LinearGradient>
             </View>
         );
@@ -96,38 +97,6 @@ const styles = StyleSheet.create({
         height: 60,
         width: 160,
     },
-    linearGradient: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    buttonText: {
-        fontSize: 16,
-        fontFamily: DEFAULT_FONT,
-        textAlign: 'center',
-        color: BUTTON_BACKGROUND_COLOR,
-        backgroundColor:'transparent',
-        fontWeight: 'bold',
-    },
-    button: {
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: 10,
-        width: 250,
-        borderRadius:30,
-        margin: 10,
-    },
-    emailPasswordContainer: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        backgroundColor: BACKGROUND_COLOR,
-    },
-    errorMessage: {
-        color: 'white',
-        borderTopWidth: 20,
-        borderLeftWidth: 20,
-        borderRightWidth: 20,
-        flexWrap: 'wrap',
-    }
 });
 
 const mapStateToProps = (state) => {

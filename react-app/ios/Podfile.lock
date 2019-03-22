@@ -6,7 +6,7 @@ PODS:
   - BoringSSL/Implementation (10.0.6):
     - BoringSSL/Interface (= 10.0.6)
   - BoringSSL/Interface (10.0.6)
-  - BVLinearGradient (2.5.3):
+  - BVLinearGradient (2.5.4):
     - React
   - Crashlytics (3.10.9):
     - Fabric (~> 1.7.13)
@@ -235,7 +235,7 @@ PODS:
     - React
   - RNReanimated (1.0.0-alpha.12):
     - React
-  - RNVectorIcons (6.4.1):
+  - RNVectorIcons (6.4.2):
     - React
   - yoga (0.59.1.React)
 
