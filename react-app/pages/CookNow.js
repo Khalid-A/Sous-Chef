@@ -17,6 +17,7 @@ import { DEFAULT_FONT } from '../common/SousChefTheme';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Icon } from 'react-native-elements';
 import { getIsFavorited, saveIsFavorited, saveIsRecent } from '../redux/actions/FavoritedAction';
+import globalStyle from '../common/SousChefTheme';
 
 class CookNow extends React.Component {
     static navigationOptions = {
@@ -64,7 +65,9 @@ class CookNow extends React.Component {
             this.setState({isFavorited: nextProps.isFavorited})
         }
     }
-
+    /*When finished button is pressed function saves the recipe as favorited if the heart justifyContent
+    was pressed. It adds the recepe to recent recipes fo the discover page. Function also navigated to
+    the finished page. */
     finishCooking(){
         this.props.saveIsFavorited(
             this.props.userID,
@@ -78,7 +81,9 @@ class CookNow extends React.Component {
             ingredientsToRemove: this.props.navigation.getParam("ingredientsToRemove")
         });
     }
-
+    /* The function iterates through the directions and returns each one with its
+    number and then the direction. The result is a numbered list of DIRECTIONS
+    in order. */
     listDirections(){
         if(this.state.recipe.ingredients == null){
             console.warn("ingredients are null");
@@ -92,7 +97,8 @@ class CookNow extends React.Component {
             );
         });
     }
-
+    /*The function iterates through the indredients and outputs a list of ingredients
+    with icons that are bullet points*/
     listIngredients(){
         if(!this.state.recipe || !this.state.recipe.ingredients){
             console.warn("null");
@@ -115,13 +121,13 @@ class CookNow extends React.Component {
             );
         });
     }
-
+    /*function for tab navigator to render the ingredients*/
     FirstRoute = () => (
         <ScrollView style={{flex:1, marginBottom: 0,}}>
             {this.listIngredients()}
         </ScrollView>
     );
-
+    /*function for tab navigator to render the directions*/
     SecondRoute = () => (
         <ScrollView style={{flex:1, marginBottom: 0,}}>
             {this.listDirections()}
@@ -193,9 +199,9 @@ class CookNow extends React.Component {
                         onIndexChange={index => this.setState({ index })}
                         initialLayout={{ width: Dimensions.get('window').width }}
                         />
-                    <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {styles.button}>
+                    <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {globalStyles.gradientButton}>
                         <TouchableOpacity>
-                            <Text style = {styles.buttonText} onPress={this.finishCooking}>
+                            <Text style = {globalStyles.gradientButtonText} onPress={this.finishCooking}>
                                 FINISHED!
                             </Text>
                         </TouchableOpacity>
@@ -205,28 +211,12 @@ class CookNow extends React.Component {
         }
         return null;
     }
-
 }
 
 const styles = StyleSheet.create({
-    scene: {
-        flex: 1,
-    },
     container: {
         flex: 1,
         justifyContent: 'center',
-    },
-    input: {
-        height: 30,
-        width: Dimensions.get('window').width - 20,
-        borderColor: 'gray',
-        borderWidth: 1,
-    },
-    multilineInput: {
-        height: 60,
-        width: Dimensions.get('window').width - 20,
-        borderColor: 'gray',
-        borderWidth: 1,
     },
     detail:{
         fontSize: 15,
@@ -249,26 +239,9 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         color: 'grey',
     },
-    buttonText: {
-        fontSize: 16,
-        fontFamily: DEFAULT_FONT,
-        textAlign: 'center',
-        color: 'white',
-        backgroundColor:'transparent',
-        fontWeight: 'bold',
-    },
     image: {
         height: Dimensions.get('window').height/3.85,
         width: Dimensions.get('window').width,
-    },
-    button: {
-        alignSelf:'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: 10,
-        width: 250,
-        borderRadius:30,
-        margin: 10,
     },
     recipeStats: {
         flexDirection: 'row',

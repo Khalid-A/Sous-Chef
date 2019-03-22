@@ -9,6 +9,7 @@ import { beginReadyToGoFetch, beginRecentRecipesFetch, beginRecommendedRecipesFe
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { RkTextInput } from 'react-native-ui-kitten';
+import globalStyle from '../common/SousChefTheme';
 
 class DiscoverRecipes extends React.Component {
     static navigationOptions = {
@@ -64,8 +65,8 @@ class DiscoverRecipes extends React.Component {
                         onChangeText={searchQuery => this.setState({
                             searchQuery: searchQuery
                         })}
-                        labelStyle={styles.textInputLabel}
-                        style={styles.textInput}
+                        labelStyle={globalStyle.textInputLabelSearch}
+                        style={globalStyle.textInputSearch}
                         autoCapitalize="none"
                         value={this.props.value}
                         inputStyle={{
@@ -75,7 +76,7 @@ class DiscoverRecipes extends React.Component {
                         />
                     <Icon
                         name="search"
-                        style={styles.actionButtonIcon}
+                        style={globalStyle.actionButtonIconSearch}
                         onPress={() => {this.searchPressed()}}
                         raised = {true}
                         color={BUTTON_BACKGROUND_COLOR}
@@ -192,24 +193,6 @@ const styles = StyleSheet.create({
     },
     sectionContainer: {
         flex: 1,
-    },
-    actionButtonIcon: {
-        fontSize: 20,
-        height: 22,
-        color: BUTTON_BACKGROUND_COLOR,
-        flex: 2,
-    },
-    textInputLabel: {
-        fontSize: 20,
-        fontFamily: DEFAULT_FONT,
-        // margin: 5,
-        fontWeight: 'bold',
-        color: BUTTON_BACKGROUND_COLOR,
-    },
-    textInput: {
-        borderBottomColor: BACKGROUND_COLOR,
-        borderBottomWidth: 1,
-        // color: 'red',
     },
 })
 

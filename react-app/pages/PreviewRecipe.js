@@ -5,6 +5,7 @@ import {
     ACTION_BUTTON_COLOR
 } from '../common/SousChefColors';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
+import globalStyle from '../common/SousChefTheme';
 import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions, ScrollView,  SafeAreaView,
     StatusBar,} from 'react-native';
     import firebase from 'react-native-firebase';
@@ -17,6 +18,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions
     const recipesRef = firebase.firestore().collection('test_recipes');
     const pantryRef = firebase.firestore().collection('pantrylists');
     const glRef = firebase.firestore().collection('grocerylists');
+
 
     class PreviewRecipe extends React.Component {
         static navigationOptions = {
@@ -478,7 +480,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions
                                             disabled={this.state.addAllToGlDisabled}
                                             onPress={() => this.addAllToGroceryList()}
                                             >
-                                            <Text style = {styles.buttonText} onPress={this.finishCooking}>
+                                            <Text style = {globalStyle.gradientButtonText} onPress={this.finishCooking}>
                                                 Add All to Grocery List
                                             </Text>
                                         </TouchableOpacity>
@@ -488,7 +490,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions
                                         <TouchableOpacity
                                             onPress={() => this.cookNow()}
                                             >
-                                            <Text style = {styles.buttonText} onPress={this.finishCooking}>
+                                            <Text style = {globalStyle.gradientButtonText} onPress={this.finishCooking}>
                                                 Make right now
                                             </Text>
                                         </TouchableOpacity>
@@ -515,7 +517,6 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions
                         fontWeight: 'bold',
                         color: BUTTON_BACKGROUND_COLOR,
                         alignSelf:'center'
-
                     },
                     servings: {
                         width: Dimensions.get('window').width/3,
@@ -523,7 +524,6 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions
                         padding:15,
                         alignItems: 'center',
                         flexDirection: 'row',
-                        //  justifyContent:'center',
                     },
                     ingredientName: {
                         fontSize: 16,
@@ -578,14 +578,6 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions
                     backLeftBtnRight: {
                         backgroundColor: '#17ba6b',
                         left: 75
-                    },
-                    buttonText: {
-                        fontSize: 16,
-                        fontFamily: DEFAULT_FONT,
-                        textAlign: 'center',
-                        color: 'white',
-                        backgroundColor:'transparent',
-                        fontWeight: 'bold',
                     },
                     button: {
                         alignSelf:'center',
