@@ -33,11 +33,11 @@ class CookNow extends React.Component {
         headerTransparent:false,
         headerBackground:(
             <LinearGradient 
-                colors={['#17ba6b','#1d945b']} 
-                locations={[0.3,1]} 
-                style={{height:90}}
+                colors={['#17ba6b', '#1d945b']} 
+                locations={[0.3, 1]} 
+                style={{height: 90}}
             >
-                <SafeAreaView style={{flex:1}}>
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -151,15 +151,17 @@ class CookNow extends React.Component {
             );
         });
     }
-    /*function for tab navigator to render the ingredients*/
+
+    /* Function for tab navigator to render the ingredients. */
     FirstRoute = () => (
-        <ScrollView style={{flex:1, marginBottom: 0,}}>
+        <ScrollView style={{flex: 1, marginBottom: 0,}}>
             {this.listIngredients()}
         </ScrollView>
     );
-    /*function for tab navigator to render the directions*/
+
+    /* Function for tab navigator to render the directions. */
     SecondRoute = () => (
-        <ScrollView style={{flex:1, marginBottom: 0,}}>
+        <ScrollView style={{flex: 1, marginBottom: 0,}}>
             {this.listDirections()}
         </ScrollView>
     );
@@ -250,8 +252,8 @@ class CookNow extends React.Component {
                         initialLayout={{ width: Dimensions.get('window').width }}
                     />
                     <LinearGradient 
-                        colors={['#17ba6b','#1d945b']} 
-                        locations={[0.3,1]} 
+                        colors={['#17ba6b', '#1d945b']} 
+                        locations={[0.3, 1]} 
                         style = {globalStyle.gradientButton}
                     >
                         <TouchableOpacity>

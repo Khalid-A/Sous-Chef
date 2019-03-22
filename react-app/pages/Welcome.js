@@ -13,7 +13,7 @@ class Welcome extends React.Component {
         headerBackground:(
             <LinearGradient
                 colors={['#17ba6b', '#1d945b']}
-                locations={[0.3,1]}
+                locations={[0.3, 1]}
                 style={{height: 90}}
             >
                 <SafeAreaView style={{flex: 1}}>
@@ -53,7 +53,7 @@ class Welcome extends React.Component {
                 <LinearGradient
                     colors={['#1d945b', '#17ba6b', '#ffc100',]}
                     style={globalStyle.linearGradient}
-                    locations={[0.4,0.65,1]}
+                    locations={[0.4, 0.65, 1]}
                 >
                     <Image 
                         source={require('../assets/sousChefWhite.png')}

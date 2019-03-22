@@ -29,11 +29,11 @@ class DiscoverRecipes extends React.Component {
         headerTransparent:false,
         headerBackground:(
             <LinearGradient 
-                colors={['#17ba6b','#1d945b']} 
-                locations={[0.3,1]} 
-                style={{height:90}}
+                colors={['#17ba6b', '#1d945b']} 
+                locations={[0.3, 1]} 
+                style={{height: 90}}
             >
-                <SafeAreaView style={{flex:1 }}>
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>

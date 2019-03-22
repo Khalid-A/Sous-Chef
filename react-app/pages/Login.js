@@ -20,8 +20,8 @@ export class Login extends Component {
         headerTransparent:false,
         headerBackground:(
             <LinearGradient 
-                colors={['#17ba6b','#1d945b']}
-                locations={[0.3,1]}
+                colors={['#17ba6b', '#1d945b']}
+                locations={[0.3, 1]}
                 style={{height: 90}}
             >
                 <SafeAreaView style={{flex: 1}}>
@@ -55,7 +55,7 @@ export class Login extends Component {
                 <LinearGradient
                     colors={['#1d945b', '#17ba6b', '#ffc100',]}
                     style={globalStyle.linearGradient}
-                    locations={[0.4,0.65,1]}
+                    locations={[0.4, 0.65, 1]}
                 >
                     <Image 
                         source={require('../assets/sousChefWhite.png')}

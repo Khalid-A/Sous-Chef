@@ -28,7 +28,7 @@ export class Logout extends Component {
                 <LinearGradient
                     colors={['#1d945b', '#17ba6b', '#ffc100',]}
                     style={globalStyle.linearGradient}
-                    locations={[0.4,0.65,1]}
+                    locations={[0.4, 0.65, 1]}
                 >
                     <Image 
                         source={require('../assets/sousChefWhite.png')}

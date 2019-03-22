@@ -60,8 +60,8 @@ class Pantry extends React.Component {
         headerTransparent:false,
         headerBackground:(
             <LinearGradient 
-                colors={['#17ba6b','#1d945b']} 
-                locations={[0.3,1]} 
+                colors={['#17ba6b', '#1d945b']} 
+                locations={[0.3, 1]} 
                 style={{height: 90}}
             >
                 <SafeAreaView style={{flex: 1}}>

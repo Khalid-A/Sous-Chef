@@ -29,8 +29,12 @@ class Finished extends React.Component {
         headerTintColor: "white",
         headerTransparent:false,
         headerBackground:(
-            <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style={{height:90}}>
-                <SafeAreaView style={{flex:1 }}>
+            <LinearGradient 
+                colors={['#17ba6b', '#1d945b']}
+                locations={[0.3, 1]}
+                style={{height: 90}}
+            >
+                <SafeAreaView style={{flex: 1}}>
                     <StatusBar barStyle="light-content"/>
                 </SafeAreaView>
             </LinearGradient>
@@ -90,7 +94,11 @@ class Finished extends React.Component {
 
         this.props.removeFromPantry(this.props.userID, this.state.ingredients)
         if (this.state.rating !== null) {
-            addRatingForRecipe(this.props.navigation.getParam("recipeID"), parseFloat(this.state.rating), this.props.userID);
+            addRatingForRecipe(
+                this.props.navigation.getParam("recipeID"),
+                parseFloat(this.state.rating),
+                this.props.userID
+            );
         }
         this.props.navigation.navigate('Pantry');
     }
@@ -119,7 +127,7 @@ class Finished extends React.Component {
                             justifyContent: 'flex-end',
                         }}
                         name={'clear'}
-                        color='#17ba6b'
+                        color={BUTTON_BACKGROUND_COLOR}
                         onPress={() => this.removeItem(ingredientID)}
                     />
                 </View>
@@ -141,16 +149,17 @@ class Finished extends React.Component {
                 <StarRating
                     containerStyle={{
                         width: Dimensions.get('window').width - 100,
-                        marginLeft:5,
-                        marginBottom:20,}}
+                        marginLeft: 5,
+                        marginBottom: 20,
+                    }}
                     disabled={false}
                     maxStars={5}
                     rating={this.state.rating}
                     emptyStarColor={BACKGROUND_COLOR}
                     fullStarColor={BUTTON_BACKGROUND_COLOR}
                     halfStarColor={BUTTON_BACKGROUND_COLOR}
-                    halfStarEnabled = {true}
-                    starSize = {30}
+                    halfStarEnabled={true}
+                    starSize={30}
                     selectedStar={(rating) => {
                         this.addRating(rating);
                     }}
@@ -165,8 +174,8 @@ class Finished extends React.Component {
                     {this.listIngredients()}
                 </ScrollView>
                 <LinearGradient 
-                    colors={['#17ba6b','#1d945b']} 
-                    locations={[0.3,1]} 
+                    colors={['#17ba6b', '#1d945b']} 
+                    locations={[0.3, 1]} 
                     style = {styles.button}
                 >
                     <TouchableOpacity>
@@ -211,20 +220,20 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 10,
         width: 250,
-        borderRadius:30,
+        borderRadius: 30,
         margin: 10,
     },
     listItem:{
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems:'center',
+        alignItems: 'center',
         marginLeft: 10,
-        borderTopColor:BACKGROUND_COLOR,
-        borderTopWidth:.25,
-        borderBottomColor:BACKGROUND_COLOR,
-        borderBottomWidth:.25,
-        paddingTop:5,
-        paddingBottom:5,
+        borderTopColor: BACKGROUND_COLOR,
+        borderTopWidth: .25,
+        borderBottomColor: BACKGROUND_COLOR,
+        borderBottomWidth: .25,
+        paddingTop: 5,
+        paddingBottom: 5,
     }
 });
 
