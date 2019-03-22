@@ -1,5 +1,5 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors'
+import { BUTTON_BACKGROUND_COLOR, YELLOW_BACKGROUND } from '../common/SousChefColors'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, SafeAreaView, StatusBar } from 'react-native';
 import { beginGroceryListFetch, addGroceryListItem, editGroceryItem, removeGroceryListItem } from '../redux/actions/GroceryListAction';
 import { connect } from 'react-redux';
@@ -308,7 +308,7 @@ class GroceryList extends React.Component {
                             />
                     </ActionButton.Item>
                     <ActionButton.Item
-                        buttonColor={'#ffc100'}
+                        buttonColor={YELLOW_BACKGROUND}
                         title="Move All To Pantry"
                         onPress={() => console.warn("move all to pantry tapped!")}
                         >
@@ -369,7 +369,6 @@ class GroceryList extends React.Component {
                         <RkTextInput
                             placeholder = "eggs"
                             labelStyle={styles.text}
-                            style={styles.textInput}
                             onChangeText={
                                 ingredient => {
                                     this.setState({
@@ -387,7 +386,7 @@ class GroceryList extends React.Component {
                             {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
                         </Text>
                         <RkButton
-                            style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
+                            style={{backgroundColor: YELLOW_BACKGROUND, width:140, alignSelf:'center'}}
                             onPress={
                                 () => this.setState({
                                     pickerVisible: true
@@ -516,7 +515,7 @@ const styles = StyleSheet.create({
         left: 0
     },
     backLeftBtnRight: {
-        backgroundColor: '#ffc100',
+        backgroundColor: YELLOW_BACKGROUND,
         left: 75
     },
     text: {
@@ -524,10 +523,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 13,
         color: 'white',
-    },
-    textInput:{
-        fontFamily: DEFAULT_FONT,
-        fontSize: 13,
     },
 })
 

@@ -1,20 +1,26 @@
 import React from 'react';
-import {
-    BUTTON_BACKGROUND_COLOR,
-    BACKGROUND_COLOR,
-    ACTION_BUTTON_COLOR
-} from '../common/SousChefColors';
-import { DEFAULT_FONT } from '../common/SousChefTheme';
+import { BUTTON_BACKGROUND_COLOR, YELLOW_BACKGROUND } from '../common/SousChefColors';
+import { DEFAULT_FONT} from '../common/SousChefTheme';
 import globalStyles from '../common/SousChefTheme';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Dimensions, ScrollView,  SafeAreaView,
-    StatusBar,} from 'react-native';
+import {
+    StyleSheet,
+    Text, 
+    View,
+    TouchableOpacity,
+    TextInput,
+    Dimensions,
+    ScrollView, 
+    SafeAreaView,
+    StatusBar,
+} from 'react-native';
 import firebase from 'react-native-firebase';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { connect } from 'react-redux';
 import { saveIsRecent } from '../redux/actions/FavoritedAction';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
+
 const recipesRef = firebase.firestore().collection('test_recipes');
 const pantryRef = firebase.firestore().collection('pantrylists');
 const glRef = firebase.firestore().collection('grocerylists');
@@ -341,7 +347,7 @@ FirstRoute(){
                     <TouchableOpacity
                         style={[styles.backRightBtn, styles.backRightBtnRight,
                             {
-                                backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : '#ffc100'
+                                backgroundColor: this.state.addToGlIsClicked[data.item[0].ingredient] ? "gray" : YELLOW_BACKGROUND
                             }]}
                             onPress={ _ => {
                                 this.addIngrToGroceryList(data.index);

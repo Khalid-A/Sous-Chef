@@ -199,9 +199,9 @@ class CookNow extends React.Component {
                         onIndexChange={index => this.setState({ index })}
                         initialLayout={{ width: Dimensions.get('window').width }}
                         />
-                    <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {globalStyles.gradientButton}>
+                    <LinearGradient colors={['#17ba6b','#1d945b']} locations={[0.3,1]} style = {globalStyle.gradientButton}>
                         <TouchableOpacity>
-                            <Text style = {globalStyles.gradientButtonText} onPress={this.finishCooking}>
+                            <Text style = {globalStyle.gradientButtonText} onPress={this.finishCooking}>
                                 FINISHED!
                             </Text>
                         </TouchableOpacity>

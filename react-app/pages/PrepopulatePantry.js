@@ -2,7 +2,8 @@ import React from 'react';
 import {
     BUTTON_BACKGROUND_COLOR,
     BACKGROUND_COLOR,
-    ACTION_BUTTON_COLOR
+    ACTION_BUTTON_COLOR,
+    YELLOW_BACKGROUND
 } from '../common/SousChefColors'
 import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView, StatusBar,  } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
         left: 0
     },
     backLeftBtnRight: {
-        backgroundColor: '#ffc100',
+        backgroundColor: YELLOW_BACKGROUND,
         left: 75
     },
 })

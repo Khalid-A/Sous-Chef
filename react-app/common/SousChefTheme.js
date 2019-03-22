@@ -1,9 +1,12 @@
 import { Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
-import { BUTTON_BACKGROUND_COLOR, BACKGROUND_COLOR} from '../common/SousChefColors';
+    BUTTON_BACKGROUND_COLOR,
+    BACKGROUND_COLOR,
+    DIALOG_COLOR,
+} from '../common/SousChefColors';
+
+
 export const DEFAULT_FONT = Platform.OS == 'ios' ? "Avenir" : "Roboto"
 
 export default globalStyles = StyleSheet.create({
@@ -50,7 +53,6 @@ export default globalStyles = StyleSheet.create({
     textInputSearch: {
         borderBottomColor: BACKGROUND_COLOR,
         borderBottomWidth: 1,
-        fontSize: 20,
     },
     listItem: {
         flex: 1,
@@ -95,7 +97,7 @@ export default globalStyles = StyleSheet.create({
         borderBottomWidth: 0.5
     },
     dialogButtonContainer: {
-        backgroundColor: '#1d945b'
+        backgroundColor: DIALOG_COLOR
     },
     dialogButtonText: {
         color: "white",
@@ -103,7 +105,7 @@ export default globalStyles = StyleSheet.create({
         fontWeight: 'bold',
     },
     dialogTitleContainer: {
-        backgroundColor: '#1d945b'
+        backgroundColor: DIALOG_COLOR,
     },
     dialogTitleText: {
         color: "white",

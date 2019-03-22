@@ -69,10 +69,6 @@ class DiscoverRecipes extends React.Component {
                         style={globalStyle.textInputSearch}
                         autoCapitalize="none"
                         value={this.props.value}
-                        inputStyle={{
-                            color: '#1d945b',
-                            fontSize: 20,
-                        }}
                         />
                     <Icon
                         name="search"

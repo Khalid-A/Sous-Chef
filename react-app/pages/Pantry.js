@@ -1,7 +1,7 @@
 import React from 'react';
-import { BUTTON_BACKGROUND_COLOR } from '../common/SousChefColors'
+import { BUTTON_BACKGROUND_COLOR, YELLOW_BACKGROUND } from '../common/SousChefColors'
 import LinearGradient from 'react-native-linear-gradient';
-import { StyleSheet, Text, View, TouchableOpacity,SafeAreaView,StatusBar } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { beginPantryFetch, addPantryItem, editPantryItem, removePantryItem } from '../redux/actions/PantryAction';
 import { connect } from 'react-redux';
 import { DEFAULT_FONT } from '../common/SousChefTheme';
@@ -20,7 +20,7 @@ import Dialog, {
     DialogContent
 } from 'react-native-popup-dialog';
 import convert from 'convert-units';
-import {SwipeListView} from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import firebase from 'react-native-firebase';
 import { addGroceryListItem } from '../redux/actions/GroceryListAction';
 import globalStyle from '../common/SousChefTheme';
@@ -344,7 +344,6 @@ class Pantry extends React.Component {
                         <RkTextInput
                             placeholder = "eggs"
                             labelStyle={styles.text}
-                            style={styles.textInput}
                             onChangeText={
                                 ingredient => {
                                     this.setState({
@@ -363,7 +362,7 @@ class Pantry extends React.Component {
                             {this.state.pickedValue[0].value}{" "}{this.state.pickedValue[1]}
                         </Text>
                         <RkButton
-                            style={{backgroundColor: '#ffc100', width:140, alignSelf:'center'}}
+                            style={{backgroundColor: YELLOW_BACKGROUND, width:140, alignSelf:'center'}}
                             onPress={
                                 () => this.setState({
                                     pickerVisible: true
@@ -492,7 +491,7 @@ const styles = StyleSheet.create({
         left: 0
     },
     backLeftBtnRight: {
-        backgroundColor: '#ffc100',
+        backgroundColor: YELLOW_BACKGROUND,
         left: 75
     },
     text: {
@@ -500,10 +499,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 13,
         color: 'white',
-    },
-    textInput:{
-        fontFamily: DEFAULT_FONT,
-        fontSize: 13,
     },
 })
 
